@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Group_28141" data-name="Group 28141" transform="translate(-120 -622)">
+    <path id="Path_32169" data-name="Path 32169" d="M20,0A20,20,0,1,1,0,20,20,20,0,0,1,20,0Z" transform="translate(120 622)" fill="#6f63c7"/>
+    <path id="insert_chart_FILL0_wght700_GRAD0_opsz48" d="M9.416,18.867h1.443V12.252H9.416Zm3.872,0h1.443V9.1H13.289Zm3.9,0h1.443v-3.56H17.185ZM7.011,23.244A2.258,2.258,0,0,1,4.75,20.983v-14a2.219,2.219,0,0,1,.661-1.611,2.16,2.16,0,0,1,1.6-.673h14a2.3,2.3,0,0,1,2.285,2.285v14a2.16,2.16,0,0,1-.673,1.6,2.219,2.219,0,0,1-1.611.661Zm0-2.261h14v-14h-14v14Zm0-14v0Z" transform="translate(125.978 628.028)" fill="#fff"/>
+  </g>
+</svg>

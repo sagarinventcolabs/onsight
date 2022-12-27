@@ -1,0 +1,11 @@
+framework module battery_info {
+  umbrella header "battery_info-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module battery_info.Swift {
+  header "battery_info-Swift.h"
+  requires objc
+}

@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "775307748154",
+    "project_id": "on-sight-92cab",
+    "storage_bucket": "on-sight-92cab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775307748154:android:676cbe260b4fa9f42ba603",
+        "android_client_info": {
+          "package_name": "com.nthdegree.onsight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775307748154-5966m8cm0b1ecvjl93oanpn5p12o37j3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nthdegree.onsight",
+            "certificate_hash": "8f8ca19316e4a33d71ae32f0f6b670df394b7cc5"
+          }
+        },
+        {
+          "client_id": "775307748154-anhss5dpo7tghqjuhm2vr6takranc5nb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nthdegree.onsight",
+            "certificate_hash": "803d58cb93e92487e71ffde9bc3283266078ed1f"
+          }
+        },
+        {
+          "client_id": "775307748154-tpbpjo581inus7qo3hb742b02ai0hn3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCKOyrvzhAZGZ0iphX_tQSff93SfNdgq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775307748154-tpbpjo581inus7qo3hb742b02ai0hn3c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "775307748154-4ihkdjjkgr4i2hrvm51ohumrj9t56ihq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.On-Sight.NthDegree"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

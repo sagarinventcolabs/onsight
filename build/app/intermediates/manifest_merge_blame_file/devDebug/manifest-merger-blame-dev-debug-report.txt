@@ -1,0 +1,585 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.nthdegree.onsight.dev"
+4    android:versionCode="1"
+5    android:versionName="2.0.2.dev" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="33" />
+10    <!--
+11         The INTERNET permission is required for development. Specifically,
+12         the Flutter tool needs it to communicate with the running application
+13         to allow setting breakpoints, to provide hot reload, etc.
+14    -->
+15    <uses-permission android:name="android.permission.INTERNET" />
+15-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:3:5-67
+15-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:3:22-64
+16    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+16-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:4:5-70
+16-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:4:22-68
+17    <uses-permission android:name="android.permission.BLUETOOTH" />
+17-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:5:5-67
+17-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:5:22-65
+18    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+18-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:6:5-73
+18-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:6:22-71
+19    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+19-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:7:5-75
+19-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:7:22-73
+20    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+20-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:8:5-80
+20-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:8:22-78
+21    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+21-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:9:5-79
+21-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:9:22-77
+22    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+22-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:10:5-80
+22-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:10:22-77
+23    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+23-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:11:5-79
+23-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:11:22-76
+24
+25    <queries>
+25-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:13:5-29:15
+26        <intent>
+26-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:14:9-16:18
+27            <action android:name="android.speech.RecognitionService" />
+27-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:15:13-72
+27-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:15:21-69
+28        </intent>
+29        <intent>
+29-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:17:9-20:18
+30            <action android:name="android.intent.action.VIEW" />
+30-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:18:13-65
+30-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:18:21-62
+31
+32            <data android:scheme="https" />
+32-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:19:13-44
+32-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:19:19-41
+33        </intent>
+34        <intent>
+34-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:21:9-24:18
+35            <action android:name="android.intent.action.SEND" />
+35-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:22:13-65
+35-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:22:21-62
+36
+37            <data android:mimeType="*/*" />
+37-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:19:13-44
+38        </intent>
+39        <intent>
+39-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:25:9-28:18
+40            <action android:name="android.intent.action.VIEW" />
+40-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:18:13-65
+40-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:18:21-62
+41
+42            <data android:scheme="tel" />
+42-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:19:13-44
+42-->/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/android/app/src/main/AndroidManifest.xml:19:19-41
+43        </intent>
+44    </queries>
+45
+46    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Permissions options for the `notification` group -->
+46-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-68
+46-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-65
+47    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+47-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-77
+47-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:13:22-74
+48    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+48-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-81
+48-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-78
+49    <uses-permission android:name="android.permission.VIBRATE" />
+49-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-66
+49-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-63
+50    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+50-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-81
+50-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-78
+51    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+51-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:12:5-79
+51-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:12:22-76
+52    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+52-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-77
+52-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-74
+53    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+53-->[:alt_sms_autofill] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/alt_sms_autofill/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-75
+53-->[:alt_sms_autofill] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/alt_sms_autofill/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-72
+54    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+54-->[:alt_sms_autofill] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/alt_sms_autofill/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-77
+54-->[:alt_sms_autofill] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/alt_sms_autofill/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-74
+55    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+55-->[:alt_sms_autofill] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/alt_sms_autofill/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-70
+55-->[:alt_sms_autofill] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/alt_sms_autofill/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-67
+56    <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- suppress DeprecatedClassUsageInspection -->
+56-->[:local_auth_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-72
+56-->[:local_auth_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/local_auth_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-69
+57    <uses-permission android:name="android.permission.USE_FINGERPRINT" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+57-->[androidx.biometric:biometric:1.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/eada927521a0af0ef20e62453b7dc66f/transformed/biometric-1.1.0/AndroidManifest.xml:27:5-74
+57-->[androidx.biometric:biometric:1.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/eada927521a0af0ef20e62453b7dc66f/transformed/biometric-1.1.0/AndroidManifest.xml:27:22-71
+58    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+58-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:29:5-82
+58-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:29:22-79
+59    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+59-->[com.google.android.gms:play-services-measurement-api:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8645a37ef38870b353fb70999df45c0c/transformed/jetified-play-services-measurement-api-21.1.1/AndroidManifest.xml:25:5-79
+59-->[com.google.android.gms:play-services-measurement-api:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8645a37ef38870b353fb70999df45c0c/transformed/jetified-play-services-measurement-api-21.1.1/AndroidManifest.xml:25:22-76
+60    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+60-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:26:5-110
+60-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:26:22-107
+61
+62    <application
+63        android:name="android.app.Application"
+64        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+64-->[androidx.core:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/4cdf025e6b6885523f4c5ba4b335e6f7/transformed/core-1.8.0/AndroidManifest.xml:24:18-86
+65        android:debuggable="true"
+66        android:icon="@mipmap/ic_launcher"
+67        android:label="@string/app_name"
+68        android:requestLegacyExternalStorage="true" >
+69        <meta-data
+70            android:name="com.google.firebase.messaging.default_notification_icon"
+71            android:resource="@drawable/ic_stat_new_icon_notif" />
+72        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming notification message. -->
+73        <meta-data
+74            android:name="com.google.firebase.messaging.default_notification_color"
+75            android:resource="@color/colorAccent" />
+76
+77        <activity
+78            android:name="com.nthdegree.onsight.MainActivity"
+79            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+80            android:exported="true"
+81            android:hardwareAccelerated="true"
+82            android:launchMode="singleTop"
+83            android:theme="@style/LaunchTheme"
+84            android:windowSoftInputMode="adjustResize" >
+85
+86            <!--
+87                 Specifies an Android theme to apply to this Activity as soon as
+88                 the Android process has started. This theme is visible to the user
+89                 while the Flutter UI initializes. After that, this theme continues
+90                 to determine the Window background behind the Flutter UI.
+91            -->
+92            <meta-data
+93                android:name="io.flutter.embedding.android.NormalTheme"
+94                android:resource="@style/NormalTheme" />
+95
+96            <intent-filter>
+97                <action android:name="android.intent.action.MAIN" />
+98
+99                <category android:name="android.intent.category.LAUNCHER" />
+100            </intent-filter>
+101        </activity>
+102        <!--
+103             Don't delete the meta-data below.
+104             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+105        -->
+106        <meta-data
+107            android:name="flutterEmbedding"
+108            android:value="2" />
+109
+110        <service
+110-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:16:9-19:72
+111            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService"
+111-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-107
+112            android:exported="false"
+112-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+113            android:permission="android.permission.BIND_JOB_SERVICE" />
+113-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-69
+114        <service
+114-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:20:9-26:19
+115            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingService"
+115-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-97
+116            android:exported="false" >
+116-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:22:13-37
+117            <intent-filter>
+117-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-25:29
+118                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+118-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:17-78
+118-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:25-75
+119            </intent-filter>
+120        </service>
+121
+122        <receiver
+122-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-35:20
+123            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver"
+123-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-98
+124            android:exported="true"
+124-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-36
+125            android:permission="com.google.android.c2dm.permission.SEND" >
+125-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:31:13-73
+126            <intent-filter>
+126-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:32:13-34:29
+127                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+127-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:17-81
+127-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:25-78
+128            </intent-filter>
+129        </receiver>
+130
+131        <service
+131-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:37:9-41:19
+132            android:name="com.google.firebase.components.ComponentDiscoveryService"
+132-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:37:18-89
+133            android:directBootAware="true"
+133-->[com.google.firebase:firebase-common:20.1.2] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1b79fd8d2070116ab85364484399bdd/transformed/jetified-firebase-common-20.1.2/AndroidManifest.xml:35:13-43
+134            android:exported="false" >
+134-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:55:13-37
+135            <meta-data
+135-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:38:13-40:85
+136                android:name="com.google.firebase.components:io.flutter.plugins.firebase.messaging.FlutterFirebaseAppRegistrar"
+136-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:39:17-128
+137                android:value="com.google.firebase.components.ComponentRegistrar" />
+137-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:40:17-82
+138            <meta-data
+138-->[:firebase_crashlytics] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_crashlytics/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+139                android:name="com.google.firebase.components:io.flutter.plugins.firebase.crashlytics.FlutterFirebaseAppRegistrar"
+139-->[:firebase_crashlytics] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_crashlytics/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-130
+140                android:value="com.google.firebase.components.ComponentRegistrar" />
+140-->[:firebase_crashlytics] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_crashlytics/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+141            <meta-data
+141-->[:firebase_analytics] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:85
+142                android:name="com.google.firebase.components:io.flutter.plugins.firebase.analytics.FlutterFirebaseAppRegistrar"
+142-->[:firebase_analytics] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-128
+143                android:value="com.google.firebase.components.ComponentRegistrar" />
+143-->[:firebase_analytics] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_analytics/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-82
+144            <meta-data
+144-->[:firebase_core] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-13:85
+145                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+145-->[:firebase_core] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:12:17-124
+146                android:value="com.google.firebase.components.ComponentRegistrar" />
+146-->[:firebase_core] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_core/intermediates/merged_manifest/debug/AndroidManifest.xml:13:17-82
+147            <meta-data
+147-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:56:13-58:85
+148                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+148-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:57:17-119
+149                android:value="com.google.firebase.components.ComponentRegistrar" />
+149-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:58:17-82
+150            <meta-data
+150-->[com.google.firebase:firebase-crashlytics:18.2.13] /Users/sharathvbhargav/.gradle/caches/transforms-3/8d221c5fd118d1bc8eadba0b1b528248/transformed/jetified-firebase-crashlytics-18.2.13/AndroidManifest.xml:18:13-20:85
+151                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+151-->[com.google.firebase:firebase-crashlytics:18.2.13] /Users/sharathvbhargav/.gradle/caches/transforms-3/8d221c5fd118d1bc8eadba0b1b528248/transformed/jetified-firebase-crashlytics-18.2.13/AndroidManifest.xml:19:17-115
+152                android:value="com.google.firebase.components.ComponentRegistrar" />
+152-->[com.google.firebase:firebase-crashlytics:18.2.13] /Users/sharathvbhargav/.gradle/caches/transforms-3/8d221c5fd118d1bc8eadba0b1b528248/transformed/jetified-firebase-crashlytics-18.2.13/AndroidManifest.xml:20:17-82
+153            <meta-data
+153-->[com.google.android.gms:play-services-measurement-api:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8645a37ef38870b353fb70999df45c0c/transformed/jetified-play-services-measurement-api-21.1.1/AndroidManifest.xml:31:13-33:85
+154                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+154-->[com.google.android.gms:play-services-measurement-api:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8645a37ef38870b353fb70999df45c0c/transformed/jetified-play-services-measurement-api-21.1.1/AndroidManifest.xml:32:17-139
+155                android:value="com.google.firebase.components.ComponentRegistrar" />
+155-->[com.google.android.gms:play-services-measurement-api:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8645a37ef38870b353fb70999df45c0c/transformed/jetified-play-services-measurement-api-21.1.1/AndroidManifest.xml:33:17-82
+156            <meta-data
+156-->[com.google.firebase:firebase-datatransport:18.1.6] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1e85ecc440ee087fb73aa4f9d462372/transformed/jetified-firebase-datatransport-18.1.6/AndroidManifest.xml:28:13-30:85
+157                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+157-->[com.google.firebase:firebase-datatransport:18.1.6] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1e85ecc440ee087fb73aa4f9d462372/transformed/jetified-firebase-datatransport-18.1.6/AndroidManifest.xml:29:17-115
+158                android:value="com.google.firebase.components.ComponentRegistrar" />
+158-->[com.google.firebase:firebase-datatransport:18.1.6] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1e85ecc440ee087fb73aa4f9d462372/transformed/jetified-firebase-datatransport-18.1.6/AndroidManifest.xml:30:17-82
+159            <meta-data
+159-->[com.google.firebase:firebase-installations:17.0.3] /Users/sharathvbhargav/.gradle/caches/transforms-3/7cdf56ebc22f2abeb2e65a4115b56c68/transformed/jetified-firebase-installations-17.0.3/AndroidManifest.xml:18:13-20:85
+160                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+160-->[com.google.firebase:firebase-installations:17.0.3] /Users/sharathvbhargav/.gradle/caches/transforms-3/7cdf56ebc22f2abeb2e65a4115b56c68/transformed/jetified-firebase-installations-17.0.3/AndroidManifest.xml:19:17-127
+161                android:value="com.google.firebase.components.ComponentRegistrar" />
+161-->[com.google.firebase:firebase-installations:17.0.3] /Users/sharathvbhargav/.gradle/caches/transforms-3/7cdf56ebc22f2abeb2e65a4115b56c68/transformed/jetified-firebase-installations-17.0.3/AndroidManifest.xml:20:17-82
+162        </service>
+163
+164        <provider
+164-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:43:9-47:38
+165            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider"
+165-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:44:13-102
+166            android:authorities="com.nthdegree.onsight.dev.flutterfirebasemessaginginitprovider"
+166-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:45:13-88
+167            android:exported="false"
+167-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:46:13-37
+168            android:initOrder="99" />
+168-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:47:13-35
+169
+170        <receiver
+170-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:16:9-18:40
+171            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+171-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-97
+172            android:exported="false" />
+172-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+173        <receiver
+173-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:19:9-28:20
+174            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+174-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-101
+175            android:exported="false" >
+175-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-37
+176            <intent-filter>
+176-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:22:13-27:29
+177                <action android:name="android.intent.action.BOOT_COMPLETED" />
+177-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:23:17-79
+177-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:23:25-76
+178                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+178-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:24:17-84
+178-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:24:25-81
+179                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+179-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:25:17-82
+179-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:25:25-79
+180                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+180-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:17-82
+180-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:26:25-79
+181            </intent-filter>
+182        </receiver>
+183
+184        <service
+184-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-17:39
+185            android:name="id.flutter.flutter_background_service.BackgroundService"
+185-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-83
+186            android:enabled="true"
+186-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-35
+187            android:exported="true" />
+187-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-36
+188
+189        <receiver
+189-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:19:9-22:39
+190            android:name="id.flutter.flutter_background_service.WatchdogReceiver"
+190-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-82
+191            android:enabled="true"
+191-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-35
+192            android:exported="true" />
+192-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:22:13-36
+193        <receiver
+193-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:23:9-30:20
+194            android:name="id.flutter.flutter_background_service.BootReceiver"
+194-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:24:13-78
+195            android:enabled="true"
+195-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:25:13-35
+196            android:exported="true" >
+196-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:26:13-36
+197            <intent-filter>
+197-->[:flutter_background_service_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_background_service_android/intermediates/merged_manifest/debug/AndroidManifest.xml:27:13-29:29
+198                <action android:name="android.intent.action.BOOT_COMPLETED" />
+198-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:23:17-79
+198-->[:flutter_local_notifications] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/flutter_local_notifications/intermediates/merged_manifest/debug/AndroidManifest.xml:23:25-76
+199            </intent-filter>
+200        </receiver>
+201
+202        <provider
+202-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+203            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+203-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-82
+204            android:authorities="com.nthdegree.onsight.dev.flutter.image_provider"
+204-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-74
+205            android:exported="false"
+205-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+206            android:grantUriPermissions="true" >
+206-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+207            <meta-data
+207-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:75
+208                android:name="android.support.FILE_PROVIDER_PATHS"
+208-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+209                android:resource="@xml/flutter_image_picker_file_paths" />
+209-->[:image_picker_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/image_picker_android/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-72
+210        </provider>
+211
+212        <activity
+212-->[:url_launcher_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
+213            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+213-->[:url_launcher_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+214            android:exported="false"
+214-->[:url_launcher_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
+215            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+215-->[:url_launcher_android] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+216        <activity
+216-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:23:9-27:75
+217            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+217-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:24:13-93
+218            android:excludeFromRecents="true"
+218-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:25:13-46
+219            android:exported="false"
+219-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:26:13-37
+220            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+220-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:27:13-72
+221        <!--
+222            Service handling Google Sign-In user revocation. For apps that do not integrate with
+223            Google Sign-In, this service will never be started.
+224        -->
+225        <service
+225-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:33:9-37:51
+226            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+226-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:34:13-89
+227            android:exported="true"
+227-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:35:13-36
+228            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+228-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:36:13-107
+229            android:visibleToInstantApps="true" />
+229-->[com.google.android.gms:play-services-auth:20.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/48cfc04128d75814aa5810498a22e5ec/transformed/jetified-play-services-auth-20.1.0/AndroidManifest.xml:37:13-48
+230
+231        <receiver
+231-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:32:9-39:20
+232            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+232-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:33:13-78
+233            android:exported="true"
+233-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:34:13-36
+234            android:permission="com.google.android.c2dm.permission.SEND" >
+234-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:35:13-73
+235            <intent-filter>
+235-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:32:13-34:29
+236                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+236-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:17-81
+236-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:33:25-78
+237            </intent-filter>
+238        </receiver>
+239        <!--
+240             FirebaseMessagingService performs security checks at runtime,
+241             but set to not exported to explicitly avoid allowing another app to call it.
+242        -->
+243        <service
+243-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:45:9-52:19
+244            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+244-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:46:13-82
+245            android:directBootAware="true"
+245-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:47:13-43
+246            android:exported="false" >
+246-->[com.google.firebase:firebase-messaging:23.0.8] /Users/sharathvbhargav/.gradle/caches/transforms-3/41ef6606c1067741a8d4123ed08f8eed/transformed/jetified-firebase-messaging-23.0.8/AndroidManifest.xml:48:13-37
+247            <intent-filter android:priority="-500" >
+247-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-25:29
+248                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+248-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:17-78
+248-->[:firebase_messaging] /Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/firebase_messaging/intermediates/merged_manifest/debug/AndroidManifest.xml:24:25-75
+249            </intent-filter>
+250        </service>
+251
+252        <activity
+252-->[com.google.android.gms:play-services-base:18.0.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/66023d9d7e9d1fe29da3cb405764d7ef/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+253            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+253-->[com.google.android.gms:play-services-base:18.0.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/66023d9d7e9d1fe29da3cb405764d7ef/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+254            android:exported="false"
+254-->[com.google.android.gms:play-services-base:18.0.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/66023d9d7e9d1fe29da3cb405764d7ef/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+255            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+255-->[com.google.android.gms:play-services-base:18.0.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/66023d9d7e9d1fe29da3cb405764d7ef/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+256
+257        <provider
+257-->[com.google.firebase:firebase-common:20.1.2] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1b79fd8d2070116ab85364484399bdd/transformed/jetified-firebase-common-20.1.2/AndroidManifest.xml:26:9-31:39
+258            android:name="com.google.firebase.provider.FirebaseInitProvider"
+258-->[com.google.firebase:firebase-common:20.1.2] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1b79fd8d2070116ab85364484399bdd/transformed/jetified-firebase-common-20.1.2/AndroidManifest.xml:27:13-77
+259            android:authorities="com.nthdegree.onsight.dev.firebaseinitprovider"
+259-->[com.google.firebase:firebase-common:20.1.2] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1b79fd8d2070116ab85364484399bdd/transformed/jetified-firebase-common-20.1.2/AndroidManifest.xml:28:13-72
+260            android:directBootAware="true"
+260-->[com.google.firebase:firebase-common:20.1.2] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1b79fd8d2070116ab85364484399bdd/transformed/jetified-firebase-common-20.1.2/AndroidManifest.xml:29:13-43
+261            android:exported="false"
+261-->[com.google.firebase:firebase-common:20.1.2] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1b79fd8d2070116ab85364484399bdd/transformed/jetified-firebase-common-20.1.2/AndroidManifest.xml:30:13-37
+262            android:initOrder="100" />
+262-->[com.google.firebase:firebase-common:20.1.2] /Users/sharathvbhargav/.gradle/caches/transforms-3/a1b79fd8d2070116ab85364484399bdd/transformed/jetified-firebase-common-20.1.2/AndroidManifest.xml:31:13-36
+263
+264        <receiver
+264-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:29:9-33:20
+265            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+265-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:30:13-85
+266            android:enabled="true"
+266-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:31:13-35
+267            android:exported="false" >
+267-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:32:13-37
+268        </receiver>
+269
+270        <service
+270-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:35:9-38:40
+271            android:name="com.google.android.gms.measurement.AppMeasurementService"
+271-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:36:13-84
+272            android:enabled="true"
+272-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:37:13-35
+273            android:exported="false" />
+273-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:38:13-37
+274        <service
+274-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:39:9-43:72
+275            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+275-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:40:13-87
+276            android:enabled="true"
+276-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:41:13-35
+277            android:exported="false"
+277-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:42:13-37
+278            android:permission="android.permission.BIND_JOB_SERVICE" />
+278-->[com.google.android.gms:play-services-measurement:21.1.1] /Users/sharathvbhargav/.gradle/caches/transforms-3/8528d7edcc4f10ffe6e9d535b0df3994/transformed/jetified-play-services-measurement-21.1.1/AndroidManifest.xml:43:13-69
+279
+280        <meta-data
+280-->[com.google.android.gms:play-services-basement:18.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e36df22c5bfc6696c8e06ce8f8945874/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:21:9-23:69
+281            android:name="com.google.android.gms.version"
+281-->[com.google.android.gms:play-services-basement:18.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e36df22c5bfc6696c8e06ce8f8945874/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:22:13-58
+282            android:value="@integer/google_play_services_version" />
+282-->[com.google.android.gms:play-services-basement:18.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e36df22c5bfc6696c8e06ce8f8945874/transformed/jetified-play-services-basement-18.1.0/AndroidManifest.xml:23:13-66
+283
+284        <uses-library
+284-->[androidx.window:window:1.0.0-beta04] /Users/sharathvbhargav/.gradle/caches/transforms-3/ed2533884761572f70a179af89757371/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+285            android:name="androidx.window.extensions"
+285-->[androidx.window:window:1.0.0-beta04] /Users/sharathvbhargav/.gradle/caches/transforms-3/ed2533884761572f70a179af89757371/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+286            android:required="false" />
+286-->[androidx.window:window:1.0.0-beta04] /Users/sharathvbhargav/.gradle/caches/transforms-3/ed2533884761572f70a179af89757371/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+287        <uses-library
+287-->[androidx.window:window:1.0.0-beta04] /Users/sharathvbhargav/.gradle/caches/transforms-3/ed2533884761572f70a179af89757371/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+288            android:name="androidx.window.sidecar"
+288-->[androidx.window:window:1.0.0-beta04] /Users/sharathvbhargav/.gradle/caches/transforms-3/ed2533884761572f70a179af89757371/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+289            android:required="false" />
+289-->[androidx.window:window:1.0.0-beta04] /Users/sharathvbhargav/.gradle/caches/transforms-3/ed2533884761572f70a179af89757371/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+290        <!--
+291        Service for holding metadata. Cannot be instantiated.
+292        Metadata will be merged from other manifests.
+293        -->
+294        <service
+294-->[androidx.camera:camera-core:1.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/f1fd0c0dc64f4e5dd45a3c06d93d6c0f/transformed/jetified-camera-core-1.1.0/AndroidManifest.xml:31:9-35:78
+295            android:name="androidx.camera.core.impl.MetadataHolderService"
+295-->[androidx.camera:camera-core:1.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/f1fd0c0dc64f4e5dd45a3c06d93d6c0f/transformed/jetified-camera-core-1.1.0/AndroidManifest.xml:32:13-75
+296            android:enabled="false"
+296-->[androidx.camera:camera-core:1.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/f1fd0c0dc64f4e5dd45a3c06d93d6c0f/transformed/jetified-camera-core-1.1.0/AndroidManifest.xml:33:13-36
+297            android:exported="false" />
+297-->[androidx.camera:camera-core:1.1.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/f1fd0c0dc64f4e5dd45a3c06d93d6c0f/transformed/jetified-camera-core-1.1.0/AndroidManifest.xml:34:13-37
+298        <service
+298-->[com.google.android.datatransport:transport-backend-cct:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/22a0e96c67de5b2ab3a96be8e7712af0/transformed/jetified-transport-backend-cct-3.1.7/AndroidManifest.xml:29:9-35:19
+299            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+299-->[com.google.android.datatransport:transport-backend-cct:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/22a0e96c67de5b2ab3a96be8e7712af0/transformed/jetified-transport-backend-cct-3.1.7/AndroidManifest.xml:30:13-103
+300            android:exported="false" >
+300-->[com.google.android.datatransport:transport-backend-cct:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/22a0e96c67de5b2ab3a96be8e7712af0/transformed/jetified-transport-backend-cct-3.1.7/AndroidManifest.xml:31:13-37
+301            <meta-data
+301-->[com.google.android.datatransport:transport-backend-cct:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/22a0e96c67de5b2ab3a96be8e7712af0/transformed/jetified-transport-backend-cct-3.1.7/AndroidManifest.xml:32:13-34:39
+302                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+302-->[com.google.android.datatransport:transport-backend-cct:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/22a0e96c67de5b2ab3a96be8e7712af0/transformed/jetified-transport-backend-cct-3.1.7/AndroidManifest.xml:33:17-94
+303                android:value="cct" />
+303-->[com.google.android.datatransport:transport-backend-cct:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/22a0e96c67de5b2ab3a96be8e7712af0/transformed/jetified-transport-backend-cct-3.1.7/AndroidManifest.xml:34:17-36
+304        </service>
+305        <service
+305-->[com.google.android.datatransport:transport-runtime:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/da235aafc188ab42b65df3b0213e6dd3/transformed/jetified-transport-runtime-3.1.7/AndroidManifest.xml:26:9-30:19
+306            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+306-->[com.google.android.datatransport:transport-runtime:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/da235aafc188ab42b65df3b0213e6dd3/transformed/jetified-transport-runtime-3.1.7/AndroidManifest.xml:27:13-117
+307            android:exported="false"
+307-->[com.google.android.datatransport:transport-runtime:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/da235aafc188ab42b65df3b0213e6dd3/transformed/jetified-transport-runtime-3.1.7/AndroidManifest.xml:28:13-37
+308            android:permission="android.permission.BIND_JOB_SERVICE" >
+308-->[com.google.android.datatransport:transport-runtime:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/da235aafc188ab42b65df3b0213e6dd3/transformed/jetified-transport-runtime-3.1.7/AndroidManifest.xml:29:13-69
+309        </service>
+310
+311        <receiver
+311-->[com.google.android.datatransport:transport-runtime:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/da235aafc188ab42b65df3b0213e6dd3/transformed/jetified-transport-runtime-3.1.7/AndroidManifest.xml:32:9-34:40
+312            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+312-->[com.google.android.datatransport:transport-runtime:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/da235aafc188ab42b65df3b0213e6dd3/transformed/jetified-transport-runtime-3.1.7/AndroidManifest.xml:33:13-132
+313            android:exported="false" /> <!-- The activities will be merged into the manifest of the hosting app. -->
+313-->[com.google.android.datatransport:transport-runtime:3.1.7] /Users/sharathvbhargav/.gradle/caches/transforms-3/da235aafc188ab42b65df3b0213e6dd3/transformed/jetified-transport-runtime-3.1.7/AndroidManifest.xml:34:13-37
+314        <activity
+314-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:12:5-271
+315            android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity"
+315-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:12:15-102
+316            android:enabled="false"
+316-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:12:103-126
+317            android:exported="false"
+317-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:12:127-151
+318            android:launchMode="singleInstance"
+318-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:12:204-239
+319            android:process=":playcore_missing_splits_activity"
+319-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:12:152-203
+320            android:stateNotNeeded="true" />
+320-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:12:240-269
+321        <activity
+321-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:13:5-226
+322            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+322-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:13:15-95
+323            android:enabled="false"
+323-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:13:96-119
+324            android:exported="false"
+324-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:13:120-144
+325            android:stateNotNeeded="true"
+325-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:13:145-174
+326            android:theme="@style/Theme.PlayCore.Transparent" /> <!-- The service will be merged into the manifest of the hosting app. -->
+326-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:13:175-224
+327        <service
+327-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:16:5-145
+328            android:name="com.google.android.play.core.assetpacks.AssetPackExtractionService"
+328-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:16:14-95
+329            android:enabled="false"
+329-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:16:96-119
+330            android:exported="true" />
+330-->[com.google.android.play:core:1.8.0] /Users/sharathvbhargav/.gradle/caches/transforms-3/e9c1a1d4af5a365c9079616039eee3e0/transformed/jetified-core-1.8.0/AndroidManifest.xml:16:120-143
+331    </application>
+332
+333</manifest>

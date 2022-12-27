@@ -1,0 +1,11 @@
+framework module flutter_root_jailbreak {
+  umbrella header "flutter_root_jailbreak-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module flutter_root_jailbreak.Swift {
+  header "flutter_root_jailbreak-Swift.h"
+  requires objc
+}

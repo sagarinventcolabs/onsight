@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1008450931133",
+    "project_id": "on-sight-dev",
+    "storage_bucket": "on-sight-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008450931133:android:f02dbce81ce240d89eaad4",
+        "android_client_info": {
+          "package_name": "com.nthdegree.onsight.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1008450931133-qt4mu7u95n4hpfvdsca53v0blcimhva5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nthdegree.onsight.dev",
+            "certificate_hash": "803d58cb93e92487e71ffde9bc3283266078ed1f"
+          }
+        },
+        {
+          "client_id": "1008450931133-i1e6v0olkljvuatfmpvhk7d6n1didogu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFnketqqyoBm-0afIxzuk_UZiPsPX42fM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1008450931133-i1e6v0olkljvuatfmpvhk7d6n1didogu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

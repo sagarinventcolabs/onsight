@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/sharathvbhargav/Documents/Development/Dream-Orbit-Projects/Nth Degree/Nth%20Degree%20-Phase2/on_sight_application/build/app/intermediates/incremental/mergeDevDebugResources/merged.dir/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/sharathvbhargav/.gradle/caches/transforms-3/451f4fa476fae573969556079a523d90/transformed/appcompat-1.2.0/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}
