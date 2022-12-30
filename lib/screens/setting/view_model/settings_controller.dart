@@ -151,8 +151,8 @@ class SettingsController extends GetxController {
   //Api for delete user......................................
 
   Future<dynamic> deleteUserApi() async{
-   // sp!.putString(Preference.USER_MOBILE, "8440077455");
-   // sp!.putString(Preference.COUNTRY_CODE, "91");
+    sp!.putString(Preference.USER_MOBILE, "8440077455");
+    sp!.putString(Preference.COUNTRY_CODE, "91");
     var mobile = sp?.getString(Preference.USER_MOBILE)??"";
     var code = sp?.getString(Preference.COUNTRY_CODE)??"";
     print(mobile);
