@@ -7,6 +7,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:get/get.dart';
+import 'package:get_version/get_version.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
@@ -14,6 +15,7 @@ import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/strings.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -22,19 +24,19 @@ saveSuggestion(input){
   List<String> list = [];
   list = sp!.getStringList(listAutoFill);
 
-    int a = -1;
-    a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
+  int a = -1;
+  a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
 
-    if(list.length<5){
-      if(a<0) {
-        list.add(input.toString().toUpperCase());
-      }
-    }else{
-      list.removeAt(0);
-      if(a<0) {
-        list.add(input.toString().toUpperCase());
-      }
+  if(list.length<5){
+    if(a<0) {
+      list.add(input.toString().toUpperCase());
     }
+  }else{
+    list.removeAt(0);
+    if(a<0) {
+      list.add(input.toString().toUpperCase());
+    }
+  }
 
   sp!.putStringList(listAutoFill, list);
 }
@@ -45,16 +47,16 @@ saveShowNameHistory(input){
   int a = -1;
   a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
 
-    if(list.length<5){
-      if(a<0) {
-        list.add(input);
-      }
-    }else{
-      list.removeAt(0);
-      if(a<0) {
-        list.add(input);
-      }
+  if(list.length<5){
+    if(a<0) {
+      list.add(input);
     }
+  }else{
+    list.removeAt(0);
+    if(a<0) {
+      list.add(input);
+    }
+  }
 
   sp!.putStringList(showNameHistory, list);
 }
@@ -65,16 +67,16 @@ saveExhibitorNameHistory(input){
   int a = -1;
   a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
 
-    if(list.length<5){
-      if(a<0) {
-        list.add(input);
-      }
-    }else{
-      list.removeAt(0);
-      if(a<0) {
-        list.add(input);
-      }
+  if(list.length<5){
+    if(a<0) {
+      list.add(input);
     }
+  }else{
+    list.removeAt(0);
+    if(a<0) {
+      list.add(input);
+    }
+  }
 
   sp!.putStringList(exhibitorNameHistory, list);
 }
@@ -87,17 +89,17 @@ saveShowNumberSuggestions(input){
   a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
 
   debugPrint(list.toString());
-    debugPrint(input.toString().toLowerCase());
-    if(list.length<5){
-      if(a<0) {
-        list.add(input.toString().toUpperCase());
-      }
-    }else{
-      list.removeAt(0);
-      if(a<0) {
-        list.add(input.toString().toUpperCase());
-      }
+  debugPrint(input.toString().toLowerCase());
+  if(list.length<5){
+    if(a<0) {
+      list.add(input.toString().toUpperCase());
     }
+  }else{
+    list.removeAt(0);
+    if(a<0) {
+      list.add(input.toString().toUpperCase());
+    }
+  }
 
   sp!.putStringList(showNumberAutoFill, list);
 }
@@ -141,10 +143,10 @@ Future<void> showNotification() async {
         10, appName, notificationSuccessMsg,
         platformChannelSpecifics,
         payload: 'item x');
-  //}
-      FlutterBackgroundService().invoke("stopService");
+    //}
+    FlutterBackgroundService().invoke("stopService");
 
-}
+  }
 }
 
 /// check internet speed
@@ -181,22 +183,22 @@ Future<void> showNotificationFailedJob() async {
 
     print("Upper One - Notify Upload status From Background Service" +
         (a[0]["UploadCompleteStatus"].toString()));
-   // if (a[0]["UploadCompleteStatus"] == 1) {
-      const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails('channel1', 'channelone',
-          channelDescription: 'channelDescription',
-          importance: Importance.max,
-          priority: Priority.high,
-          color: ColourConstants.primary,
-          ticker: 'ticker');
-      const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
-      const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
-      await flutterLocalNotificationsPlugin.show(
-          10, appName, notificationSuccessMsg,
-          platformChannelSpecifics,
-          payload: 'item x');
-  //  }
+    // if (a[0]["UploadCompleteStatus"] == 1) {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails('channel1', 'channelone',
+        channelDescription: 'channelDescription',
+        importance: Importance.max,
+        priority: Priority.high,
+        color: ColourConstants.primary,
+        ticker: 'ticker');
+    const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        10, appName, notificationSuccessMsg,
+        platformChannelSpecifics,
+        payload: 'item x');
+    //  }
 
     FlutterBackgroundService().invoke("stopService");
   }
@@ -218,28 +220,28 @@ Future<void> showErrorNotification({required String errorMsg}) async {
     await appInternetManager.updateTaskProgress(val: 0);
   }
 
-    await flutterLocalNotificationsPlugin.cancel(11);
+  await flutterLocalNotificationsPlugin.cancel(11);
 
-    print("Upper One - Notify Upload status From Background Service" +
-        (a[0]["UploadCompleteStatus"].toString()));
+  print("Upper One - Notify Upload status From Background Service" +
+      (a[0]["UploadCompleteStatus"].toString()));
   //  if (a[0]["UploadCompleteStatus"] == 1) {
-      const AndroidNotificationDetails androidPlatformChannelSpecifics =
-      AndroidNotificationDetails('channel1', 'channelone',
-          channelDescription: 'channelDescription',
-          importance: Importance.max,
-          priority: Priority.high,
-          ticker: 'ticker',
-          color: ColourConstants.primary
-      );
-      const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
-      const NotificationDetails platformChannelSpecifics =
-      NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+  AndroidNotificationDetails('channel1', 'channelone',
+      channelDescription: 'channelDescription',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+      color: ColourConstants.primary
+  );
+  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
+  const NotificationDetails platformChannelSpecifics =
+  NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
 
-      await flutterLocalNotificationsPlugin.show(
-          10, appName, errorMsg,
-          platformChannelSpecifics,
-          payload: 'item x');
- //   }
+  await flutterLocalNotificationsPlugin.show(
+      10, appName, errorMsg,
+      platformChannelSpecifics,
+      payload: 'item x');
+  //   }
   if(b<1) {
     FlutterBackgroundService().invoke("stopService");
   }
@@ -255,7 +257,7 @@ Future<void> showNotificationUploading() async {
       autoCancel: false,
       showProgress: true,
       ticker: 'ticker',
-  color: ColourConstants.primary);
+      color: ColourConstants.primary);
   const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
   const NotificationDetails platformChannelSpecifics =
   NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
@@ -299,7 +301,7 @@ void showFlutterNotification(RemoteMessage message) {
       showProgress: true,
       ticker: 'ticker',
       icon: 'ic_stat_new_icon_notif',
-  color: ColourConstants.primary);
+      color: ColourConstants.primary);
   const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: true,presentSound: true);
   const NotificationDetails platformChannelSpecifics =
   NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
@@ -307,10 +309,10 @@ void showFlutterNotification(RemoteMessage message) {
   AndroidNotification? android = message.notification?.android;
   if (notification != null && android != null) {
     flutterLocalNotificationsPlugin.show(
-      notification.hashCode,
-      notification.title,
-      notification.body,
-      platformChannelSpecifics
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        platformChannelSpecifics
     );
   }
 }
@@ -332,7 +334,7 @@ checkRootJailBreakSecurity(){
         Get.offAllNamed(Routes.loginScreen);
       }
     }
-   },
+  },
   );
 }
 
@@ -353,8 +355,8 @@ Future<void> authenticateUser() async {
     authenticated = await auth.authenticate(
       localizedReason: 'Please wait for authenticate yourself',
       options: const AuthenticationOptions(
-        stickyAuth: true,
-        useErrorDialogs: true
+          stickyAuth: true,
+          useErrorDialogs: true
       ),
     );
 
@@ -363,10 +365,10 @@ Future<void> authenticateUser() async {
     print(e);
     authorized = 'Error - ${e.message}';
 
-   if(e.toString().contains("NotAvailable")){
-     Get.offAllNamed(Routes.dashboardScreen);
-     return;
-   }
+    if(e.toString().contains("NotAvailable")){
+      Get.offAllNamed(Routes.dashboardScreen);
+      return;
+    }
 
   }
 
@@ -388,6 +390,50 @@ logoutFun(){
   Get.offAllNamed(Routes.loginScreen);
 }
 
+Future<String> getCurrentBuildFlavor()async{
+
+  if (Platform.isAndroid) {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    print("Package Name -->");
+    print(packageInfo.packageName);
+    switch (packageInfo.packageName) {
+      case "com.nthdegree.onsight.dev":
+        {
+          return "dev";
+        }
+      case "com.nthdegree.onsight":
+        {
+          return "prod";
+        }
+      default:
+        return "prod";
+    }
+  }else if(Platform.isIOS){
+    String? appID = await GetVersion.appID;
+    print("Bundle ID -->");
+    print(appID);
+    try {
+      switch (appID) {
+        case "com.On-Sight.NthDegree.dev":
+          {
+            return "dev";
+          }
+        case "com.On-Sight.NthDegree":
+          {
+            return "prod";
+          }
+        default:
+          return "prod";
+      }
+    } on PlatformException {
+      return "Failed to get app ID.";
+    }
+  }
+  else{
+    return "prod";
+  }
+}
+
 class NoLeadingSpaceFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -405,7 +451,7 @@ class NoLeadingSpaceFormatter extends TextInputFormatter {
         ),
       );
     }
-    
+
 
     return newValue;
   }

@@ -484,7 +484,7 @@
 				);
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
-				PRODUCT_DISPLAY_NAME = "On-Sight dev";
+				PRODUCT_DISPLAY_NAME = "On-Sight Stage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_NthDegree_development;
@@ -572,7 +572,7 @@
 				);
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
-				PRODUCT_DISPLAY_NAME = "On-Sight dev";
+				PRODUCT_DISPLAY_NAME = "On-Sight Stage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = Development_NthDegree;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_NthDegree_development;
@@ -656,7 +656,7 @@
 				);
 				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
-				PRODUCT_DISPLAY_NAME = "On-Sight dev";
+				PRODUCT_DISPLAY_NAME = "On-Sight Stage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = NthDegree_AdhocDistribution;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_NthDegree_development;

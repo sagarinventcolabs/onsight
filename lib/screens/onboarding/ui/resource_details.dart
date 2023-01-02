@@ -99,11 +99,12 @@ class _ResourceDetailsState extends State<ResourceDetails> {
               TextRow(title: lastName,value: data.lastName??"N/A"),
               TextRow(title: mobileNumber,value: data.mobilePhone??"N/A"),
               TextRow(title: union,value: data.union??"N/A"),
-              TextRow(title: ssn,value: data.ssn??"N/A"),
+              TextRow(title: ssn,value: "XXX-XX-"+((data.ssn??"N/A").characters.takeLast(4).toString())),
               TextRow(title: city,value: data.city??"N/A"),
               TextRow(title: classification,value: data.classification??"N/A"),
             ],
-      ),)
+        ),
+      )
     );
   }
 

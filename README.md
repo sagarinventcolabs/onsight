@@ -22,3 +22,4 @@ samples, guidance on mobile development, and a full API reference.
 -> flutter build apk --flavor dev
 -> flutter build apk --flavor prod
 
+    

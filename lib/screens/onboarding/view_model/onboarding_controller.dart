@@ -97,14 +97,14 @@ class OnboardingController extends GetxController{
       enableButton.value = false;
       update();
       return false;
-    } else if(ssnController.text.length<4){
+    } else if(ssnController.text.length != 9){
       enableButton.value = false;
       update();
       return false;
     }else {
     enableButton.value = true;
     }
-    if(mobileNumberController.text.length < 8){
+    if(mobileNumberController.text.length != 10 && mobileNumberController.text.length > 0){
       enableButton.value = false;
       update();
       return false;
@@ -141,7 +141,7 @@ class OnboardingController extends GetxController{
       isValidLastName.value = true;
       enableButton.value = true;
     }
-    if (mobileNumberController.text.length < 8) {
+    if (mobileNumberController.text.length != 10 && mobileNumberController.text.length > 0) {
       enableButton.value = false;
       isValidMobileNumber.value = false;
       return false;
@@ -153,7 +153,7 @@ class OnboardingController extends GetxController{
       enableButton.value = false;
       isValidSSN.value = false;
       return false;
-    } else if(ssnController.text.length<4){
+    } else if(ssnController.text.length != 9){
       isValidSSN.value = false;
       enableButton.value = false;
       return false;

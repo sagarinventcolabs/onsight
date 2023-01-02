@@ -33,6 +33,7 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
     controller.isValidFirstName.value = true;
     controller.isValidLastName.value = true;
     controller.isValidSSN.value = true;
+    controller.isValidCity.value = true;
     controller.isValidMobileNumber.value = true;
     controller.validateFunc();
     controller.update();
@@ -125,11 +126,6 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
                 maxLength: 20,
                 keyboardType: TextInputType.text,
                 onChanged: (val) {
-                  // if (val.isNotEmpty) {
-                  //   controller.isValidFirstName.value = true;
-                  // } else {
-                  //   controller.isValidFirstName.value = false;
-                  // }
                   controller.isValidFirstName.value = true;
                   controller.validateFunc();
                 },
@@ -196,7 +192,7 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
 
 
               BaseTextField(
-                maxLength: 12,
+                maxLength: 10,
                 onTap: (){
                   controller.value.value=1;
                   controller.update();
@@ -207,22 +203,23 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
                 ],
                 keyboardType: TextInputType.phone,
                 onChanged: (val) {
-                  if (val.length < 8 && val.length > 0) {
+                  if (val.length != 10 && val.length > 0) {
                     controller.isValidMobileNumber.value = false;
                   } else {
                     controller.isValidMobileNumber.value = true;
                   }
                   controller.validateFunc();
+                  controller.update();
                 },
                   label: Text.rich(TextSpan(
                       children: [
                         TextSpan(
                             text: mobileNumber
                         ),
-                        TextSpan(
-                            text: "*",
-                            style: TextStyle(color: Colors.red)
-                        )
+                        // TextSpan(
+                        //     text: "*",
+                        //     style: TextStyle(color: Colors.red)
+                        // )
                       ]
                   )),
                   floatingLabelStyle: TextStyle(
@@ -321,6 +318,7 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
                 ),
               ),
               BaseTextField(
+                maxLength: 9,
                 controller: controller.ssnController,
                 onTap: (){
                   controller.value.value=1;
@@ -334,7 +332,7 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
                   if(val.length == 0){
                     controller.isValidSSN.value = true;
                   }
-                  else if (val.length < 4) {
+                  else if (val.length != 9) {
                     controller.isValidSSN.value = false;
                   } else {
                     controller.isValidSSN.value = true;
@@ -381,8 +379,19 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
                     // }
                     controller.isValidCity.value = true;
                     controller.validateFunc();
+                    controller.update();
                   },
-                    label: Text(city),
+                    label: Text.rich(TextSpan(
+                      children: [
+                        TextSpan(
+                            text: city
+                        ),
+                        TextSpan(
+                            text: "*",
+                            style: TextStyle(color: Colors.red)
+                        )
+                      ]
+                    )),
                     floatingLabelStyle: TextStyle(
                         color: controller.isValidCity.isFalse
                             ? Colors.red
