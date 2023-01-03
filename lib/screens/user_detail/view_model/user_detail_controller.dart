@@ -29,7 +29,7 @@ class RegisterScreenController extends GetxController {
         Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
     sp!.putBool(Preference.IS_LOGGED_IN, true);
     ProfileController profileController = ProfileController();
-    await profileController.getProfile();
+    await profileController.getProfile(showValue: false);
     if (response != null) {
       AnalyticsFireEvent(LoginOrSignUp, input: {
         type: signUp,
