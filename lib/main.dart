@@ -46,6 +46,7 @@ Future<void> main() async {
   if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
     selectedNotificationPayload = notificationAppLaunchDetails!.payload;
 }*/
+
   if (isProduction) {
     // analyser does not like empty function body
     // debugPrint = (String message, {int wrapWidth}) {};
