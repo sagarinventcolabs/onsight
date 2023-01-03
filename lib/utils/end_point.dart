@@ -21,8 +21,8 @@ enum JobAction {
 class EndPoint {
   //static const String baseURL = "http://litedemo.cloudapp.net:83/api";//Dev server
   //static const String baseURL = "http://172.30.255.150:8301/API";//Dev server
-  // static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
- static const String baseURL = "https://onsight.nthdegree.com/API"; //Production server
+   static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
+ //static const String baseURL = "https://onsight.nthdegree.com/API"; //Production server
 
   // Url for Get Otp
   static const String getOTP =

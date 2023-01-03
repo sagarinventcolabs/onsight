@@ -37,7 +37,7 @@ class VerifyScreenController extends GetxController{
       SecureStorage().addNewItem("auth_token",responseModel.accessToken.toString());
 
       ProfileController profileController = ProfileController();
-      await profileController.getProfile();
+      await profileController.getProfile(showValue: false);
       if(responseModel.signInStatus==RequiredRegistration){
         AnalyticsFireEvent(LoginOrSignUp,
             input: {

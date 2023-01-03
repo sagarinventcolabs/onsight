@@ -7,7 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
+import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/constants.dart';
+import 'package:on_sight_application/utils/dialogs.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'dart:io' show Platform;
 import 'package:on_sight_application/utils/strings.dart';
@@ -151,15 +154,19 @@ class SettingsController extends GetxController {
   //Api for delete user......................................
 
   Future<dynamic> deleteUserApi() async{
-    sp!.putString(Preference.USER_MOBILE, "8440077455");
-    sp!.putString(Preference.COUNTRY_CODE, "91");
     var mobile = sp?.getString(Preference.USER_MOBILE)??"";
     var code = sp?.getString(Preference.COUNTRY_CODE)??"";
-    print(mobile);
     var response = await service.deleteUserRequest(mobile, code);
-    log(response.toString());
     if(response!=null) {
+      if(response.toString().contains(mobile.toString())){
+         defaultDialog(Get.context!, title: accountDeletedSuccessfully,onTap: (){
+                      logoutFun();
+                      Get.offAllNamed(Routes.loginScreen);
+                    });
+      }else{
+        Get.showSnackbar(GetSnackBar(message: response.toString(), duration: Duration(seconds: 2),));
 
+      }
     }
    // return response;
   }

@@ -172,7 +172,7 @@ class ApiBaseHelper{
   }
 
   //Get api call method...............................................................................
-  Future<dynamic> getApiCall(String url,{isLoading = true}) async {
+  Future<dynamic> getApiCall(String url,{isLoading = true, showSnackbarValue = true}) async {
     var context =  Get.context;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     var deviceId = await getDeviceId();
@@ -212,7 +212,7 @@ class ApiBaseHelper{
         print("response=========>>>> ${response.body}");
 
         try {
-          responseJson = _returnResponse(response);
+          responseJson = _returnResponse(response, showValue: showSnackbarValue);
 
 
         } catch (e) {if(isLoading) {
@@ -435,7 +435,7 @@ class ApiBaseHelper{
   }
 
   // Return Reponse Method....................................................................................................
-  dynamic _returnResponse(http.Response response) {
+  dynamic _returnResponse(http.Response response, {showValue = true}) {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
@@ -443,32 +443,51 @@ class ApiBaseHelper{
         case 201:
           var responseJson = json.decode(response.body.toString());
           ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,duration: Duration(seconds: 2),));
+          if(showValue) {
+            Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
+              duration: Duration(seconds: 2),));
+          }
           return responseJson;
       case 400:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,duration: Duration(seconds: 2),));
+        if(showValue) {
+          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
+            duration: Duration(seconds: 2),));
+        }
         return responseJson;
       case 401:
         var responseJson = json.decode(response.body.toString());
         ErrorModel errorModel =  ErrorModel.fromJson(responseJson);
-        Get.showSnackbar(GetSnackBar(message: errorModel.error?.message,duration: Duration(seconds: 2),));
+        if(showValue) {
+          Get.showSnackbar(GetSnackBar(message: errorModel.error?.message,
+            duration: Duration(seconds: 2),));
+        }
         return responseJson;
       case 403:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,duration: Duration(seconds: 2),));
+        if(showValue) {
+          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
+            duration: Duration(seconds: 2),));
+        }
         return responseJson;
       case 404:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,duration: Duration(seconds: 2),));
+        if(showValue) {
+          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
+            duration: Duration(seconds: 2),));
+        }
         return responseJson;
       case 500:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription.toString(),duration: Duration(seconds: 2),));
+        if(showValue) {
+          Get.showSnackbar(GetSnackBar(
+            message: errorModel.errorDescription.toString(),
+            duration: Duration(seconds: 2),));
+        }
         return responseJson;
 
 

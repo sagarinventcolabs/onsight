@@ -201,10 +201,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           onTapYes: (){
                             controller.deleteUserApi();
                             Get.back();
-                            /* defaultDialog(context, title: accountDeletedSuccessfully,onTap: (){
-                      sp?.clear();
-                      Get.offAllNamed(Routes.loginScreen);
-                    });*/
+
                           },
                           onTapNo: (){
                             Get.back();

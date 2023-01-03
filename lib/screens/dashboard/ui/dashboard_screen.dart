@@ -55,7 +55,7 @@ class DashboardScreenState extends State<DashboardScreen>{
   @override
   void didChangeDependencies() {
     /// Checking Security for Root & Jailbreak for both IOS & Android.
-    checkRootJailBreakSecurity();
+    // checkRootJailBreakSecurity();
     DateTime dt1 = DateTime.parse((sp?.getString(Preference.DIALOG_TIMESTAMP)??DateTime(DateTime.now().year,DateTime.now().month-2,DateTime.now().day).toString()));
     DateTime dt2 = DateTime.parse(DateTime.now().toString());
 

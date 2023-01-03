@@ -23,8 +23,8 @@ class ProfileController extends GetxController{
 
   // Api for Get profile.......................
 
-  Future<dynamic> getProfile() async{
-    var response = await service.getProfile();
+  Future<dynamic> getProfile({showValue = true}) async{
+    var response = await service.getProfile(showValue);
     if(response!=null) {
       print(response);
       if (response.containsKey(error)) {
