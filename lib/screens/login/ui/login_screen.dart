@@ -38,7 +38,6 @@ class LoginScreenState extends State<LoginScreen> {
       await appInternetManager.updateCameraShutterStatus(val: 1);
     });
   }
-/*
   @override
   void didChangeDependencies() {
     /// Checking Security for Root & Jailbreak for both IOS & Android.
@@ -67,7 +66,6 @@ class LoginScreenState extends State<LoginScreen> {
     );
     super.didChangeDependencies();
   }
-*/
 
 
   @override
