@@ -1,4 +1,6 @@
 
+import 'package:on_sight_application/main.dart';
+
 enum SignInStatus { requiresVerification, requiredRegistration, success }
 
 enum SubmittedCategory { ShowReady, OutboundBOL, Both, None }
@@ -21,103 +23,104 @@ enum JobAction {
 class EndPoint {
   //static const String baseURL = "http://litedemo.cloudapp.net:83/api";//Dev server
   //static const String baseURL = "http://172.30.255.150:8301/API";//Dev server
-   static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
- //static const String baseURL = "https://onsight.nthdegree.com/API"; //Production server
+  // static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
+
+  static  String baseURL = (currentBuildFlavor??"") == "prod" ? "https://onsight.nthdegree.com/API" : "https://onsight-stage.nthdegree.com/API"; //Production server
 
   // Url for Get Otp
-  static const String getOTP =
+  static  String getOTP =
       "$baseURL/MobileAuth/Authenticate/Mob"; //http://litedemo.cloudapp.net:83/api/MobileAuth/Authenticate/Mob
   // Login Url
-  static const String loginWithMobile = "$baseURL/Account/MockLogin";
+  static  String loginWithMobile = "$baseURL/Account/MockLogin";
   // Verify Otp Url
-  static const String verifyOTP = "$baseURL/MobileAuth/Authenticate/Otp";
+  static  String verifyOTP = "$baseURL/MobileAuth/Authenticate/Otp";
   //Register User Url
-  static const String registerUser = "$baseURL/MobileAuth/Register";
+  static  String registerUser = "$baseURL/MobileAuth/Register";
   //Resend OTP Url
-  static const String resendOTP = "$baseURL/MobileAuth/Authenticate/resendOtp";
-   //Delete User Url
-   static const String deleteUser = "$baseURL/MobileAuth/DeleteAccount";
+  static  String resendOTP = "$baseURL/MobileAuth/Authenticate/resendOtp";
+  //Delete User Url
+  static  String deleteUser = "$baseURL/MobileAuth/DeleteAccount";
   //Get Latest Version
-  static const String getLatestVersion = "$baseURL/MobileVersion/GetMobileVersionData?operatingSystem=";
+  static  String getLatestVersion = "$baseURL/MobileVersion/GetMobileVersionData?operatingSystem=";
   //Job Category Url
-  static const String jobCategories = "$baseURL/JobPhotos/GetCategories";
+  static  String jobCategories = "$baseURL/JobPhotos/GetCategories";
   //Get Job Details Url
-  static const String getJobDetails = "$baseURL/JobPhotos/GetJobDetails?jobNumber=";
+  static  String getJobDetails = "$baseURL/JobPhotos/GetJobDetails?jobNumber=";
   //Project Evaluation Category Url
-  static const String evaluationCategories =
+  static  String evaluationCategories =
       "$baseURL/JobPhotos/GetEvaluationTypes";
   // Job Details Url
-  static const String jobDetails =
+  static  String jobDetails =
       "$baseURL/JobPhotos/GetJobDetails?jobNumber=";
   // Upload Photos
-  static const String uploadCategory =
+  static  String uploadCategory =
       "$baseURL/UploadPhotos/UploadPhotoDetails";
   // Get Questionnaire
-  static const String getEvaluationQuestionaire =
+  static  String getEvaluationQuestionaire =
       "$baseURL/ProjectEvaluation/GetProjectEvaluationQuestionnaire";
   // Is Project Evaluation Exist
-  static const String isProjectEvaluationExists =
+  static  String isProjectEvaluationExists =
       "$baseURL/ProjectEvaluation/IsProjectEvaluationExists";
   // Project Evaluation Details
-  static const String projectEvaluationDetails =
+  static  String projectEvaluationDetails =
       "$baseURL/ProjectEvaluation/GetProjectEvaluationDetails";
   // Save Project Evaluation
-  static const String saveProjectEvaluation =
+  static  String saveProjectEvaluation =
       "$baseURL/ProjectEvaluation/SaveProjectEvaluation";
   // Send Email
-  static const String sendEmail = "$baseURL/JobPhotos/SendMail";
+  static  String sendEmail = "$baseURL/JobPhotos/SendMail";
   //Get Lead Sheet Details
-  static const String getLeadSheetDetails = "$baseURL/LeadSheet/GetLeadSheetDetails?showNumber=";
+  static  String getLeadSheetDetails = "$baseURL/LeadSheet/GetLeadSheetDetails?showNumber=";
   //Get Union List
-  static const String getUnionListEndPoint = "$baseURL/onboarding/GetUnion?union=a";
+  static  String getUnionListEndPoint = "$baseURL/onboarding/GetUnion?union=a";
   // Save Exhibitor Details
-  static const String addExhibitor =
+  static  String addExhibitor =
       "$baseURL/LeadSheet/SaveExhibitor?showNumber=";
   // Get Shop List
-  static const String getShopList =
+  static  String getShopList =
       "$baseURL/LeadSheet/GetShopValueDetails";
   // Get Shop List
-  static const String getBoothSizeList = "$baseURL/LeadSheet/GetBoothSizeDetails";
+  static  String getBoothSizeList = "$baseURL/LeadSheet/GetBoothSizeDetails";
   // Get Companies List
-  static const String getCompaniesList = "$baseURL/LeadSheet/GetSetupCompanyDetails";
+  static  String getCompaniesList = "$baseURL/LeadSheet/GetSetupCompanyDetails";
   // Save Lead Sheet
-  static const String saveLeadSheet =
+  static  String saveLeadSheet =
       "$baseURL/LeadSheet/SaveLeadSheet";
   //Fetch Profile
-  static const String fetchProfile = "$baseURL/Account/GetProfileDetails";
+  static  String fetchProfile = "$baseURL/Account/GetProfileDetails";
   //Profile Update
-  static const String updateProfile = "$baseURL/Account/UpdateProfileDetails";
+  static  String updateProfile = "$baseURL/Account/UpdateProfileDetails";
   //create case field issue with comment only
-  static const String createCommentCase = "$baseURL/OasisCrm/CreateCaseWithCommentOnly";
+  static  String createCommentCase = "$baseURL/OasisCrm/CreateCaseWithCommentOnly";
   //search WO number by Show number
-  static const String getDetailsByShowNumber = "$baseURL/JobPhotos/GetJobDetailsByshowNumber?showNumber=";
+  static  String getDetailsByShowNumber = "$baseURL/JobPhotos/GetJobDetailsByshowNumber?showNumber=";
   //search WO number by Show name
-  static const String getDetailsByShowName = "$baseURL/JobPhotos/GetJobDetailsByshowName?showName=";
+  static  String getDetailsByShowName = "$baseURL/JobPhotos/GetJobDetailsByshowName?showName=";
   //search WO number by Exhibitor name
-  static const String getDetailsByExhibitorName = "$baseURL/JobPhotos/GetJobDetailsByexhibitorName?exhibitorName=";
+  static  String getDetailsByExhibitorName = "$baseURL/JobPhotos/GetJobDetailsByexhibitorName?exhibitorName=";
   //create case field issue with comment and photos
-  static const String createCase = "$baseURL/OasisCrm/CreateCase";
+  static  String createCase = "$baseURL/OasisCrm/CreateCase";
 
-  static const String exhibitorGetBoothSize =
+  static  String exhibitorGetBoothSize =
       "$baseURL/LeadSheet/GetBoothSizeDetails";
 
-  static const String exhibitorGetShop =
+  static  String exhibitorGetShop =
       "$baseURL/LeadSheet/GetShopValueDetails";
 
-  static const String exhibitorGetSetupCompany =
+  static  String exhibitorGetSetupCompany =
       "$baseURL/LeadSheet/GetSetupCompanyDetails";
 
   /// update exhibitor url in Lead Sheet
-  static const String updateExhibitor = "$baseURL/LeadSheet/SaveExhibitor?showNumber=";
+  static  String updateExhibitor = "$baseURL/LeadSheet/SaveExhibitor?showNumber=";
   /// Get resource list onboarding
-  static const String oasisResourcesEndPoint = "$baseURL/onboarding/GetAllOasisResources";
+  static  String oasisResourcesEndPoint = "$baseURL/onboarding/GetAllOasisResources";
   /// Get document type url in onboarding
-  static const String getDocumentType = "$baseURL/onboarding/GetAllDocumentType";
+  static  String getDocumentType = "$baseURL/onboarding/GetAllDocumentType";
   ///Create resource onboarding url
-  static const String createResourceOnboarding = "$baseURL/onboarding/CreateResource";
+  static  String createResourceOnboarding = "$baseURL/onboarding/CreateResource";
   ///Upload Document url for onboarding
-  static const String uploadDocument = "$baseURL/onboarding/AddResourceDocuments";
-  static const String addPromoPictures = "$baseURL/promoPictures/AddPromoPictures";
+  static  String uploadDocument = "$baseURL/onboarding/AddResourceDocuments";
+  static  String addPromoPictures = "$baseURL/promoPictures/AddPromoPictures";
 }
 
 class EndPointKeys {

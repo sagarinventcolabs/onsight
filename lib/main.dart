@@ -37,14 +37,16 @@ final BehaviorSubject<String?> selectNotificationSubject = BehaviorSubject<Strin
 String? selectedNotificationPayload;
 bool visibleRefresh = false;
 List<ImageModel> imageList = [];
-
+String? currentBuildFlavor;
 
 Future<void> main() async {
+
   const bool isProduction = bool.fromEnvironment('dart.vm.product');
 /*  final NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
   if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
     selectedNotificationPayload = notificationAppLaunchDetails!.payload;
 }*/
+
   if (isProduction) {
     // analyser does not like empty function body
     // debugPrint = (String message, {int wrapWidth}) {};
@@ -53,76 +55,77 @@ Future<void> main() async {
 
   }
   runZonedGuarded<Future<void>>(() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    currentBuildFlavor = await getCurrentBuildFlavor();
+    print("Current Build Flavor --> " + (currentBuildFlavor??""));
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_stat_new_icon_notif');
+    final IOSInitializationSettings iosInitializationSettings =  IOSInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_stat_new_icon_notif');
-  final IOSInitializationSettings iosInitializationSettings =  IOSInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
+        onDidReceiveLocalNotification: (
+            int id,
+            String? title,
+            String? body,
+            String? payload,
+            ) async {
+          didReceiveLocalNotificationSubject.add(
+            ReceivedNotification(
+              id: id,
+              title: title,
+              body: body,
+              payload: payload,
+            ),
+          );
+        });
 
-      onDidReceiveLocalNotification: (
-          int id,
-          String? title,
-          String? body,
-          String? payload,
-          ) async {
-        didReceiveLocalNotificationSubject.add(
-          ReceivedNotification(
-            id: id,
-            title: title,
-            body: body,
-            payload: payload,
-          ),
-        );
-      });
+    final InitializationSettings initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: iosInitializationSettings);
 
-  final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: iosInitializationSettings);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification:  (String? payload) async {
+          if (payload != null) {
+            debugPrint('notification payload: $payload');
+          }
+          selectedNotificationPayload = payload;
+          selectNotificationSubject.add(payload);
+        });
 
-  flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification:  (String? payload) async {
-        if (payload != null) {
-          debugPrint('notification payload: $payload');
-        }
-        selectedNotificationPayload = payload;
-        selectNotificationSubject.add(payload);
-      });
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent
+      // status bar color
+    ));
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarIconBrightness: Brightness.dark,
-    statusBarColor: Colors.transparent
-  // status bar color
-  ));
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
-  sp = await Preference.getInstance();
-  isLogin = await sp?.getBool(Preference.IS_LOGGED_IN)??false;
-  initializeService();
-  Get.put(JobPhotosController());
-  Get.put(ProjectEvaluationController());
-  Get.put(ProjectEvaluationInstallController());
-  Get.put(SettingsController());
-  // AppConfig devAppConfig = AppConfig(appName: 'On-Sight', flavor: 'dev');
-  // Widget app = await initializeApp(devAppConfig);
-  runApp(const MyApp());
-},(error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+    sp = await Preference.getInstance();
+    isLogin = await sp?.getBool(Preference.IS_LOGGED_IN)??false;
+    initializeService();
+    Get.put(JobPhotosController());
+    Get.put(ProjectEvaluationController());
+    Get.put(ProjectEvaluationInstallController());
+    Get.put(SettingsController());
+    // AppConfig devAppConfig = AppConfig(appName: 'On-Sight', flavor: 'dev');
+    // Widget app = await initializeApp(devAppConfig);
+    runApp(const MyApp());
+  },(error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -146,8 +149,9 @@ class _MyAppState extends State<MyApp> {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   late FirebaseAnalyticsObserver observer;
 
+
   @override
-  void initState() {
+  initState() {
 
 
     observer = FirebaseAnalyticsObserver(analytics: analytics);
@@ -157,8 +161,7 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen(showFlutterNotification);
 
     FirebaseMessaging.onMessageOpenedApp.listen(showFlutterNotification);
-   // var brightness = SchedulerBinding.instance.window.platformBrightness;
-
+    // var brightness = SchedulerBinding.instance.window.platformBrightness;
   }
 
   Future<void> _requestPermissions() async {
@@ -180,10 +183,8 @@ class _MyAppState extends State<MyApp> {
     } else if (Platform.isAndroid) {
       flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
-    //  final bool? granted = await androidImplementation?.requestPermission();
-      setState(() {
-
-      });
+      //  final bool? granted = await androidImplementation?.requestPermission();
+      setState(() {});
     }
   }
 
@@ -193,6 +194,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    print(currentBuildFlavor);
     return GetMaterialApp(
       title: appName,
       darkTheme: Themes.dark,
@@ -200,11 +202,11 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.deepPurple,
           fontFamily: 'SFUI'
       ).copyWith(
-        bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.white)
+          bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.white)
       ),
       themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: true,
-        navigatorObservers: <NavigatorObserver>[observer],
+      debugShowCheckedModeBanner: (currentBuildFlavor == "prod") ? false : true,
+      navigatorObservers: <NavigatorObserver>[observer],
       home: SplashScreen(),
       getPages: AppPages.routes,
       defaultTransition: Transition.cupertino,
@@ -223,7 +225,7 @@ class Themes {
 
 
     inputDecorationTheme: InputDecorationTheme(
-      labelStyle:  const TextStyle(color: Colors.black54)
+        labelStyle:  const TextStyle(color: Colors.black54)
     ),
     textTheme: TextTheme(
         displayMedium: TextStyle(color: Colors.black, fontFamily: 'SFUI', fontWeight: FontWeight.bold, fontSize: 16),

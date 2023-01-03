@@ -69,14 +69,14 @@ android {
 
         dev {
             dimension "On-Sight"
-            applicationIdSuffix ".dev"
-            resValue "string", "app_name", "On-Sight Dev"
-            versionNameSuffix ".dev"
-            manifestPlaceholders = [appName: "On-Sight Dev"]
+            applicationId "com.nthdegree.onsight.dev"
+            resValue "string", "app_name", "On-Sight Stage"
+            manifestPlaceholders = [appName: "On-Sight Stage"]
         }
 
         prod {
             dimension "On-Sight"
+            applicationId "com.nthdegree.onsight"
             resValue "string", "app_name", "On-Sight"
             manifestPlaceholders = [appName: "On-Sight"]
         }

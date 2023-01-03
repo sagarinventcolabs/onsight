@@ -120,7 +120,8 @@ class _OnBoardingResourceScreenState extends State<OnBoardingResourceScreen> {
                     resourceController.update();
                     Get.toNamed(Routes.resourceDetails,arguments: resourceController.oasisResourceList[index]);
                 },
-                title: Text(name.toString(),style: TextStyle(fontSize: Dimensions.font14),),
+                title: Text(name.toString(),style: TextStyle(fontSize: Dimensions.font14)),
+                subtitle: Text((resourceController.oasisResourceList[index].ssn??"").characters.takeLast(4).toString(),style: TextStyle(fontSize: Dimensions.font12),),
               );
             },
           );
@@ -148,7 +149,8 @@ class _OnBoardingResourceScreenState extends State<OnBoardingResourceScreen> {
                   resourceController.update();
                   Get.toNamed(Routes.resourceDetails,arguments: resourceController.searchedResourceList[index]);
                 },
-                title: Text(resourceController.searchedResourceList[index].firstName.toString(),style: TextStyle(fontSize: Dimensions.font14),),
+                title: Text("${resourceController.searchedResourceList[index].firstName.toString()}"+" ${resourceController.searchedResourceList[index].lastName.toString()}",style: TextStyle(fontSize: Dimensions.font14),),
+                subtitle: Text((resourceController.searchedResourceList[index].ssn??"").characters.takeLast(4).toString(),style: TextStyle(fontSize: Dimensions.font12),),
               );
             },
           );
@@ -170,7 +172,7 @@ class _OnBoardingResourceScreenState extends State<OnBoardingResourceScreen> {
     }
 
     resourceController.oasisResourceList.forEach((userDetail) {
-      if ((userDetail.firstName??"").toLowerCase().contains(text)) {
+      if ((userDetail.firstName??"").toLowerCase().contains(text) || (userDetail.lastName??"").toLowerCase().contains(text) || (userDetail.ssn??"").toLowerCase().contains(text)) {
         localReversedList.add(userDetail);
       }
     },
