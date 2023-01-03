@@ -7,7 +7,6 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:get/get.dart';
-import 'package:get_version/get_version.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
@@ -392,7 +391,6 @@ logoutFun(){
 
 Future<String> getCurrentBuildFlavor()async{
 
-  if (Platform.isAndroid) {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     print("Package Name -->");
     print(packageInfo.packageName);
@@ -408,30 +406,6 @@ Future<String> getCurrentBuildFlavor()async{
       default:
         return "prod";
     }
-  }else if(Platform.isIOS){
-    String? appID = await GetVersion.appID;
-    print("Bundle ID -->");
-    print(appID);
-    try {
-      switch (appID) {
-        case "com.On-Sight.NthDegree.dev":
-          {
-            return "dev";
-          }
-        case "com.On-Sight.NthDegree":
-          {
-            return "prod";
-          }
-        default:
-          return "prod";
-      }
-    } on PlatformException {
-      return "Failed to get app ID.";
-    }
-  }
-  else{
-    return "prod";
-  }
 }
 
 class NoLeadingSpaceFormatter extends TextInputFormatter {
