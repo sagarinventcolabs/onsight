@@ -50,8 +50,8 @@ class WebService {
   }
 
   //Get Profile request...........................................................................
-  Future<dynamic> getProfile() async {
-    var response = await ApiBaseHelper().getApiCall(EndPoint.fetchProfile, isLoading: true);
+  Future<dynamic> getProfile(showSnackbar) async {
+    var response = await ApiBaseHelper().getApiCall(EndPoint.fetchProfile, showSnackbarValue: showSnackbar, isLoading: true);
     return response;
   }
 
@@ -535,9 +535,10 @@ class WebService {
 
   //Delete User request...........................................................................
   Future<dynamic> deleteUserRequest(username, code) async {
+    var codee = code.toString().replaceAll("+", "");
     Map<String, String> body = {
       'UsernameOrPhone': username,
-      'CountryCode': code,
+      'CountryCode': codee,
       'ClientId': "Mobile",
     };
     var response = await ApiBaseHelper().deleteApiCall(EndPoint.deleteUser, body);

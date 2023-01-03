@@ -48,13 +48,20 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       if (await Permission.sms.request().isGranted) {
         // Either the permission was already granted before or the user just granted it.
         commingSms = (await AltSmsAutofill().listenForSms)!;
-        var aStr = commingSms.substring(commingSms.length-5);
-        textEditingController.text = aStr;
-        controller.enableButton.value = true;
+        var string = commingSms.replaceAll(new RegExp(r'[^0-9]'),'');
+        //var aStr = commingSms.substring(commingSms.length-5);
+        if(string.isNotEmpty){
+          if(string.length>3){
+            textEditingController.text = string.toString().substring(0,4);
+            controller.enableButton.value = true;
+            Future.delayed(const Duration(seconds: 2),(){
+              controller.verifyOtp(textEditingController.text.toString().trim());
+            });
+          }
+        }
 
-        Future.delayed(const Duration(seconds: 2),(){
-          controller.verifyOtp(textEditingController.text.toString().trim());
-        });
+
+
       }else{
         await Permission.sms.request().then((value) {
           if(value.isGranted){
