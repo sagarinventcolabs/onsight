@@ -162,7 +162,7 @@ class SettingsController extends GetxController {
          defaultDialog(Get.context!, title: accountDeletedSuccessfully,onTap: (){
                       logoutFun();
                       Get.offAllNamed(Routes.loginScreen);
-                    });
+                    }, cancelable: false);
       }else{
         Get.showSnackbar(GetSnackBar(message: response.toString(), duration: Duration(seconds: 2),));
 
