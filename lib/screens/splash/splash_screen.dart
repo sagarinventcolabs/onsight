@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/env.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
@@ -68,6 +69,8 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     getRefresh();
+    print("Current Build Flavor --> "+(AppEnvironment.title));
+    print("Current Base URL --> "+(AppEnvironment.baseApiUrl));
   }
 
   @override

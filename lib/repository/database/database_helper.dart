@@ -103,7 +103,7 @@ class DatabaseHelper {
     await db.execute(
         """CREATE TABLE $mFieldIssueImageTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, ImageName TEXT, ImagePath TEXT,ImageNote TEXT, WoNumber TEXT, IsSubmitted INTEGER)""");
     await db.execute(
-        """CREATE TABLE $mAppInternetTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, AppInternetStatus INTEGER, UploadCompleteStatus INTEGER, PoorNetworkAlert INTEGER, BatterySaverStatus INTEGER, CameraShutterStatus INTEGER, TaskInProgress INTEGER, AuthenticationMode INTEGER, IsAskedAuth INTEGER)""");
+        """CREATE TABLE $mAppInternetTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, AppInternetStatus INTEGER, UploadCompleteStatus INTEGER, PoorNetworkAlert INTEGER, BatterySaverStatus INTEGER, CameraShutterStatus INTEGER, TaskInProgress INTEGER, AuthenticationMode INTEGER, IsAskedAuth INTEGER, BaseUrl TEXT)""");
     await db.execute(
         """CREATE TABLE $mAppUpdateTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, Version TEXT, UpdateStatus INTEGER, isAlert INTEGER, ReleaseType TEXT)""");
     await db.execute(

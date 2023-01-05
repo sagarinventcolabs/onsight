@@ -1,5 +1,7 @@
 
+import 'package:on_sight_application/env.dart';
 import 'package:on_sight_application/main.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 
 enum SignInStatus { requiresVerification, requiredRegistration, success }
 
@@ -21,12 +23,17 @@ enum JobAction {
 }
 
 class EndPoint {
+
   //static const String baseURL = "http://litedemo.cloudapp.net:83/api";//Dev server
   //static const String baseURL = "http://172.30.255.150:8301/API";//Dev server
-   static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
+  //  static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
   // static const String baseURL = "https://onsight.nthdegree.com/API";//Production server
-
- // static  String baseURL = (currentBuildFlavor??"") == "prod" ? "https://onsight.nthdegree.com/API" : "https://onsight-stage.nthdegree.com/API"; //Production server
+   static String baseURL = AppEnvironment.baseApiUrl;
+  //  static String baseURL;
+  //  getSQFBaseUrl().then((value){
+  //    baseUrl = value;
+  //  });
+   // static  String baseURL = (currentBuildFlavor??"") == "prod" ? "https://onsight.nthdegree.com/API" : "https://onsight-stage.nthdegree.com/API"; //Production server
 
   // Url for Get Otp
   static  String getOTP =

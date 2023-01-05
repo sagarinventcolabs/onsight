@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -430,3 +431,16 @@ class NoLeadingSpaceFormatter extends TextInputFormatter {
     return newValue;
   }
 }
+
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  showFlutterNotification(message);
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+}
+
+// Future<String> getSQFBaseUrl()async{
+//   AppInternetManager appInternetManager = AppInternetManager();
+//   var a = await appInternetManager.getSettingsTable() as List;
+//   return a[0]["BaseUrl"];
+// }
