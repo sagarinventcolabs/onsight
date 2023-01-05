@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
+import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_count_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
@@ -182,7 +183,18 @@ class WebService {
       }
 
       print("Map "+map.toString());
-    var response = await ApiBaseHelper().multiPartRequest(EndPoint.uploadCategory, map, listImage, token);
+          var url = "";
+    var a = await AppInternetManager().getSettingsTable() as List;
+    if(a.isNotEmpty){
+     var flavor = a[0]["Flavor"]??"prod";
+
+     if(flavor=="prod"){
+       url = EndPoint.uploadCategory;
+     }else{
+       url = EndPoint.uploadCategoryStage;
+     }
+    }
+    var response = await ApiBaseHelper().multiPartRequest(url, map, listImage, token);
     if(response!=null){
 
     }
@@ -258,7 +270,17 @@ class WebService {
     }
 
     print("Map "+map.toString());
-    var response = await ApiBaseHelper().multiPartRequest(EndPoint.uploadCategory, map, listImage, token);
+    var url = "";
+    var a = await AppInternetManager().getSettingsTable() as List;
+    if(a.isNotEmpty){
+      var flavor = a[0]["Flavor"]??"prod";
+      if(flavor=="prod"){
+        url = EndPoint.uploadCategory;
+      }else{
+        url = EndPoint.uploadCategoryStage;
+      }
+    }
+    var response = await ApiBaseHelper().multiPartRequest(url, map, listImage, token);
     print("response is "+response.toString()+"^^");
     return response;
   }
@@ -340,7 +362,19 @@ class WebService {
     var response;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive) {
-      var url = EndPoint.saveLeadSheet+"?IsHighPriorityLead="+priority.toString();
+      var url = "";
+      var a = await AppInternetManager().getSettingsTable() as List;
+      if(a.isNotEmpty){
+        var flavor = a[0]["Flavor"]??"prod";
+
+        if(flavor=="prod"){
+          url = EndPoint.saveLeadSheet+"?IsHighPriorityLead="+priority.toString();
+
+        }else{
+          url = EndPoint.saveLeadSheetStage+"?IsHighPriorityLead="+priority.toString();
+
+        }
+      }
 
       response = await ApiBaseHelper().multiPartRequest(
           url, map, listImage, token);
@@ -435,7 +469,18 @@ class WebService {
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive) {
       var url = EndPoint.createCase;
+      var a = await AppInternetManager().getSettingsTable() as List;
+      if(a.isNotEmpty){
+        var flavor = a[0]["Flavor"]??"prod";
 
+        if(flavor=="prod"){
+          url = EndPoint.createCase;
+
+        }else{
+          url = EndPoint.createCaseStage;
+
+        }
+      }
       response = await ApiBaseHelper().multiPartRequest(
           url, mapfinal, listImage, token);
       log(response.toString());
@@ -487,7 +532,18 @@ class WebService {
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive) {
       var url = EndPoint.uploadDocument;
+      var a = await AppInternetManager().getSettingsTable() as List;
+      if(a.isNotEmpty){
+        var flavor = a[0]["Flavor"]??"prod";
 
+        if(flavor=="prod"){
+          url = EndPoint.uploadDocument;
+
+        }else{
+          url = EndPoint.uploadDocumentStage;
+
+        }
+      }
       response = await ApiBaseHelper().multiPartRequest(
           url, mapfinal, listImage, token);
       log(response.toString());
@@ -517,12 +573,20 @@ class WebService {
           filename: element.imagePath!.split("/").last));
     });
 
-    debugPrint(mapfinal.toString());
     var response;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive) {
       var url = EndPoint.addPromoPictures;
+      var a = await AppInternetManager().getSettingsTable() as List;
+      if(a.isNotEmpty){
+        var flavor = a[0]["Flavor"]??"prod";
 
+        if(flavor=="prod"){
+          url = EndPoint.addPromoPictures;
+        }else{
+          url = EndPoint.addPromoPicturesStage;
+        }
+      }
       response = await ApiBaseHelper().multiPartRequestPromopictures(
           url, mapfinal, listImage, token);
       log(response.toString());

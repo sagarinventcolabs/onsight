@@ -23,10 +23,11 @@ enum JobAction {
 class EndPoint {
   //static const String baseURL = "http://litedemo.cloudapp.net:83/api";//Dev server
   //static const String baseURL = "http://172.30.255.150:8301/API";//Dev server
-   static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
-  // static const String baseURL = "https://onsight.nthdegree.com/API";//Staging server
+  // static const String baseURL = "https://onsight-stage.nthdegree.com/API";//Staging server
+   static const String baseURLStage = "https://onsight-stage.nthdegree.com/API";//Staging server
+   static const String baseURLMain = "https://onsight.nthdegree.com/API";//Staging server
 
- // static  String baseURL = (currentBuildFlavor??"") == "prod" ? "https://onsight.nthdegree.com/API" : "https://onsight-stage.nthdegree.com/API"; //Production server
+  static  String baseURL = (currentBuildFlavor??"") == "prod" ? "https://onsight.nthdegree.com/API" : "https://onsight-stage.nthdegree.com/API"; //Production server
 
   // Url for Get Otp
   static  String getOTP =
@@ -54,8 +55,8 @@ class EndPoint {
   static  String jobDetails =
       "$baseURL/JobPhotos/GetJobDetails?jobNumber=";
   // Upload Photos
-  static  String uploadCategory =
-      "$baseURL/UploadPhotos/UploadPhotoDetails";
+  static  String uploadCategory = "$baseURLMain/UploadPhotos/UploadPhotoDetails";
+  static  String uploadCategoryStage = "$baseURLStage/UploadPhotos/UploadPhotoDetails";
   // Get Questionnaire
   static  String getEvaluationQuestionaire =
       "$baseURL/ProjectEvaluation/GetProjectEvaluationQuestionnaire";
@@ -85,8 +86,8 @@ class EndPoint {
   // Get Companies List
   static  String getCompaniesList = "$baseURL/LeadSheet/GetSetupCompanyDetails";
   // Save Lead Sheet
-  static  String saveLeadSheet =
-      "$baseURL/LeadSheet/SaveLeadSheet";
+  static  String saveLeadSheet = "$baseURLMain/LeadSheet/SaveLeadSheet";
+  static  String saveLeadSheetStage = "$baseURLStage/LeadSheet/SaveLeadSheet";
   //Fetch Profile
   static  String fetchProfile = "$baseURL/Account/GetProfileDetails";
   //Profile Update
@@ -100,7 +101,8 @@ class EndPoint {
   //search WO number by Exhibitor name
   static  String getDetailsByExhibitorName = "$baseURL/JobPhotos/GetJobDetailsByexhibitorName?exhibitorName=";
   //create case field issue with comment and photos
-  static  String createCase = "$baseURL/OasisCrm/CreateCase";
+  static  String createCase = "$baseURLMain/OasisCrm/CreateCase";
+  static  String createCaseStage = "$baseURLStage/OasisCrm/CreateCase";
 
   static  String exhibitorGetBoothSize =
       "$baseURL/LeadSheet/GetBoothSizeDetails";
@@ -120,8 +122,10 @@ class EndPoint {
   ///Create resource onboarding url
   static  String createResourceOnboarding = "$baseURL/onboarding/CreateResource";
   ///Upload Document url for onboarding
-  static  String uploadDocument = "$baseURL/onboarding/AddResourceDocuments";
-  static  String addPromoPictures = "$baseURL/promoPictures/AddPromoPictures";
+  static  String uploadDocument = "$baseURLMain/onboarding/AddResourceDocuments";
+  static  String uploadDocumentStage = "$baseURLStage/onboarding/AddResourceDocuments";
+  static  String addPromoPictures = "$baseURLMain/promoPictures/AddPromoPictures";
+  static  String addPromoPicturesStage = "$baseURLStage/promoPictures/AddPromoPictures";
 }
 
 class EndPointKeys {
