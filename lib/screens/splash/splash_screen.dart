@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/main.dart';
+import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/analytics_methods.dart';
@@ -167,7 +168,9 @@ class _SplashScreenState extends State<SplashScreen>
       ImageManager imageManager = ImageManager();
       imageList = await imageManager.getFailedImageList();
 
-
+      await WidgetsFlutterBinding.ensureInitialized();
+      AppInternetManager appInternetManager = AppInternetManager();
+      await appInternetManager.updateFlavor(val: currentBuildFlavor??"");
       setState(() {
         if (imageList.isNotEmpty) {
           visibleRefresh = true;
