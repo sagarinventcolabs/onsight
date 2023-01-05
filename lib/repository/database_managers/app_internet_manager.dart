@@ -81,6 +81,26 @@ class AppInternetManager{
     }
 
   }
+
+  /// Set status of Task Progress
+  Future<bool> updateFlavor({required String val}) async {
+    Database db = await DatabaseHelper().database;
+    var dynamicc = await getSettingsTable() as List;
+    Map<String, dynamic> map = {
+      "Flavor":val
+    };
+
+    if(dynamicc.length==0){
+      await db.insert(mAppInternetTable, map);
+      return true;
+    }else{
+      String query="UPDATE $mAppInternetTable SET Flavor='$val'";
+      await db.rawQuery(query);
+      return true;
+    }
+
+  }
+
   /// App Camera Sound Toggle
   Future<bool> updateCameraShutterStatus({required int val}) async {
     Database db = await DatabaseHelper().database;
