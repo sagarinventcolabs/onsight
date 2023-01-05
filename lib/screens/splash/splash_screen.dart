@@ -173,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen>
 
       await WidgetsFlutterBinding.ensureInitialized();
       AppInternetManager appInternetManager = AppInternetManager();
-      await appInternetManager.updateFlavor(val: currentBuildFlavor??"");
+      await appInternetManager.updateFlavor(val: AppEnvironment.currentBuildFlavor);
       setState(() {
         if (imageList.isNotEmpty) {
           visibleRefresh = true;

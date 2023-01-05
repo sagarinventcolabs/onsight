@@ -390,25 +390,6 @@ logoutFun(){
   Get.offAllNamed(Routes.loginScreen);
 }
 
-Future<String> getCurrentBuildFlavor()async{
-
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print("Package Name -->");
-    print(packageInfo.packageName);
-    switch (packageInfo.packageName) {
-      case "com.nthdegree.onsight.dev":
-        {
-          return "dev";
-        }
-      case "com.nthdegree.onsight":
-        {
-          return "prod";
-        }
-      default:
-        return "prod";
-    }
-}
-
 class NoLeadingSpaceFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
