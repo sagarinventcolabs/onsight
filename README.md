@@ -22,6 +22,7 @@ samples, guidance on mobile development, and a full API reference.
 -> flutter build apk --flavor dev     // old
 -> flutter build apk --flavor prod    // old
 
+
 -> flutter build apk --flavor prod -t lib/main_prod.dart         // APK
 -> flutter build apk --flavor dev -t lib/main_dev.dart           // APK
 -> flutter build appbundle --flavor prod -t lib/main_prod.dart   // App Bundle
