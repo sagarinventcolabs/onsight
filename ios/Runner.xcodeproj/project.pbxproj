@@ -386,6 +386,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -476,6 +477,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -564,6 +566,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -648,6 +651,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -792,6 +796,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -826,6 +831,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (

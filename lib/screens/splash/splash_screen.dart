@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/env.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
@@ -69,6 +70,8 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     getRefresh();
+    print("Current Build Flavor --> "+(AppEnvironment.title));
+    print("Current Base URL --> "+(AppEnvironment.baseApiUrl));
   }
 
   @override
@@ -170,7 +173,7 @@ class _SplashScreenState extends State<SplashScreen>
 
       await WidgetsFlutterBinding.ensureInitialized();
       AppInternetManager appInternetManager = AppInternetManager();
-      await appInternetManager.updateFlavor(val: currentBuildFlavor??"");
+      await appInternetManager.updateFlavor(val: AppEnvironment.currentBuildFlavor);
       setState(() {
         if (imageList.isNotEmpty) {
           visibleRefresh = true;

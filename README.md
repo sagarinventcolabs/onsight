@@ -19,7 +19,13 @@ samples, guidance on mobile development, and a full API reference.
 -> flutter run --flavor dev
 -> flutter run --flavor prod
 ## To make flavor builds
--> flutter build apk --flavor dev
--> flutter build apk --flavor prod
+-> flutter build apk --flavor dev     // old
+-> flutter build apk --flavor prod    // old
+
+
+-> flutter build apk --flavor prod -t lib/main_prod.dart         // APK
+-> flutter build apk --flavor dev -t lib/main_dev.dart           // APK
+-> flutter build appbundle --flavor prod -t lib/main_prod.dart   // App Bundle
+-> flutter build appbundle --flavor dev -t lib/main_dev.dart     // App Bundle
 
     

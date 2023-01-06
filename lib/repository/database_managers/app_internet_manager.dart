@@ -43,6 +43,26 @@ class AppInternetManager{
     }
 
   }
+
+  /// Set Base Api Url
+  Future<bool> setBaseUrl({required String val}) async {
+    Database db = await DatabaseHelper().database;
+    var dynamicc = await getSettingsTable() as List;
+    Map<String, dynamic> map = {
+      "BaseUrl":val
+    };
+
+    if(dynamicc.length==0){
+      await db.insert(mAppInternetTable, map);
+      return true;
+    }else{
+      String query="UPDATE $mAppInternetTable SET BaseUrl=$val";
+      await db.rawQuery(query);
+      return true;
+    }
+
+  }
+
   /// Set status of Task Progress
   Future<bool> updateTaskProgress({required int val}) async {
     Database db = await DatabaseHelper().database;

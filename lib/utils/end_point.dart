@@ -1,4 +1,5 @@
 
+import 'package:on_sight_application/env.dart';
 import 'package:on_sight_application/main.dart';
 
 enum SignInStatus { requiresVerification, requiredRegistration, success }
@@ -27,7 +28,7 @@ class EndPoint {
    static const String baseURLStage = "https://onsight-stage.nthdegree.com/API";//Staging server
    static const String baseURLMain = "https://onsight.nthdegree.com/API";//Staging server
 
-  static  String baseURL = (currentBuildFlavor??"") == "prod" ? "https://onsight.nthdegree.com/API" : "https://onsight-stage.nthdegree.com/API"; //Production server
+  static  String baseURL = AppEnvironment.baseApiUrl;
 
   // Url for Get Otp
   static  String getOTP =
