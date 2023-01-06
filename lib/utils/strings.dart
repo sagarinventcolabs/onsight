@@ -341,6 +341,7 @@ const String jobNumber = "Job Number";
 const String screenLock = "Screen Lock";
 const String CONFIRM = "CONFIRM";
 const String SKIP = "SKIP";
+const String disclaimerMessage = "Your account will be deactivated and deleted after 1 months, you can still log-in again with same no. before 1 months if required";
 const String screenLockDesc = "Would you like to use your screen lock pattern, touch ID, face ID, PIN or password to use this application.you will be able to change this later in settings.";
 
 /// Errors

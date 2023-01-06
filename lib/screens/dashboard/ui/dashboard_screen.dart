@@ -79,6 +79,9 @@ class DashboardScreenState extends State<DashboardScreen>{
   @override
   Widget build(BuildContext context) {
     Theme.of(context) == Brightness.dark;
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
+    print(isDarkMode);
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: SafeArea(

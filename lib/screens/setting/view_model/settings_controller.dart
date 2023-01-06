@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:battery_info/battery_info_plugin.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -159,7 +157,7 @@ class SettingsController extends GetxController {
     var response = await service.deleteUserRequest(mobile, code);
     if(response!=null) {
       if(response.toString().contains(mobile.toString())){
-         defaultDialog(Get.context!, title: accountDeletedSuccessfully,onTap: (){
+         defaultDialog(Get.context!, title: accountDeletedSuccessfully, alert: disclaimerMessage, onTap: (){
                       logoutFun();
                       Get.offAllNamed(Routes.loginScreen);
                     }, cancelable: false);

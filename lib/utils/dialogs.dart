@@ -137,7 +137,7 @@ internetConnectionDialog(context) {
 }
 
 defaultDialog(BuildContext context,
-    {String? title, Function()? onTap, bool? cancelable}) {
+    {String? title, String? alert, Function()? onTap, bool? cancelable}) {
   showDialog(
     context: context,
     barrierDismissible: cancelable ?? true,
@@ -158,6 +158,7 @@ defaultDialog(BuildContext context,
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 10),
+
                 title.toString() != "null"
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -174,6 +175,12 @@ defaultDialog(BuildContext context,
                     : const SizedBox(
                         height: 10,
                       ),
+                alert!=null? const SizedBox(height: 10):SizedBox(height: 0),
+                alert!=null?  Text(alert,textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: Dimensions.font14, fontWeight: FontWeight.normal),):const SizedBox(height: 0,width: 0,),
+                const SizedBox(height: 10),
+
                 InkWell(
                   onTap: onTap ??
                       () {
@@ -2069,6 +2076,7 @@ installDismantalChooserDialog(BuildContext context,
 }
 
 
+/*
 bottomSheetOnboarding(BuildContext context){
   final List<String> documentList = [ID, ssCard, W4, I9, i9Supporting, directDepositForm, directDepositSupporting];
 
@@ -2197,7 +2205,8 @@ bottomSheetOnboarding(BuildContext context){
                         Padding(
                             padding: const EdgeInsets.all(5.0),
                             child:
-                            /*   Container(
+                            */
+/*   Container(
                         height: 60,
                         width: 60,
                         decoration: BoxDecoration(
@@ -2206,7 +2215,8 @@ bottomSheetOnboarding(BuildContext context){
                                 fit: BoxFit.fill),
                             borderRadius:
                             const BorderRadius.all(Radius.circular(30.0))),
-                      ),*/
+                      ),*//*
+
                             Container(
                               height: 45,
                               width: 45,
@@ -2224,9 +2234,11 @@ bottomSheetOnboarding(BuildContext context){
                           child: GestureDetector(
                             onTap: () async {
 
-                              /*      photoCommentController.photoList.removeAt(index);
+                              */
+/*      photoCommentController.photoList.removeAt(index);
                           photoCommentController.photoList.refresh();
-                          photoCommentController.update();*/
+                          photoCommentController.update();*//*
+
 
                             },
                             child: Image.asset(
@@ -2281,6 +2293,7 @@ bottomSheetOnboarding(BuildContext context){
     );
   });
 }
+*/
 
 showRatingDialog(BuildContext context){
   RateMyApp rateMyApp;

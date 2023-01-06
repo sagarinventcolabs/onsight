@@ -605,7 +605,7 @@ class WebService {
       'CountryCode': codee,
       'ClientId': "Mobile",
     };
-    var response = await ApiBaseHelper().deleteApiCall(EndPoint.deleteUser, body);
+    var response = await ApiBaseHelper().postApiCall(EndPoint.disableUser, body);
     return response;
   }
 }

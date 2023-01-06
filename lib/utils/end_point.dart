@@ -43,6 +43,8 @@ class EndPoint {
   static  String resendOTP = "$baseURL/MobileAuth/Authenticate/resendOtp";
   //Delete User Url
   static  String deleteUser = "$baseURL/MobileAuth/DeleteAccount";
+  //Disable User
+  static  String disableUser = "$baseURL/MobileAuth/DisableAccount";
   //Get Latest Version
   static  String getLatestVersion = "$baseURL/MobileVersion/GetMobileVersionData?operatingSystem=";
   //Job Category Url
