@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
@@ -81,6 +83,14 @@ class FieldIssuesState extends State<FieldIssues> with SearchFunctions{
               onTap: () async {
                 FocusScope.of(context).unfocus();
                 if (controller.enableButton.isTrue) {
+                  setState(() {
+                    controller.enableButton.value = false;
+                  });
+                  Timer(Duration(seconds: 4),(){
+                    setState(() {
+                      controller.enableButton.value = true;
+                    });
+                  });
                   switch (_selectedLocation) {
                     case jobNumber:{
                       saveSuggestion(controller.jobEditingController.text.trim());

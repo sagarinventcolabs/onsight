@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -68,6 +70,14 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
           onTap: () async {
             if(controller.radioButtonValue.value==1){
               if(controller.showController.text.isNotEmpty && controller.showController.text.length>4) {
+                setState(() {
+                  controller.enableButton.value = false;
+                });
+                Timer(Duration(seconds: 4),(){
+                  setState(() {
+                    controller.enableButton.value = true;
+                  });
+                });
                 FocusScope.of(context).unfocus();
                 saveShowNumberSuggestions(controller.showController.text.trim());
                 await controller.getSheetDetails(controller.showController.text, true).then((value) {

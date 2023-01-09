@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -61,6 +63,14 @@ class LeadSheetState extends State<LeadSheetScreen> with SingleTickerProviderSta
             saveShowNumberSuggestions(controller.showController.text.trim());
             controller.buttonSubmit.value = false;
             if(controller.enableButton.isTrue) {
+              setState(() {
+                controller.enableButton.value = false;
+              });
+              Timer(Duration(seconds: 4),(){
+                setState(() {
+                  controller.enableButton.value = true;
+                });
+              });
               var response = await controller.getSheetDetails(Routes.leadSheetScreen,controller.showController.text.toString(), true);
               if(response!=null){
                 if(response.toString().contains(showNumberNotFound)){
