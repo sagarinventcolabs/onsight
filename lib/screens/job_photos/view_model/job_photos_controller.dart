@@ -157,6 +157,7 @@ class JobPhotosController extends GetxController{
 
                 for (var el in emailL) {
                   if (el.isNotEmpty) {
+
                     await addEmail(el, jobNumber, 0);
                   }
                 }

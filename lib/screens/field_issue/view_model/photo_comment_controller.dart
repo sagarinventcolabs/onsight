@@ -77,13 +77,19 @@ class PhotoCommentController extends GetxController {
   /// This is the callback that the SpeechToText plugin calls when
   /// the platform returns recognized words.
   onSpeechResult(SpeechRecognitionResult result) {
+    FieldIssueController controller = Get.find<FieldIssueController>();
+
     isListening.value = false;
     log(speechTextResult.value);
     speechTextResult.value = result.recognizedWords;
    // jobPhotosList[photoIndex].controller?.text = result.recognizedWords;
     commentController.text = result.recognizedWords;
     commentButton.value = true;
-    print(commentController.text);
+    validate();
+    controller.requestModel.value.comment = commentController.text.toString();
+    if(commentController.text.isEmpty){
+      commentButton.value = false;
+    }
     update();
   }
 

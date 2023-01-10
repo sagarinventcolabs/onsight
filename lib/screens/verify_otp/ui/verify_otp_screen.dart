@@ -16,9 +16,10 @@ class VerifyOtpScreen extends StatefulWidget {
   final number;
   final selectedContryCode;
   final accessToken;
+  final expires;
 
   VerifyOtpScreen(
-      {Key? key, this.number, this.selectedContryCode, this.accessToken})
+      {Key? key, this.number, this.selectedContryCode, this.accessToken, this.expires})
       : super(key: key);
 
   @override
@@ -100,7 +101,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                   FocusScope.of(context).unfocus();
                   //    Get.to(() => UserDetailScreen());
                   var response = await controller.verifyOtp(textEditingController.text.toString());
-                  if (response.containsKey(error)) {
+                  if (response.toString().toLowerCase().contains("error")) {
                     ErrorResponse errorModel = ErrorResponse.fromJson(response);
                     if (errorModel.errorDescription
                         .toString()

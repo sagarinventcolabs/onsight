@@ -6,6 +6,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
+import 'package:on_sight_application/repository/database_managers/email_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_count_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
@@ -282,6 +283,11 @@ class WebService {
     }
     var response = await ApiBaseHelper().multiPartRequest(url, map, listImage, token);
     print("response is "+response.toString()+"^^");
+    List<Email> listEmail = await EmailManager().getEmailRecord(jobNumber);
+    listEmail.forEach((element) async {
+      await EmailManager().updateEmail(element.additionalEmail.toString(), 0);
+    });
+
     return response;
   }
 

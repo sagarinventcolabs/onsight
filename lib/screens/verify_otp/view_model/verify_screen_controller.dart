@@ -31,6 +31,11 @@ class VerifyScreenController extends GetxController{
     if(response!=null) {
       if (response.containsKey(error)) {
         return response;
+      }else if(response.toString().toLowerCase().contains("expired")){
+        Get.offAllNamed(Routes.loginScreen);
+
+        return false;
+
       }
       VerifyOtpResponse responseModel = VerifyOtpResponse.fromJson(response);
       sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());

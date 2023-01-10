@@ -98,7 +98,7 @@ class _ExhibitorScreenState extends State<ExhibitorScreen> {
               fontWeight: FontWeight.bold, fontSize: Dimensions.font16),
           ),
         ),
-        bottomNavigationBar: GestureDetector(
+        bottomNavigationBar: Obx(()=> GestureDetector(
           onTap: () async {
             FocusScope.of(context).unfocus();
             if (controller.isButtonEnable.isTrue) {
@@ -140,7 +140,7 @@ class _ExhibitorScreenState extends State<ExhibitorScreen> {
             ),
             child: Center(child: Text(isUpdating ? updateExhibitor : addExhibitor, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
           ),
-        ),
+        ),),
         body: Obx(()=>SingleChildScrollView(
           child: Column(children: [
             Container(
@@ -606,6 +606,7 @@ class _ExhibitorScreenState extends State<ExhibitorScreen> {
         onChanged: (val){
           if(isUpdating){
             controller.isButtonEnable.value = true;
+            controller.update();
           }
         },
         maxLength: null,
