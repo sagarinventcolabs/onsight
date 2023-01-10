@@ -8,7 +8,7 @@ class EmailManager{
 
   Future<dynamic> updateEmail(String emailId,int status) async {
     Database db = await DatabaseHelper().database;
-    String query="UPDATE $mEmailTable SET abc=$status WHERE AdditionalEmail='$emailId'";
+    String query="UPDATE $mEmailTable SET EmailOnProgress=$status WHERE AdditionalEmail='$emailId'";
     var result = await db.rawQuery(query);
     return result;
   }
@@ -23,6 +23,7 @@ class EmailManager{
     Database db = await DatabaseHelper().database;
     var rs = -1;
     if(await existOrNot(email.additionalEmail.toString(), email.jobNumber.toString())=="false"){
+
       rs= await db.insert(mEmailTable, email.toMap());
     }
 

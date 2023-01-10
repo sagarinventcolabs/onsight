@@ -119,6 +119,8 @@ class FieldIssueController extends GetxController{
   onSpeechResult(SpeechRecognitionResult result) {
     isListening.value = false;
     descriptionController.text = result.recognizedWords;
+    requestModel.value.description = descriptionController.text;
+    requestModel.refresh();
     update();
   }
 

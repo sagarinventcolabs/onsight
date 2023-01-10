@@ -305,7 +305,7 @@ class _ProjectEvaluationDetailsScreenState extends State<ProjectEvaluationDetail
             },
             child:Text(email,
                 style: TextStyle(
-                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
+                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.blue,
                     fontWeight: FontWeight.w600,
                     fontSize: Dimensions.font14)),
           ),

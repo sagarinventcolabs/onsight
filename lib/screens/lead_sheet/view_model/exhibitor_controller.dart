@@ -22,9 +22,13 @@ import 'package:speech_to_text/speech_to_text.dart';
 class ExhibitorController extends GetxController{
 
   WebService service = WebService();
+
   RxBool isButtonEnable = false.obs;
+
   AddExhibitorResponse? addExhibitorResponse;
+
   TextEditingController nameController = TextEditingController();
+
   TextEditingController explainController = TextEditingController();
   // List for containing & updating all the exhibitors.
   RxList<Exhibitors> list = <Exhibitors>[].obs;
@@ -217,6 +221,10 @@ class ExhibitorController extends GetxController{
     }
     speechTextResult.value = result.recognizedWords;
     explainController.text = result.recognizedWords;
+    if(nameController.text.isNotEmpty && explainController.text.isNotEmpty) {
+      isButtonEnable.value = true;
+    }
+    refresh();
     update();
   }
 

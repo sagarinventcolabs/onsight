@@ -27,7 +27,7 @@ class LoginScreenController extends GetxController {
       sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
       sp!.putString(Preference.USER_MOBILE, phoneNumber.toString());
       sp!.putString(Preference.COUNTRY_CODE, selectedCountryCode.toString());
-      Get.to(() => VerifyOtpScreen(number: phoneNumber, selectedContryCode: selectedCountryCode));
+      Get.to(() => VerifyOtpScreen(number: phoneNumber, selectedContryCode: selectedCountryCode, expires: responseModel.expiresIn,));
     }
     return response;
   }

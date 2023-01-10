@@ -1061,6 +1061,7 @@ promoPictureSubMethod(photoList, token) async {
     }
   }
 }
+
 runApiFromDatabaseMainMethod(service, token) async {
 
   AppInternetManager appInternetManager = AppInternetManager();
