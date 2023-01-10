@@ -921,7 +921,7 @@ runApiOnboarding(resourceId, finalToken, list,i) async {
 
       }
     }else{
-
+      showErrorNotification(errorMsg: "Something Went wrong");
     }
   }else{
     i = i+1;
@@ -986,14 +986,19 @@ promoPictureSubMethod(photoList, token) async {
       }else{
         bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
         if (isNetActive) {
-          debugPrint("Error Notification");
-          ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-          if(errorModel.errorDescription!=null) {
-            showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-          }else{
-            showErrorNotification(errorMsg:errorModel.Message.toString());
+          try{
+            ErrorResponse errorModel =  ErrorResponse.fromJson(response);
+            if(errorModel.errorDescription!=null) {
+              showErrorNotification(errorMsg:errorModel.errorDescription.toString());
+            }else{
+              showErrorNotification(errorMsg:errorModel.Message.toString());
+            }
+          }catch(e){
+
           }
+          FlutterBackgroundService().invoke("stopService");
         } else {
+
           Timer.periodic(const Duration(seconds: 10), (timer) async {
             isNetActive = await ConnectionStatus.getInstance()
                 .checkConnection();

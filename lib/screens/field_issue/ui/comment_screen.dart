@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
@@ -63,6 +65,14 @@ class _FieldIssueCommentScreenState extends State<FieldIssueCommentScreen> {
         bottomNavigationBar: Obx(() => GestureDetector(
               onTap: () async {
                 if(photoCommentController.commentButton.isTrue) {
+                  setState(() {
+                    photoCommentController.commentButton.value = false;
+                  });
+                  Timer(Duration(seconds: 4),(){
+                    setState(() {
+                      photoCommentController.commentButton.value = true;
+                    });
+                  });
                   print(controller.requestModel.value.toJson());
                   await controller.createCaseWithComment();
                 }
