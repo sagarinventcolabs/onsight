@@ -31,7 +31,6 @@ class QuestionsManager{
     Database db = await DatabaseHelper().database;
     var rs = -1;
     var a = await existOrNotAdditional(categoryModel.categoryName.toString());
-    print(a);
     if(a=="false"){
       rs= await db.insert(mEvaluationAdditionalInfoTable, categoryModel.toMap());
     }/*else{

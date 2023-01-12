@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
+import 'package:on_sight_application/screens/job_photos/ui/job_photos_screen.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';

@@ -392,7 +392,8 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                 style: TextStyle(
                     color: Get.isDarkMode ? ColourConstants.white : Colors.blue,
                     fontWeight: FontWeight.w600,
-                    fontSize: Dimensions.font14)),
+                    fontSize: Dimensions.font14)
+            ),
           ),
           GestureDetector(
             onTap: () {
@@ -899,7 +900,6 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
   }
 
   Widget textField() {
-    print(controller.isValidEmailS.value);
     return TextField(
       controller: emailEditingController,
       focusNode: emailFocusNode,

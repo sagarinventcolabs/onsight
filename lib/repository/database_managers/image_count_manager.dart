@@ -54,7 +54,6 @@ class ImageCountManager{
   Future<dynamic> getAllCounts(jobnumber) async{
     Database db = await DatabaseHelper().database;
   var result = await db.rawQuery("SELECT * FROM $mImageCountTable where JobNumber = '${jobnumber}'");
-    print(result);
     return result;
   }
 

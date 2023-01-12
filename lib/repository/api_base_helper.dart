@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:on_sight_application/repository/web_service_response/error_model.dart';
@@ -31,9 +33,9 @@ class ApiBaseHelper{
         EndPointKeys.contentType: 'application/json',
         EndPointMessages.USERAGENT_KEY: deviceId,
       };
-      print("ApiUrl=========>>>> ${url}");
-      print("apiHeader=========>>>> $apiHeader");
-      print("request=========>>>> ${jsonEncode(jsonData)}");
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
+      log("request=========>>>> ${jsonEncode(jsonData)}");
 
       try {
         final http.Response response = await http.post(
@@ -47,8 +49,8 @@ class ApiBaseHelper{
         });
         Get.back();
 
-        print("statusCode=========>>>> ${response.statusCode}");
-        print("response=========>>>> ${response.body}");
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
 
         try {
           responseJson = _returnResponse(response);
@@ -83,9 +85,9 @@ class ApiBaseHelper{
         EndPointKeys.contentType: 'application/json',
         EndPointMessages.USERAGENT_KEY: deviceId,
       };
-      print("ApiUrl=========>>>> ${url}");
-      print("apiHeader=========>>>> $apiHeader");
-      print("request=========>>>> ${jsonEncode(jsonData)}");
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
+      log("request=========>>>> ${jsonEncode(jsonData)}");
 
       try {
         final http.Response response = await http.delete(
@@ -99,8 +101,8 @@ class ApiBaseHelper{
         });
         Get.back();
 
-        print("statusCode=========>>>> ${response.statusCode}");
-        print("response=========>>>> ${response.body}");
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
 
         try {
           responseJson = _returnResponse(response);
@@ -135,9 +137,9 @@ class ApiBaseHelper{
         EndPointKeys.contentType: 'application/json',
         EndPointMessages.USERAGENT_KEY: deviceId,
       };
-      print("ApiUrl=========>>>> ${url}");
-      print("apiHeader=========>>>> $apiHeader");
-      print("request=========>>>> ${jsonEncode(jsonData)}");
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
+      log("request=========>>>> ${jsonEncode(jsonData)}");
 
       try {
         final http.Response response = await http.post(
@@ -150,8 +152,8 @@ class ApiBaseHelper{
         });
         Get.back();
 
-        print("statusCode=========>>>> ${response.statusCode}");
-        print("response=========>>>> ${response.body}");
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
 
         try {
          return response;
@@ -188,8 +190,8 @@ class ApiBaseHelper{
         EndPointKeys.contentType: 'application/json',
         EndPointMessages.USERAGENT_KEY: deviceId,
       };
-      print("ApiUrl=========>>>> ${url}");
-      print("apiHeader=========>>>> $apiHeader");
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
 
       try {
         final http.Response response = await http.get(
@@ -208,8 +210,8 @@ class ApiBaseHelper{
           Get.back();
         }
 
-        print("statusCode=========>>>> ${response.statusCode}");
-        print("response=========>>>> ${response.body}");
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
 
         try {
           responseJson = _returnResponse(response, showValue: showSnackbarValue);
@@ -253,8 +255,8 @@ class ApiBaseHelper{
         EndPointKeys.contentType: 'application/json',
         EndPointMessages.USERAGENT_KEY: deviceId,
       };
-      print("ApiUrl=========>>>> ${url}");
-      print("apiHeader=========>>>> $apiHeader");
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
 
       try {
         final http.Response response = await http.get(
@@ -272,8 +274,8 @@ class ApiBaseHelper{
           Get.back();
         }
 
-        print("statusCode=========>>>> ${response.statusCode}");
-        print("response=========>>>> ${response.body}");
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
 
         try {
           return response;
@@ -313,8 +315,8 @@ class ApiBaseHelper{
       var response;
       var responseJson;
 
-      print("ApiUrl=========>>>> ${url}");
-      print("Token=========>>>> ${token}");
+      log("ApiUrl=========>>>> ${url}");
+      log("Token=========>>>> ${token}");
 
       try {
         var request = http.MultipartRequest(
@@ -326,12 +328,12 @@ class ApiBaseHelper{
         request.headers[EndPointMessages.USERAGENT_KEY] = deviceId;
         request.fields.addAll(fieldMap);
         request.files.addAll(listImage);
-        print(request.fields);
-        print(request.files.first.field.toString() +" "+request.files.first.filename.toString());
+        debugPrint(request.fields.toString());
+        debugPrint(request.files.first.field.toString() +" "+request.files.first.filename.toString());
         response = await request.send();
         var res =  await response.stream.bytesToString();
-        print("statusCode=========>>>> ${response.statusCode}");
-        print("response=========>>>> ${res}");
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${res}");
 
         try {
 
@@ -370,8 +372,8 @@ class ApiBaseHelper{
       var response;
       var responseJson;
 
-      print("ApiUrl=========>>>> ${url}");
-      print("Token=========>>>> ${token}");
+      log("ApiUrl=========>>>> ${url}");
+      log("Token=========>>>> ${token}");
 
       try {
         var request = http.MultipartRequest(
@@ -383,12 +385,12 @@ class ApiBaseHelper{
         request.headers[EndPointMessages.USERAGENT_KEY] = deviceId;
         request.fields.addAll(fieldMap);
         request.files.addAll(listImage);
-        print(request.fields);
-        print(request.files.first.field.toString() +" "+request.files.first.filename.toString());
+        debugPrint(request.fields.toString());
+        debugPrint(request.files.first.field.toString() +" "+request.files.first.filename.toString());
         response = await request.send();
         var res =  await response.stream.bytesToString();
-        print("statusCode=========>>>> ${response.statusCode}");
-        print("response=========>>>> ${res}");
+        debugPrint("statusCode=========>>>> ${response.statusCode}");
+        debugPrint("response=========>>>> ${res}");
 
         try {
           if(response.statusCode.toString()=="200"){

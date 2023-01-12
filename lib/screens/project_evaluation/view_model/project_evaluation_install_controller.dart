@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/repository/database_managers/email_manager.dart';
 import 'package:on_sight_application/repository/database_managers/questions_manager.dart';
+import 'package:on_sight_application/repository/database_model/email.dart';
 import 'package:on_sight_application/repository/web_service_requests/save_evaluation_request.dart';
 import 'package:on_sight_application/repository/web_service_requests/temp.dart';
 import 'package:on_sight_application/repository/web_service_response/get_project_evaluation_questions_response.dart';
@@ -215,6 +217,16 @@ class ProjectEvaluationInstallController extends GetxController {
       if (!response.toString().contains(error)) {
         selectedCat.value = 2;
         update();
+        try{
+          List<Email> listEmail = await EmailManager().getEmailRecord(jobNumber);
+          listEmail.forEach((element) async {
+
+            await EmailManager().updateEmail(element.additionalEmail.toString(), 2);
+          });
+        }catch(e){
+
+        }
+
         defaultDialog(context, title:detailsSubmittedSuccessfully,cancelable: false, onTap: (){
           Get.back();
           Get.back();

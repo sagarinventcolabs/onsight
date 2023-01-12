@@ -1365,7 +1365,6 @@ JobPhotosMainMethod(service, token) async {
 JobPhotosSubmethod(service, token)async{
   ImageManager imageManager = ImageManager();
   List<ImageModel>imageList = await imageManager.getFailedImageList();
-  debugPrint("Image List length" + imageList.length.toString());
   if(imageList.isNotEmpty) {
     ImageModel model = imageList.first;
     JobCategoriesResponse responseModel = JobCategoriesResponse();

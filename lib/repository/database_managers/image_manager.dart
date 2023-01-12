@@ -25,7 +25,6 @@ class ImageManager{
     }
 
   Future<int> updateImageData(ImageModel imageModel) async {
-    print("Update Called");
     Database db = await DatabaseHelper().database;
     var result= await db.update(mImageDataTable, imageModel.toMap(), where: 'RowID=?', whereArgs: [imageModel.rowID]);
     return result;
@@ -64,9 +63,6 @@ class ImageManager{
     Database db = await DatabaseHelper().database;
     var result = await db.rawQuery('SELECT * FROM $mImageDataTable WHERE IsSubmitted= 1');
     List<ImageModel> imageList = result.isNotEmpty ? result.map((c) => ImageModel.fromJson(c)).toList() : [];
-    for(var i=0; i<imageList.length; i++){
-      print("IsSubmitted "+imageList[i].isSubmitted.toString());
-    }
     return imageList;
 
 
