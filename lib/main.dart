@@ -38,6 +38,102 @@ String? selectedNotificationPayload;
 bool visibleRefresh = false;
 List<ImageModel> imageList = [];
 
+
+Future<void> main() async {
+
+  const bool isProduction = bool.fromEnvironment('dart.vm.product');
+/*  final NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+  if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+    selectedNotificationPayload = notificationAppLaunchDetails!.payload;
+}*/
+
+  if (isProduction) {
+    // analyser does not like empty function body
+    // debugPrint = (String message, {int wrapWidth}) {};
+    // so i changed it to this:
+    debugPrint = (String? message, {int? wrapWidth}) => null;
+
+  }
+  runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_stat_new_icon_notif');
+    final IOSInitializationSettings iosInitializationSettings =  IOSInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+
+        onDidReceiveLocalNotification: (
+            int id,
+            String? title,
+            String? body,
+            String? payload,
+            ) async {
+          didReceiveLocalNotificationSubject.add(
+            ReceivedNotification(
+              id: id,
+              title: title,
+              body: body,
+              payload: payload,
+            ),
+          );
+        });
+
+    final InitializationSettings initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: iosInitializationSettings);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification:  (String? payload) async {
+          if (payload != null) {
+            debugPrint('notification payload: $payload');
+          }
+          selectedNotificationPayload = payload;
+          selectNotificationSubject.add(payload);
+        });
+
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+        statusBarColor: Colors.transparent
+      // status bar color
+    ));
+
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    sp = await Preference.getInstance();
+    isLogin = await sp?.getBool(Preference.IS_LOGGED_IN)??false;
+    initializeService();
+    Get.put(JobPhotosController());
+    Get.put(ProjectEvaluationController());
+    Get.put(ProjectEvaluationInstallController());
+    Get.put(SettingsController());
+    // AppConfig devAppConfig = AppConfig(appName: 'On-Sight', flavor: 'dev');
+    // Widget app = await initializeApp(devAppConfig);
+    runApp(const MyApp());
+  },(error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  showFlutterNotification(message);
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+}
+
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 

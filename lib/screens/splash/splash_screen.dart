@@ -70,8 +70,8 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     getRefresh();
-    print("Current Build Flavor --> "+(AppEnvironment.title));
-    print("Current Base URL --> "+(AppEnvironment.baseApiUrl));
+    // print("Current Build Flavor --> "+(AppEnvironment.title));
+    // print("Current Base URL --> "+(AppEnvironment.baseApiUrl));
   }
 
   @override
@@ -160,7 +160,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   setTempData() async {
     var data =
-        "Wc67CgvP2fn5PrXA0j-ASvP7rClaLUu-upwmyANnMEPjNDGkaoAUlAkI77W-tcX0CEv0AYqmDvrAFDDf_e7SZqz-0K9raJmA4ejz0ipIj8SZhSkRvaN-zBVvoTvKr9fxQARS2vNZhQSvL9XhecjvBQBLBKgTOXP5x1dA0MpZ6bGBvo8O4Oz0oQV697wr-xXX3vDhNeGNjUFzPOrrecUZ416A_ox9uYIoWFbKZnnbo2tRiK4AReVFYbPDhuQhPHMOg9SVeCsA555RLuMm6RRKK7vFwnwCAo7Z7yffiYxfiwkY2gMgDCGGr8mQdbse_QSbThioWMHkj9iBqjyvLmDYDe90PLUYATS_d0qf0RnqhQZtLHU8znRfVYKhtGvL3YEcQYBpI0TB9zyETqkkOCssaA0KwygdYXvQYUfVh-N-TF-TSLZfDkVdVv4UAncNmeUkD3x4W9FT_QzOoaYg70M5p43pVDyxrU8Ff0ldYCzplVw-qUHbrKTMXXG5vpk_j8fJcANHhW74DkWrfyiwZXhxvWqCqXzRiypAR98CGXWlSyr-D0ebKbedsf7zLAXR0rAULPbNsGor2zAHlG4lNqTdE66Ef_TXr8GajAwggldGU752gK73EEIY17MJhnNdBybbV1vgueVH-pwKo0uNI8aJCKrPosqcYzFZVzgSKFNFfTvOypt1sRU4LZ1pCL9kmqO4";
+        "9gdsBpSVIWmE_LstNwXREFlFzpTiq_OTB1K3TEXMXFrJOpDDKX7aZONy41DeGfokpZf8q4WdGxdqjEPKNkXDSyD3UUy8jxX3Z441-t5G41AXmjTmHzkrlFdE-EMcyVSLiqRGEPpB8GbRLc6eGFc4NPjvyxnz-cyxXh_HYe3icyBIcgps0q1nhPfmI5Nt6L4yL16kFW-xs2lgP0McjkwLaEFPiHKQgxEzNce25aoY-LPEJe2--w2MggEcblwDjJJt7k-t4Si3FUag0C8FotXO99qfCUutYuMJaQbFeO9ovCQoObvn9nG741zAWXx7V3xGU4iADeW5lSqZPukaFEm5fDnml4PW3a1ONIz4jxm0kCiEDVQixxT6N_nTfZAkBftai58eUXVxoWVZb79J1d25gigBLeAdyQX-AMPK1n-hbTrXAtWq_-ejAm2WtUFqz_U2mTigrNjcpo31qF51n_-DSuzLszHA_M5zX4EqU6AcMt-4mW2I7_-iCZkPOFk2bUdPCtCtM1ITygcw8XCXnkfy8aMa7sNkiscYGZLa6fSdI3GQcRXO4CAQadVPz7g_3OXQqr6MpmsQ9n8dnXrvFLEWZpM0KJRysJhSVnRGqM-M6EsVDes2psxjkrsrYXIMeZ-_gwMslL4OAbGOyJSRZ0V9Z45Pe3SSTezwyUHWbXYpS3xfHp7kEE_8-fMi6ch_4izxdhbGV3r7wxohu_SpimjIZg";
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(Preference.ACCESS_TOKEN, data);
     isLogin = true;

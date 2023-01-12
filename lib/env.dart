@@ -2,10 +2,10 @@
 enum Environment {dev, prod}
 
 abstract class AppEnvironment {
-  static late String baseApiUrl;
-  static late String title;
-  static late String currentBuildFlavor;
-  static late Environment _environment;
+  static String baseApiUrl = "https://onsight.nthdegree.com/API";
+  static String title = "On-Sight";
+  static String currentBuildFlavor = "prod";
+  static Environment _environment = Environment.prod;
   static Environment get environment => _environment;
   static setupEnv(Environment env)async {
     _environment = env;
