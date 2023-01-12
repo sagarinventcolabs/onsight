@@ -9,6 +9,7 @@ import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
+import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'dart:io' show Platform;
 import 'package:on_sight_application/utils/strings.dart';
@@ -157,9 +158,12 @@ class SettingsController extends GetxController {
     var response = await service.deleteUserRequest(mobile, code);
     if(response!=null) {
       if(response.toString().contains(mobile.toString())){
+        sp?.clear();
+        SecureStorage().deleteAll();
+        Get.offAllNamed(Routes.loginScreen);
          defaultDialog(Get.context!, title: accountDeletedSuccessfully, alert: disclaimerMessage, onTap: (){
-                      logoutFun();
-                      Get.offAllNamed(Routes.loginScreen);
+                      // logoutFun();
+                     Get.back();
                     }, cancelable: false);
       }else{
         Get.showSnackbar(GetSnackBar(message: response.toString(), duration: Duration(seconds: 2),));
