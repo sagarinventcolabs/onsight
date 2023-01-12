@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/repository/database_managers/email_manager.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/job_photos/view_model/job_photos_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -162,6 +163,7 @@ class JobPhotosState extends State<JobPhotosScreen>  with SearchFunctions {
                     errorText: controller.isValidJobNumber.isFalse ? jobNumberValidation : null,
                     floatingLabelStyle: TextStyle(color: controller.isValidJobNumber.isFalse ? ColourConstants.red : Get.isDarkMode ? ColourConstants.white : ColourConstants.primary),
                     labelText: jobLabel,
+
                     suggestionsCallback: getSuggestion,
                     onChanged: (val){
                       _scrollDown();
@@ -191,6 +193,7 @@ class JobPhotosState extends State<JobPhotosScreen>  with SearchFunctions {
                     focusNode: jobFocusNode,
                     suggestionsBoxController: suggestionsBoxController,
                     controller: jobEditingController,
+
                    ),
                   ),
                   SizedBox(height: Dimensions.height15),
@@ -255,5 +258,14 @@ class JobPhotosState extends State<JobPhotosScreen>  with SearchFunctions {
     super.dispose();
     controller.isValidJobNumber.value = true;
     controller.update();
+  }
+}
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text.toUpperCase(),
+      selection: newValue.selection,
+    );
   }
 }

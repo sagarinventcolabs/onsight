@@ -49,7 +49,7 @@ class JobPhotosController extends GetxController{
   addEmail(emaill, jobNumber, onProgress)async{
     EmailManager emailManager = EmailManager();
     Email email = Email();
-    email.jobNumber =jobNumber;
+    email.jobNumber =jobNumber.toString().toUpperCase();
     email.additionalEmail = emaill;
     email.emailOnProgress = onProgress;
     await emailManager.insertAdditionalEmail(email);
@@ -63,7 +63,7 @@ class JobPhotosController extends GetxController{
     EmailManager emailManager = EmailManager();
     Email email = emailList.elementAt(index);
     await emailManager.deleteEmail(email.additionalEmail.toString(), email.jobNumber.toString());
-    getEmail(email.jobNumber);
+    getEmail(email.jobNumber.toString().toUpperCase());
     update();
   }
 
@@ -71,7 +71,7 @@ class JobPhotosController extends GetxController{
   getEmail(jobNumber)async{
     emailList.clear();
     EmailManager emailManager = EmailManager();
-    emailList.value =  await emailManager.getEmailRecord(jobNumber);
+    emailList.value =  await emailManager.getEmailRecord(jobNumber.toString().toUpperCase());
     update();
   }
 
@@ -150,6 +150,8 @@ class JobPhotosController extends GetxController{
             update();
           }
           if (route != fromCat){
+            await EmailManager().deleteEmailFromAPI(jobNumber.toString().toUpperCase());
+
             for (var element in list) {
               var aditionalEmail = element.additionalEmail;
               if (aditionalEmail != null) {

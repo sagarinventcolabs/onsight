@@ -16,14 +16,15 @@ class ProjectEvaluationController extends GetxController {
   RxInt value = 0.obs;
   RxBool enableButton = false.obs;
   RxList<JobPhotosModel> jobPhotosModellist = <JobPhotosModel>[].obs;
+
   addEmail(addEmail, jobNumber, onProgress) async {
     EmailManager emailManager = EmailManager();
     Email email = Email();
-    email.jobNumber = jobNumber;
+    email.jobNumber = jobNumber.toString().toUpperCase();
     email.additionalEmail = addEmail;
     email.emailOnProgress = onProgress;
     await emailManager.insertAdditionalEmail(email);
-    getEmail(jobNumber);
+    getEmail(jobNumber.toString().toUpperCase());
     update();
   }
 
@@ -39,7 +40,7 @@ class ProjectEvaluationController extends GetxController {
   getEmail(jobNumber) async {
     emailList.clear();
     EmailManager emailManager = EmailManager();
-    emailList.value = await emailManager.getEmailRecord(jobNumber);
+    emailList.value = await emailManager.getEmailRecord(jobNumber.toString().toUpperCase());
     update();
   }
 
@@ -57,12 +58,11 @@ class ProjectEvaluationController extends GetxController {
             break;
           }
           }
-
+          await EmailManager().deleteEmailFromAPI(jobNumber.toString().toUpperCase());
           for (var element in jobPhotosModellist) {
             var aditionalEmail = element.additionalEmail;
             if (aditionalEmail != null) {
               List<String> emailL = aditionalEmail.split(",");
-
               for (var el in emailL) {
                 if (el.isNotEmpty) {
                   await addEmail(el, jobNumber, 0);
@@ -91,6 +91,7 @@ class ProjectEvaluationController extends GetxController {
               break;
             }
           }
+          await EmailManager().deleteEmailFromAPI(jobNumber.toString().toUpperCase());
 
           for (var element in jobPhotosModellist) {
             var aditionalEmail = element.additionalEmail;

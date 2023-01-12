@@ -72,7 +72,7 @@ class WebService {
       )
       );
     var response = await request.send();
-    if (response.statusCode == 200) print('Uploaded!');
+    if (response.statusCode == 200) log('Uploaded!');
     return response;
   }
 
@@ -164,7 +164,7 @@ class WebService {
 
            /*   File file = File(e.imagePath!);
               var byte = await file.readAsBytes();
-              print(byte);
+              log(byte);
 */
              // listImage.add(http.MultipartFile.fromBytes('FileName', byte,contentType: MediaType.parse('image/jpeg'),filename: e.imagePath!.split("/").last));
 
@@ -183,7 +183,7 @@ class WebService {
 
       }
 
-      print("Map "+map.toString());
+      log("Map "+map.toString());
           var url = "";
     var a = await AppInternetManager().getSettingsTable() as List;
     if(a.isNotEmpty){
@@ -209,9 +209,6 @@ class WebService {
     List<http.MultipartFile> listImage = [];
     final f = DateFormat('MM-dd-yyyy HH:mm:ss');
     var dateTime = f.format(DateTime.now());
-    /*
-    List<String> myEmailList = [];
-    emailList.forEach((element) { myEmailList.add(element.additionalEmail.toString());});*/
     String emailString = (emailList.map((e) => e.additionalEmail??"").toList()).join(",");
     JobKeyModel jobKeyModel = JobKeyModel(
         jobNumber:jobNumber.toString(),
@@ -245,7 +242,7 @@ class WebService {
 
       /*   File file = File(e.imagePath!);
               var byte = await file.readAsBytes();
-              print(byte);
+              log(byte);
 */
       // listImage.add(http.MultipartFile.fromBytes('FileName', byte,contentType: MediaType.parse('image/jpeg'),filename: e.imagePath!.split("/").last));
 
@@ -270,7 +267,7 @@ class WebService {
 
     }
 
-    print("Map "+map.toString());
+    log("Map "+map.toString());
     var url = "";
     var a = await AppInternetManager().getSettingsTable() as List;
     if(a.isNotEmpty){
@@ -282,11 +279,15 @@ class WebService {
       }
     }
     var response = await ApiBaseHelper().multiPartRequest(url, map, listImage, token);
-    print("response is "+response.toString()+"^^");
-    List<Email> listEmail = await EmailManager().getEmailRecord(jobNumber);
-    listEmail.forEach((element) async {
-      await EmailManager().updateEmail(element.additionalEmail.toString(), 0);
-    });
+    log("response is "+response.toString()+"^^");
+    try{
+      List<Email> listEmail = await EmailManager().getEmailRecord(jobNumber);
+      listEmail.forEach((element) async {
+        await EmailManager().updateEmail(element.additionalEmail.toString(), 2);
+      });
+    }catch(e){
+
+    }
 
     return response;
   }
