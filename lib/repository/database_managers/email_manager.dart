@@ -40,9 +40,7 @@ class EmailManager{
     Database db = await DatabaseHelper().database;
     var result = await db.rawQuery('SELECT * FROM $mEmailTable' +" WHERE lower(JobNumber)='"+jobNumber+"'"+"OR upper(JobNumber)='"+jobNumber+"'");
     List<Email> list = result.isNotEmpty ? result.map((c) => Email.fromJson(c)).toList() : [];
-    for(int i = 0; i<list.length; i++){
-      log("List is "+list[i].additionalEmail.toString()+ " - "+list[i].emailOnProgress.toString());
-    }
+
     return list;
   }
   Future<List<Email>> getEmailRecordInitialize(String jobNumber) async {

@@ -68,6 +68,7 @@ bool onIosBackground(ServiceInstance service) {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
 
+
   List<JobCategoriesResponse> list = [];
   List<Email> emailList = [];
   String JobNumber = "";
@@ -226,7 +227,7 @@ void onStart(ServiceInstance service) async {
       var finalToken = event['token'];
       List<FieldIssueImageModel> list = (event["imageList"].map((data) => FieldIssueImageModel.fromJson(data)).toList()).cast<FieldIssueImageModel>() ;
       showNotificationUploading();
-      runApiFieldIssue(request, finalToken,list);
+      runApiFieldIssue(service,request, finalToken,list);
     }
 
   });
@@ -251,7 +252,7 @@ void onStart(ServiceInstance service) async {
       var finalToken = event['token'];
       List<OnBoardingDocumentModel> list = (event["imageList"].map((data) => OnBoardingDocumentModel.fromJson(data)).toList()).cast<OnBoardingDocumentModel>();
       showNotificationUploading();
-      runApiOnboarding(resourceId, finalToken,list,0);
+      runApiOnboarding(service, resourceId, finalToken,list,0);
     }
 
   });
@@ -275,11 +276,10 @@ void onStart(ServiceInstance service) async {
     debugPrint(list.first.imageNote);
     var token = event["token"];
     showNotificationUploading();
-    runApiPromoPicturs(list, token);
+    runApiPromoPicturs(service, list, token);
   });
 
   service.on('stopService').listen((event) {
-
     service.stopSelf();
   });
   // bring to foreground
@@ -328,7 +328,6 @@ void onStart(ServiceInstance service) async {
       List<ImageModel>imageList = await imageManager.getFailedImageList();
 
       if(imageList.isNotEmpty){
-        var service = FlutterBackgroundService();
 
           List<JobCategoriesResponse> listImage = [];
 
@@ -354,20 +353,20 @@ void onStart(ServiceInstance service) async {
 
           });
           List<dynamic> listdynamic = [];
-          debugPrint("ListLENGTH "+listImage.toString());
 
           for(var k =0; k<listImage.length; k++){
             listdynamic.add(listImage[k].toJson());
           }
 
 
-          debugPrint("ListDynamic "+listdynamic.toString());
           service.invoke(
               "failedJob", {
             "list": listdynamic,
             "jobNumber": listImage.first.listPhotos?.first.jobNumber,
             "token": token
           });
+      }else{
+        service.stopSelf();
       }
 
 
@@ -487,7 +486,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
               }catch(e){
 
               }
-              showNotification();
+              showNotification(service);
             }
           }
         }
@@ -601,7 +600,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
                 }catch(e){
 
                 }
-                showNotification();
+                showNotification(service);
               }
             }
           }
@@ -714,7 +713,7 @@ runApiLeadSheetSubMethod(SaveExhibitorImagesRequest request, finalToken, List<Le
         if(list.length>index){
           runApiLeadSheet(request, finalToken, list, index, priority, service);
         }else{
-          showNotification();
+          showNotification(service);
         }
       }
     });
@@ -761,7 +760,7 @@ runApiLeadSheetSubMethod(SaveExhibitorImagesRequest request, finalToken, List<Le
             if(list.length>index){
               runApiLeadSheet(request, finalToken, list, index, priority, service);
             }else{
-              showNotification();
+              showNotification(service);
             }
           }
         });
@@ -782,7 +781,7 @@ runApiLeadSheetSubMethod(SaveExhibitorImagesRequest request, finalToken, List<Le
   }
 }
 
-runApiFieldIssue(SubmitFieldIssueRequest request, finalToken, List<FieldIssueImageModel> list )async {
+runApiFieldIssue(ServiceInstance service, SubmitFieldIssueRequest request, finalToken, List<FieldIssueImageModel> list )async {
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
@@ -797,7 +796,7 @@ runApiFieldIssue(SubmitFieldIssueRequest request, finalToken, List<FieldIssueIma
       batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
     }
     if ((batteryLevel??100) > 15) {
-      fieldIssueSubMethod(request, finalToken, list);
+      fieldIssueSubMethod(service, request, finalToken, list);
     }else{
       Timer.periodic(Duration(seconds: 10),(timer) async {
         if (Platform.isAndroid) {
@@ -808,18 +807,18 @@ runApiFieldIssue(SubmitFieldIssueRequest request, finalToken, List<FieldIssueIma
         batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
         }
         if ((batteryLevel??100) > 15) {
-          runApiFieldIssue(request, finalToken, list);
+          runApiFieldIssue(service,request, finalToken, list);
         }
       },
       );
     }
   }
   else{
-    fieldIssueSubMethod(request, finalToken, list);
+    fieldIssueSubMethod(service, request, finalToken, list);
   }
 }
 
-fieldIssueSubMethod(SubmitFieldIssueRequest request, finalToken, List<FieldIssueImageModel> list)async{
+fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<FieldIssueImageModel> list)async{
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.wifi) {
     WebService webService = WebService();
@@ -829,14 +828,14 @@ fieldIssueSubMethod(SubmitFieldIssueRequest request, finalToken, List<FieldIssue
         bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
         if (isNetActive) {
           debugPrint("Error Notification");
-          showErrorNotification(errorMsg: value["error"]);
+          showErrorNotification(service, errorMsg: value["error"]);
         } else {
           Timer.periodic(const Duration(seconds: 10), (timer) async {
             isNetActive =
             await ConnectionStatus.getInstance().checkConnection();
             if (isNetActive) {
               timer.cancel();
-              runApiFieldIssue(request, finalToken, list);
+              runApiFieldIssue(service, request, finalToken, list);
             }
           });
         }
@@ -845,8 +844,8 @@ fieldIssueSubMethod(SubmitFieldIssueRequest request, finalToken, List<FieldIssue
         /* FlutterBackgroundService().invoke("response",{
           "response":value.toString()
         });*/
-        showNotification();
-        //  FlutterBackgroundService().invoke("stopService");
+        showNotification(service);
+        // service.stopSelf();
       }
     });
   }
@@ -863,14 +862,14 @@ fieldIssueSubMethod(SubmitFieldIssueRequest request, finalToken, List<FieldIssue
             bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
             if (isNetActive) {
               debugPrint("Error Notification");
-              showErrorNotification(errorMsg: value["error"]);
+              showErrorNotification(service, errorMsg: value["error"]);
             } else {
               Timer.periodic(const Duration(seconds: 10), (timer) async {
                 isNetActive = await ConnectionStatus.getInstance()
                     .checkConnection();
                 if (isNetActive) {
                   timer.cancel();
-                  runApiFieldIssue(request, finalToken, list);
+                  runApiFieldIssue(service, request, finalToken, list);
                 }
               });
             }
@@ -879,8 +878,8 @@ fieldIssueSubMethod(SubmitFieldIssueRequest request, finalToken, List<FieldIssue
             /*     FlutterBackgroundService().invoke("response",{
                     "response":value.toString()
                   });*/
-            showNotification();
-            //   FlutterBackgroundService().invoke("stopService");
+            showNotification(service);
+            //  service.stopSelf();
           }
         });
       } else {
@@ -892,7 +891,7 @@ fieldIssueSubMethod(SubmitFieldIssueRequest request, finalToken, List<FieldIssue
           if (a.isNotEmpty) {
             if (a[0]["AppInternetStatus"] == 1) {
               timer.cancel();
-              runApiFieldIssue(request, finalToken, list);
+              runApiFieldIssue(service, request, finalToken, list);
             }
           }
         });
@@ -902,7 +901,7 @@ fieldIssueSubMethod(SubmitFieldIssueRequest request, finalToken, List<FieldIssue
 }
 
 ///run api for onboarding upload photo
-runApiOnboarding(resourceId, finalToken, list,i) async {
+runApiOnboarding(service, resourceId, finalToken, list,i) async {
 
   WebService webService = WebService();
   if(list[i].image!.isNotEmpty) {
@@ -914,28 +913,28 @@ runApiOnboarding(resourceId, finalToken, list,i) async {
       i = i+1;
       if(i<list.length){
 
-        runApiOnboarding(resourceId, finalToken, list,i);
+        runApiOnboarding(service, resourceId, finalToken, list,i);
       }else{
-        showNotification();
+        showNotification(service);
 
 
       }
     }else{
-      showErrorNotification(errorMsg: "Something Went wrong");
+      showErrorNotification(service, errorMsg: "Something Went wrong");
     }
   }else{
     i = i+1;
     if(i<list.length) {
-      runApiOnboarding(resourceId, finalToken, list,i);
+      runApiOnboarding(service, resourceId, finalToken, list,i);
     }else{
-      showNotification();
+      showNotification(service);
     }
   }
 }
 
 
 ///run api for Promo Pictures upload photo
-runApiPromoPicturs(photoList, token) async {
+runApiPromoPicturs(service, photoList, token) async {
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
@@ -950,7 +949,7 @@ runApiPromoPicturs(photoList, token) async {
       batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
     }
     if ((batteryLevel??100) > 15) {
-      promoPictureSubMethod(photoList, token);
+      promoPictureSubMethod(service, photoList, token);
     }else{
       Timer.periodic(Duration(seconds: 10),(timer) async {
         if (Platform.isAndroid) {
@@ -961,17 +960,17 @@ runApiPromoPicturs(photoList, token) async {
           batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
         }
         if ((batteryLevel??100) > 15) {
-          promoPictureSubMethod(photoList, token);
+          promoPictureSubMethod(service, photoList, token);
         }
       },
       );
     }
   }else{
-    promoPictureSubMethod(photoList, token);
+    promoPictureSubMethod(service, photoList, token);
   }
 }
 
-promoPictureSubMethod(photoList, token) async {
+promoPictureSubMethod(service, photoList, token) async {
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.wifi) {
     debugPrint("-->  Uploading Through Wifi !!  <--");
@@ -982,21 +981,21 @@ promoPictureSubMethod(photoList, token) async {
       debugPrint("Response is "+response.toString()+"");
       if(response=="200"){
         photoList.clear();
-        showNotification();
+        showNotification(service);
       }else{
         bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
         if (isNetActive) {
           try{
             ErrorResponse errorModel =  ErrorResponse.fromJson(response);
             if(errorModel.errorDescription!=null) {
-              showErrorNotification(errorMsg:errorModel.errorDescription.toString());
+              showErrorNotification(service, errorMsg:errorModel.errorDescription.toString());
             }else{
-              showErrorNotification(errorMsg:errorModel.Message.toString());
+              showErrorNotification(service, errorMsg:errorModel.Message.toString());
             }
           }catch(e){
 
           }
-          FlutterBackgroundService().invoke("stopService");
+          service.stopSelf();
         } else {
 
           Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -1004,7 +1003,7 @@ promoPictureSubMethod(photoList, token) async {
                 .checkConnection();
             if (isNetActive) {
               timer.cancel();
-              promoPictureSubMethod(photoList, token);
+              promoPictureSubMethod(service, photoList, token);
             }
           });
         }
@@ -1022,16 +1021,16 @@ promoPictureSubMethod(photoList, token) async {
         debugPrint("Response is "+response.toString()+"");
         if(response=="200"){
           photoList.clear();
-          showNotification();
+          showNotification(service);
         }else{
           bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
           if (isNetActive) {
             debugPrint("Error Notification");
             ErrorResponse errorModel =  ErrorResponse.fromJson(response);
             if(errorModel.errorDescription!=null) {
-              showErrorNotification(errorMsg:errorModel.errorDescription.toString());
+              showErrorNotification(service, errorMsg:errorModel.errorDescription.toString());
             }else{
-              showErrorNotification(errorMsg:errorModel.Message.toString());
+              showErrorNotification(service, errorMsg:errorModel.Message.toString());
             }
           } else {
             Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -1039,7 +1038,7 @@ promoPictureSubMethod(photoList, token) async {
                   .checkConnection();
               if (isNetActive) {
                 timer.cancel();
-                promoPictureSubMethod(photoList, token);
+                promoPictureSubMethod(service, photoList, token);
               }
             });
           }
@@ -1053,7 +1052,7 @@ promoPictureSubMethod(photoList, token) async {
         if (a.isNotEmpty) {
           if(a[0]["AppInternetStatus"] == 1){
             timer.cancel();
-            runApiPromoPicturs(photoList, token);
+            runApiPromoPicturs(service,photoList, token);
           }
         }
       },
@@ -1100,7 +1099,7 @@ runApiFromDatabaseMainMethod(service, token) async {
 }
 
 
-runApiFromDatabaseJobPhotos(service, token)async{
+runApiFromDatabaseJobPhotos(ServiceInstance service, token)async{
   ImageManager imageManager = ImageManager();
   List<ImageModel>imageList = await imageManager.getFailedImageList();
   debugPrint("Image List length" + imageList.length.toString());
@@ -1131,7 +1130,7 @@ runApiFromDatabaseJobPhotos(service, token)async{
               }
             });
           }else{
-            FlutterBackgroundService().invoke("stopService");
+           service.stopSelf();
 
           }
           /*      else{
@@ -1219,7 +1218,7 @@ runApiFromDatabaseJobPhotos(service, token)async{
                 }
               });
             }else{
-              FlutterBackgroundService().invoke("stopService");
+              service.stopSelf();
 
             }
 
@@ -1319,7 +1318,7 @@ runApiFromDatabaseJobPhotos(service, token)async{
       }
     }
   }else{
-    showNotificationFailedJob();
+    showNotificationFailedJob(service);
   }
 }
 
@@ -1396,7 +1395,7 @@ JobPhotosSubmethod(service, token)async{
                 }
               });
             }else{
-              FlutterBackgroundService().invoke("stopService");
+             service.stopSelf();
 
             }
 
@@ -1487,7 +1486,7 @@ JobPhotosSubmethod(service, token)async{
                 }
               });
             }else{
-              FlutterBackgroundService().invoke("stopService");
+             service.stopSelf();
 
             }
 
@@ -1588,7 +1587,13 @@ JobPhotosSubmethod(service, token)async{
       }
     }
   }else{
-    showNotification();
+    try{
+      showNotification(service);
+
+    }catch(e){
+
+    }
+
   }
 }
 

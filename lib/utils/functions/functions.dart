@@ -108,7 +108,7 @@ saveShowNumberSuggestions(input){
 
 
 
-Future<void> showNotification() async {
+Future<void> showNotification(ServiceInstance service) async {
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   print("Task in progress Notification " + a[0]["TaskInProgress"].toString());
@@ -144,8 +144,8 @@ Future<void> showNotification() async {
         platformChannelSpecifics,
         payload: 'item x');
     //}
-    FlutterBackgroundService().invoke("stopService");
 
+    service.stopSelf();
   }
 }
 
@@ -155,8 +155,6 @@ Future<int> checkInternetSpeedFunction() async {
   try {
     const platform = MethodChannel(channelID);
     result = await platform.invokeMethod(checkInternetSpeed);
-    print("Heree is");
-    print("Result is "+result.toString());
 
   } on PlatformException catch (e) {
     print("Failed : '${e.message}'.");
@@ -164,7 +162,7 @@ Future<int> checkInternetSpeedFunction() async {
 
   return result;
 }
-Future<void> showNotificationFailedJob() async {
+Future<void> showNotificationFailedJob(ServiceInstance service) async {
 
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
@@ -200,12 +198,12 @@ Future<void> showNotificationFailedJob() async {
         payload: 'item x');
     //  }
 
-    FlutterBackgroundService().invoke("stopService");
+    service.stopSelf();
   }
 }
 
 
-Future<void> showErrorNotification({required String errorMsg}) async {
+Future<void> showErrorNotification(ServiceInstance service, {required String errorMsg}) async {
 
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
@@ -243,7 +241,7 @@ Future<void> showErrorNotification({required String errorMsg}) async {
       payload: 'item x');
   //   }
   if(b<1) {
-    FlutterBackgroundService().invoke("stopService");
+    service.stopSelf();
   }
 }
 
@@ -289,7 +287,6 @@ Future<String> createFolderInAppDocDir(String folderName) async {
 
 
 void showFlutterNotification(RemoteMessage message) {
-  print("showFlutterNotification method started!!!!");
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
   AndroidNotificationDetails(
       'onsight',
@@ -320,7 +317,6 @@ void showFlutterNotification(RemoteMessage message) {
 checkRootJailBreakSecurity(){
   /// Checking Security for Root & Jailbreak for both IOS & Android.
   WidgetsBinding.instance.addPostFrameCallback((_) async {
-    print(Platform.isAndroid ? "Android" : "IOS");
     if (Platform.isAndroid) {
       var isRooted = await FlutterRootJailbreak.isRooted;
 
@@ -362,7 +358,6 @@ Future<void> authenticateUser() async {
 
 
   } on PlatformException catch (e) {
-    print(e);
     authorized = 'Error - ${e.message}';
 
     if(e.toString().contains("NotAvailable")){
@@ -379,7 +374,6 @@ Future<void> authenticateUser() async {
   if(authorized=="Authorized"){
     Get.offAllNamed(Routes.dashboardScreen);
   }else{
-    print("Not Authorize Case");
     exit(0);
   }
 }
