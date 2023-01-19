@@ -72,7 +72,7 @@ class AppUpdateController extends GetxController{
           ResponseVersion version = ResponseVersion.fromJson(response,i);
           listVersion.add(version);
         }
-
+        if(listVersion.isNotEmpty)
         showUpdateDialog(listVersion.first.versionNumber.toString(), listVersion.first.releaseType?.toLowerCase());
         return response;
       }
