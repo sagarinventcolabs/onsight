@@ -280,17 +280,19 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                         // controller: textEditingController,
                         codeLength: 4,
                         onCodeChanged: (val) {
+                          print(val.toString());
                           textEditingController.text = val.toString();
                          var valid =  controller.validate(
                               phoneController.text, textEditingController.text);
                           setState(() {
 
                           });
-                          if(valid){
-                            Future.delayed(const Duration(seconds: 1),(){
-                              controller.verifyOtp(textEditingController.text.toString().trim());
-                            });
-                          }
+                          // if(valid){
+                          //
+                          //   Future.delayed(const Duration(seconds: 1),(){
+                          //     controller.verifyOtp(textEditingController.text.toString().trim());
+                          //   });
+                          // }
                         },
                         onCodeSubmitted: (val) {
                           textEditingController.text = val.toString();
