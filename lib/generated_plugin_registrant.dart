@@ -17,7 +17,6 @@ import 'package:flutter_secure_storage_web/flutter_secure_storage_web.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:package_info_plus_web/package_info_plus_web.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
-import 'package:smart_auth/smart_auth_web.dart';
 import 'package:speech_to_text/speech_to_text_web.dart';
 import 'package:url_launcher_web/url_launcher_web.dart';
 
@@ -36,7 +35,6 @@ void registerPlugins(Registrar registrar) {
   ImagePickerPlugin.registerWith(registrar);
   PackageInfoPlugin.registerWith(registrar);
   SharedPreferencesPlugin.registerWith(registrar);
-  SmartAuthWeb.registerWith(registrar);
   SpeechToTextPlugin.registerWith(registrar);
   UrlLauncherPlugin.registerWith(registrar);
   registrar.registerMessageHandler();

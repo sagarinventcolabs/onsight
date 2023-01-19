@@ -9,7 +9,6 @@ import 'package:on_sight_application/screens/verify_otp/view_model/verify_screen
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 
 import 'package:sms_autofill/sms_autofill.dart';
