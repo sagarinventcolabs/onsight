@@ -79,7 +79,7 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
             GestureDetector(
               onTap: () {
                 showModalBottomSheet(
-                    backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+                  //  backgroundColor: Get.isPlatformDarkMode ? ColourConstants.grey900 : ColourConstants.white,
                     //backgroundColor: Color.fromARGB(255, 0, 0, 0),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(

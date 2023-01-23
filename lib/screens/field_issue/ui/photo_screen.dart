@@ -60,7 +60,7 @@ class _FieldIssuePhotoScreenState extends State<FieldIssuePhotoScreen> {
            GestureDetector(
              onTap: (){
                showModalBottomSheet(
-                   backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+                 //  backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
                    shape: RoundedRectangleBorder(
                        borderRadius: BorderRadius.only(
                            topLeft: Radius.circular(Dimensions.height10),

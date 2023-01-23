@@ -1239,7 +1239,6 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
 }
 
 Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
-  Theme.of(Get.context!) == Brightness.dark;
   LeadSheetImageController controller ;
   if (Get.isRegistered<LeadSheetImageController>()) {
     controller = Get.find<LeadSheetImageController>();

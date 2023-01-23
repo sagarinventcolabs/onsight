@@ -419,3 +419,6 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 //   var a = await appInternetManager.getSettingsTable() as List;
 //   return a[0]["BaseUrl"];
 // }
+
+
+

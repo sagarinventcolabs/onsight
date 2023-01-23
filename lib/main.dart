@@ -150,7 +150,42 @@ class _MyAppState extends State<MyApp> {
 
   @override
   initState() {
+    // final window = WidgetsBinding.instance.window;
+    // window.onPlatformBrightnessChanged = () {
+    //   final brightness = window.platformBrightness;
+    //   print("Brightness Name"+brightness.name);
+    // };
+    WidgetsBinding.instance.window.onPlatformBrightnessChanged = (){
+      print("Brightness Name "+WidgetsBinding.instance.window.platformBrightness.name);
+      if(WidgetsBinding.instance.window.platformBrightness.name == "light"){
+        Get.changeTheme(ThemeData.light());
+        Get.changeThemeMode(ThemeMode.light);
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.light,
+            statusBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: Colors.white
+          // status bar color
+        ));
+      }else{
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.dark,
+            statusBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.dark,
+            systemNavigationBarColor: Colors.black
+          // status bar color
+        ));
+        Get.changeTheme(ThemeData.dark());
+        Get.changeThemeMode(ThemeMode.dark);
 
+      }
+
+      setState(() {
+
+      });
+
+
+    };
 
     observer = FirebaseAnalyticsObserver(analytics: analytics);
 
