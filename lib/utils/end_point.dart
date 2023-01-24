@@ -1,10 +1,9 @@
 
 import 'package:on_sight_application/env.dart';
-import 'package:on_sight_application/main.dart';
 
 enum SignInStatus { requiresVerification, requiredRegistration, success }
 
-enum SubmittedCategory { ShowReady, OutboundBOL, Both, None }
+enum SubmittedCategory { showReady, outboundBOL, both, none }
 
 enum JobAction {
   //value 2, 3 is "TypeId" from Server for "Categories"

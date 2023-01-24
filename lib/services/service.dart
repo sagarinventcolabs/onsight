@@ -71,7 +71,7 @@ void onStart(ServiceInstance service) async {
 
   List<JobCategoriesResponse> list = [];
   List<Email> emailList = [];
-  String JobNumber = "";
+  String jobNumber = "";
 
   // Only available for flutter 3.0.0 and later
   DartPluginRegistrant.ensureInitialized();
@@ -115,7 +115,7 @@ void onStart(ServiceInstance service) async {
       for(var i=0; i<listDynamic.length; i++){
         list.add(JobCategoriesResponse.fromJson(listDynamic, i));
       }
-      JobNumber = event["jobNumber"];
+      jobNumber = event["jobNumber"];
       List<dynamic> listDynamicEmail = event['list'];
       listDynamicEmail = event["emailList"];
       for(var i=0; i<listDynamicEmail.length; i++){
@@ -123,7 +123,7 @@ void onStart(ServiceInstance service) async {
       }
       var token = event["token"];
       showNotificationUploading();
-      runApi(list, JobNumber, emailList, token,event, 0,0, service);
+      runApi(list, jobNumber, emailList, token,event, 0,0, service);
 
     }
   });
@@ -176,7 +176,7 @@ void onStart(ServiceInstance service) async {
 
       var token = event["token"];
       showNotificationUploading();
-      JobPhotosMainMethod(service, token);
+      jobPhotosMainMethod(service, token);
 
     }
   });
@@ -202,7 +202,7 @@ void onStart(ServiceInstance service) async {
       var finalToken = event['token'];
 
       LeadSheetImageManager leadSheetImageManager = LeadSheetImageManager();
-      List<LeadSheetImageModel> finalList = await leadSheetImageManager.getImageByExhibitorIdandShowNumber(request2.exhibitorInput!.exhibitorId.toString(), request2.showNumber.toString());
+      List<LeadSheetImageModel> finalList = await leadSheetImageManager.getImageByExhibitorIdAndShowNumber(request2.exhibitorInput!.exhibitorId.toString(), request2.showNumber.toString());
       showNotificationUploading();
       runApiLeadSheet(request2, finalToken, finalList, 0, priority, service);
     }
@@ -373,7 +373,7 @@ void onStart(ServiceInstance service) async {
     });
 }
 
-runApi(List<JobCategoriesResponse> list, JobNumber, emailList, token,event, index, imageIndex, service) async {
+runApi(List<JobCategoriesResponse> list, jobNumber, emailList, token,event, index, imageIndex, service) async {
 
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
@@ -389,7 +389,7 @@ runApi(List<JobCategoriesResponse> list, JobNumber, emailList, token,event, inde
       batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
     }
     if ((batteryLevel??100) > 15) {
-      runApiSubMethod(list, JobNumber, emailList, token,event, index, imageIndex, service);
+      runApiSubMethod(list, jobNumber, emailList, token,event, index, imageIndex, service);
     }
     else{
       Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -401,28 +401,28 @@ runApi(List<JobCategoriesResponse> list, JobNumber, emailList, token,event, inde
           batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
         }
         if((batteryLevel??100) > 15){
-          runApi(list, JobNumber, emailList, token,event, index, imageIndex, service);
+          runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
         }
       });
     }
   }else{
-    runApiSubMethod(list, JobNumber, emailList, token,event, index, imageIndex, service);
+    runApiSubMethod(list, jobNumber, emailList, token,event, index, imageIndex, service);
   }
 }
 
-runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,event, index, imageIndex, service)async{
+runApiSubMethod(List<JobCategoriesResponse> list, jobNumber, emailList, token,event, index, imageIndex, service)async{
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.wifi) {
     debugPrint("-->  Uploading Through Wifi !!  <--");
     WebService webService = WebService();
-    var response = await webService.submitImages(list, JobNumber, emailList, token, index, imageIndex);
+    var response = await webService.submitImages(list, jobNumber, emailList, token, index, imageIndex);
     if(response!=null){
       if(response.toString().contains("error")){
           Timer.periodic(const Duration(seconds: 10), (timer) async {
             bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
             if(isNetActive){
               timer.cancel();
-              runApi(list, JobNumber, emailList, token,event, index, imageIndex, service);
+              runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
             }
           });
 
@@ -462,7 +462,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
           log(index.toString());
           if(imageIndex<list[index].listPhotos?.length){
 
-            runApi(list, JobNumber, emailList, token, event, index, imageIndex, service);
+            runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
 
           }else{
             index = index + 1;
@@ -476,7 +476,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
             }
             if(index<list.length){
               imageIndex = 0;
-              runApi(list, JobNumber, emailList, token, event, index, imageIndex, service);
+              runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
             }else{
               try{
                 UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
@@ -514,7 +514,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
         debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
         if(a[0]["AppInternetStatus"] == 1){
           timer.cancel();
-          runApi(list, JobNumber, emailList, token,event, index, imageIndex, service);
+          runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
         }
       });
     }
@@ -527,7 +527,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
 
     if (a[0]["AppInternetStatus"] == 1) {
       WebService webService = WebService();
-      var response = await webService.submitImages(list, JobNumber, emailList, token, index, imageIndex);
+      var response = await webService.submitImages(list, jobNumber, emailList, token, index, imageIndex);
       if(response!=null){
         if(response.toString().contains("error")){
 
@@ -535,7 +535,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
               bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
               if(isNetActive){
                 timer.cancel();
-                runApi(list, JobNumber, emailList, token,event, index, imageIndex, service);
+                runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
               }
             });
 
@@ -575,7 +575,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
             }
             if(imageIndex<list[index].listPhotos?.length){
 
-              runApi(list, JobNumber, emailList, token, event, index, imageIndex, service);
+              runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
 
             }else{
               index = index + 1;
@@ -590,7 +590,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
 
               if(index<list.length){
                 imageIndex = 0;
-                runApi(list, JobNumber, emailList, token, event, index, imageIndex, service);
+                runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
               }else{
                 try{
                   UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
@@ -614,7 +614,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
           debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
           if(a[0]["AppInternetStatus"] == 1){
             timer.cancel();
-            runApi(list, JobNumber, emailList, token,event, index, imageIndex, service);
+            runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
           }
         });
       }
@@ -630,7 +630,7 @@ runApiSubMethod(List<JobCategoriesResponse> list, JobNumber, emailList, token,ev
             a[0]["AppInternetStatus"].toString());
         if (a[0]["AppInternetStatus"] == 1) {
           timer.cancel();
-          runApi(list, JobNumber, emailList, token, event, index, imageIndex, service);
+          runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
         }
       });
     }
@@ -990,7 +990,7 @@ promoPictureSubMethod(service, photoList, token) async {
             if(errorModel.errorDescription!=null) {
               showErrorNotification(service, errorMsg:errorModel.errorDescription.toString());
             }else{
-              showErrorNotification(service, errorMsg:errorModel.Message.toString());
+              showErrorNotification(service, errorMsg:errorModel.message.toString());
             }
           }catch(e){
 
@@ -1030,7 +1030,7 @@ promoPictureSubMethod(service, photoList, token) async {
             if(errorModel.errorDescription!=null) {
               showErrorNotification(service, errorMsg:errorModel.errorDescription.toString());
             }else{
-              showErrorNotification(service, errorMsg:errorModel.Message.toString());
+              showErrorNotification(service, errorMsg:errorModel.message.toString());
             }
           } else {
             Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -1323,7 +1323,7 @@ runApiFromDatabaseJobPhotos(ServiceInstance service, token)async{
 }
 
 
-JobPhotosMainMethod(service, token) async {
+jobPhotosMainMethod(service, token) async {
     debugPrint("Code JobPhotosMainMethod");
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
@@ -1339,7 +1339,7 @@ JobPhotosMainMethod(service, token) async {
       batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
     }
     if ((batteryLevel??100) > 15) {
-      JobPhotosSubmethod(service, token);
+      jobPhotosSubmethod(service, token);
     }
     else{
       Timer.periodic(const Duration(seconds: 10), (timer) async {
@@ -1351,17 +1351,17 @@ JobPhotosMainMethod(service, token) async {
           batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
         }
         if((batteryLevel??100) > 15){
-          JobPhotosMainMethod(service, token);
+          jobPhotosMainMethod(service, token);
         }
       });
     }
   }else{
-    JobPhotosSubmethod(service, token);
+    jobPhotosSubmethod(service, token);
   }
 }
 
 
-JobPhotosSubmethod(service, token)async{
+jobPhotosSubmethod(service, token)async{
   ImageManager imageManager = ImageManager();
   List<ImageModel>imageList = await imageManager.getFailedImageList();
   if(imageList.isNotEmpty) {
@@ -1391,7 +1391,7 @@ JobPhotosSubmethod(service, token)async{
                     .checkConnection();
                 if (isNetActive) {
                   timer.cancel();
-                  JobPhotosMainMethod(service, token);
+                  jobPhotosMainMethod(service, token);
                 }
               });
             }else{
@@ -1430,7 +1430,7 @@ JobPhotosSubmethod(service, token)async{
             }
 
 
-            JobPhotosMainMethod(service, token);
+            jobPhotosMainMethod(service, token);
 
 
           }
@@ -1458,7 +1458,7 @@ JobPhotosSubmethod(service, token)async{
           debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
           if(a[0]["AppInternetStatus"] == 1){
             timer.cancel();
-            JobPhotosMainMethod(service, token);
+            jobPhotosMainMethod(service, token);
           }
         });
       }
@@ -1482,7 +1482,7 @@ JobPhotosSubmethod(service, token)async{
                     .checkConnection();
                 if (isNetActive) {
                   timer.cancel();
-                  JobPhotosMainMethod(service, token);
+                  jobPhotosMainMethod(service, token);
                 }
               });
             }else{
@@ -1520,7 +1520,7 @@ JobPhotosSubmethod(service, token)async{
 
               }
 
-              JobPhotosMainMethod(service, token);
+              jobPhotosMainMethod(service, token);
 
 
             }
@@ -1547,7 +1547,7 @@ JobPhotosSubmethod(service, token)async{
             debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
             if(a[0]["AppInternetStatus"] == 1){
               timer.cancel();
-              JobPhotosMainMethod(service, token);
+              jobPhotosMainMethod(service, token);
             }
           });
         }
@@ -1581,7 +1581,7 @@ JobPhotosSubmethod(service, token)async{
               a[0]["AppInternetStatus"].toString());
           if (a[0]["AppInternetStatus"] == 1) {
             timer.cancel();
-            JobPhotosMainMethod(service, token);
+            jobPhotosMainMethod(service, token);
           }
         });
       }

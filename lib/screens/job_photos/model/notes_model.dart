@@ -12,14 +12,14 @@ class NotesModel {
       String? categoryId, 
       String? imageTotalCount, 
       bool? isEmailRequired, 
-      bool? IsPromoPictures,
+      bool? isPromoPictures,
       String? requestId,}){
     _notes = notes;
     _categoryName = categoryName;
     _categoryId = categoryId;
     _imageTotalCount = imageTotalCount;
     _isEmailRequired = isEmailRequired;
-    _IsPromoPictures = IsPromoPictures;
+    _isPromoPictures = isPromoPictures;
     _requestId = requestId;
 }
 
@@ -29,7 +29,7 @@ class NotesModel {
     _categoryId = json['CategoryId'];
     _imageTotalCount = json['ImageTotalCount'];
     _isEmailRequired = json['IsEmailRequired'];
-    _IsPromoPictures = json['IsPromoPictures']??false;
+    _isPromoPictures = json['IsPromoPictures']??false;
     _requestId = json['RequestId'];
   }
   String? _notes;
@@ -37,21 +37,21 @@ class NotesModel {
   String? _categoryId;
   String? _imageTotalCount;
   bool? _isEmailRequired;
-  bool? _IsPromoPictures;
+  bool? _isPromoPictures;
   String? _requestId;
 NotesModel copyWith({  String? notes,
   String? categoryName,
   String? categoryId,
   String? imageTotalCount,
   bool? isEmailRequired,
-  bool? IsPromoPictures,
+  bool? isPromoPictures,
   String? requestId,
 }) => NotesModel(  notes: notes ?? _notes,
   categoryName: categoryName ?? _categoryName,
   categoryId: categoryId ?? _categoryId,
   imageTotalCount: imageTotalCount ?? _imageTotalCount,
   isEmailRequired: isEmailRequired ?? _isEmailRequired,
-  IsPromoPictures: PromoFlag ?? _IsPromoPictures,
+  isPromoPictures: promoFlag ?? _isPromoPictures,
   requestId: requestId ?? _requestId,
 );
   String? get notes => _notes;
@@ -59,7 +59,7 @@ NotesModel copyWith({  String? notes,
   String? get categoryId => _categoryId;
   String? get imageTotalCount => _imageTotalCount;
   bool? get isEmailRequired => _isEmailRequired;
-  bool? get PromoFlag => _IsPromoPictures;
+  bool? get promoFlag => _isPromoPictures;
   String? get requestId => _requestId;
 
   Map<String, dynamic> toJson() {
@@ -70,7 +70,7 @@ NotesModel copyWith({  String? notes,
     map['ImageTotalCount'] = _imageTotalCount;
     map['IsEmailRequired'] = _isEmailRequired;
     map['RequestId'] = _requestId;
-    map['IsPromoPictures'] = _IsPromoPictures;
+    map['IsPromoPictures'] = _isPromoPictures;
     return map;
   }
 }

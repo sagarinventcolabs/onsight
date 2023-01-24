@@ -32,7 +32,7 @@ class _OnBoardingResourceScreenState extends State<OnBoardingResourceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

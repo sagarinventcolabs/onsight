@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/web_service_response/verify_otp_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
@@ -43,15 +42,15 @@ class VerifyScreenController extends GetxController{
 
       ProfileController profileController = ProfileController();
       await profileController.getProfile(showValue: false);
-      if(responseModel.signInStatus==RequiredRegistration){
-        AnalyticsFireEvent(LoginOrSignUp,
+      if(responseModel.signInStatus==requiredRegistration){
+        analyticsFireEvent(loginOrSignUpKey,
             input: {
               type: "SignUp",
               // user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
             });
         Get.offNamed(Routes.userDetailScreen, arguments: responseModel.asclientId);
       }else{
-        AnalyticsFireEvent(LoginOrSignUp,
+        analyticsFireEvent(loginOrSignUpKey,
             input: {
           type: login,
           user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/

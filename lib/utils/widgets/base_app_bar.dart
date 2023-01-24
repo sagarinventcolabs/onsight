@@ -11,7 +11,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return AppBar(
       centerTitle: true,
       elevation: 0.0,

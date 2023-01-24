@@ -623,9 +623,9 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>>
       ));
     }
 
-    final EdgeInsetsGeometry padding = ButtonTheme.of(context).alignedDropdown
-        ? _kAlignedButtonPadding
-        : _kUnalignedButtonPadding;
+    // final EdgeInsetsGeometry padding = ButtonTheme.of(context).alignedDropdown
+    //     ? _kAlignedButtonPadding
+    //     : _kUnalignedButtonPadding;
 
     Widget result = DefaultTextStyle(
       style: _textStyle,

@@ -55,10 +55,10 @@ class CategoryManager{
     return 1;
   }
 
-  Future<int> deleteCategory(String emailId, String JobNumber) async {
+  Future<int> deleteCategory(String emailId, String jobNumber) async {
 
     Database db = await DatabaseHelper().database;
-    await db.rawQuery("DELETE FROM $mCategoryTable WHERE AdditionalEmail='"+emailId+"' AND JobNumber='"+JobNumber+"'");
+    await db.rawQuery("DELETE FROM $mCategoryTable WHERE AdditionalEmail='"+emailId+"' AND JobNumber='"+jobNumber+"'");
     return 1;
   }
 

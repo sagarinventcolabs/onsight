@@ -56,7 +56,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
     super.initState();
     if (controller.list.isNotEmpty) {
       isData = true;
-      controller.JobNumber.value = controller.list.first.jobNumber.toString();
+      controller.jobNumber2.value = controller.list.first.jobNumber.toString();
       controller.update();
     }
 
@@ -72,7 +72,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -102,7 +102,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                 controller.tabCurrentIndex.value = index;
                 if (controller.tabCurrentIndex.value == 1) {
                   controller.getJobDetails(
-                      controller.JobNumber.toString(), Get.arguments, false, fromCat);
+                      controller.jobNumber2.toString(), Get.arguments, false, fromCat);
                 }
                 controller.isValidEmail.value = true;
                 controller.update();
@@ -562,7 +562,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
 
                           dynamic jsonObj = snapshot.data!["response"];
                           var jobNumber = jsonObj["JobNumber"].toString();
-                          if(jobNumber.toString()==controller.JobNumber.value.toString()) {
+                          if(jobNumber.toString()==controller.jobNumber2.value.toString()) {
                             var catId = jsonObj["CategoryModelDetails"][0]["CategoryId"]
                                 .toString();
                             var count = jsonObj["CategoryModelDetails"][0]["ImageCount"]
@@ -616,7 +616,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                           context: context,
                           builder: (ctx1){
                            return StatefulBuilder(builder: (ctx2, setState) {
-                             Theme.of(context) == Brightness.dark;
+                             Theme.of(context);
                              return bottomSheetWidget(
                                  Routes.jobPhotosDetailsScreen,
                                  controller.categoryList[index].id,
@@ -709,11 +709,11 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
           if(element.isChecked!=null){
             if(element.isChecked!){
               await FirebaseAnalytics.instance.logEvent(
-                  name: JobPhotoUpload,
+                  name: jobPhotoUploadKey,
                   parameters: {
                 user:sp?.getString(Preference.FIRST_NAME),
                 category:element.name.toString(),
-                image_count:element.listPhotos?.length.toString()??"0"
+                imageCount:element.listPhotos?.length.toString()??"0"
               });
               listdynamic.add(element.toJson());
             }
@@ -964,7 +964,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
           },
           child: Padding(
             padding: EdgeInsets.only(right: Dimensions.width14,top: Dimensions.height5),
-            child: Text(ADD,style: TextStyle(color: emailEditingController.text.isNotEmpty ? controller.isValidEmailS.value ? ColourConstants.primaryLight : ColourConstants.grey : ColourConstants.grey),),
+            child: Text(addCaps,style: TextStyle(color: emailEditingController.text.isNotEmpty ? controller.isValidEmailS.value ? ColourConstants.primaryLight : ColourConstants.grey : ColourConstants.grey),),
           ),
         ),
         enabledBorder: OutlineInputBorder(

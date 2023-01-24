@@ -33,14 +33,14 @@ class AppUpdateController extends GetxController{
         AppUpdateManager appUpdateManager = AppUpdateManager();
         await appUpdateManager.insertVersion(version.toString(),releaseType.toString() );
         VersionDetails versionDetails = await appUpdateManager.getVersionDetails(version.toString());
-        if(versionDetails.UpdateStatus!=1) {
+        if(versionDetails.updateStatus!=1) {
           mandatoryUpdateDialogAction(Get.context!, version.toString());
         }
       }else{
         AppUpdateManager appUpdateManager = AppUpdateManager();
         await appUpdateManager.insertVersion(version.toString(),releaseType.toString() );
         VersionDetails versionDetails = await appUpdateManager.getVersionDetails(version.toString());
-        if(versionDetails.UpdateStatus!=1) {
+        if(versionDetails.updateStatus!=1) {
           optionalUpdateDialogAction(Get.context!, version.toString());
         }
       }

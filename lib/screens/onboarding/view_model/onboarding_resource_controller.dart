@@ -97,7 +97,7 @@ class OnboardingResourceController extends GetxController{
           oasisResourceList.addAll(localReversedList.reversed.toList());
           oasisResourceList.refresh();
           update();
-          Get.toNamed(Routes.OnBoardingResourceScreen);
+          Get.toNamed(Routes.onBoardingResourceScreen);
         }
       }
       return response;

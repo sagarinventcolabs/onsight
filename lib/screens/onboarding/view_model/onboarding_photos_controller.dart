@@ -30,7 +30,7 @@ class OnBoardingPhotosController extends GetxController{
       });
       imageList.refresh();
       update();
-      Get.toNamed(Routes.OnBoardingUploadPhotosScreen, arguments: itemId);
+      Get.toNamed(Routes.onBoardingUploadPhotosScreen, arguments: itemId);
     }
   }
 

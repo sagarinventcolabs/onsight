@@ -68,10 +68,10 @@ class ImageManager{
 
   }
 
-  Future<List<ImageModel>> getImageByCategoryIdandJobNumber(String categoryId, String JobNumber) async {
+  Future<List<ImageModel>> getImageByCategoryIdandJobNumber(String categoryId, String jobNumber) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mImageDataTable WHERE CategoryId LIKE '"+categoryId+"' AND JobNumber LIKE '"+JobNumber+"'"+" AND IsSubmitted= '0'");
+    var result = await db.rawQuery("SELECT * FROM $mImageDataTable WHERE CategoryId LIKE '"+categoryId+"' AND JobNumber LIKE '"+jobNumber+"'"+" AND IsSubmitted= '0'");
     List<ImageModel> list = result.isNotEmpty ? result.map((c) => ImageModel.fromJson(c)).toList() : [];
     return list;
   }
@@ -83,10 +83,10 @@ class ImageManager{
   }
 
 
-  Future<ImageModel> getImageByImageName(String ImageName) async {
+  Future<ImageModel> getImageByImageName(String imageName) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mImageDataTable WHERE ImageName = '$ImageName'");
+    var result = await db.rawQuery("SELECT * FROM $mImageDataTable WHERE ImageName = '$imageName'");
     List<ImageModel> list = result.isNotEmpty ? result.map((c) => ImageModel.fromJson(c)).toList() : [];
     if(list.isNotEmpty){
       return list.first;

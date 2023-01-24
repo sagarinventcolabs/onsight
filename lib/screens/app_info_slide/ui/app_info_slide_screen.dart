@@ -16,7 +16,7 @@ class AppInfoSlideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,
       resizeToAvoidBottomInset: false,
@@ -44,7 +44,7 @@ class AppInfoSlideScreen extends StatelessWidget {
                       sliderController.navigateToLogin();
                     }
                   },
-                  child: Image.asset(Assets.right_arrow,width: Dimensions.height55, height: Dimensions.height55,)
+                  child: Image.asset(Assets.rightArrow,width: Dimensions.height55, height: Dimensions.height55,)
               )
             ],
           )
@@ -63,8 +63,8 @@ class AppInfoSlideScreen extends StatelessWidget {
                 child:  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Get.isDarkMode?Image.asset(Assets.logo_text_dark, height: Dimensions.height63):
-                    Image.asset(Assets.logo_text, height: Dimensions.height63)
+                    Get.isDarkMode?Image.asset(Assets.logoTextDark, height: Dimensions.height63):
+                    Image.asset(Assets.logoText, height: Dimensions.height63)
                   ],
                 ),
               ),

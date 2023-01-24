@@ -73,17 +73,17 @@ class EmailManager{
     });
     return 1;
   }
-  Future<int> deleteEmail(String emailId, String JobNumber) async {
+  Future<int> deleteEmail(String emailId, String jobNumber) async {
 
     Database db = await DatabaseHelper().database;
-    await db.rawQuery("DELETE FROM $mEmailTable WHERE AdditionalEmail='"+emailId+"' AND JobNumber='"+JobNumber+"'");
+    await db.rawQuery("DELETE FROM $mEmailTable WHERE AdditionalEmail='"+emailId+"' AND JobNumber='"+jobNumber+"'");
     return 1;
   }
 
-  Future<int> deleteEmailFromAPI(String JobNumber) async {
+  Future<int> deleteEmailFromAPI(String jobNumber) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("DELETE FROM $mEmailTable WHERE lower(JobNumber)='"+JobNumber+"' OR upper(JobNumber)='"+JobNumber+"'"+"AND EmailOnProgress !=${1}");
+    var result = await db.rawQuery("DELETE FROM $mEmailTable WHERE lower(JobNumber)='"+jobNumber+"' OR upper(JobNumber)='"+jobNumber+"'"+"AND EmailOnProgress !=${1}");
     log("Result delete = "+result.toString());
     return 1;
   }

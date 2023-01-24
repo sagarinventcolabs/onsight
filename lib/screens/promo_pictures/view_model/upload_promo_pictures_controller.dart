@@ -184,7 +184,7 @@ class UploadPromoPicturesController extends GetxController {
                     topRight: Radius.circular(10))),
             isScrollControlled: true,
             context: Get.context!,
-            builder: (context) =>  bottomSheetImagePickerPromoPictures(Routes.UploadPromoPictureScreen)).then((value) {
+            builder: (context) =>  bottomSheetImagePickerPromoPictures(Routes.uploadPromoPictureScreen)).then((value) {
           if(controller.photoList.isNotEmpty){
             enableButton.value = true;
           }

@@ -70,7 +70,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Obx(() =>  GestureDetector(
       onTap: (){
         FocusScope.of(context).unfocus();
@@ -85,8 +85,8 @@ class LoginScreenState extends State<LoginScreen> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Get.isDarkMode?Image.asset(Assets.logo_text_dark, height: Dimensions.height63):
-                      Image.asset(Assets.logo_text, height: Dimensions.height63)
+                      Get.isDarkMode?Image.asset(Assets.logoTextDark, height: Dimensions.height63):
+                      Image.asset(Assets.logoText, height: Dimensions.height63)
                     ]
                 ),
                 SizedBox(height: Dimensions.height70),
@@ -109,7 +109,7 @@ class LoginScreenState extends State<LoginScreen> {
                             border: Border.all(width: 1.0, color: Get.isDarkMode?Colors.white70:ColourConstants.grey),
                           ),
                           child: CountryCodePicker(
-                            textStyle: TextStyle(color: Get.isDarkMode?ColourConstants.dark_mode_white: ColourConstants.black, fontWeight: FontWeight.bold, fontSize: Dimensions.font16),
+                            textStyle: TextStyle(color: Get.isDarkMode?ColourConstants.darkModeWhite: ColourConstants.black, fontWeight: FontWeight.bold, fontSize: Dimensions.font16),
                             showFlagMain: false,
                             padding: EdgeInsets.zero,
                             // barrierColor: Get.isDarkMode ? Colors.grey.shade900.withOpacity(0.3) : Colors.grey.shade300.withOpacity(0.3),
@@ -158,7 +158,7 @@ class LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(
                             labelText: mobileNumber,
                             counterText: "",
-                            labelStyle: TextStyle(color: Get.isDarkMode?ColourConstants.dark_mode_white:Colors.black54),
+                            labelStyle: TextStyle(color: Get.isDarkMode?ColourConstants.darkModeWhite:Colors.black54),
                             floatingLabelStyle: TextStyle(color: Get.isDarkMode? ColourConstants.blue:Colors.black54),
                             // errorText: phoneNumberController.text.isEmpty ? null : loginScreenController.validate(phoneNumberController.text) ? phoneNumberValidation : null,
                             enabledBorder: OutlineInputBorder(

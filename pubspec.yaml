@@ -81,6 +81,7 @@ dev_dependencies:
   flutter_native_splash: ^2.2.9
   flutter_test:
     sdk: flutter
+  lints: ^2.0.1
 
 flutter_native_splash:
   color: "#583083"

@@ -31,7 +31,7 @@ class RegisterScreenController extends GetxController {
     ProfileController profileController = ProfileController();
     await profileController.getProfile(showValue: false);
     if (response != null) {
-      AnalyticsFireEvent(LoginOrSignUp, input: {
+      analyticsFireEvent(loginOrSignUpKey, input: {
         type: signUp,
         user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
       });

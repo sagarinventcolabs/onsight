@@ -33,7 +33,7 @@ class JobPhotosController extends GetxController{
   /// variable for show hide suggestion below text field of job number
   RxInt value = 0.obs;
   /// variable for job number
-  RxString JobNumber = "".obs;
+  RxString jobNumber2 = "".obs;
   /// Current Tab index
   RxInt tabCurrentIndex = 0.obs;
   RxList<JobDetailsResponse> list = <JobDetailsResponse>[].obs;
@@ -77,7 +77,7 @@ class JobPhotosController extends GetxController{
 
   /// API function for getting job detail
   Future<dynamic> getJobDetails(jobNumber, downloadJobs, isLoading, route) async{
-    JobNumber.value = jobNumber.toString();
+    jobNumber2.value = jobNumber.toString();
     update();
     var response = await service.getJobDetailsRequest(jobNumber, downloadJobs, isLoading);
     log(response.toString());

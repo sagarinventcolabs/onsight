@@ -35,7 +35,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
   
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -141,7 +141,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                     if ((controller.imageList[index].image?.length??0) > 0) {
                       controller.selectedCategory.value = controller.imageList[index].category??"";
                       controller.update();
-                      Get.toNamed(Routes.OnBoardingPhotoScreen);
+                      Get.toNamed(Routes.onBoardingPhotoScreen);
                     }
                   },
                     child: Container(
@@ -170,7 +170,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                                   topRight: Radius.circular(Dimensions.radius10))),
                           isScrollControlled: true,
                           context: context,
-                          builder: (context) => bottomSheetImagePickerOnBoardingPictures(Routes.OnBoardingUploadPhotosScreen,index)).then((value) {
+                          builder: (context) => bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingUploadPhotosScreen,index)).then((value) {
 
                             controller.imageList.forEach((element) {
                               if((element.image?.length??0) > 0){
@@ -181,7 +181,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                       });
                     },
                     child: Image.asset(
-                      Assets.ic_add,
+                      Assets.icAdd2,
                       height: Dimensions.height25,
                       width: Dimensions.height25,
                     ),

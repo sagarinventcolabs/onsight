@@ -33,7 +33,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path/path.dart';
-import 'functions/functions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 
 showLoader(context) {
   showDialog(
@@ -364,7 +364,7 @@ dialogAction(BuildContext context,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
-                            child: Text(No,
+                            child: Text(no,
                                 style: TextStyle(
                                     fontSize: Dimensions.font18,
                                     color: ColourConstants.black)),
@@ -387,7 +387,7 @@ dialogAction(BuildContext context,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
-                            child: Text(Yes,
+                            child: Text(yes,
                                 style: TextStyle(
                                     fontSize: Dimensions.font18,
                                     color: ColourConstants.white)),
@@ -402,10 +402,10 @@ dialogAction(BuildContext context,
   );
 }
 
-optionalUpdateDialogAction(BuildContext context, Version,
+optionalUpdateDialogAction(BuildContext context, version,
     {Function()? onTapYes, Function()? onTapNo}) async{
   AppUpdateManager appUpdateManager = AppUpdateManager();
-  VersionDetails versionDetails = await appUpdateManager.getVersionDetails(Version.toString());
+  VersionDetails versionDetails = await appUpdateManager.getVersionDetails(version.toString());
   debugPrint(versionDetails.toMap().toString());
   showDialog(
     context: context,
@@ -429,7 +429,7 @@ optionalUpdateDialogAction(BuildContext context, Version,
                 const SizedBox(height: 10),
                 Container(height: 90,width: 90,
                    // decoration: BoxDecoration(shape: BoxShape.circle,color: ColourConstants.primary),
-                    child: Image.asset(Assets.Connection_lost),
+                    child: Image.asset(Assets.connectionLost),
                   ),
                 const SizedBox(height: 10),
                 Text(appUpdateAvailable,textAlign: TextAlign.center,
@@ -453,7 +453,7 @@ optionalUpdateDialogAction(BuildContext context, Version,
                     InkWell(
                       onTap: onTapNo ??
                               () async{
-                            await appUpdateManager.updateStatus(Version, 1);
+                            await appUpdateManager.updateStatus(version, 1);
                             Get.back();
                           },
                       child: Container(
@@ -477,7 +477,7 @@ optionalUpdateDialogAction(BuildContext context, Version,
                     InkWell(
                       onTap: onTapYes ??
                               () async {
-                                await appUpdateManager.updateStatus(Version, 2);
+                                await appUpdateManager.updateStatus(version, 2);
                                 LaunchReview.launch(androidAppId: packageName,
                                     iOSAppId: iosAppId);
                           },
@@ -566,7 +566,7 @@ singleImageDialog({required BuildContext context,required String image}){
   });
 }
 
-mandatoryUpdateDialogAction(BuildContext context,Version,
+mandatoryUpdateDialogAction(BuildContext context,version,
     {Function()? onTap, bool? cancelable}) {
   AppUpdateManager appUpdateManager = AppUpdateManager();
 
@@ -594,7 +594,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                   const SizedBox(height: 10),
                   Container(height: 90,width: 90,
                      // decoration: BoxDecoration(shape: BoxShape.circle,color: ColourConstants.primary),
-                    child: Image.asset(Assets.app_update_icon),),
+                    child: Image.asset(Assets.appUpdateIcon),),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -610,7 +610,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                   InkWell(
                     onTap: onTap ??
                             () async {
-                              await appUpdateManager.updateStatus(Version, 2);
+                              await appUpdateManager.updateStatus(version, 2);
                               LaunchReview.launch(androidAppId: packageName,
                                   iOSAppId: iosAppId);
                         },
@@ -645,7 +645,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
   }
   JobPhotosController controller = Get.find<JobPhotosController>();
   var i = controller.categoryList.indexWhere((element) => element.id == id);
-  Theme.of(Get.context!) == Brightness.dark;
+  Theme.of(Get.context!);
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16),
     child: Column(
@@ -677,8 +677,8 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
           children: [
             GestureDetector(
                 onTap: () async {
-                  AnalyticsFireEvent(CameraOrGallery, input: {
-                    CameraOrGallery:Camera,
+                  analyticsFireEvent(cameraOrGalleryKey, input: {
+                    cameraOrGalleryKey:cameraStr,
                   });
                   final ImagePicker picker = ImagePicker();
                   var path = await uploadJobPhotosC.createFolderInAppDocDir(camFolder);
@@ -719,7 +719,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                   }
                 },
                 child: Image.asset(
-                  Assets.ic_add_photo,
+                  Assets.icAddPhoto,
                   height: 40,
                   width: 40,
                 ),
@@ -728,8 +728,8 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
             GestureDetector(
                 onTap: () async {
                   List<ImageModel> localList = [];
-                  AnalyticsFireEvent(CameraOrGallery, input: {
-                    CameraOrGallery:Gallery,
+                  analyticsFireEvent(cameraOrGalleryKey, input: {
+                    cameraOrGalleryKey:galleryStr,
                   });
                   final ImagePicker picker = ImagePicker();
                   // Capture a photo from gallery
@@ -776,7 +776,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
-                                    child: Text(ADD,style: TextStyle(color: ColourConstants.white),),
+                                    child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
                                   ),
                                 ],
                               ))],
@@ -872,7 +872,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(right: 10),
-                                    child: Text(ADD,style: TextStyle(color: ColourConstants.white),),
+                                    child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
                                   ),
                                 ],
                               ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,
@@ -945,7 +945,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                   }
                 },
                 child: Image.asset(
-                  Assets.ic_gallery,
+                  Assets.icGallery,
                   height: 40,
                   width: 40,
                 ))
@@ -1016,14 +1016,14 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                     if(s==add) {
                       Get.back();
                       Get.toNamed(
-                          Routes.fieldIssueCategoryScreen, arguments: Photo);
+                          Routes.fieldIssueCategoryScreen, arguments: photoStr);
                     }else{
                       Get.back();
                     }
                   }
                 },
                 child: Image.asset(
-                  Assets.ic_add_photo,
+                  Assets.icAddPhoto,
                   height: 40,
                   width: 40,
                 )),
@@ -1058,13 +1058,13 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                                   controller.photoList.addAll(localList);
                                   controller.photoList.refresh();
                                   controller.update();
-                                  Get.toNamed(Routes.fieldIssueCategoryScreen, arguments: Photo);
+                                  Get.toNamed(Routes.fieldIssueCategoryScreen, arguments: photoStr);
                                 },child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(right: 10),
-                                      child: Text(ADD,style: TextStyle(color: ColourConstants.white),),
+                                      child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
                                     ),
                                    ],
                                   ),
@@ -1153,7 +1153,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(right: 10),
-                                      child: Text(ADD,style: TextStyle(color: ColourConstants.white),),
+                                      child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
                                     ),
                                   ],
                                 ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
@@ -1226,7 +1226,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
 
                 },
                 child: Image.asset(
-                  Assets.ic_gallery,
+                  Assets.icGallery,
                   height: 40,
                   width: 40,
                 ))
@@ -1239,7 +1239,7 @@ mandatoryUpdateDialogAction(BuildContext context,Version,
 }
 
 Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
-  Theme.of(Get.context!) == Brightness.dark;
+  Theme.of(Get.context!);
   LeadSheetImageController controller ;
   if (Get.isRegistered<LeadSheetImageController>()) {
     controller = Get.find<LeadSheetImageController>();
@@ -1278,9 +1278,9 @@ Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
           children: [
             GestureDetector(
                 onTap: () async {
-                  AnalyticsFireEvent(CameraOrGallery,
+                  analyticsFireEvent(cameraOrGalleryKey,
                     input: {
-                    CameraOrGallery:Camera,
+                    cameraOrGalleryKey:cameraStr,
                   });
                   final ImagePicker picker = ImagePicker();
 
@@ -1316,7 +1316,7 @@ Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
                   }
                 },
                 child: Image.asset(
-                  Assets.ic_add_photo,
+                  Assets.icAddPhoto,
                   height: 40,
                   width: 40,
                 )),
@@ -1325,8 +1325,8 @@ Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
             GestureDetector(
                 onTap: () async {
                   List<LeadSheetImageModel> localList = [];
-                  AnalyticsFireEvent(CameraOrGallery, input: {
-                    CameraOrGallery:Gallery,
+                  analyticsFireEvent(cameraOrGalleryKey, input: {
+                    cameraOrGalleryKey:galleryStr,
                   });
                   final ImagePicker picker = ImagePicker();
                   // Capture a photo from gallery
@@ -1372,7 +1372,7 @@ Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(right: 10),
-                                        child: Text(ADD,style: TextStyle(color: ColourConstants.white),),
+                                        child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
                                       ),
                                     ],
                                   ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
@@ -1462,7 +1462,7 @@ Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(right: 10),
-                                        child: Text(ADD,style: TextStyle(color: ColourConstants.white),),
+                                        child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
                                       ),
                                     ],
                                   ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
@@ -1538,7 +1538,7 @@ Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
 
                 },
                 child: Image.asset(
-                  Assets.ic_gallery,
+                  Assets.icGallery,
                   height: 40,
                   width: 40,
                 ))
@@ -1612,7 +1612,7 @@ Widget bottomSheetImagePickerOnBoardingPictures(String route,index) {
                   }
                 },
                 child: Image.asset(
-                  Assets.ic_add_photo,
+                  Assets.icAddPhoto,
                   height: 40,
                   width: 40,
                 )),
@@ -1659,7 +1659,7 @@ Widget bottomSheetImagePickerOnBoardingPictures(String route,index) {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(right: 10),
-                                      child: Text(ADD,style: TextStyle(color: ColourConstants.white),),
+                                      child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
                                     ),
                                   ],
                                 ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
@@ -1733,7 +1733,7 @@ Widget bottomSheetImagePickerOnBoardingPictures(String route,index) {
 
                 },
                 child: Image.asset(
-                  Assets.ic_gallery,
+                  Assets.icGallery,
                   height: 40,
                   width: 40,
                 ))
@@ -1806,10 +1806,10 @@ Widget bottomSheetImagePickerPromoPictures(String route) {
                     PromoImageModel model = PromoImageModel();
                     model.imageName = fileName;
                     model.imagePath = newFile.path;
-                    model.FullDate = "0001-01-01T00:00:00";
-                    model.ShowName = controller.showController.text.toString();
-                    model.Year = DateTime.now().year.toString();
-                    model.User = firstName + lastName;
+                    model.fullDate = "0001-01-01T00:00:00";
+                    model.showName = controller.showController.text.toString();
+                    model.year = DateTime.now().year.toString();
+                    model.user = firstName + lastName;
                     controller.photoList.add(model);
                     controller.photoList.refresh();
                     controller.enableButton.value = true;
@@ -1820,12 +1820,12 @@ Widget bottomSheetImagePickerPromoPictures(String route) {
                       Get.back();
                     } else {
                       Get.back();
-                      Get.toNamed(Routes.UploadPromoPictureScreen);
+                      Get.toNamed(Routes.uploadPromoPictureScreen);
                     }
                   }
                 },
                 child: Image.asset(
-                  Assets.ic_add_photo,
+                  Assets.icAddPhoto,
                   height: 40,
                   width: 40,
                 )),
@@ -1845,10 +1845,10 @@ Widget bottomSheetImagePickerPromoPictures(String route) {
                         PromoImageModel model = PromoImageModel();
                         model.imageName = fileName;
                         model.imagePath = file.path;
-                        model.FullDate = "0001-01-01T00:00:00";
-                        model.ShowName = controller.showController.text.toString();
-                        model.Year = DateTime.now().year.toString();
-                        model.User = firstName + lastName;
+                        model.fullDate = "0001-01-01T00:00:00";
+                        model.showName = controller.showController.text.toString();
+                        model.year = DateTime.now().year.toString();
+                        model.user = firstName + lastName;
                         localList.add(model);
                         // controller.photoList.add(model);
                         // controller.photoList.refresh();
@@ -1876,10 +1876,10 @@ Widget bottomSheetImagePickerPromoPictures(String route) {
                                   controller.update();
                                   uploadPromoPicturesController.enableButton.value = true;
                                   uploadPromoPicturesController.update();
-                                  if (route == Routes.UploadPromoPictureScreen) {
+                                  if (route == Routes.uploadPromoPictureScreen) {
                                     controller.update();
                                   }else{
-                                    Get.toNamed(Routes.UploadPromoPictureScreen)?.then((value) {
+                                    Get.toNamed(Routes.uploadPromoPictureScreen)?.then((value) {
                                       controller.update();
                                     });
                                   }
@@ -1889,7 +1889,7 @@ Widget bottomSheetImagePickerPromoPictures(String route) {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.only(right: 10),
-                                      child: Text(ADD,style: TextStyle(color: Colors.white),),
+                                      child: Text(addCaps,style: TextStyle(color: Colors.white),),
                                     ),
                                   ],
                                 ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
@@ -1963,7 +1963,7 @@ Widget bottomSheetImagePickerPromoPictures(String route) {
 
                 },
                 child: Image.asset(
-                  Assets.ic_gallery,
+                  Assets.icGallery,
                   height: 40,
                   width: 40,
                 ))

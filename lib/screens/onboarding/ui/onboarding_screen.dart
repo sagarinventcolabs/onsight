@@ -55,7 +55,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> with SearchFunctions
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -125,7 +125,7 @@ class OnBoardingScreenState extends State<OnBoardingScreen> with SearchFunctions
                   Padding(
                     padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/14),
                     child: Image.asset(
-                      Get.isDarkMode ? Assets.il_onboarding_dark :Assets.ill_onboarding,
+                      Get.isDarkMode ? Assets.ilOnBoardingDark :Assets.illOnBoarding,
                       height: MediaQuery.of(context).size.height/4.3,
                     ),
                   ),

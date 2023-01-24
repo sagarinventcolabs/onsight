@@ -31,7 +31,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Obx(() => Scaffold(
         bottomNavigationBar: GestureDetector(
             onTap: () {
@@ -76,8 +76,8 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Get.isDarkMode?Image.asset(Assets.logo_text_dark, height: 63):
-                  Image.asset(Assets.logo_text, height: 63)
+                  Get.isDarkMode?Image.asset(Assets.logoTextDark, height: 63):
+                  Image.asset(Assets.logoText, height: 63)
                 ],
               ),
               const SizedBox(
@@ -85,7 +85,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
               ),
               Text(
                 littleThings,
-                style: TextStyle(fontSize: Dimensions.font20, color: Get.isDarkMode?ColourConstants.dark_mode_white: Colors.black),
+                style: TextStyle(fontSize: Dimensions.font20, color: Get.isDarkMode?ColourConstants.darkModeWhite: Colors.black),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -121,7 +121,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                     errorText: controller.isValidFirstName.isFalse
                         ? firstNameValidation
                         : null,
-                    labelStyle: TextStyle(color: Get.isDarkMode?ColourConstants.dark_mode_white:Colors.black54),
+                    labelStyle: TextStyle(color: Get.isDarkMode?ColourConstants.darkModeWhite:Colors.black54),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color:Get.isDarkMode?Colors.blue: Colors.grey),
                     ),
@@ -166,7 +166,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                     errorText: controller.isValidLastName.isFalse
                         ? lastNameValidation
                         : null,
-                    labelStyle: TextStyle(color:  Get.isDarkMode?ColourConstants.dark_mode_white:Colors.black54),
+                    labelStyle: TextStyle(color:  Get.isDarkMode?ColourConstants.darkModeWhite:Colors.black54),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color:Get.isDarkMode?Colors.blue: Colors.grey),
                     ),
@@ -208,7 +208,7 @@ class _UserDetailScreenState extends State<UserDetailScreen> {
                         ? emailValidation
                         : null,
                     labelText: email,
-                    labelStyle: TextStyle(color:Get.isDarkMode?ColourConstants.dark_mode_white: Colors.black54),
+                    labelStyle: TextStyle(color:Get.isDarkMode?ColourConstants.darkModeWhite: Colors.black54),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Get.isDarkMode?Colors.blue:Colors.grey),
                     ),

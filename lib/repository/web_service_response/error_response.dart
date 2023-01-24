@@ -2,23 +2,23 @@ class ErrorResponse {
   ErrorResponse({
       this.error, 
       this.errorDescription,
-      this.Message
+      this.message
   });
 
   ErrorResponse.fromJson(dynamic json) {
     error = json['error'];
     errorDescription = json['error_description'];
-    Message = json['Message'];
+    message = json['Message'];
   }
   String? error;
   String? errorDescription;
-  String? Message;
+  String? message;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['error'] = error;
     map['error_description'] = errorDescription;
-    map['Message'] = Message;
+    map['Message'] = message;
     return map;
   }
 

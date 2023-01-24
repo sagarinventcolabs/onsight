@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +22,7 @@ import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'models/model_notification.dart';
+import 'package:on_sight_application/models/model_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 

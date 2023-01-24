@@ -45,7 +45,7 @@ class LeadSheetState extends State<LeadSheetScreen> with SingleTickerProviderSta
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return  Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -106,7 +106,7 @@ class LeadSheetState extends State<LeadSheetScreen> with SingleTickerProviderSta
                     FocusScope.of(context).unfocus();
                   },
                   child: Get.isDarkMode?Image.asset(Assets.imageLeadSheetDarkMode,height: MediaQuery.of(context).size.height/4.3)
-                  :Image.asset(Assets.il_leadsheet,height: MediaQuery.of(context).size.height/4.3),
+                  :Image.asset(Assets.ilLeadSheet,height: MediaQuery.of(context).size.height/4.3),
                 ),
 
                 SizedBox(height: Dimensions.height30),

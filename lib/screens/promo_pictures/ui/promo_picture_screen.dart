@@ -52,7 +52,7 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return  Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -98,7 +98,7 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
                   isScrollControlled: true,
                   context: context,
                   builder: (context) =>
-                      bottomSheetImagePickerPromoPictures(Routes.PromoPictureScreen)).then((
+                      bottomSheetImagePickerPromoPictures(Routes.promoPictureScreen)).then((
                   value) {
                 setState(() {});
               });
@@ -132,8 +132,8 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
                       FocusScope.of(context).unfocus();
                     },
                     child:
-                   Get.isDarkMode? Image.asset(Assets.promo_pictures,width: Dimensions.height300,height: MediaQuery.of(context).size.height/4.3):
-                    Image.asset(Assets.ill_promo_pictures,height: MediaQuery.of(context).size.height/4.3),
+                   Get.isDarkMode? Image.asset(Assets.promoPictures,width: Dimensions.height300,height: MediaQuery.of(context).size.height/4.3):
+                    Image.asset(Assets.illPromoPictures,height: MediaQuery.of(context).size.height/4.3),
                   ),
 
                   SizedBox(height: MediaQuery.of(context).size.height/25),

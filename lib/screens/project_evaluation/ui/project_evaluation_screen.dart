@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
-import 'package:on_sight_application/screens/job_photos/ui/job_photos_screen.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
@@ -50,7 +49,7 @@ class ProjectEvaluationScreenState extends State<ProjectEvaluationScreen>  with 
 
   @override
   Widget build(BuildContext context) {
-    (Theme.of(context) == Brightness.dark);
+    Theme.of(context);
     return  Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -70,7 +69,7 @@ class ProjectEvaluationScreenState extends State<ProjectEvaluationScreen>  with 
               Timer(Duration(seconds: 3),(){
                 _enableButton = true;
               });
-              AnalyticsFireEvent(ProjectEvaluation, input: {
+              analyticsFireEvent(projectEvaluationKey, input: {
                 jobNumber:projectEvaluationController.text.toString(),
                 user:sp?.getString(Preference.FIRST_NAME)??""
               });
@@ -109,7 +108,7 @@ class ProjectEvaluationScreenState extends State<ProjectEvaluationScreen>  with 
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: Dimensions.height80),
-                  Image.asset(Get.isDarkMode ? Assets.il_project_evaluation : Assets.ic_project_evalution,height: MediaQuery.of(context).size.height/4.3),
+                  Image.asset(Get.isDarkMode ? Assets.ilProjectEvaluation : Assets.icProjectEvaluation2,height: MediaQuery.of(context).size.height/4.3),
                   SizedBox(height: Dimensions.height50),
                   Obx(() => BaseTypeAhead(
                       controller: projectEvaluationController,

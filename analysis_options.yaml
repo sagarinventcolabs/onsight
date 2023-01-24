@@ -9,21 +9,24 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude: [ build/**, tools/*]
+  errors:
+    unused_element: false
+
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at
-  # https://dart-lang.github.io/linter/lints/index.html.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    non_constant_identifier_names: true # Name non-constant identifiers using lowerCamelCase.
+    camel_case_extensions: true # Name extensions using UpperCamelCase
+    camel_case_types: true # Name types using UpperCamelCase.
+    constant_identifier_names: true # Prefer using lowerCamelCase for constant names.
+    always_use_package_imports: true # Avoid relative imports for files in lib/.
+    avoid_relative_lib_imports: true # Avoid relative imports for files in lib/.
+    implementation_imports: true # Don't import implementation files from another package.
+    no_duplicate_case_values: true # no_duplicate_case_values
+    unnecessary_statements: true # Avoid using unnecessary statements.
+    unused_element: false
+
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

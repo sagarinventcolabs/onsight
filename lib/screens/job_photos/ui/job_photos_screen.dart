@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
-import 'package:on_sight_application/repository/database_managers/email_manager.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/job_photos/view_model/job_photos_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -57,7 +56,7 @@ class JobPhotosState extends State<JobPhotosScreen>  with SearchFunctions {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return  Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -92,8 +91,8 @@ class JobPhotosState extends State<JobPhotosScreen>  with SearchFunctions {
                 await controller.getCategoryList();
                 controller.tabCurrentIndex.value = 0;
                 var response = await controller.getJobDetails(jobEditingController.text.toString(), false /*checkedValue*/, true, fromMain);
-                AnalyticsFireEvent(JobPhotosModule, input: {
-                  job_number:jobEditingController.text.toString().trim(),
+                analyticsFireEvent(jobPhotosModuleKey, input: {
+                  jobNumber2:jobEditingController.text.toString().trim(),
                   user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+(sp?.getString(Preference.LAST_NAME)??"")*/
                 });
                 if(response!=null){

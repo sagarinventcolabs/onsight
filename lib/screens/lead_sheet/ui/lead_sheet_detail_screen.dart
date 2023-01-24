@@ -3,7 +3,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/exhibitor_manager.dart';
 import 'package:on_sight_application/repository/database_managers/leadsheet_image_manager.dart';
@@ -43,7 +42,7 @@ class _LeadSheetDetailScreenState extends State<LeadSheetDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -96,14 +95,14 @@ class _LeadSheetDetailScreenState extends State<LeadSheetDetailScreen> {
                   controller.buttonSubmit.value = false;
                   controller.update();
                   if (connectivityResult == ConnectivityResult.wifi) {
-                    UploadImage();
+                    uploadImage();
                   } else {
                     AppInternetManager appInternetManager = AppInternetManager();
                     var a = await appInternetManager.getSettingsTable();
                     if (a[0][appInternetStatus] == 1) {
-                      UploadImage();
+                      uploadImage();
                     } else {
-                      UploadImage(showAppSettingSnackBar: true);
+                      uploadImage(showAppSettingSnackBar: true);
                     }
                   }
                 } else {
@@ -479,18 +478,18 @@ class _LeadSheetDetailScreenState extends State<LeadSheetDetailScreen> {
             )));
   }
 
-  UploadImage({bool showAppSettingSnackBar = false}) async {
+  uploadImage({bool showAppSettingSnackBar = false}) async {
     if (!await service.isRunning()) {
       service.startService().then((value) async {
         Future.delayed(Duration(seconds: 3), () async {
           if (await service.isRunning()) {
             List<LeadSheetImageModel> list = await LeadSheetImageManager()
-                .getImageByExhibitorIdandShowNumber(
+                .getImageByExhibitorIdAndShowNumber(
                     controller.selectedExhibitorModel.first.exhibitorId
                         .toString(),
                     controller.showNumber.value);
-            AnalyticsFireEvent(LeadSheetStr, input: {
-              number_of_photos: list.length,
+            analyticsFireEvent(leadSheetKey, input: {
+              numberOfPhotos: list.length,
               user: sp?.getString(Preference.FIRST_NAME) ?? ""
             });
             if (list.isNotEmpty) {
@@ -543,7 +542,7 @@ class _LeadSheetDetailScreenState extends State<LeadSheetDetailScreen> {
     } else {
       if (await service.isRunning()) {
         List<LeadSheetImageModel> list = await LeadSheetImageManager()
-            .getImageByExhibitorIdandShowNumber(
+            .getImageByExhibitorIdAndShowNumber(
                 controller.selectedExhibitorModel.first.exhibitorId.toString(),
                 controller.showNumber.value);
 

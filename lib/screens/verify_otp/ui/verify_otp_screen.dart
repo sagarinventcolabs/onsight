@@ -9,7 +9,6 @@ import 'package:on_sight_application/screens/verify_otp/view_model/verify_screen
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'dart:async';
 
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -90,7 +89,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -153,10 +152,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                       children: [
                         Get.isDarkMode
                             ? Image.asset(
-                            Assets.logo_text_dark, height: Dimensions.height63)
+                            Assets.logoTextDark, height: Dimensions.height63)
                             :
                         Image.asset(
-                            Assets.logo_text, height: Dimensions.height63)
+                            Assets.logoText, height: Dimensions.height63)
                       ],
                     ),
                     SizedBox(
@@ -166,7 +165,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                       entermobilenumbertitle,
                       style: TextStyle(fontSize: Dimensions.font20,
                           color: Get.isDarkMode ? ColourConstants
-                              .dark_mode_white : Colors.black),
+                              .darkModeWhite : Colors.black),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(
@@ -197,7 +196,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                   enabled: false,
                                   textStyle: TextStyle(
                                       color: Get.isDarkMode ? ColourConstants
-                                          .dark_mode_white : Colors.black,
+                                          .darkModeWhite : Colors.black,
                                       fontWeight: FontWeight.bold,
                                       fontSize: Dimensions.font16),
                                   showFlagMain: false,
@@ -237,7 +236,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                   labelText: mobileNumber,
                                   labelStyle: TextStyle(
                                       color: Get.isDarkMode ? ColourConstants
-                                          .dark_mode_white : Colors.black54),
+                                          .darkModeWhite : Colors.black54),
                                   floatingLabelStyle: TextStyle(
                                       color: controller.isValidphone.isFalse
                                           ? Colors.red
@@ -282,11 +281,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                         onCodeChanged: (val) {
                           print(val.toString());
                           textEditingController.text = val.toString();
-                         var valid =  controller.validate(
-                              phoneController.text, textEditingController.text);
-                          setState(() {
-
-                          });
+                          controller.validate(phoneController.text, textEditingController.text);
+                          setState(() {});
                           // if(valid){
                           //
                           //   Future.delayed(const Duration(seconds: 1),(){
@@ -313,7 +309,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                           counterText: "",
                           labelStyle: TextStyle(
                               color: Get.isDarkMode ? ColourConstants
-                                  .dark_mode_white : Colors.black54),
+                                  .darkModeWhite : Colors.black54),
                           floatingLabelStyle: TextStyle(
                               color: Get.isDarkMode ? Colors.blue : Colors
                                   .black54),

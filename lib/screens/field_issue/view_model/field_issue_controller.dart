@@ -40,7 +40,7 @@ class FieldIssueController extends GetxController{
   /// variable for show hide suggestion below text field of job number
   RxInt value = 0.obs;
   /// variable for job number
-  RxString JobNumber = "".obs;
+  RxString jobNumber = "".obs;
   /// Category List
   RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
   /// Variable for selected Category

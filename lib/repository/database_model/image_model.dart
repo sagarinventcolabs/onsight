@@ -12,7 +12,7 @@ class ImageModel{
   String? imagePath ;
   String? requestId ;
   int? isSubmitted ;
-  int? PromoFlag = 0;
+  int? promoFlag = 0;
   int? isEmailRequired ;
   int? jobAction ;
   int? attemptCount ;
@@ -32,7 +32,7 @@ class ImageModel{
         this.imagePath,
         this.requestId,
         this.isSubmitted,
-        this.PromoFlag,
+        this.promoFlag,
         this.isEmailRequired,
         this.jobAction,
         this.attemptCount,
@@ -49,7 +49,7 @@ class ImageModel{
     imageNote = json['ImageNote'] ?? "";
     imagePath = json['ImagePath'] ?? "";
     requestId = json['RequestId'] ?? "";
-    PromoFlag = json['PromoFlag'] ?? 0;
+    promoFlag = json['PromoFlag'] ?? 0;
     isSubmitted =json['IsSubmitted'].toString()=='null'?0: int.parse(json['IsSubmitted'].toString());
     isEmailRequired =json['IsEmailRequired'].toString()=='null'?0: int.parse(json['IsEmailRequired'].toString());
     jobAction =json['JobAction'].toString()=='null'?0: int.parse(json['JobAction'].toString());
@@ -67,7 +67,7 @@ class ImageModel{
       map['ImageNote'] = imageNote;
       map['ImagePath'] = imagePath;
       map['RequestId'] = requestId;
-      map['PromoFlag'] = PromoFlag??0;
+      map['PromoFlag'] = promoFlag??0;
       map['IsSubmitted'] = isSubmitted ?? 0;
       map['IsEmailRequired'] = isEmailRequired;
       map['JobAction'] = jobAction;
@@ -87,7 +87,7 @@ class ImageModel{
     map['ImageNote'] = imageNote;
     map['ImagePath'] = imagePath;
     map['RequestId'] = requestId;
-    map['PromoFlag'] = PromoFlag??0;
+    map['PromoFlag'] = promoFlag??0;
     map['IsSubmitted'] = isSubmitted ?? 0;
     map['IsEmailRequired'] = isEmailRequired;
     map['JobAction'] = jobAction;

@@ -54,7 +54,7 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -87,7 +87,7 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
                             topRight: Radius.circular(Dimensions.radius10))),
                     isScrollControlled: true,
                     context: context,
-                    builder: (context) =>  bottomSheetImagePickerPromoPictures(Routes.UploadPromoPictureScreen)).then((value) {
+                    builder: (context) =>  bottomSheetImagePickerPromoPictures(Routes.uploadPromoPictureScreen)).then((value) {
                   if(controller.photoList.isNotEmpty){
                     uploadPromoPicturesController.enableButton.value = true;
                     controller.update();
@@ -96,7 +96,7 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
                 });
               },
               child: Image.asset(
-                Assets.ic_add,
+                Assets.icAdd2,
                 height: Dimensions.height25,
                 width: Dimensions.height25,
               ),
@@ -110,16 +110,16 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
 
             if(uploadPromoPicturesController.enableButton.isTrue) {
               if (controller.radioButtonValue == 1) {
-                AnalyticsFireEvent(PromoPicturesStr, input: {
+                analyticsFireEvent(promoPicturesKey, input: {
                   photoCount: controller.photoList.length.toString().trim(),
                   showNumber: controller.showController.text,
-                  type: controller.radioButtonValue == 1 ? photos_Submitted_To_Show : photos_Submitted_To_not_Show,
+                  type: controller.radioButtonValue == 1 ? photosSubmittedToShow : photosSubmittedToNotShow,
                   user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+sp?.getString(Preference.LAST_NAME)??""*/
                 });
               }else{
-                AnalyticsFireEvent(PromoPicturesStr, input: {
+                analyticsFireEvent(promoPicturesKey, input: {
                   photoCount: controller.photoList.length.toString().trim(),
-                  type: controller.radioButtonValue == 1 ? photos_Submitted_To_Show : photos_Submitted_To_not_Show,
+                  type: controller.radioButtonValue == 1 ? photosSubmittedToShow : photosSubmittedToNotShow,
                   user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+sp?.getString(Preference.LAST_NAME)??""*/
                 });
               }
@@ -217,7 +217,7 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
                     uploadPromoPicturesController.update();
                   },
                   child: Image.asset(
-                    Assets.ic_close,
+                    Assets.icClose2,
                     height: Dimensions.height18,
                     width: Dimensions.height18,
                   ),
@@ -226,7 +226,7 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
             ],
           )
               : Image.asset(
-            Assets.ic_added_photo_with_cross,
+            Assets.icAddedPhotoWithCross,
             height: Dimensions.height40,
             width: Dimensions.height40,
           ),
@@ -279,12 +279,12 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
           child: Padding(
             padding: EdgeInsets.only(right: Dimensions.height11, left: Dimensions.height8),
             child: controller.photoList[photoIndex].isListening? Image.asset(
-              Assets.ic_mic,
+              Assets.icMic,
               height: Dimensions.height25,
               width: Dimensions.height25,
               color: Colors.blue,
             ): Image.asset(
-              Assets.ic_mic,
+              Assets.icMic,
               height: Dimensions.height25,
               width: Dimensions.height25,
               color: Get.isDarkMode?ColourConstants.white:null,

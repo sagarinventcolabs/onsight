@@ -30,7 +30,7 @@ class ColourConstants {
   static const Color primaryLight = Color(0xFF6F63C7);
   static const Color borderColor = Colors.grey;
   static const Color white = Color(0xFFFFFFFF);
-  static const Color dark_mode_white = Color(0xFFFFFFFF);
+  static const Color darkModeWhite = Color(0xFFFFFFFF);
   static const Color textColour = Color(0xFF575757);
   static const Color ellipseColor = Color(0xFFF8F5FC);
   static const Color textFieldBG = Color(0xFFF7F7F7);

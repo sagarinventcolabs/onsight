@@ -6,12 +6,12 @@ class PromoImageModel{
   String? imageName ;
   String? imageNote ;
   String? imagePath ;
-  String? ShowName ;
-  String? Year ;
-  String? FullDate ;
-  String? User ;
-  String? Description ;
-  String? Status ;
+  String? showName ;
+  String? year ;
+  String? fullDate ;
+  String? user ;
+  String? description ;
+  String? status ;
   TextEditingController? controller = TextEditingController(text: "");
   bool isListening = false;
 
@@ -20,47 +20,47 @@ class PromoImageModel{
         this.imageName,
         this.imageNote,
         this.imagePath,
-        this.ShowName,
-        this.Year,
-        this.FullDate,
-        this.User,
-        this.Description,
-        this.Status,
+        this.showName,
+        this.year,
+        this.fullDate,
+        this.user,
+        this.description,
+        this.status,
       });
 
   PromoImageModel.fromJson(dynamic json) {
     imageName = json['ImageName'] ?? "";
     imageNote = json['ImageNote'] ?? "";
     imagePath = json['ImagePath'] ?? "";
-    ShowName = json['ShowName'] ?? "";
-    Year = json['Year'] ?? "";
-    FullDate = json['FullDate'] ?? "";
-    User = json['User'] ?? "";
-    Description = json['Description'] ?? "";
-    Status = json['Status'] ?? "";
+    showName = json['ShowName'] ?? "";
+    year = json['Year'] ?? "";
+    fullDate = json['FullDate'] ?? "";
+    user = json['User'] ?? "";
+    description = json['Description'] ?? "";
+    status = json['Status'] ?? "";
   }
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
       map['ImageName'] = imageName;
       map['ImageNote'] = imageNote;
       map['ImagePath'] = imagePath;
-      map['ShowName'] = ShowName;
-      map['Year'] = Year;
-      map['FullDate'] = FullDate;
-      map['User'] = User;
-      map['Description'] = Description;
-      map['Status'] = Status;
+      map['ShowName'] = showName;
+      map['Year'] = year;
+      map['FullDate'] = fullDate;
+      map['User'] = user;
+      map['Description'] = description;
+      map['Status'] = status;
     return map;
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['ShowName'] = ShowName;
-    map['Year'] = Year;
-    map['FullDate'] = FullDate;
-    map['User'] = User;
-    map['Description'] = Description;
-    map['Status'] = Status;
+    map['ShowName'] = showName;
+    map['Year'] = year;
+    map['FullDate'] = fullDate;
+    map['User'] = user;
+    map['Description'] = description;
+    map['Status'] = status;
     return map;
   }
 }
