@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		18A7DD46297FFFA70059CF16 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18A7DD45297FFFA70059CF16 /* GoogleService-Info.plist */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		55CA9409A6D1B29D05612D2E /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F260EDC4F2957F9324169A8D /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
-		7DD119DD291E5550000BD847 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7DD119DC291E5550000BD847 /* GoogleService-Info.plist */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
@@ -35,6 +35,7 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		149C87BE12D2A136D456BEDF /* Pods-Runner.profile-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-prod.xcconfig"; sourceTree = "<group>"; };
+		18A7DD45297FFFA70059CF16 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		5138190EE7F7B2E1B2EAD542 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		61E0C2274439860FC3724158 /* Pods-Runner.debug-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-prod.xcconfig"; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		7D1AC48E29237414005C151A /* RunnerRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerRelease.entitlements; sourceTree = "<group>"; };
 		7D2C3DCE291D007600963C5A /* RunnerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RunnerDebug.entitlements; sourceTree = "<group>"; };
 		7D3DD59F291D1A9F0092CFFF /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		7DD119DC291E5550000BD847 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8FB95C2C477CDE8A6723ECD8 /* Pods-Runner.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
 				97C147021CF9000F007C117D /* Info.plist */,
-				7DD119DC291E5550000BD847 /* GoogleService-Info.plist */,
+				18A7DD45297FFFA70059CF16 /* GoogleService-Info.plist */,
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
@@ -210,7 +210,7 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
-				7DD119DD291E5550000BD847 /* GoogleService-Info.plist in Resources */,
+				18A7DD46297FFFA70059CF16 /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 			);
@@ -379,14 +379,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = 4U36UY89U7;
+				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
+				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -397,7 +398,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = NthDegree_AdhocDistribution;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Development_NthDegree;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -477,7 +478,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
+				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -558,7 +559,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerRelease.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6;
@@ -566,7 +567,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
+				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -577,7 +578,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
 				PRODUCT_DISPLAY_NAME = "On-Sight Stage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = Development_NthDegree;
+				PROVISIONING_PROFILE_SPECIFIER = dev_NthDegree_development;
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_NthDegree_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -644,14 +645,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = 4U36UY89U7;
+				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
+				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -662,7 +664,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
 				PRODUCT_DISPLAY_NAME = "On-Sight Stage";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = NthDegree_AdhocDistribution;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = dev_NthDegree_development;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -788,15 +790,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerDebug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 6;
-				DEVELOPMENT_TEAM = 4U36UY89U7;
+				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
+				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -807,7 +809,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = Development_NthDegree;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Development_NthDegree;
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -831,7 +833,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/inventcolabsamit/Documents/On-Sight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
+				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -5,7 +5,9 @@ abstract class Routes {
   static const splashScreen = '/SplashScreen';
   static const appInfoSlideScreen = '/AppInfoSlideScreen';
   static const loginScreen = '/LoginScreen';
+  static const emailLoginScreen = '/EmailLoginScreen';
   static const verifyOtpScreen = '/VerifyOtpScreen';
+  static const verifyEmailOtpScreen = '/VerifyEmailOtpScreen';
   static const userDetailScreen = '/UserDetailScreen';
   static const dashboardScreen = '/DashboardScreen';
   static const jobPhotosScreen = '/JobPhotosScreen';

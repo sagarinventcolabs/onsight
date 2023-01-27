@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/web_service_response/get_otp_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
@@ -12,13 +14,17 @@ class LoginScreenController extends GetxController {
   WebService service = WebService();
   //phonevalidation check...........
   RxBool isValidphone = true.obs;
+  //emailValidation check...........
+  RxBool isValidEmail = true.obs;
   //button show hide................
   RxBool enableButton = false.obs;
+  //EditTet controller for email
+  TextEditingController emailController = TextEditingController(text: "");
 
 
 // Api for Get Otp.......................
   Future<dynamic> getOtpRequest(phoneNumber, selectedCountryCode) async {
-    var response = await service.getOtp(phoneNumber, selectedCountryCode);
+    var response = await service.getOtp(phoneNumber, selectedCountryCode/*.replaceAll("+", "").toString().trim()*/);
     if (response != null) {
       if (response.containsKey(error)) {
         return response;
@@ -43,6 +49,20 @@ class LoginScreenController extends GetxController {
       update();
       return false;
     } else if (phoneNumber.length < 10) {
+      isValidphone.value = false;
+      enableButton.value = false;
+      update();
+      return false;
+    } else {
+      isValidphone.value = true;
+      enableButton.value = true;
+      update();
+    }
+    return true;
+  }
+
+  validateEmail(email) {
+     if (!EmailValidator.validate(email)) {
       isValidphone.value = false;
       enableButton.value = false;
       update();

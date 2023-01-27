@@ -155,9 +155,10 @@ class _MyAppState extends State<MyApp> {
     //   final brightness = window.platformBrightness;
     //   print("Brightness Name"+brightness.name);
     // };
+
     WidgetsBinding.instance.window.onPlatformBrightnessChanged = (){
-      print("Brightness Name "+WidgetsBinding.instance.window.platformBrightness.name);
       if(WidgetsBinding.instance.window.platformBrightness.name == "light"){
+
         Get.changeTheme(ThemeData.light());
         Get.changeThemeMode(ThemeMode.light);
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -167,7 +168,9 @@ class _MyAppState extends State<MyApp> {
             systemNavigationBarColor: Colors.white
           // status bar color
         ));
+
       }else{
+
         SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
             statusBarIconBrightness: Brightness.dark,
             statusBarColor: Colors.transparent,
@@ -232,9 +235,10 @@ class _MyAppState extends State<MyApp> {
       darkTheme: Themes.dark,
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,
-          fontFamily: 'SFUI'
+          fontFamily: 'SFUI',
       ).copyWith(
-          bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.white)
+          bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.white),
+
       ),
       themeMode: ThemeMode.system,
       navigatorObservers: <NavigatorObserver>[observer],
@@ -243,6 +247,7 @@ class _MyAppState extends State<MyApp> {
       defaultTransition: Transition.cupertino,
     );
   }
+
 }
 
 class Themes {
@@ -275,11 +280,12 @@ class Themes {
     bottomAppBarColor: Colors.deepPurple,
     cardColor: ColourConstants.primary,
     dividerColor: ColourConstants.primary,
+
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.grey900),
 
     textTheme: TextTheme(
         displayMedium: TextStyle(color: Colors.white, fontFamily: 'SFUI', fontWeight: FontWeight.w500, fontSize: 16),
-        displaySmall: TextStyle(color: Colors.white, fontFamily: 'SFUI', fontWeight: FontWeight.normal, fontSize: 12)
+        displaySmall: TextStyle(color: Colors.white, fontFamily: 'SFUI', fontWeight: FontWeight.normal, fontSize: 12),
     ),
 
     inputDecorationTheme:  InputDecorationTheme(
