@@ -20,7 +20,7 @@ class AboutUsScreen extends StatefulWidget {
 class _AboutUsScreenState extends State<AboutUsScreen> {
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -97,7 +97,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       SizedBox(height: Dimensions.height10),
                       GestureDetector(
                         onTap: ()async{
-                          AnalyticsFireEvent(AboutUsMailClick, input: {
+                          analyticsFireEvent(aboutUsMailClickKey, input: {
                             user:sp?.getString(Preference.FIRST_NAME)??"" /*+" "+sp?.getString(Preference.LAST_NAME)??""*/
                           });
                           final Uri emailLaunchUri = Uri(
@@ -130,7 +130,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     );
   }
   _launchCaller() async {
-    AnalyticsFireEvent(AboutUsCallClick, input: {
+    analyticsFireEvent(aboutUsCallClickKey, input: {
       user:sp?.getString(Preference.FIRST_NAME)??"" /*+" "+sp?.getString(Preference.LAST_NAME)??""*/
     });
     if (await canLaunchUrl(Uri.parse("tel:7706925575"))) {

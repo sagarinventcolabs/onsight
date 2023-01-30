@@ -59,9 +59,9 @@ class ExhibitorManager{
     return 1;
   }
 
-  Future<dynamic> existOrNot(String ExhibitorId) async {
+  Future<dynamic> existOrNot(String exhibitorId) async {
     Database db = await DatabaseHelper().database;
-    String query="SELECT CASE WHEN count(RowID) > 0 THEN 'true' ELSE 'false' END as result from $mExhibitorTable where ExhibitorId = '$ExhibitorId'";
+    String query="SELECT CASE WHEN count(RowID) > 0 THEN 'true' ELSE 'false' END as result from $mExhibitorTable where ExhibitorId = '$exhibitorId'";
     var result = await db.rawQuery(query);
     if(result.isNotEmpty){
       return result.first['result'];

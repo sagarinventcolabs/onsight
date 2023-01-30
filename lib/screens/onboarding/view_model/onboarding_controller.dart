@@ -248,7 +248,7 @@ class OnboardingController extends GetxController{
           if(selectedOption==fileDocuments){
             onboardingResourceController.getOasisResourcesApi();
           }else{
-            Get.toNamed(Routes.onboardingRegistration);
+            Get.toNamed(Routes.onBoardingRegistration);
           }
         }else{
           if(response.toString().contains(showNumberNotFound)){
@@ -290,7 +290,7 @@ class OnboardingController extends GetxController{
 
         if (response.toString().contains("ItemId")) {
         CreateResourceResponse createResourceResponse = CreateResourceResponse.fromJson(response);
-        AnalyticsFireEvent(OasisResourceCreated, input: {
+        analyticsFireEvent(oasisResourceCreatedKey, input: {
           "ssn":createResourceResponse.ssn??"",
           user:sp?.getString(Preference.FIRST_NAME)??"" /*+" "+sp?.getString(Preference.LAST_NAME)??""*/
         });

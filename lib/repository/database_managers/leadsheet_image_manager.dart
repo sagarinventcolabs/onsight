@@ -52,10 +52,10 @@ class LeadSheetImageManager {
 
   }
 
-  Future<List<LeadSheetImageModel>> getImageByExhibitorIdandShowNumber(String ExhibitorId, String ShowNumber) async {
+  Future<List<LeadSheetImageModel>> getImageByExhibitorIdAndShowNumber(String exhibitorId, String showNumber) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mExhibitorImageTable WHERE ExhibitorId = '"+ExhibitorId+"' AND ShowNumber='"+ShowNumber+"'"+" AND IsSubmitted= '0'");
+    var result = await db.rawQuery("SELECT * FROM $mExhibitorImageTable WHERE ExhibitorId = '"+exhibitorId+"' AND ShowNumber='"+showNumber+"'"+" AND IsSubmitted= '0'");
     List<LeadSheetImageModel> list = result.isNotEmpty ? result.map((c) => LeadSheetImageModel.fromJson(c)).toList() : [];
     return list;
   }
@@ -67,10 +67,10 @@ class LeadSheetImageManager {
   }
 
 
-  Future<LeadSheetImageModel> getImageByImageName(String ImageName) async {
+  Future<LeadSheetImageModel> getImageByImageName(String imageName) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mExhibitorImageTable WHERE ImageName = '$ImageName'");
+    var result = await db.rawQuery("SELECT * FROM $mExhibitorImageTable WHERE ImageName = '$imageName'");
     List<LeadSheetImageModel> list = result.isNotEmpty ? result.map((c) => LeadSheetImageModel.fromJson(c)).toList() : [];
     if(list.isNotEmpty){
       return list.first;
@@ -87,9 +87,9 @@ class LeadSheetImageManager {
   }
 
 
-  Future<dynamic>getCount(ExhibitorId) async {
+  Future<dynamic>getCount(exhibitorId) async {
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT SUM(IsSubmitted) FROM ${mExhibitorImageTable} WHERE ExhibitorId= '${ExhibitorId}';");
+    var result = await db.rawQuery("SELECT SUM(IsSubmitted) FROM ${mExhibitorImageTable} WHERE ExhibitorId= '${exhibitorId}';");
     return result;
   }
 
@@ -114,10 +114,10 @@ class LeadSheetImageManager {
   }
 
 
-  Future<List<LeadSheetImageModel>> getFailedImage(String ExhibitorId, String ShowNumber) async {
+  Future<List<LeadSheetImageModel>> getFailedImage(String exhibitorId, String showNumber) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mExhibitorImageTable WHERE ExhibitorId = '"+ExhibitorId+"' AND ShowNumber='"+ShowNumber+"'"+" AND IsSubmitted= '1'");
+    var result = await db.rawQuery("SELECT * FROM $mExhibitorImageTable WHERE ExhibitorId = '"+exhibitorId+"' AND ShowNumber='"+showNumber+"'"+" AND IsSubmitted= '1'");
     List<LeadSheetImageModel> list = result.isNotEmpty ? result.map((c) => LeadSheetImageModel.fromJson(c)).toList() : [];
     return list;
   }

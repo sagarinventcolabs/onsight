@@ -41,7 +41,7 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Obx(() => GestureDetector(
       onTap: (){
         controller.value.value = 1;
@@ -291,11 +291,11 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
                   },
 
                   itemBuilder: (context, String? suggestion) {
-                    final UnionName = suggestion??"";
+                    final unionName = suggestion??"";
                     return Visibility(
                         visible: controller.value.value==0,
                         child: ListTile(
-                          title: Text(UnionName),
+                          title: Text(unionName),
                         ));
                   },
                   noItemsFoundBuilder: (context) {
@@ -492,12 +492,12 @@ class _OnboardingRegistrationState extends State<OnboardingRegistration> {
             child: Padding(
               padding: EdgeInsets.only(right: Dimensions.height11, left: Dimensions.height8),
               child: controller.isListening.isTrue?Image.asset(
-                Assets.ic_mic,
+                Assets.icMic,
                 height: Dimensions.height20,
                 width: Dimensions.height20,
                 color: Colors.blue,
               ): Image.asset(
-                Assets.ic_mic,
+                Assets.icMic,
                 height: Dimensions.height25,
                 width: Dimensions.height25,
                 color: Get.isDarkMode ? ColourConstants.white : null,

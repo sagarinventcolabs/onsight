@@ -30,7 +30,7 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -62,7 +62,7 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
                            topRight: Radius.circular(Dimensions.height10))),
                    isScrollControlled: true,
                    context: context,
-                   builder: (context) =>  bottomSheetImagePickerOnBoardingPictures(Routes.UploadPromoPictureScreen,i)).then((value) {
+                   builder: (context) =>  bottomSheetImagePickerOnBoardingPictures(Routes.uploadPromoPictureScreen,i)).then((value) {
                  controller.imageList.forEach((element) {
                    if((element.image?.length??0) > 0){
                      controller.enableButton.value = true;
@@ -72,7 +72,7 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
                });
              },
                child:  Image.asset(
-               Assets.ic_add,
+               Assets.icAdd2,
                height: Dimensions.height25,
                width: Dimensions.height25,
              ),
@@ -128,7 +128,7 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
                  }
                 },
                 child: Image.asset(
-                  Assets.ic_close,
+                  Assets.icClose2,
                   height: Dimensions.height18,
                   width: Dimensions.height18,
                 ),

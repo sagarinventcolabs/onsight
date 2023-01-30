@@ -39,10 +39,10 @@ class QuestionsManager{
     return rs;
   }
 
-  Future<List<QuestionnaireDataList>> getCategory(String CategoryName) async {
+  Future<List<QuestionnaireDataList>> getCategory(String categoryName) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery('SELECT * FROM $mEvaluationQuestionTable' +" WHERE CategoryName='"+CategoryName+"'");
+    var result = await db.rawQuery('SELECT * FROM $mEvaluationQuestionTable' +" WHERE CategoryName='"+categoryName+"'");
     List<QuestionnaireDataList> list = result.isNotEmpty ? result.map((c) => QuestionnaireDataList.fromJson(c)).toList() : [];
     return list;
   }
@@ -59,10 +59,10 @@ class QuestionsManager{
     return 1;
   }
 
-  Future<int> deleteCategory(String emailId, String JobNumber) async {
+  Future<int> deleteCategory(String emailId, String jobNumber) async {
 
     Database db = await DatabaseHelper().database;
-    await db.rawQuery("DELETE FROM $mEvaluationQuestionTable WHERE AdditionalEmail='"+emailId+"' AND JobNumber='"+JobNumber+"'");
+    await db.rawQuery("DELETE FROM $mEvaluationQuestionTable WHERE AdditionalEmail='"+emailId+"' AND JobNumber='"+jobNumber+"'");
     return 1;
   }
   Future<int> deleteAllData() async {
@@ -72,9 +72,9 @@ class QuestionsManager{
     return 1;
   }
 
-  Future<dynamic> existOrNot(String QuestionID) async {
+  Future<dynamic> existOrNot(String questionID) async {
     Database db = await DatabaseHelper().database;
-    String query="SELECT CASE WHEN count(RowID) > 0 THEN 'true' ELSE 'false' END as result from $mEvaluationQuestionTable where QuestionID = '$QuestionID'";
+    String query="SELECT CASE WHEN count(RowID) > 0 THEN 'true' ELSE 'false' END as result from $mEvaluationQuestionTable where QuestionID = '$questionID'";
     var result = await db.rawQuery(query);
     if(result.isNotEmpty){
       return result.first['result'];

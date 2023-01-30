@@ -27,7 +27,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Obx(() => Scaffold(
         appBar: const BaseAppBar(title: profile),
         bottomNavigationBar: GestureDetector(
@@ -36,7 +36,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 FocusScope.of(context).unfocus();
 
                 await profileController.updateProfile();
-                AnalyticsFireEvent(updateProfile, input: {
+                analyticsFireEvent(updateProfile, input: {
                   firstName: profileController.firstNameController.text.toString(),
                   email: profileController.emailController.text.toString(),
                   lastName: profileController.lastNameController.text.toString(),
@@ -73,8 +73,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: Dimensions.height40),
                   child: Get.isDarkMode
-                      ? Image.asset(Assets.logo_text_dark, height: Dimensions.height63)
-                      : Image.asset(Assets.logo_text, height: Dimensions.height63)),
+                      ? Image.asset(Assets.logoTextDark, height: Dimensions.height63)
+                      : Image.asset(Assets.logoText, height: Dimensions.height63)),
               SizedBox(
                 height: Dimensions.height40,
               ),

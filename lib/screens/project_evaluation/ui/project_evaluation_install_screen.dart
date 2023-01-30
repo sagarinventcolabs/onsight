@@ -43,7 +43,7 @@ class _ProjectEvaluationInstallScreenState extends State<ProjectEvaluationInstal
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -176,7 +176,7 @@ class _ProjectEvaluationInstallScreenState extends State<ProjectEvaluationInstal
                     ),
                   ),
                   SizedBox(width: Dimensions.height10),
-                  Text(Yes,
+                  Text(yes,
                       style: TextStyle(
                           color: Get.isDarkMode ? ColourConstants.white : ColourConstants.greyText,
                           fontWeight: FontWeight.w400,
@@ -214,7 +214,7 @@ class _ProjectEvaluationInstallScreenState extends State<ProjectEvaluationInstal
                     ),
                   ),
                   SizedBox(width: Dimensions.font10),
-                  Text(No,
+                  Text(no,
                       style: TextStyle(
                           color: Get.isDarkMode ? ColourConstants.white : ColourConstants.greyText,
                           fontWeight: FontWeight.w400,
@@ -274,12 +274,12 @@ class _ProjectEvaluationInstallScreenState extends State<ProjectEvaluationInstal
             //child: Icon(_uploadJobPhotosC.speechToText.value.isNotListening ? Icons.mic_off : Icons.mic,size: 25,color: ColourConstants.greyText,),
             child: projectEvaluationInstallC.questionList[photoIndex].isListening
                 ?Image.asset(
-              Assets.ic_mic,
+              Assets.icMic,
               height: Dimensions.font25,
               width: Dimensions.font25,
               color: Colors.blue,
             ):Image.asset(
-              Assets.ic_mic,
+              Assets.icMic,
               height: Dimensions.font25,
               width: Dimensions.font25,
               color: Get.isDarkMode ? ColourConstants.white : null,
@@ -333,12 +333,12 @@ class _ProjectEvaluationInstallScreenState extends State<ProjectEvaluationInstal
             padding: EdgeInsets.only(right: Dimensions.font11, left: Dimensions.font8),
             child: projectEvaluationInstallC.isListening.isTrue?
             Image.asset(
-              Assets.ic_mic,
+              Assets.icMic,
               height: Dimensions.font25,
               width: Dimensions.font25,
               color: Colors.blue,
             ):Image.asset(
-              Assets.ic_mic,
+              Assets.icMic,
               height: Dimensions.font25,
               width: Dimensions.font25,
               color: Get.isDarkMode ? ColourConstants.white : null,

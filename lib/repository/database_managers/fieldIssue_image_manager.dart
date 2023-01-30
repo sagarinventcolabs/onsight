@@ -51,10 +51,10 @@ class FieldIssueImageManager {
 
   }
 
-  Future<List<LeadSheetImageModel>> getImageByExhibitorIdandShowNumber(String ExhibitorId, String ShowNumber) async {
+  Future<List<LeadSheetImageModel>> getImageByExhibitorIdandShowNumber(String exhibitorId, String showNumber) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mFieldIssueImageTable WHERE ExhibitorId = '"+ExhibitorId+"' AND ShowNumber='"+ShowNumber+"'"+" AND IsSubmitted= '0'");
+    var result = await db.rawQuery("SELECT * FROM $mFieldIssueImageTable WHERE ExhibitorId = '"+exhibitorId+"' AND ShowNumber='"+showNumber+"'"+" AND IsSubmitted= '0'");
     List<LeadSheetImageModel> list = result.isNotEmpty ? result.map((c) => LeadSheetImageModel.fromJson(c)).toList() : [];
     return list;
   }
@@ -66,10 +66,10 @@ class FieldIssueImageManager {
   }
 
 
-  Future<FieldIssueImageModel> getImageByImageName(String ImageName) async {
+  Future<FieldIssueImageModel> getImageByImageName(String imageName) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mFieldIssueImageTable WHERE ImageName = '$ImageName'");
+    var result = await db.rawQuery("SELECT * FROM $mFieldIssueImageTable WHERE ImageName = '$imageName'");
     List<FieldIssueImageModel> list = result.isNotEmpty ? result.map((c) => FieldIssueImageModel.fromJson(c)).toList() : [];
     if(list.isNotEmpty){
       return list.first;
@@ -85,9 +85,9 @@ class FieldIssueImageManager {
   }
 
 
-  Future<dynamic>getCount(ExhibitorId) async {
+  Future<dynamic>getCount(exhibitorId) async {
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT SUM(IsSubmitted) FROM ${mFieldIssueImageTable} WHERE ExhibitorId= '${ExhibitorId}';");
+    var result = await db.rawQuery("SELECT SUM(IsSubmitted) FROM ${mFieldIssueImageTable} WHERE ExhibitorId= '${exhibitorId}';");
     return result;
   }
 

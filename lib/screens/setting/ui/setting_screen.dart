@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
-import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
@@ -36,7 +35,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Obx(()=> Scaffold(
       appBar: const BaseAppBar(title: settingsString),
       body: Padding(
@@ -65,7 +64,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       onChanged: (val) async {
                         await controller.setMobileDataSwitch(val: val);
                         setState(()  {});
-                        AnalyticsFireEvent(EnableMobileData, input: {
+                        analyticsFireEvent(enableMobileDataKey, input: {
                           value:val.toString(),
                           user:sp?.getString(Preference.FIRST_NAME)??""
                         });
@@ -87,7 +86,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       onChanged: (valuee) async {
                         await controller.setBatterySwitch(val: valuee);
                         setState((){});
-                        AnalyticsFireEvent(BatterySaver, input: {
+                        analyticsFireEvent(batterySaverKey, input: {
                           value:valuee.toString(),
                           user:sp?.getString(Preference.FIRST_NAME)??""
                         });
@@ -110,7 +109,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         controller.poorNetworkAlertSwitch.value = val;
                         await controller.setCameraSoundSwitch(val: val);
                         setState((){});
-                        AnalyticsFireEvent(PoorNetworkAlert, input: {
+                        analyticsFireEvent(poorNetworkAlertKey, input: {
                           value:val.toString(),
                           user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
                         });
@@ -138,7 +137,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       onChanged: (val)async{
                         await controller.setCameraSoundSwitch(val: val);
                         setState((){});
-                        AnalyticsFireEvent(CameraShutter, input: {
+                        analyticsFireEvent(cameraShutter2, input: {
                           value:val.toString(),
                           user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
                         });
@@ -159,7 +158,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       onChanged: (val){
                         controller.setNotifyUploadSwitch(val: val);
                         setState(()  {});
-                        AnalyticsFireEvent(NotifyComplete, input: {
+                        analyticsFireEvent(notifyCompleteKey, input: {
                           value:val.toString(),
                           user:sp?.getString(Preference.FIRST_NAME)??""
                         },
@@ -221,7 +220,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           children: [
                             Text(deleteMyAccount, style: TextStyle(color: ColourConstants.grey, fontSize: Dimensions.font17),),
                             Expanded(child: Container()),
-                            Image.asset(Assets.image_delete, width: Dimensions.width22, height: Dimensions.height22, color: ColourConstants.grey,),
+                            Image.asset(Assets.imageDelete, width: Dimensions.width22, height: Dimensions.height22, color: ColourConstants.grey,),
                             SizedBox(width: Dimensions.width15,)
                           ],
                         ),

@@ -53,7 +53,7 @@ const String icon = "icon";
 const String critical = "Critical";
 const String error = "error";
 const String add = "add";
-const String ADD = "ADD";
+const String addCaps = "ADD";
 
 /// user detail screen...................................
 const String littleThings = "Little things to know about you";
@@ -86,7 +86,7 @@ const String verificationCode = "Verification Code";
 const String verificationCodeInvalid = "Verification code is invalid";
 const String resendCode = "Resend Code";
 const String verify = "VERIFY";
-const String RequiredRegistration = "RequiredRegistration";
+const String requiredRegistration = "RequiredRegistration";
 
 /// Login Screen.........................................
 
@@ -149,7 +149,7 @@ const String wouldYouLikeInstallDismentalEvaluation = "Would you like to complet
 const String doYouWantDiscardPhotos = "Do you want to discard the added photos?";
 const String showReady = "Show Ready";
 const String outbound = "Outbound";
-const String job_number = "job_number";
+const String jobNumber2 = "job_number";
 const String fromMain = "fromMain";
 
 
@@ -185,8 +185,8 @@ const String detailsSubmittedSuccessfully = "Details have been submitted success
 const String areYouSureSubmitEvaluation = "Are you sure, you want to submit evaluation for Job number?";
 const String anEvaluationHasAlreadyBeenSubmitted = "An evaluation has already been submitted for this job";
 const String wouldYouLikeToSubmitAgain = " would you like to submit form again?";
-const String Yes = "Yes";
-const String No = "No";
+const String yes = "Yes";
+const String no = "No";
 const String noQuestionaire = "No Questionnaire available for this job id";
 
 /// Lead Sheet Strings
@@ -224,8 +224,8 @@ const String showNumberNotFound = "Show Number not found";
 const String noBoothSizesFound = "No Booth Sizes Found.";
 const String noShopsFound = "No Shops Found.";
 const String noCompaniesFound = "No Companies Found";
-const String number_of_photos = "number_of_photos";
-const String exhibitoraddedSuccessfully = "Exhibitor added\nsuccessfully";
+const String numberOfPhotos = "number_of_photos";
+const String exhibitorAddedSuccessfully = "Exhibitor added\nsuccessfully";
 const String somethingWentWrong = "Something Went Wrong!";
 const String exhibitorDetailsUpdatedSuccessfully = "Exhibitor details updated\nsuccessfully";
 
@@ -249,17 +249,17 @@ const String doYouWantAddMoreComment = "Do you want to add more comments?";
 const String doYouWantAddMorePhoto = "Do you want to add more photo?";
 const String commentSubmittedSuccessfully = "Comment submitted successfully!";
 const String category = "category";
-const String image_count = "image_count";
+const String imageCount = "image_count";
 const String value = "value";
 const String freight = "Freight";
 const String missingDamage = "Missing/Damaged";
 const String injury = "Injury";
 const String lateServices = "Late Services";
 const String initiateClaim = "Initiate Claim";
-const String field_issue_type = "field_issue_type";
-const String number_name = "number_name";
-const String field_issue_category = "field_issue_category";
-const String photo_count = "photo_count";
+const String fieldIssueType = "field_issue_type";
+const String numberName = "number_name";
+const String fieldIssueCategory = "field_issue_category";
+const String photoCount2 = "photo_count";
 
 /// About Us
 const String aboutUsDescription1 = "Nth Degree is always on-site and you, our labor operations team members, are our clients’ eyes on the show floor. To help you help our clients,we havecreated this app, On-Sight.";
@@ -297,10 +297,10 @@ const String noResultFound = "No Result Found!";
 const String oasisEntry = "OASIS Entry";
 const String fileDocuments = "File Documents";
 const String selectCategory = "Select Category";
-const String ID = "ID";
+const String idCaps = "ID";
 const String ssCard = "SS Card";
-const String W4 = "W4";
-const String I9 = "I9";
+const String w4 = "W4";
+const String i9 = "I9";
 const String i9Supporting = "I9 Supporting";
 const String directDepositForm = "Direct Deposit Form";
 const String directDepositSupporting = "Direct Deposit Supporting";
@@ -323,8 +323,8 @@ const String isAlert = "isAlert";
 const String showStr = "Show";
 const String notAtShow = "Not At Show";
 const String wantToAddMorePhoto = "Do you want to add more photos ?";
-const String photos_Submitted_To_Show = "Photos_Submitted_To_Show";
-const String photos_Submitted_To_not_Show = "Photos_Submitted_To_Not_A_Show";
+const String photosSubmittedToShow = "Photos_Submitted_To_Show";
+const String photosSubmittedToNotShow = "Photos_Submitted_To_Not_A_Show";
 
 /// Channel ID
 const String packageName = "com.nthdegree.onsight";
@@ -339,8 +339,8 @@ int imageQualityRatio = 20;
 /// Others
 const String jobNumber = "Job Number";
 const String screenLock = "Screen Lock";
-const String CONFIRM = "CONFIRM";
-const String SKIP = "SKIP";
+const String confirmCaps = "CONFIRM";
+const String skipCaps = "SKIP";
 const String disclaimerMessage = "Your account will be deactivated and deleted after 1 month, you can still log-in again with same no. before 1 month if required";
 const String screenLockDesc = "Would you like to use your screen lock pattern, touch ID, face ID, PIN or password to use this application.you will be able to change this later in settings.";
 
@@ -352,40 +352,40 @@ var regexToRemoveEmoji = '   /\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC7
 
 
 /// Firebase Analytics Events Name
-const String EnableMobileData = "Enable_Mobile_Data";
+const String enableMobileDataKey = "Enable_Mobile_Data";
 const String user = "user";
-const String BatterySaver = "Battery_Saver";
-const String PoorNetworkAlert = "Poor_Network_Alert";
-const String CameraShutter = "Camera_Shutter";
-const String NotifyComplete = "Notify_Complete";
-const String AboutUsMailClick = "About_Us_MailClick";
-const String AboutUsCallClick = "About_Us_Call_Click";
-const String JobPhotosModule = "Job_Photos_Module";
-const String ProjectEvaluation = "Project_Evaluation";
-const String LeadSheetStr = "Lead_Sheet";
-const String AddExhibitor = "Add_Exhibitor";
-const String UpdateExhibitor = "Update_Exhibitor";
-const String JobPhotoUpload = "Job_Photo_Upload";
-const String OasisResourceCreated = "Oasis_Resource_Created";
-const String PromoPicturesStr = "Promo_Pictures";
-const String FieldIssueCategory = "Field_Issue_Category";
-const String CameraOrGallery = "Camera_Or_Gallery";
-const String LoginOrSignUp = "Login_Or_SignUp";
-const String added_exhibitor_name = "added_exhibitor_name";
-const String updated_exhibitor_name = "updated_exhibitor_name";
+const String batterySaverKey = "Battery_Saver";
+const String poorNetworkAlertKey = "Poor_Network_Alert";
+const String cameraShutter2 = "Camera_Shutter";
+const String notifyCompleteKey = "Notify_Complete";
+const String aboutUsMailClickKey = "About_Us_MailClick";
+const String aboutUsCallClickKey = "About_Us_Call_Click";
+const String jobPhotosModuleKey = "Job_Photos_Module";
+const String projectEvaluationKey = "Project_Evaluation";
+const String leadSheetKey = "Lead_Sheet";
+const String addExhibitorKey = "Add_Exhibitor";
+const String updateExhibitorKey = "Update_Exhibitor";
+const String jobPhotoUploadKey = "Job_Photo_Upload";
+const String oasisResourceCreatedKey = "Oasis_Resource_Created";
+const String promoPicturesKey = "Promo_Pictures";
+const String fieldIssueCategoryKey = "Field_Issue_Category";
+const String cameraOrGalleryKey = "Camera_Or_Gallery";
+const String loginOrSignUpKey = "Login_Or_SignUp";
+const String addedExhibitorName = "added_exhibitor_name";
+const String updatedExhibitorName = "updated_exhibitor_name";
 const String photoCount = "PhotoCount";
 const String type = "type";
 const String updateProfile = "UpdateProfile";
-const String Camera = "Camera";
-const String Gallery = "Gallery";
-const String Photo = "Photo";
+const String cameraStr = "Camera";
+const String galleryStr = "Gallery";
+const String photoStr = "Photo";
 const String pinBioPattern = "PIN / Bio Metric / Pattern";
 
 
 
 /// Other Keys
 const String isChecked = "isChecked";
-const String JobNumber = "JobNumber";
+const String jobNumberKey = "JobNumber";
 const String request = "request";
 
 

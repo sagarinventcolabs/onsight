@@ -79,7 +79,7 @@ class LeadSheetImageController extends GetxController {
 
   Future<void> setupData(id, showNumber) async {
     LeadSheetImageManager manager = LeadSheetImageManager();
-    photoList.addAll(await manager.getImageByExhibitorIdandShowNumber(id, showNumber));
+    photoList.addAll(await manager.getImageByExhibitorIdAndShowNumber(id, showNumber));
     photoList.refresh();
     update();
   }

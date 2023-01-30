@@ -13,7 +13,7 @@ import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/end_point.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'app_exception.dart';
+import 'package:on_sight_application/repository/app_exception.dart';
 
 class ApiBaseHelper{
 

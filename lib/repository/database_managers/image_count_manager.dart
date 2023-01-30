@@ -20,10 +20,10 @@ class ImageCountManager{
 
   }
 
-  Future<ImageCount> getCountByCategoryName(String CategoryId, jobnumber) async {
+  Future<ImageCount> getCountByCategoryName(String categoryId, jobNumber) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mImageCountTable WHERE CategoryId = '$CategoryId' AND JobNumber = '${jobnumber}'");
+    var result = await db.rawQuery("SELECT * FROM $mImageCountTable WHERE CategoryId = '$categoryId' AND JobNumber = '${jobNumber}'");
     List<ImageCount> list = result.isNotEmpty ? result.map((c) => ImageCount.fromJson(c)).toList() : [];
     if(list.isNotEmpty){
       return list.first;
@@ -33,9 +33,9 @@ class ImageCountManager{
 
   }
 
-  Future<dynamic> existOrNot(String CategoryId, jobnumber) async {
+  Future<dynamic> existOrNot(String categoryId, jobNumber) async {
     Database db = await DatabaseHelper().database;
-    String query="SELECT CASE WHEN count(RowID) > 0 THEN 'true' ELSE 'false' END as result from $mImageCountTable where CategoryId = '$CategoryId' AND JobNumber = '$jobnumber'";
+    String query="SELECT CASE WHEN count(RowID) > 0 THEN 'true' ELSE 'false' END as result from $mImageCountTable where CategoryId = '$categoryId' AND JobNumber = '$jobNumber'";
     var result = await db.rawQuery(query);
     if(result.isNotEmpty){
       return result.first['result'];
@@ -43,9 +43,9 @@ class ImageCountManager{
     return false;
   }
 
-  Future<dynamic> getCount(String categoryId, String JobNumber) async {
+  Future<dynamic> getCount(String categoryId, String jobNumber) async {
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mImageCountTable WHERE CategoryId LIKE '"+categoryId+"' AND JobNumber LIKE '"+JobNumber+"'");
+    var result = await db.rawQuery("SELECT * FROM $mImageCountTable WHERE CategoryId LIKE '"+categoryId+"' AND JobNumber LIKE '"+jobNumber+"'");
    // count = int.parse(result.toString());
     return result;
   }

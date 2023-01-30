@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
 
     return WillPopScope(child: Scaffold(
       extendBodyBehindAppBar: true,

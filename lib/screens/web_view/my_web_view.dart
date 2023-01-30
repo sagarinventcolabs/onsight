@@ -29,7 +29,7 @@ class _MyWebViewState extends State<MyWebView> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(sharePoint),

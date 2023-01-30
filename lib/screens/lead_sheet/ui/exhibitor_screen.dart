@@ -73,7 +73,7 @@ class _ExhibitorScreenState extends State<ExhibitorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return GestureDetector(
       onTap: (){
         FocusScope.of(context).unfocus();

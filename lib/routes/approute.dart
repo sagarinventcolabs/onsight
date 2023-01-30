@@ -24,19 +24,19 @@ abstract class Routes {
   static const fieldIssueCategoryScreen = '/FieldIssueCategoryScreen';
   static const fieldIssueCommentScreen = '/FieldIssueCommentScreen';
   static const fieldIssuePhotoScreen = '/FieldIssuePhotoScreen';
-  static const UpdateProfileScreen = '/UpdateProfileScreen';
-  static const SettingScreen = '/SettingScreen';
-  static const AboutUsScreen = '/AboutUsScreen';
+  static const updateProfileScreen = '/UpdateProfileScreen';
+  static const settingScreen = '/SettingScreen';
+  static const aboutUsScreen = '/AboutUsScreen';
   static const leadSheetPhotosNote = '/LeadSheetPhotosNote';
-  static const OnBoardingScreen = '/OnBoardingScreen';
-  static const OnBoardingResourceScreen = '/OnBoardingResourceScreen';
+  static const onBoardingScreen = '/OnBoardingScreen';
+  static const onBoardingResourceScreen = '/OnBoardingResourceScreen';
   static const resourceDetails = '/ResourceDetails';
-  static const onboardingRegistration = '/OnboardingRegistration';
+  static const onBoardingRegistration = '/OnboardingRegistration';
   static const selectJobScreen = '/SelectJobScreen';
-  static const PromoPictureScreen = '/PromoPictureScreen';
-  static const UploadPromoPictureScreen = '/UploadPromoPictureScreen';
-  static const OnBoardingUploadPhotosScreen = '/OnBoardingUploadPhotosScreen';
-  static const OnBoardingPhotoScreen = '/OnBoardingPhotoScreen';
-  static const IntroductionTwoStep = '/IntroductionTwoStep';
+  static const promoPictureScreen = '/PromoPictureScreen';
+  static const uploadPromoPictureScreen = '/UploadPromoPictureScreen';
+  static const onBoardingUploadPhotosScreen = '/OnBoardingUploadPhotosScreen';
+  static const onBoardingPhotoScreen = '/OnBoardingPhotoScreen';
+  static const introductionTwoStep = '/IntroductionTwoStep';
 
 }

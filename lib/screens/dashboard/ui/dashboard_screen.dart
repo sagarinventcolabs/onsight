@@ -78,7 +78,7 @@ class DashboardScreenState extends State<DashboardScreen>{
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
     print(isDarkMode);
@@ -173,8 +173,8 @@ class DashboardScreenState extends State<DashboardScreen>{
             DashboardTile(title: jobPhotos,lightSvgIcon: Assets.icDashboardCam,darkSvgIcon: Assets.illJobPhotosDark,routeName: Routes.jobPhotosScreen),
             DashboardTile(title: projectEvaluation,lightSvgIcon: Assets.icProjectEvaluation,darkSvgIcon: Assets.icProjectEvaluationDark,routeName: Routes.projectEvaluationScreen),
             DashboardTile(title: leadSheet,lightSvgIcon: Assets.icLeadSheet,darkSvgIcon: Assets.icLeadSheetDark,routeName: Routes.leadSheetScreen,),
-            DashboardTile(title: onboarding,lightSvgIcon: Assets.icOnBoarding,darkSvgIcon: Assets.icOnBoardingDark,routeName: Routes.OnBoardingScreen),
-            DashboardTile(title: promoPictures,lightSvgIcon: Assets.icPromoPic,darkSvgIcon: Assets.icPromoPicDark,routeName: Routes.PromoPictureScreen),
+            DashboardTile(title: onboarding,lightSvgIcon: Assets.icOnBoarding,darkSvgIcon: Assets.icOnBoardingDark,routeName: Routes.onBoardingScreen),
+            DashboardTile(title: promoPictures,lightSvgIcon: Assets.icPromoPic,darkSvgIcon: Assets.icPromoPicDark,routeName: Routes.promoPictureScreen),
             DashboardTile(title: fieldIssues,lightSvgIcon: Assets.icFieldIssue,darkSvgIcon: Assets.icFieldIssueDark,routeName: Routes.fieldIssues),
           ],
         ),
@@ -221,13 +221,13 @@ class DashboardScreenState extends State<DashboardScreen>{
   handlePop(String result) async {
     switch (result) {
       case settings:{
-        Get.toNamed(Routes.SettingScreen);
+        Get.toNamed(Routes.settingScreen);
         break;}
       case profile:
-        Get.toNamed(Routes.UpdateProfileScreen);
+        Get.toNamed(Routes.updateProfileScreen);
         break;
       case aboutUsStr:
-        Get.toNamed(Routes.AboutUsScreen);
+        Get.toNamed(Routes.aboutUsScreen);
         break;
       case logout:
         dialogAction(context, title: "Are you sure you want to logout?", onTapNo: (){

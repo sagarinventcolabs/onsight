@@ -71,7 +71,7 @@ class PromoPicturesController extends GetxController{
               context: Get.context!,
               builder: (context) =>
                   bottomSheetImagePickerPromoPictures(
-                      Routes.PromoPictureScreen)).then((
+                      Routes.promoPictureScreen)).then((
               value) {
                         update();
           });

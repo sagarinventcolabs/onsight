@@ -15,7 +15,6 @@ import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -335,7 +334,7 @@ checkRootJailBreakSecurity(){
 }
 
 
-AnalyticsFireEvent(eventName, {Map<String, dynamic>? input}) async {
+analyticsFireEvent(eventName, {Map<String, dynamic>? input}) async {
   await FirebaseAnalytics.instance.logEvent(
       name: eventName,
       parameters: input);

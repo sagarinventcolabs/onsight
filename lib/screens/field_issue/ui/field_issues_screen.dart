@@ -55,7 +55,7 @@ class FieldIssuesState extends State<FieldIssues> with SearchFunctions{
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -110,7 +110,7 @@ class FieldIssuesState extends State<FieldIssues> with SearchFunctions{
                     }
                   }
                   controller.selectedFieldIssue.value = _selectedLocation;
-                  AnalyticsFireEvent(FieldIssueCategory, input: {
+                  analyticsFireEvent(fieldIssueCategoryKey, input: {
                     category: _selectedLocation,
                     value: controller.jobEditingController.text.trim(),
                     user:(sp?.getString(Preference.FIRST_NAME)??"")

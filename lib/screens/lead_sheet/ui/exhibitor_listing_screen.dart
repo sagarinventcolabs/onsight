@@ -28,7 +28,7 @@ class _ExhibitorListingScreenState extends State<ExhibitorListingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

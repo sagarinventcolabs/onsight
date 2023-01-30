@@ -62,7 +62,7 @@ class _UploadJobPhotosNoteState extends State<UploadJobPhotosNote> {
   }
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -327,7 +327,7 @@ class _UploadJobPhotosNoteState extends State<UploadJobPhotosNote> {
                     height: Dimensions.height20,
                     width: Dimensions.height20,
                     child: Checkbox(
-                        value: _uploadJobPhotosC.jobPhotosList[photoIndex].PromoFlag==1?true:false,
+                        value: _uploadJobPhotosC.jobPhotosList[photoIndex].promoFlag==1?true:false,
                         checkColor: ColourConstants.white,
                         activeColor: ColourConstants.greenColor,
                         onChanged: (bool? newValue) {
@@ -335,11 +335,11 @@ class _UploadJobPhotosNoteState extends State<UploadJobPhotosNote> {
                           _uploadJobPhotosC.update();
                           if (newValue == true) {
                             _uploadJobPhotosC.jobPhotosList[photoIndex]
-                                .PromoFlag=1;
+                                .promoFlag=1;
                             _uploadJobPhotosC.jobPhotosList.refresh();
                             _uploadJobPhotosC.update();
                           }else{
-                            _uploadJobPhotosC.jobPhotosList[photoIndex].PromoFlag = 0;
+                            _uploadJobPhotosC.jobPhotosList[photoIndex].promoFlag = 0;
                             _uploadJobPhotosC.jobPhotosList.refresh();
                             _uploadJobPhotosC.update();
                           }

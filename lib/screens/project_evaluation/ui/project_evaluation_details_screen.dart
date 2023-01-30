@@ -2,7 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_controller.dart';
@@ -47,7 +46,7 @@ class _ProjectEvaluationDetailsScreenState extends State<ProjectEvaluationDetail
   }
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -319,7 +318,7 @@ class _ProjectEvaluationDetailsScreenState extends State<ProjectEvaluationDetail
               });
 
             },
-            child: Image.asset(Assets.ic_delete,height: Dimensions.height25,width: Dimensions.height25,color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primaryLight,),
+            child: Image.asset(Assets.icDelete2,height: Dimensions.height25,width: Dimensions.height25,color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primaryLight,),
           )
         ],
       ),
@@ -423,7 +422,7 @@ class _ProjectEvaluationDetailsScreenState extends State<ProjectEvaluationDetail
           },
           child: Padding(
             padding: EdgeInsets.only(right: Dimensions.height14,top: Dimensions.height5),
-            child: Text(ADD,style: TextStyle(color: controller.isValidEmailS.value ? ColourConstants.primaryLight : ColourConstants.grey),),
+            child: Text(addCaps,style: TextStyle(color: controller.isValidEmailS.value ? ColourConstants.primaryLight : ColourConstants.grey),),
           ),
         ),
         enabledBorder:  OutlineInputBorder(

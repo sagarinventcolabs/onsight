@@ -122,10 +122,10 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<int> getCountFromTable(String table_name) async {
+  Future<int> getCountFromTable(String tableName) async {
     Database db = await this.database;
     List<Map<String, dynamic>> list =
-    await db.rawQuery('SELECT COUNT (*) FROM $table_name');
+    await db.rawQuery('SELECT COUNT (*) FROM $tableName');
     var count = Sqflite.firstIntValue(list);
     return count!;
   }

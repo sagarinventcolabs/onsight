@@ -25,9 +25,9 @@ class AppUpdateManager{
     return true;
   }
 
-  Future<dynamic> updateStatus(String Version,int status) async {
+  Future<dynamic> updateStatus(String version,int status) async {
     Database db = await DatabaseHelper().database;
-    String query="UPDATE $mAppUpdateTable SET UpdateStatus=$status WHERE Version='$Version'";
+    String query="UPDATE $mAppUpdateTable SET UpdateStatus=$status WHERE Version='$version'";
     var result = await db.rawQuery(query);
     return result;
   }
@@ -43,10 +43,10 @@ class AppUpdateManager{
   }
 
 
-  Future<VersionDetails> getVersionDetails(String Version) async {
+  Future<VersionDetails> getVersionDetails(String version) async {
     Database db = await DatabaseHelper().database;
     var result = await db.rawQuery(
-        "SELECT * FROM $mAppUpdateTable WHERE Version= '$Version'");
+        "SELECT * FROM $mAppUpdateTable WHERE Version= '$version'");
     List<VersionDetails> list = result.isNotEmpty ? result.map((c) =>
         VersionDetails.fromJson(c)).toList() : [];
     if (list.isNotEmpty) {

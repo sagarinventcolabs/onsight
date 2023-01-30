@@ -78,8 +78,8 @@ class ExhibitorController extends GetxController{
         }
       if(response != null){
         if (!response.toString().contains("error")) {
-          AnalyticsFireEvent(AddExhibitor, input: {
-            added_exhibitor_name: model.exhibitorName??"",
+          analyticsFireEvent(addExhibitorKey, input: {
+            addedExhibitorName: model.exhibitorName??"",
             user:sp?.getString(Preference.FIRST_NAME)??"" /*+" "+sp?.getString(Preference.LAST_NAME)??""*/
           });
           LeadSheetController controller = Get.find<LeadSheetController>();
@@ -98,7 +98,7 @@ class ExhibitorController extends GetxController{
           print((sp?.getInt(Preference.ACTIVITY_TRACKER)??0).toString());
           controller.list.refresh();
           controller.update();
-          defaultDialog(Get.context!,title: exhibitoraddedSuccessfully,onTap: (){
+          defaultDialog(Get.context!,title: exhibitorAddedSuccessfully,onTap: (){
             Get.back();
             Get.back();
           },cancelable: false);
@@ -141,8 +141,8 @@ class ExhibitorController extends GetxController{
       if(response != null){
 
         if (!response.toString().contains(error)) {
-          AnalyticsFireEvent(UpdateExhibitor, input: {
-            updated_exhibitor_name: model.exhibitorName??"",
+          analyticsFireEvent(updateExhibitorKey, input: {
+            updatedExhibitorName: model.exhibitorName??"",
             user:sp?.getString(Preference.FIRST_NAME)??"" /*+" "+sp?.getString(Preference.LAST_NAME)??""*/
           });
           LeadSheetController controller = Get.find<LeadSheetController>();

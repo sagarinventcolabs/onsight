@@ -20,7 +20,7 @@ class IntroductionTwoStep extends StatefulWidget {
 class _IntroductionTwoStepState extends State<IntroductionTwoStep> {
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +33,7 @@ class _IntroductionTwoStepState extends State<IntroductionTwoStep> {
                 borderRadius: BorderRadius.all(Radius.circular(900)),
                 color: ColourConstants.ellipseColor
             ),
-            child: Center(child: Image.asset(Assets.bio_darkmode,
+            child: Center(child: Image.asset(Assets.bioDarkMode,
               width: 180,
               height: 180,)),
           ),
@@ -71,7 +71,7 @@ class _IntroductionTwoStepState extends State<IntroductionTwoStep> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Text(CONFIRM, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w500, fontSize: Dimensions.font18),)),
+                    child: Center(child: Text(confirmCaps, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w500, fontSize: Dimensions.font18),)),
                   ),
                 ),
               )
@@ -84,7 +84,7 @@ class _IntroductionTwoStepState extends State<IntroductionTwoStep> {
                   Get.offAllNamed(Routes.dashboardScreen);
                 });
               },
-              child: Text(SKIP, style: TextStyle(fontSize: Dimensions.font17),))
+              child: Text(skipCaps, style: TextStyle(fontSize: Dimensions.font17),))
         ],
       ),
     );

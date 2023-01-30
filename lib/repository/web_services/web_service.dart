@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
@@ -101,8 +100,8 @@ class WebService {
   Future<dynamic> getJobDetailsRequest(jobNumber, downloadJobs, isLoading) async {
     var url = EndPoint.getJobDetails;
     var isDownloadAlljob = EndPointKeys.keyIsDownloadAllJob;
-    var Url = "$url$jobNumber$isDownloadAlljob$downloadJobs";
-    var response = await ApiBaseHelper().getApiCall(Url, isLoading: isLoading);
+    var url2 = "$url$jobNumber$isDownloadAlljob$downloadJobs";
+    var response = await ApiBaseHelper().getApiCall(url2, isLoading: isLoading);
     return response;
   }
 
@@ -156,11 +155,11 @@ class WebService {
                   imageTotalCount: list[index].listPhotos!.length.toString(),
                   isEmailRequired: list[index].sendEmail?? true,
                   requestId: requestId,
-                  IsPromoPictures: list[index].listPhotos![imageIndex].PromoFlag==1?true:false
+                  isPromoPictures: list[index].listPhotos![imageIndex].promoFlag==1?true:false
               );
-              var TempName = list[index].listPhotos![imageIndex].imageName!.split(".").first;
+              var tempName = list[index].listPhotos![imageIndex].imageName!.split(".").first;
 
-              map[TempName] = jsonEncode(notesModel);
+              map[tempName] = jsonEncode(notesModel);
 
            /*   File file = File(e.imagePath!);
               var byte = await file.readAsBytes();
@@ -234,11 +233,11 @@ class WebService {
           imageTotalCount: count.toString(),
           isEmailRequired: list.sendEmail?? true,
           requestId: requestId,
-          IsPromoPictures: list.listPhotos!.first.PromoFlag==1?true:false
+          isPromoPictures: list.listPhotos!.first.promoFlag==1?true:false
       );
-      var TempName = list.listPhotos!.first.imageName!.split(".").first;
+      var tempName = list.listPhotos!.first.imageName!.split(".").first;
 
-      map[TempName] = jsonEncode(notesModel);
+      map[tempName] = jsonEncode(notesModel);
 
       /*   File file = File(e.imagePath!);
               var byte = await file.readAsBytes();
@@ -295,16 +294,16 @@ class WebService {
   //Get Project Evaluation detail request...........................................................................
   Future<dynamic> getProjectEvaluationRequest(jobNumber, downloadJobs) async {
     var url = EndPoint.projectEvaluationDetails;
-    var Url = "$url?jobNumber=${jobNumber}&isDownloadAllJobs=${downloadJobs}";
-    var response = await ApiBaseHelper().getApiCall(Url);
+    var url2 = "$url?jobNumber=${jobNumber}&isDownloadAllJobs=${downloadJobs}";
+    var response = await ApiBaseHelper().getApiCall(url2);
     return response;
   }
 
   //Get Project Evaluation questions request...........................................................................
   Future<dynamic> getProjectEvaluationQuestions(jobNumber, categoryName) async {
     var url = EndPoint.getEvaluationQuestionaire;
-    var Url = "$url?jobNumber=${jobNumber}&categoryName=${categoryName}";
-    var response = await ApiBaseHelper().getApiCall(Url);
+    var url2 = "$url?jobNumber=${jobNumber}&categoryName=${categoryName}";
+    var response = await ApiBaseHelper().getApiCall(url2);
     return response;
   }
 
@@ -318,16 +317,16 @@ class WebService {
   //Check Project Evaluation exist or not...........................................................................
   Future<dynamic> checkProjectEvaluationQuestions(jobNumber, categoryName) async {
     var url = EndPoint.isProjectEvaluationExists;
-    var Url = "$url?jobNumber=${jobNumber}&categoryName=${categoryName}";
-    var response = await ApiBaseHelper().getApiCall(Url);
+    var url2 = "$url?jobNumber=${jobNumber}&categoryName=${categoryName}";
+    var response = await ApiBaseHelper().getApiCall(url2);
     return response;
   }
 
   //Get Lead details request...........................................................................
   Future<dynamic> getLeadSheetDetails(showNumber, isLoading) async {
     var url = EndPoint.getLeadSheetDetails;
-    var Url = url+showNumber;
-    var response = await ApiBaseHelper().getApiCall(Url, isLoading: isLoading);
+    var url2 = url+showNumber;
+    var response = await ApiBaseHelper().getApiCall(url2, isLoading: isLoading);
     return response;
   }
 
@@ -356,8 +355,8 @@ class WebService {
     Map<String, String> map = Map();
     NotesModelLeadSheet notesModel = NotesModelLeadSheet();
     notesModel.notes = imageList.imageNote.toString();
-    var TempName = imageList.imageName!.split(".").first;
-    map[TempName] = jsonEncode(notesModel);
+    var tempName = imageList.imageName!.split(".").first;
+    map[tempName] = jsonEncode(notesModel);
     map[EndPointMessages.leadSheetKey] = jsonEncode(request);
     listImage.add( http.MultipartFile(
         'FileName',
@@ -459,10 +458,10 @@ class WebService {
     });
     mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
     imageList.forEach((element) {
-      var TempName = element.imageName.toString().split(".").first;
+      var tempName = element.imageName.toString().split(".").first;
       Map<String, String> mapp = Map();
       mapp[EndPointKeys.comments] = request.comment.toString();
-      mapfinal[TempName] = jsonEncode(mapp);
+      mapfinal[tempName] = jsonEncode(mapp);
       listImage.add( http.MultipartFile(
           'FileName',
           File(element.imagePath!).readAsBytes().asStream(),
@@ -524,8 +523,8 @@ class WebService {
 
     mapfinal[EndPointKeys.resourceKey] = jsonEncode(resourceId);
     request.forEach((element) {
-      var TempName = element.imageName.toString().split(".").first;
-      mapfinal[TempName] = jsonEncode(catId);
+      var tempName = element.imageName.toString().split(".").first;
+      mapfinal[tempName] = jsonEncode(catId);
       listImage.add( http.MultipartFile(
           'FileName',
           File(element.imagePath!).readAsBytes().asStream(),
@@ -570,8 +569,8 @@ class WebService {
     Map<String, String> mapfinal = Map();
     mapfinal[EndPointKeys.promoKey] = jsonEncode(request.first);
     request.forEach((element) {
-      var TempName = element.imageName.toString().split(".").first;
-      mapfinal[TempName] = jsonEncode(element.imageNote);
+      var tempName = element.imageName.toString().split(".").first;
+      mapfinal[tempName] = jsonEncode(element.imageNote);
       listImage.add( http.MultipartFile(
           'FileName',
           File(element.imagePath!).readAsBytes().asStream(),

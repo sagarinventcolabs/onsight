@@ -131,11 +131,11 @@ class PhotoCommentController extends GetxController {
 
       service.invoke(fieldIssue, map);
       Get.back();
-      AnalyticsFireEvent(FieldIssueCategory, input: {
-        field_issue_type: controller.selectedFieldIssue.value.trim(),
-        number_name: controller.jobEditingController.text.trim(),
-        field_issue_category: controller.fieldIssueChosedCategory.value,
-        photo_count: photoList.length.toString(),
+      analyticsFireEvent(fieldIssueCategoryKey, input: {
+        fieldIssueType: controller.selectedFieldIssue.value.trim(),
+        numberName: controller.jobEditingController.text.trim(),
+        fieldIssueCategory: controller.fieldIssueChosedCategory.value,
+        photoCount2: photoList.length.toString(),
         user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+sp?.getString(Preference.LAST_NAME)??""*/
       });
       sp?.putInt(Preference.ACTIVITY_TRACKER, ((sp?.getInt(Preference.ACTIVITY_TRACKER)??0)+1));

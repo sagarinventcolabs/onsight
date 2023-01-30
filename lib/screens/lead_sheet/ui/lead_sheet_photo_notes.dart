@@ -54,7 +54,7 @@ class _LeadSheetPhotosNoteState extends State<LeadSheetPhotosNote> {
 
   @override
   Widget build(BuildContext context) {
-    Theme.of(context) == Brightness.dark;
+    Theme.of(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -66,7 +66,7 @@ class _LeadSheetPhotosNoteState extends State<LeadSheetPhotosNote> {
               size: Dimensions.height25,
             ),
             onPressed: () async{
-              List<LeadSheetImageModel> listModel = await LeadSheetImageManager().getImageByExhibitorIdandShowNumber(id, controller.showNumber.value);
+              List<LeadSheetImageModel> listModel = await LeadSheetImageManager().getImageByExhibitorIdAndShowNumber(id, controller.showNumber.value);
               if(listModel.length<_uploadJobPhotosC.photoList.length){
                 dialogAction(context, title: doYouWantDiscardPhotos, onTapYes: (){
                   Get.back();
