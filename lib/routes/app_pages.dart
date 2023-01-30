@@ -16,6 +16,7 @@ import 'package:on_sight_application/screens/lead_sheet/ui/exhibitor_screen.dart
 import 'package:on_sight_application/screens/lead_sheet/ui/lead_sheet_detail_screen.dart';
 import 'package:on_sight_application/screens/lead_sheet/ui/lead_sheet_photo_notes.dart';
 import 'package:on_sight_application/screens/lead_sheet/ui/lead_sheet_screen.dart';
+import 'package:on_sight_application/screens/login/ui/email_login_screen.dart';
 import 'package:on_sight_application/screens/login/ui/login_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_photo_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_registration.dart';
@@ -33,6 +34,7 @@ import 'package:on_sight_application/screens/splash/splash_screen.dart';
 import 'package:on_sight_application/screens/two_factor_authentication/ui/two_step_screen.dart';
 import 'package:on_sight_application/screens/update_profile/ui/update_profile_screen.dart';
 import 'package:on_sight_application/screens/user_detail/ui/user_detail_screen.dart';
+import 'package:on_sight_application/screens/verify_otp/ui/verify_email_otp_screen.dart';
 import 'package:on_sight_application/screens/verify_otp/ui/verify_otp_screen.dart';
 import 'package:on_sight_application/screens/web_view/my_web_view.dart';
 part 'approute.dart';
@@ -46,7 +48,9 @@ String whereCome="0";
     GetPage(name: Routes.splashScreen, page: ()=>  const SplashScreen()),
     GetPage(name: Routes.appInfoSlideScreen, page: ()=>  AppInfoSlideScreen()),
     GetPage(name: Routes.loginScreen, page: ()=>  const LoginScreen()),
+    GetPage(name: Routes.emailLoginScreen, page: ()=>  const EmailLoginScreen()),
     GetPage(name: Routes.verifyOtpScreen, page: ()=>  VerifyOtpScreen()),
+    GetPage(name: Routes.verifyEmailOtpScreen, page: ()=>  VerifyEmailOtpScreen()),
     GetPage(name: Routes.userDetailScreen, page: ()=>  const UserDetailScreen()),
     GetPage(name: Routes.dashboardScreen, page: ()=>  const DashboardScreen()),
     GetPage(name: Routes.jobPhotosScreen, page: ()=>  const JobPhotosScreen()),

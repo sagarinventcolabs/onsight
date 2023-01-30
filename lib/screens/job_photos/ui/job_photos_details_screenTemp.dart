@@ -606,7 +606,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                           controller.categoryList[index].id.toString(),
                           controller.list.first.jobNumber.toString());
                       showModalBottomSheet(
-                          backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+                        //  backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
                           //backgroundColor: Color.fromARGB(255, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(

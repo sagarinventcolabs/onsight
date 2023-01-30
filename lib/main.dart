@@ -149,7 +149,45 @@ class _MyAppState extends State<MyApp> {
 
   @override
   initState() {
+    // final window = WidgetsBinding.instance.window;
+    // window.onPlatformBrightnessChanged = () {
+    //   final brightness = window.platformBrightness;
+    //   print("Brightness Name"+brightness.name);
+    // };
 
+    WidgetsBinding.instance.window.onPlatformBrightnessChanged = (){
+      if(WidgetsBinding.instance.window.platformBrightness.name == "light"){
+
+        Get.changeTheme(ThemeData.light());
+        Get.changeThemeMode(ThemeMode.light);
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.light,
+            statusBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.light,
+            systemNavigationBarColor: Colors.white
+          // status bar color
+        ));
+
+      }else{
+
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.dark,
+            statusBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.dark,
+            systemNavigationBarColor: Colors.black
+          // status bar color
+        ));
+        Get.changeTheme(ThemeData.dark());
+        Get.changeThemeMode(ThemeMode.dark);
+
+      }
+
+      setState(() {
+
+      });
+
+
+    };
 
     observer = FirebaseAnalyticsObserver(analytics: analytics);
 
@@ -196,9 +234,10 @@ class _MyAppState extends State<MyApp> {
       darkTheme: Themes.dark,
       theme: ThemeData(
           primarySwatch: Colors.deepPurple,
-          fontFamily: 'SFUI'
+          fontFamily: 'SFUI',
       ).copyWith(
-          bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.white)
+          bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.white),
+
       ),
       themeMode: ThemeMode.system,
       navigatorObservers: <NavigatorObserver>[observer],
@@ -207,6 +246,7 @@ class _MyAppState extends State<MyApp> {
       defaultTransition: Transition.cupertino,
     );
   }
+
 }
 
 class Themes {
@@ -239,11 +279,12 @@ class Themes {
     bottomAppBarColor: Colors.deepPurple,
     cardColor: ColourConstants.primary,
     dividerColor: ColourConstants.primary,
+
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColourConstants.grey900),
 
     textTheme: TextTheme(
         displayMedium: TextStyle(color: Colors.white, fontFamily: 'SFUI', fontWeight: FontWeight.w500, fontSize: 16),
-        displaySmall: TextStyle(color: Colors.white, fontFamily: 'SFUI', fontWeight: FontWeight.normal, fontSize: 12)
+        displaySmall: TextStyle(color: Colors.white, fontFamily: 'SFUI', fontWeight: FontWeight.normal, fontSize: 12),
     ),
 
     inputDecorationTheme:  InputDecorationTheme(

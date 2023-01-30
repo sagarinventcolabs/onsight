@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -129,7 +131,7 @@ class DashboardScreenState extends State<DashboardScreen>{
         actions: [
 
           PopupMenuButton<String>(
-            color: Get.isDarkMode ? Colors.grey.shade800 : ColourConstants.primaryLight,
+            color: Get.isPlatformDarkMode ? Colors.grey.shade800 : ColourConstants.primaryLight,
             onSelected: (value) async {
               handlePop(value);
             },
@@ -138,7 +140,7 @@ class DashboardScreenState extends State<DashboardScreen>{
                 width: Dimensions.width42,
                 padding: EdgeInsets.only(right: Dimensions.height14),
                 alignment: Alignment.centerRight,
-                child:  SvgPicture.asset(Assets.icKebab, color: Get.isDarkMode?ColourConstants.white:ColourConstants.primary,)
+                child:  SvgPicture.asset(Assets.icKebab, color: Get.isPlatformDarkMode?ColourConstants.white:ColourConstants.primary,)
             ),
             itemBuilder: (BuildContext context) {
               return choices.map((Map choice) {

@@ -79,6 +79,7 @@ const String slideSubTitleString = "Nth Degree is a worldwide leader in trade sh
 /// Verify Otp Screen.........................................
 
 const String entermobilenumbertitle = "Enter mobile number to receive a\nverification code";
+const String enterEmailTitle = "Enter email to receive a\nverification code";
 const String mobileNumber = "Mobile Number";
 const String phoneNumberValidation = "Phone number is invalid";
 const String enterPhoneNumber = "Please enter Phone number";
@@ -92,7 +93,9 @@ const String requiredRegistration = "RequiredRegistration";
 
 const String alert = "Alert!";
 const String weWillverify = "We will be verifying the phone number";
+const String weWillVerifyEmail = "We will be verifying the phone number attached with this email";
 const String isItOk = "Is this ok, or would you like to edit the number?";
+const String isItOkEmail = "Is this ok, or would you like to edit the email?";
 const String edit = "Edit";
 const String ok = "OK";
 const String sendCode = "SEND CODE";

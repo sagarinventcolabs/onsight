@@ -143,7 +143,7 @@ class _FieldIssueDetailScreenState extends State<FieldIssueDetailScreen> {
                       photoCommentController.photoList.clear();
                       photoCommentController.commentController.clear();
                       showModalBottomSheet(
-                          backgroundColor: Get.isDarkMode ? Colors.grey.shade900 : ColourConstants.white,
+                         // backgroundColor: Get.isDarkMode ? Colors.grey.shade900 : ColourConstants.white,
                           //backgroundColor: Color.fromARGB(255, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
