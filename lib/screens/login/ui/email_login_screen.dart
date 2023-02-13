@@ -5,13 +5,9 @@ import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
-import 'package:on_sight_application/repository/web_service_response/error_response.dart';
-import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/login/view_model/login_screen_controller.dart';
 import 'package:on_sight_application/screens/verify_otp/ui/verify_email_otp_screen.dart';
-import 'package:on_sight_application/screens/verify_otp/ui/verify_otp_screen.dart';
 import 'package:on_sight_application/utils/constants.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
@@ -94,7 +90,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                 SizedBox(height: Dimensions.height60),
                 Container(
                   padding: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
-                  height: 75,
+                  height: Dimensions.height75,
                   child:TextField(
                     controller: loginScreenController.emailController,
                     focusNode: focusEmail,
@@ -214,7 +210,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                       FocusScope.of(context).unfocus();
                       Get.back();
                       if(loginScreenController.validate(loginScreenController.emailController.text))
-                       Get.to(() => VerifyEmailOtpScreen(number: "8440077455", selectedContryCode: "91"));
+                       Get.to(() => VerifyEmailOtpScreen(number: "8440077455", selectedCountryCode: "91"));
 
                  /*     var response = await loginScreenController.getOtpRequest(loginScreenController.emailController.text.toString(), selectedContryCode);
 
@@ -241,4 +237,5 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
           );
         });
   }
+
 }

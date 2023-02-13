@@ -26,6 +26,7 @@ class SettingsController extends GetxController {
   RxBool cameraShutter = false.obs;
   int batteryPercentage = 0;
   late AppInternetManager appInternetManager;
+
   @override
   void onInit() {
     super.onInit();
@@ -146,6 +147,8 @@ class SettingsController extends GetxController {
       poorNetworkAlertSwitch.value = a[0]["PoorNetworkAlert"] == 1 ? true : false;
       authMode.value = a[0]["AuthenticationMode"] == 1 ? true : false;
     }
+
+
     update();
   }
 

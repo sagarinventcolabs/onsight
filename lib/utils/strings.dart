@@ -80,6 +80,7 @@ const String slideSubTitleString = "Nth Degree is a worldwide leader in trade sh
 
 const String entermobilenumbertitle = "Enter mobile number to receive a\nverification code";
 const String enterEmailTitle = "Enter email to receive a\nverification code";
+const String enterVerificationCode = "Enter Verification code sent to \nMobile number ";
 const String mobileNumber = "Mobile Number";
 const String phoneNumberValidation = "Phone number is invalid";
 const String enterPhoneNumber = "Please enter Phone number";
