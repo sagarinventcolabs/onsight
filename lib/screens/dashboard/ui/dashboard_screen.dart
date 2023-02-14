@@ -200,17 +200,14 @@ class DashboardScreenState extends State<DashboardScreen>{
     // }catch(e){
     //   Get.toNamed(Routes.IntroductionTwoStep);
     // }
-
-
     var a = await appInternetManager.getSettingsTable() as List;
-
     if(a.isNotEmpty) {
+
       settingsController.setMobileDataSwitch(
           val: a[0][appInternetStatus] == 1 ? true : false);
-      settingsController.setMobileDataSwitch(
-            val: a[0][uploadCompleteStatus] == 1 ? true : false);
-      settingsController.setMobileDataSwitch(
-          val: a[0][appInternetStatus] == 1 ? true : false);
+      settingsController.setNotifyUploadSwitch(
+          val: a[0][uploadCompleteStatus] == 1 ? true : false);
+
     }
     packageInfo = await PackageInfo.fromPlatform();
     setState(() {

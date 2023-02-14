@@ -81,6 +81,12 @@ Future<bool> _onWillPop() async {
   return false;
 }
 
+Future<bool> _onPromoPopUp() async {
+  Get.back();
+  Get.back();
+  return true;
+}
+
 internetConnectionDialog(context) {
   Widget okButton = InkWell(
     onTap: () {
@@ -312,91 +318,94 @@ dialogAction(BuildContext context,
     context: context,
     barrierDismissible: false,
     builder: (context) {
-      return AlertDialog(
-        backgroundColor: ColourConstants.transparent,
-        contentPadding: EdgeInsets.zero,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-        content: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            decoration: BoxDecoration(
-              color: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 10),
-                 alert!=null?  Text(alert,textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: Dimensions.font14, fontWeight: FontWeight.normal),):const SizedBox(height: 0,width: 0,),
-                const SizedBox(height: 10),
-                title != null
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              child: Text(title.toString(),
-                                  textAlign: TextAlign.center,
+      return WillPopScope(
+        onWillPop: _onPromoPopUp,
+        child: AlertDialog(
+          backgroundColor: ColourConstants.transparent,
+          contentPadding: EdgeInsets.zero,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+          content: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              decoration: BoxDecoration(
+                color: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 10),
+                   alert!=null?  Text(alert,textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: Dimensions.font14, fontWeight: FontWeight.normal),):const SizedBox(height: 0,width: 0,),
+                  const SizedBox(height: 10),
+                  title != null
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                                child: Text(title.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: Dimensions.font18,
+                                        fontWeight: FontWeight.w500))),
+                          ],
+                        )
+                      : const SizedBox(
+                          height: 10,
+                        ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: onTapNo ??
+                            () {
+                              Get.back();
+                            },
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 25),
+                            width: 120,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: ColourConstants.unselectContainerColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(no,
                                   style: TextStyle(
                                       fontSize: Dimensions.font18,
-                                      fontWeight: FontWeight.w500))),
-                        ],
-                      )
-                    : const SizedBox(
-                        height: 10,
+                                      color: ColourConstants.black)),
+                            )),
                       ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InkWell(
-                      onTap: onTapNo ??
-                          () {
-                            Get.back();
-                          },
-                      child: Container(
-                          margin: const EdgeInsets.only(top: 25),
-                          width: 120,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: ColourConstants.unselectContainerColor,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(no,
-                                style: TextStyle(
-                                    fontSize: Dimensions.font18,
-                                    color: ColourConstants.black)),
-                          )),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    InkWell(
-                      onTap: onTapYes ??
-                          () {
-                            Get.back();
-                          },
-                      child: Container(
-                          margin: const EdgeInsets.only(top: 25),
-                          width: 120,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: ColourConstants.primary,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(yes,
-                                style: TextStyle(
-                                    fontSize: Dimensions.font18,
-                                    color: ColourConstants.white)),
-                          )),
-                    ),
-                  ],
-                )
-              ],
-            )),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      InkWell(
+                        onTap: onTapYes ??
+                            () {
+                              Get.back();
+                            },
+                        child: Container(
+                            margin: const EdgeInsets.only(top: 25),
+                            width: 120,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              color: ColourConstants.primary,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(yes,
+                                  style: TextStyle(
+                                      fontSize: Dimensions.font18,
+                                      color: ColourConstants.white)),
+                            )),
+                      ),
+                    ],
+                  )
+                ],
+              )),
+        ),
       );
     },
   );

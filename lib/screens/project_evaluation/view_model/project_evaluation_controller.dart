@@ -12,6 +12,7 @@ class ProjectEvaluationController extends GetxController {
   RxBool isValidJobNumber = true.obs;
   RxList<Email> emailList = <Email>[].obs;
   RxBool isValidEmail = false.obs;
+  RxBool emailButton = false.obs;
   RxBool isValidEmailS = false.obs;
   RxInt value = 0.obs;
   RxBool enableButton = false.obs;
