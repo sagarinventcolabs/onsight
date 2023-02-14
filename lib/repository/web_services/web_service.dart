@@ -40,6 +40,13 @@ class WebService {
     return response;
   }
 
+  //Get otp request email...........................................................................
+  Future<dynamic> getOtpForEmail(email) async {
+    Map<String, String> body = {};
+    var response = await ApiBaseHelper().postApiCall(EndPoint.getOTPForEmail+email, body);
+
+    return response;
+  }
 //Verify Otp request...........................................................................
   Future<dynamic> verifyOtpRequest(code) async {
     Map<String, String> body = {

@@ -11,15 +11,15 @@ import 'package:on_sight_application/utils/strings.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyEmailOtpScreen extends StatefulWidget {
+  final email;
   final number;
-  final selectedCountryCode;
   final accessToken;
   final expires;
 
   VerifyEmailOtpScreen(
       {Key? key,
       this.number,
-      this.selectedCountryCode,
+      this.email,
       this.accessToken,
       this.expires})
       : super(key: key);
@@ -39,7 +39,6 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
   @override
   void initState() {
     phoneController.text = widget.number;
-    selectedContryCode = widget.selectedCountryCode;
     super.initState();
     initSms();
   }
@@ -61,7 +60,6 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
           key: _scaffoldKey,
           bottomNavigationBar: GestureDetector(
               onTap: () async {
-                print("Click");
                 if (controller.validate(
                     phoneController.text, textEditingController.text)) {
                   FocusScope.of(context).unfocus();
@@ -71,7 +69,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                   sp?.putString(Constants.secureValidation, dateTime);
                   print("DateTime " + dateTime.toString());
                   // Get.toNamed(Routes.dashboardScreen);
-                  /*    var response = await controller.verifyOtp(
+                      var response = await controller.verifyOtp(
                           textEditingController.text.toString());
                       if (response.toString().toLowerCase().contains("error")) {
                         ErrorResponse errorModel = ErrorResponse.fromJson(
@@ -81,7 +79,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                             .contains(verificationCodeIsIncorrect)) {
                           controller.isValidOtp.value = false;
                         }
-                      }*/
+                      }
                 }
               },
               child: Padding(

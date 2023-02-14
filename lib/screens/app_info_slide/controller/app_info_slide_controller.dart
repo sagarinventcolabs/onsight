@@ -35,6 +35,6 @@ class AppInfoSlideController extends GetxController {
   ];
 
   navigateToLogin() {
-    Get.offAllNamed(Routes.loginScreen);
+    Get.offAllNamed(Routes.emailLoginScreen);
   }
 }

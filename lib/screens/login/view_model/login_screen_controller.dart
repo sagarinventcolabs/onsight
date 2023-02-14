@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/web_service_response/get_otp_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
+import 'package:on_sight_application/screens/verify_otp/ui/verify_email_otp_screen.dart';
 import 'package:on_sight_application/screens/verify_otp/ui/verify_otp_screen.dart';
 import 'package:on_sight_application/utils/constants.dart';
+import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
@@ -39,6 +41,28 @@ class LoginScreenController extends GetxController {
   }
 
 
+  // Api for Email Flow.......................
+  Future<dynamic> getOtpWithEmail(email) async {
+    var response = await service.getOtpForEmail(email.toString().trim(), /*.replaceAll("+", "").toString().trim()*/);
+    //print(response.statusCode);
+    if (response != null) {
+   /*   if (response.statusCode!=200) {
+        isValidEmail.value =  false;
+        update();
+        defaultDialog(Get.context!, title: "Alert",alert: response.body.toString().replaceAll(RegExp('["]'), " "), cancelable: true, onTap: (){
+          Get.back();
+        });
+        return response;
+      }*/
+      GetOtpResponse responseModel = GetOtpResponse.fromJson(response);
+      sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
+      sp!.putString(Preference.USER_EMAIL, email.toString().trim());
+      Get.to(() => VerifyEmailOtpScreen(email: email, number:responseModel.userName,accessToken: responseModel.accessToken, expires: responseModel.expiresIn,));
+    }
+    return response;
+  }
+
+
 
 // TextInput Validation Check.......................
 
@@ -63,12 +87,12 @@ class LoginScreenController extends GetxController {
 
   validateEmail(email) {
      if (!EmailValidator.validate(email)) {
-      isValidphone.value = false;
+      isValidEmail.value = false;
       enableButton.value = false;
       update();
       return false;
     } else {
-      isValidphone.value = true;
+       isValidEmail.value = true;
       enableButton.value = true;
       update();
     }

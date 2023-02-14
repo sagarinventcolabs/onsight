@@ -475,13 +475,12 @@ class ApiBaseHelper{
         }
         return responseJson;
       case 404:
-        var responseJson = json.decode(response.body.toString());
-        ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
+        //var responseJson = json.decode(response.body.toString());
+       // ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
         if(showValue) {
-          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
-            duration: Duration(seconds: 2),));
+        //  Get.showSnackbar(GetSnackBar(message: response.body.toString(), duration: Duration(seconds: 2),));
         }
-        return responseJson;
+        return response;
       case 500:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);

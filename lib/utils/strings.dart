@@ -391,6 +391,7 @@ const String pinBioPattern = "PIN / Bio Metric / Pattern";
 const String isChecked = "isChecked";
 const String jobNumberKey = "JobNumber";
 const String request = "request";
+const String areYouSureYouWantToLogout = "Are you sure you want to logout?";
 
 
 // Service

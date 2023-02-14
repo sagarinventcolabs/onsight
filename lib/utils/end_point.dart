@@ -30,8 +30,9 @@ class EndPoint {
   static  String baseURL = AppEnvironment.baseApiUrl;
 
   // Url for Get Otp
-  static  String getOTP =
-      "$baseURL/MobileAuth/Authenticate/Mob"; //http://litedemo.cloudapp.net:83/api/MobileAuth/Authenticate/Mob
+  static  String getOTP = "$baseURL/MobileAuth/Authenticate/Mob"; //http://litedemo.cloudapp.net:83/api/MobileAuth/Authenticate/Mob
+   // Urrl for email
+  static  String getOTPForEmail = "$baseURL/MobileAuth/Authenticate/Email?emailinput="; //http://litedemo.cloudapp.net:83/api/MobileAuth/Authenticate/Mob
   // Login Url
   static  String loginWithMobile = "$baseURL/Account/MockLogin";
   // Verify Otp Url

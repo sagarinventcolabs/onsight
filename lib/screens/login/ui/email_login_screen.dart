@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
@@ -98,14 +99,12 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                       FilteringTextInputFormatter.deny(" ")
                     ],
                     onChanged: (val){
-                      if(!loginScreenController.validate(val)){
-                        loginScreenController.isValidEmail.value = false;
+                      if(!EmailValidator.validate(val.toString())){
                         loginScreenController.enableButton.value = false;
                       }else{
                         loginScreenController.isValidEmail.value = true;
                         loginScreenController.enableButton.value = true;
                       }
-                      loginScreenController.validateEmail(val);
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
@@ -113,7 +112,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                       counterText: "",
                       labelStyle: TextStyle(color: Get.isDarkMode?ColourConstants.darkModeWhite:Colors.black54),
                       floatingLabelStyle: TextStyle(color: Get.isDarkMode? ColourConstants.blue:Colors.black54),
-                      // errorText: phoneNumberController.text.isEmpty ? null : loginScreenController.validate(phoneNumberController.text) ? phoneNumberValidation : null,
+                      errorText: loginScreenController.isValidEmail.value==false?"Invalid Email":null,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 1, color:  Get.isDarkMode?Colors.white70:ColourConstants.grey),
                       ),
@@ -134,6 +133,8 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                 SizedBox(height: MediaQuery.of(context).size.height/3),
                 GestureDetector(
                     onTap: (){
+                      loginScreenController.enableButton.value = false;
+                      loginScreenController.update();
                       if(loginScreenController.validateEmail(loginScreenController.emailController.text)) {
                         showAlertDialog();
                       }
@@ -210,10 +211,10 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                       FocusScope.of(context).unfocus();
                       Get.back();
                       if(loginScreenController.validate(loginScreenController.emailController.text))
-                       Get.to(() => VerifyEmailOtpScreen(number: "8440077455", selectedCountryCode: "91"));
+                      // Get.to(() => VerifyEmailOtpScreen(number: "8440077455", selectedCountryCode: "91"));
 
-                 /*     var response = await loginScreenController.getOtpRequest(loginScreenController.emailController.text.toString(), selectedContryCode);
-
+                      var response = await loginScreenController.getOtpWithEmail(loginScreenController.emailController.text.toString());
+/*
                       if(response!=null) {
                         if (response.containsKey(error)) {
                           ErrorResponse errorModel = ErrorResponse.fromJson(

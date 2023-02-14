@@ -231,7 +231,7 @@ class DashboardScreenState extends State<DashboardScreen>{
         Get.toNamed(Routes.aboutUsScreen);
         break;
       case logout:
-        dialogAction(context, title: "Are you sure you want to logout?", onTapNo: (){
+        dialogAction(context, title: areYouSureYouWantToLogout, onTapNo: (){
           Get.back();
         },
         onTapYes: (){
