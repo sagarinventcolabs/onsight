@@ -49,6 +49,8 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
   @override
   void dispose() {
     uploadPromoPicturesController.stopListening();
+    controller.photoList.clear();
+    controller.update();
     super.dispose();
   }
 
