@@ -113,7 +113,7 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
             ),
             child: Center(child: Text(next, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
           ),
-        ),),
+        )),
         body: GestureDetector(
           onTap: (){
             FocusScope.of(context).unfocus();

@@ -64,8 +64,21 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
               color:Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
               size: Dimensions.height25,
             ),
-            onPressed: () {
-              Get.back();
+            onPressed: () async{
+              List<ImageModel> listModel = await ImageManager().getImageByCategoryIdandJobNumber(id, jobNumber);
+              if(listModel.length<controller.photoList.length){
+                dialogAction(context, title: doYouWantDiscardPhotos, onTapYes: (){
+                  controller.photoList.clear();
+                  controller.update();
+                  Get.back();
+                  Get.back();
+                },
+                    onTapNo: (){
+                      Get.back();
+                    });
+              }else {
+                Get.back();
+              }
             },
           ),
           elevation: 0.0,
