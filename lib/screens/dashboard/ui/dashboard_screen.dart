@@ -172,12 +172,12 @@ class DashboardScreenState extends State<DashboardScreen>{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            DashboardTile(title: jobPhotos,lightSvgIcon: Assets.icDashboardCam,darkSvgIcon: Assets.illJobPhotosDark,routeName: Routes.jobPhotosScreen),
-            DashboardTile(title: projectEvaluation,lightSvgIcon: Assets.icProjectEvaluation,darkSvgIcon: Assets.icProjectEvaluationDark,routeName: Routes.projectEvaluationScreen),
-            DashboardTile(title: leadSheet,lightSvgIcon: Assets.icLeadSheet,darkSvgIcon: Assets.icLeadSheetDark,routeName: Routes.leadSheetScreen,),
-            DashboardTile(title: onboarding,lightSvgIcon: Assets.icOnBoarding,darkSvgIcon: Assets.icOnBoardingDark,routeName: Routes.onBoardingScreen),
-            DashboardTile(title: promoPictures,lightSvgIcon: Assets.icPromoPic,darkSvgIcon: Assets.icPromoPicDark,routeName: Routes.promoPictureScreen),
-            DashboardTile(title: fieldIssues,lightSvgIcon: Assets.icFieldIssue,darkSvgIcon: Assets.icFieldIssueDark,routeName: Routes.fieldIssues),
+            Visibility(visible:appUpdateController.jobPhotoVisibility.value,child: DashboardTile(title: jobPhotos,lightSvgIcon: Assets.icDashboardCam,darkSvgIcon: Assets.illJobPhotosDark,routeName: Routes.jobPhotosScreen)),
+            Visibility(visible:appUpdateController.projectEevaluationVisibility.value,child: DashboardTile(title: projectEvaluation,lightSvgIcon: Assets.icProjectEvaluation,darkSvgIcon: Assets.icProjectEvaluationDark,routeName: Routes.projectEvaluationScreen)),
+            Visibility(visible:appUpdateController.leadSheetVisibility.value,child: DashboardTile(title: leadSheet,lightSvgIcon: Assets.icLeadSheet,darkSvgIcon: Assets.icLeadSheetDark,routeName: Routes.leadSheetScreen,)),
+            Visibility(visible:appUpdateController.promoPictureVisibility.value,child: DashboardTile(title: onboarding,lightSvgIcon: Assets.icOnBoarding,darkSvgIcon: Assets.icOnBoardingDark,routeName: Routes.onBoardingScreen)),
+            Visibility(visible:appUpdateController.onboardingVisibility.value,child: DashboardTile(title: promoPictures,lightSvgIcon: Assets.icPromoPic,darkSvgIcon: Assets.icPromoPicDark,routeName: Routes.promoPictureScreen)),
+            Visibility(visible:appUpdateController.fieldIssueVisibility.value,child: DashboardTile(title: fieldIssues,lightSvgIcon: Assets.icFieldIssue,darkSvgIcon: Assets.icFieldIssueDark,routeName: Routes.fieldIssues)),
           ],
         ),
       ),

@@ -9,6 +9,7 @@ import 'package:on_sight_application/repository/database_managers/image_manager.
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/analytics_methods.dart';
 import 'package:on_sight_application/utils/constants.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen>
      // await setTempData();
      // print(isLogin);
       if (isLogin) {
-     /*   if(await sp?.getString(Constants.secureValidation)!=null) {
+        if(await sp?.getString(Constants.secureValidation)!=null) {
           try {
             var timeDate = sp?.getString(Constants.secureValidation) ?? "00";
             //var timeDate = "2023-01-15T15:11:51.676344";
@@ -62,13 +63,18 @@ class _SplashScreenState extends State<SplashScreen>
               var diff =
                   dateTime
                       .difference(ff)
-                      .inDays;
+                      .inMinutes;
               print("Diff is " + diff.toString());
-              if (diff > 14) {
+              if (diff > 2) {
+                print("cond1");
+                logoutFun();
                 Get.offAllNamed(Routes.emailLoginScreen);
               } else {
+                print("cond2");
                 Get.offAllNamed(Routes.dashboardScreen);
               }
+            }else{
+              Get.offAllNamed(Routes.emailLoginScreen);
             }
           } catch (e) {
 
@@ -88,9 +94,8 @@ class _SplashScreenState extends State<SplashScreen>
           //   }
 
         }else{
-          Get.offAllNamed(Routes.loginScreen);
-        }*/
-        Get.offAllNamed(Routes.dashboardScreen);
+          Get.offAllNamed(Routes.emailLoginScreen);
+        }
       } else {
         Get.offAllNamed(Routes.appInfoSlideScreen);
       }

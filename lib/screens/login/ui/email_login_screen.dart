@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -208,23 +209,11 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                   ),
                   GestureDetector(
                     onTap: ()async{
+
                       FocusScope.of(context).unfocus();
                       Get.back();
                       if(loginScreenController.validate(loginScreenController.emailController.text))
-                      // Get.to(() => VerifyEmailOtpScreen(number: "8440077455", selectedCountryCode: "91"));
-
-                      var response = await loginScreenController.getOtpWithEmail(loginScreenController.emailController.text.toString());
-/*
-                      if(response!=null) {
-                        if (response.containsKey(error)) {
-                          ErrorResponse errorModel = ErrorResponse.fromJson(
-                              response);
-                          if (errorModel.errorDescription.toString().contains(
-                              phoneValidation)) {
-                            loginScreenController.isValidEmail.value = false;
-                          }
-                        }
-                      }*/
+                      await loginScreenController.getOtpWithEmail(loginScreenController.emailController.text.toString());
                     },
                     child:  SizedBox(
                       height: Dimensions.height50,

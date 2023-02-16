@@ -53,7 +53,7 @@ class ApiBaseHelper{
         log("response=========>>>> ${response.body}");
 
         try {
-          responseJson = _returnResponse(response);
+          responseJson = _returnResponse(response, showValue: false);
 
         } catch (e) {}
       } on SocketException {
@@ -475,12 +475,13 @@ class ApiBaseHelper{
         }
         return responseJson;
       case 404:
-        //var responseJson = json.decode(response.body.toString());
-       // ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
+        var responseJson = json.decode(response.body.toString());
+        ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
         if(showValue) {
-        //  Get.showSnackbar(GetSnackBar(message: response.body.toString(), duration: Duration(seconds: 2),));
+          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
+            duration: Duration(seconds: 2),));
         }
-        return response;
+        return responseJson;
       case 500:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);

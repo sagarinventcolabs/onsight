@@ -14,6 +14,13 @@ class AppUpdateController extends GetxController{
 //  String staticAppVersion = "1.0.0";
  // bool isMandatory = false;
 
+  RxBool jobPhotoVisibility = true.obs;
+  RxBool projectEevaluationVisibility = true.obs;
+  RxBool leadSheetVisibility = true.obs;
+  RxBool promoPictureVisibility = true.obs;
+  RxBool onboardingVisibility = true.obs;
+  RxBool fieldIssueVisibility = true.obs;
+
   List<ResponseVersion> listVersion = [];
 
   @override
@@ -76,6 +83,16 @@ class AppUpdateController extends GetxController{
         if(listVersion.isNotEmpty)
         showUpdateDialog(listVersion.first.versionNumber.toString(), listVersion.first.releaseType?.toLowerCase());
         return response;
+      }
+    }
+  }
+
+  /// API function for getting security flags
+  Future<dynamic> getSecurityFlags() async {
+    var response = await WebService().getSecurityFlags();
+    if (response != null) {
+      if (!response.toString().toLowerCase().contains(error)) {
+
       }
     }
   }

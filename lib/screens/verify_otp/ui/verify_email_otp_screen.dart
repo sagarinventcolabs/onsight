@@ -201,8 +201,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    controller.resendOtp(
-                        phoneController.text.toString(), selectedContryCode);
+                    controller.resendOtpEmail(widget.email);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/repository/web_service_response/error_model.dart';
+import 'package:on_sight_application/repository/web_service_response/error_response.dart';
 import 'package:on_sight_application/repository/web_service_response/get_otp_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/verify_otp/ui/verify_email_otp_screen.dart';
@@ -44,16 +46,16 @@ class LoginScreenController extends GetxController {
   // Api for Email Flow.......................
   Future<dynamic> getOtpWithEmail(email) async {
     var response = await service.getOtpForEmail(email.toString().trim(), /*.replaceAll("+", "").toString().trim()*/);
-    //print(response.statusCode);
     if (response != null) {
-   /*   if (response.statusCode!=200) {
+      if (response.toString().toLowerCase().contains(error)) {
         isValidEmail.value =  false;
         update();
-        defaultDialog(Get.context!, title: "Alert",alert: response.body.toString().replaceAll(RegExp('["]'), " "), cancelable: true, onTap: (){
+        ErrorModel errorModel =  ErrorModel.fromJson(response);
+        defaultDialog(Get.context!, title: alert,alert: errorModel.error?.message.toString(), cancelable: true, onTap: (){
           Get.back();
         });
         return response;
-      }*/
+      }
       GetOtpResponse responseModel = GetOtpResponse.fromJson(response);
       sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
       sp!.putString(Preference.USER_EMAIL, email.toString().trim());
