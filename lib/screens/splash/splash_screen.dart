@@ -63,9 +63,9 @@ class _SplashScreenState extends State<SplashScreen>
               var diff =
                   dateTime
                       .difference(ff)
-                      .inMinutes;
+                      .inDays;
               print("Diff is " + diff.toString());
-              if (diff > 2) {
+              if (diff > 14) {
                 print("cond1");
                 logoutFun();
                 Get.offAllNamed(Routes.emailLoginScreen);
