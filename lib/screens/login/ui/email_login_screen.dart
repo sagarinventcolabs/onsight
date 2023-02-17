@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/screens/login/view_model/login_screen_controller.dart';
-import 'package:on_sight_application/screens/verify_otp/ui/verify_email_otp_screen.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
@@ -100,6 +98,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                       FilteringTextInputFormatter.deny(" ")
                     ],
                     onChanged: (val){
+                      loginScreenController.isValidEmail.value = true;
                       if(!EmailValidator.validate(val.toString())){
                         loginScreenController.enableButton.value = false;
                       }else{
@@ -113,7 +112,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                       counterText: "",
                       labelStyle: TextStyle(color: Get.isDarkMode?ColourConstants.darkModeWhite:Colors.black54),
                       floatingLabelStyle: TextStyle(color: Get.isDarkMode? ColourConstants.blue:Colors.black54),
-                      errorText: loginScreenController.isValidEmail.value==false?"Invalid Email":null,
+                      errorText: loginScreenController.isValidEmail.value==false?loginScreenController.emailController.text.isEmpty?"Please enter your email":"Invalid Email":null,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 1, color:  Get.isDarkMode?Colors.white70:ColourConstants.grey),
                       ),
