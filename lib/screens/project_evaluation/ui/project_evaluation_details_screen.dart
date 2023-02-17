@@ -384,11 +384,13 @@ class _ProjectEvaluationDetailsScreenState extends State<ProjectEvaluationDetail
 
           controller.isValidEmailS.value = true;
           controller.isValidEmail.value = true;
+          controller.emailButton.value = true;
           controller.update();
           // setState(() {});
         }else{
 
           controller.isValidEmailS.value = false;
+          controller.emailButton.value = false;
           controller.update();
 
         }
@@ -418,11 +420,12 @@ class _ProjectEvaluationDetailsScreenState extends State<ProjectEvaluationDetail
               controller.isValidEmail.value = false;
             }
             controller.isValidEmailS.value = false;
+            controller.emailButton.value = false;
             controller.update();
           },
           child: Padding(
             padding: EdgeInsets.only(right: Dimensions.height14,top: Dimensions.height5),
-            child: Text(addCaps,style: TextStyle(color: controller.isValidEmailS.value ? ColourConstants.primaryLight : ColourConstants.grey),),
+            child: Text(addCaps,style: TextStyle(color: controller.emailButton.isTrue ? ColourConstants.primaryLight : ColourConstants.grey),),
           ),
         ),
         enabledBorder:  OutlineInputBorder(

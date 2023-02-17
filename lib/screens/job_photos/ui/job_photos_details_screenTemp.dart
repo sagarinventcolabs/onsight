@@ -909,12 +909,12 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
 
           controller.isValidEmailS.value = true;
           controller.isValidEmail.value = true;
+          controller.emailButton.value = true;
           controller.update();
         }else{
-
             controller.isValidEmailS.value = false;
+            controller.emailButton.value = false;
             controller.update();
-
         }
       },
       keyboardType: TextInputType.emailAddress,
@@ -941,10 +941,8 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
           onTap: () {
             FocusScope.of(context).unfocus();
             if (EmailValidator.validate(emailEditingController.text)) {
-              var existingItem = controller.emailList.firstWhere(
-                      (itemToCheck) =>
-                  itemToCheck.additionalEmail ==
-                      emailEditingController.text.toString(),
+              var existingItem = controller.emailList.firstWhere((itemToCheck) =>
+                  itemToCheck.additionalEmail == emailEditingController.text.toString(),
                   orElse: () => Email());
               if (existingItem.additionalEmail == null) {
                 controller.addEmail(emailEditingController.text,
@@ -956,15 +954,17 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                 emailEditingController.clear();
               }
               controller.isValidEmail.value = true;
+              controller.emailButton.value = false;
             } else {
               controller.isValidEmail.value = false;
+              controller.emailButton.value = false;
 
             }
             controller.update();
           },
           child: Padding(
             padding: EdgeInsets.only(right: Dimensions.width14,top: Dimensions.height5),
-            child: Text(addCaps,style: TextStyle(color: emailEditingController.text.isNotEmpty ? controller.isValidEmailS.value ? ColourConstants.primaryLight : ColourConstants.grey : ColourConstants.grey),),
+            child: Text(addCaps,style: TextStyle(color: controller.emailButton.isTrue ? ColourConstants.primaryLight : ColourConstants.grey),),
           ),
         ),
         enabledBorder: OutlineInputBorder(
