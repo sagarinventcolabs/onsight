@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
+import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/dashboard/view_model/app_update_controller.dart';
 import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
@@ -172,12 +173,65 @@ class DashboardScreenState extends State<DashboardScreen>{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Visibility(visible:appUpdateController.jobPhotoVisibility.value,child: DashboardTile(title: jobPhotos,lightSvgIcon: Assets.icDashboardCam,darkSvgIcon: Assets.illJobPhotosDark,routeName: Routes.jobPhotosScreen)),
-            Visibility(visible:appUpdateController.projectEevaluationVisibility.value,child: DashboardTile(title: projectEvaluation,lightSvgIcon: Assets.icProjectEvaluation,darkSvgIcon: Assets.icProjectEvaluationDark,routeName: Routes.projectEvaluationScreen)),
-            Visibility(visible:appUpdateController.leadSheetVisibility.value,child: DashboardTile(title: leadSheet,lightSvgIcon: Assets.icLeadSheet,darkSvgIcon: Assets.icLeadSheetDark,routeName: Routes.leadSheetScreen,)),
-            Visibility(visible:appUpdateController.promoPictureVisibility.value,child: DashboardTile(title: onboarding,lightSvgIcon: Assets.icOnBoarding,darkSvgIcon: Assets.icOnBoardingDark,routeName: Routes.onBoardingScreen)),
-            Visibility(visible:appUpdateController.onboardingVisibility.value,child: DashboardTile(title: promoPictures,lightSvgIcon: Assets.icPromoPic,darkSvgIcon: Assets.icPromoPicDark,routeName: Routes.promoPictureScreen)),
-            Visibility(visible:appUpdateController.fieldIssueVisibility.value,child: DashboardTile(title: fieldIssues,lightSvgIcon: Assets.icFieldIssue,darkSvgIcon: Assets.icFieldIssueDark,routeName: Routes.fieldIssues)),
+            FutureBuilder(
+                future: DashboardManager().getMenuVisibility(jobPhotos),
+                builder:(context, snapshot){
+                  if(snapshot.connectionState==ConnectionState.done){
+                    appUpdateController.jobPhotoVisibility.value = snapshot.data==1?true:false;
+                    appUpdateController.update();
+                  }
+                  return Visibility(visible:appUpdateController.jobPhotoVisibility.value,child: DashboardTile(title: jobPhotos,lightSvgIcon: Assets.icDashboardCam,darkSvgIcon: Assets.illJobPhotosDark,routeName: Routes.jobPhotosScreen));
+                }),
+            FutureBuilder(
+              future:  DashboardManager().getMenuVisibility(projectEvaluation),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState==ConnectionState.done){
+                  appUpdateController.projectEevaluationVisibility.value = snapshot.data==1?true:false;
+                  appUpdateController.update();
+                }
+                return Visibility(visible:appUpdateController.projectEevaluationVisibility.value,child: DashboardTile(title: projectEvaluation,lightSvgIcon: Assets.icProjectEvaluation,darkSvgIcon: Assets.icProjectEvaluationDark,routeName: Routes.projectEvaluationScreen));
+              }
+            ),
+            FutureBuilder(
+                future:  DashboardManager().getMenuVisibility(leadSheet),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState==ConnectionState.done){
+                  appUpdateController.leadSheetVisibility.value = snapshot.data==1?true:false;
+                  appUpdateController.update();
+                }
+                return Visibility(visible:appUpdateController.leadSheetVisibility.value,child: DashboardTile(title: leadSheet,lightSvgIcon: Assets.icLeadSheet,darkSvgIcon: Assets.icLeadSheetDark,routeName: Routes.leadSheetScreen,));
+              }
+            ),
+            FutureBuilder(
+                future:  DashboardManager().getMenuVisibility(onboarding),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState==ConnectionState.done){
+                  appUpdateController.onboardingVisibility.value = snapshot.data==1?true:false;
+                  appUpdateController.update();
+                }
+                return Visibility(visible:appUpdateController.promoPictureVisibility.value,child: DashboardTile(title: onboarding,lightSvgIcon: Assets.icOnBoarding,darkSvgIcon: Assets.icOnBoardingDark,routeName: Routes.onBoardingScreen));
+              }
+            ),
+            FutureBuilder(
+                future:  DashboardManager().getMenuVisibility(promoPictures),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState==ConnectionState.done){
+                  appUpdateController.promoPictureVisibility.value = snapshot.data==1?true:false;
+                  appUpdateController.update();
+                }
+                return Visibility(visible:appUpdateController.onboardingVisibility.value,child: DashboardTile(title: promoPictures,lightSvgIcon: Assets.icPromoPic,darkSvgIcon: Assets.icPromoPicDark,routeName: Routes.promoPictureScreen));
+              }
+            ),
+            FutureBuilder(
+                future:  DashboardManager().getMenuVisibility(fieldIssues),
+              builder: (context, snapshot) {
+                if(snapshot.connectionState==ConnectionState.done){
+                  appUpdateController.fieldIssueVisibility.value = snapshot.data==1?true:false;
+                  appUpdateController.update();
+                }
+                return Visibility(visible:appUpdateController.fieldIssueVisibility.value,child: DashboardTile(title: fieldIssues,lightSvgIcon: Assets.icFieldIssue,darkSvgIcon: Assets.icFieldIssueDark,routeName: Routes.fieldIssues));
+              }
+            ),
           ],
         ),
       ),
@@ -187,7 +241,10 @@ class DashboardScreenState extends State<DashboardScreen>{
 
 
   setSettingsData() async {
+    await appUpdateController.getSecurityFlags();
+    setState(() {
 
+    });
     debugPrint(await sp?.getString(Preference.ACCESS_TOKEN));
     AppInternetManager appInternetManager = AppInternetManager();
     //

@@ -63,14 +63,12 @@ class _SplashScreenState extends State<SplashScreen>
               var diff =
                   dateTime
                       .difference(ff)
-                      .inMinutes;
+                      .inDays;
               print("Diff is " + diff.toString());
-              if (diff > 2) {
-                print("cond1");
+              if (diff > 14) {
                 logoutFun();
                 Get.offAllNamed(Routes.emailLoginScreen);
               } else {
-                print("cond2");
                 Get.offAllNamed(Routes.dashboardScreen);
               }
             }else{
@@ -196,6 +194,8 @@ class _SplashScreenState extends State<SplashScreen>
         "MzY8dLAGA5wLZhQQm3ii38lqy78WDsN_c3mt7evvmg73Q9EuDXFsWKp7QsCNOVpuTJ0TrGI98YqrR38jWKF4GBMjAGLmNNsi67dsOedVzh4OIgvv6RL0s7eSc1L9kBfaUngHLxLIOsQ39aK4k-9cGYSZVw9WNW-jecUR8EY1RjFYLlrUjHZEU-f5eP0uq0BKrFMYiHLVAg8WVrmBS5-rBuX8cIgAqON2AcmlPh6plfg4WpFxn8utRfBY4Pi80jnExEbnTVkCWIKY0RNN0fXwfSJZCmCJztdD4zPaI1e_MzIoEk8qj0Zl7cJhksE3YS1mKOAtA71KQsq5AXkL7Srm-p8ujyxGdN9hWJMl0ydCEwCLgWeZvuzmYmFAvnd5s8vugf8dgNqaiyFBBCXk_C9409XHbMyzaEkFUl14jP__jnKgIGjmUciI5bwbX750Pgx7mu-pXpLNtvzk1yG9xLyezbE2EO_quei99IhqA0Vaw1rKn6KeR_YO4cvcjcB0pH76ywPfj8p4UE7xkCqY_BX1ZZscy9ne72zoTAXuv8ry6zQAcL5tHOz97zdXENfmdt09HKggtbSfgX58tbM9XJ08BxAmsiAfyd_StVo-HH2r0p_b8DG-5_3V76Wic60FYPVLzKDp86yNBbE-1Uc1StbjaBm1-oVXs45J_sr-CbvJcMDxtLKi0ChNMmhfLaFBmTPY";
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(Preference.ACCESS_TOKEN, data);
+    preferences.setString(Preference.USER_EMAIL, "sagar.s@dreamorbit.com");
+    preferences.setString(Constants.secureValidation, DateTime.now().toIso8601String());
     isLogin = true;
 
   }

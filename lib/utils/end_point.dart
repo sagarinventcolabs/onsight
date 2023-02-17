@@ -48,7 +48,7 @@ class EndPoint {
   //Get Latest Version
   static  String getLatestVersion = "$baseURL/MobileVersion/GetMobileVersionData?operatingSystem=";
    //Get Security Flags
-   static  String getSecurityFlags = "$baseURL/MobileVersion/GetMobileVersionData?operatingSystem=";
+   static  String getSecurityFlags = "$baseURL/DashboardItems?email=";
   //Job Category Url
   static  String jobCategories = "$baseURL/JobPhotos/GetCategories";
   //Get Job Details Url
