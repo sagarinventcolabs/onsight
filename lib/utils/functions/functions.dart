@@ -125,7 +125,7 @@ Future<void> showNotification(ServiceInstance service) async {
 
     print("Upper One - Notify Upload status From Background Service" +
         (a[0]["UploadCompleteStatus"].toString()));
-//  if (a[0]["UploadCompleteStatus"] == 1) {
+ if (a[0]["UploadCompleteStatus"] == 1) {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails('channel1', 'channelone',
         channelDescription: 'channelDescription',
@@ -142,7 +142,7 @@ Future<void> showNotification(ServiceInstance service) async {
         10, appName, notificationSuccessMsg,
         platformChannelSpecifics,
         payload: 'item x');
-    //}
+    }
 
     service.stopSelf();
   }
@@ -180,7 +180,7 @@ Future<void> showNotificationFailedJob(ServiceInstance service) async {
 
     print("Upper One - Notify Upload status From Background Service" +
         (a[0]["UploadCompleteStatus"].toString()));
-    // if (a[0]["UploadCompleteStatus"] == 1) {
+    if (a[0]["UploadCompleteStatus"] == 1) {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails('channel1', 'channelone',
         channelDescription: 'channelDescription',
@@ -195,7 +195,7 @@ Future<void> showNotificationFailedJob(ServiceInstance service) async {
         10, appName, notificationSuccessMsg,
         platformChannelSpecifics,
         payload: 'item x');
-    //  }
+     }
 
     service.stopSelf();
   }
@@ -221,7 +221,7 @@ Future<void> showErrorNotification(ServiceInstance service, {required String err
 
   print("Upper One - Notify Upload status From Background Service" +
       (a[0]["UploadCompleteStatus"].toString()));
-  //  if (a[0]["UploadCompleteStatus"] == 1) {
+   if (a[0]["UploadCompleteStatus"] == 1) {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
   AndroidNotificationDetails('channel1', 'channelone',
       channelDescription: 'channelDescription',
@@ -238,7 +238,7 @@ Future<void> showErrorNotification(ServiceInstance service, {required String err
       10, appName, errorMsg,
       platformChannelSpecifics,
       payload: 'item x');
-  //   }
+    }
   if(b<1) {
     service.stopSelf();
   }

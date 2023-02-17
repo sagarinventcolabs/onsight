@@ -26,6 +26,7 @@ class JobPhotosController extends GetxController{
   /// Email Validation variable to check email is valid or not
   RxBool isValidEmail = true.obs;
   RxBool isValidEmailS = false.obs;
+  RxBool emailButton = false.obs;
   /// variable to enable or disable submit button
   RxBool enableButton = false.obs;
   /// variable for suggestion box controller

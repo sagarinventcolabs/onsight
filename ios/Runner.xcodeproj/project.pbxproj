@@ -355,6 +355,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -386,7 +387,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -440,6 +441,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -477,7 +479,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -532,6 +534,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -566,7 +569,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -620,6 +623,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -651,7 +655,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -705,6 +709,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -762,6 +767,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -796,7 +802,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -831,7 +837,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4U36UY89U7;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NUMBER = 1;
-				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
+				FLUTTER_TARGET = "/Users/inventcolabsamit/Desktop/onsight/Nth%20Degree%20-%20Flutter/lib/main_prod.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
