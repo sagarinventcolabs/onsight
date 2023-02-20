@@ -483,14 +483,23 @@ class ApiBaseHelper{
         }
         return responseJson;
       case 500:
-        var responseJson = json.decode(response.body.toString());
-        ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        if(showValue) {
-          Get.showSnackbar(GetSnackBar(
-            message: errorModel.errorDescription.toString(),
-            duration: Duration(seconds: 2),));
+        try{
+          var responseJson = json.decode(response.body.toString());
+          ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
+          if(showValue) {
+            Get.showSnackbar(GetSnackBar(
+              message: errorModel.errorDescription.toString(),
+              duration: Duration(seconds: 2),));
+          }else{
+            Get.showSnackbar(GetSnackBar(
+              message: "Internal Server Error",
+              duration: Duration(seconds: 2),));
+          }
+        }catch(ee){
+
         }
-        return responseJson;
+
+        return response;
 
 
       default:
