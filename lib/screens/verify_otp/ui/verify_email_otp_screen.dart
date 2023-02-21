@@ -67,7 +67,6 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
 
                   var dateTime = await DateTime.now().toIso8601String();
                   sp?.putString(Constants.secureValidation, dateTime);
-                  print("DateTime " + dateTime.toString());
                   // Get.toNamed(Routes.dashboardScreen);
                       var response = await controller.verifyOtp(
                           textEditingController.text.toString());

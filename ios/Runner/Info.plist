@@ -38,13 +38,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires access to the camera for upload issue images to server using camera</string>
+	<string>On Sight application seeks permission to access camera for capturing exhibition`s images which can be uploaded to server.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This app requires access to the microphone for voice to plain text conversion</string>
+	<string>On Sight application seeks permission to access microphone to allow the users to record voices  direct in the app.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library for upload images from gallery</string>
+	<string>On Sight application seeks permission to access the gallery for uploading exhibition`s images to the server from the gallery.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This permission required for speech to plain text conversion</string>
+	<string>On Sight application needs permission to recognize your speech via microphone and convert it to text.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
