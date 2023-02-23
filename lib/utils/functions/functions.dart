@@ -377,7 +377,7 @@ Future<void> authenticateUser() async {
 logoutFun(){
   sp?.clear();
   SecureStorage().deleteAll();
-  Get.offAllNamed(Routes.loginScreen);
+  Get.offAllNamed(Routes.emailLoginScreen);
 }
 
 class NoLeadingSpaceFormatter extends TextInputFormatter {

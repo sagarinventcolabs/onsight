@@ -48,12 +48,6 @@ class LoginScreenController extends GetxController {
     var response = await service.getOtpForEmail(email.toString().trim(), /*.replaceAll("+", "").toString().trim()*/);
     if (response != null) {
       if (response.toString().toLowerCase().contains(error)) {
-      //  isValidEmail.value =  false;
-      //  update();
-        ErrorModel errorModel =  ErrorModel.fromJson(response);
-        defaultDialog(Get.context!, title: alert,alert: errorModel.error?.message.toString(), cancelable: true, onTap: (){
-          Get.back();
-        });
         return response;
       }
       GetOtpResponse responseModel = GetOtpResponse.fromJson(response);

@@ -67,6 +67,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
   @override
   Widget build(BuildContext context) {
     Theme.of(context) == Brightness.dark;
+
     return Obx(() =>  GestureDetector(
       onTap: (){
         FocusScope.of(context).unfocus();
@@ -92,6 +93,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                   padding: EdgeInsets.only(left: Dimensions.height20, right: Dimensions.height20),
                   height: Dimensions.height75,
                   child:TextField(
+
                     controller: loginScreenController.emailController,
                     focusNode: focusEmail,
                     inputFormatters: [
@@ -112,7 +114,7 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                       counterText: "",
                       labelStyle: TextStyle(color: Get.isDarkMode?ColourConstants.darkModeWhite:Colors.black54),
                       floatingLabelStyle: TextStyle(color: Get.isDarkMode? ColourConstants.blue:Colors.black54),
-                      errorText: loginScreenController.isValidEmail.value==false?loginScreenController.emailController.text.isEmpty?"Please enter your email":"Invalid Email":null,
+                      errorText: loginScreenController.isValidEmail.value==false?loginScreenController.emailController.text.isEmpty?pleaseEnterYourEmail:invalidEmail:null,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 1, color:  Get.isDarkMode?Colors.white70:ColourConstants.grey),
                       ),

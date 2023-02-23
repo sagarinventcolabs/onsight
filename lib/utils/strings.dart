@@ -69,6 +69,8 @@ const String emailValidation = "Please enter valid email address";
 const String cityValidation = "Please enter city";
 const String mobileNumberValidation = "Please enter valid mobile number";
 const String codeSentSuccessfully = "Code Sent Successfully";
+const String pleaseEnterYourEmail = "Please enter your email";
+const String invalidEmail = "Invalid Email";
 
 /// App info Slide screen
 const String skip = "Skip";

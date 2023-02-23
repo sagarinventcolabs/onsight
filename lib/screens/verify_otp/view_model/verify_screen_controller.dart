@@ -33,7 +33,7 @@ class VerifyScreenController extends GetxController{
       if (response.containsKey(error)) {
         return response;
       }else if(response.toString().toLowerCase().contains("expired")){
-        Get.offAllNamed(Routes.loginScreen);
+        Get.offAllNamed(Routes.emailLoginScreen);
 
         return false;
 
@@ -43,16 +43,16 @@ class VerifyScreenController extends GetxController{
       sp!.putString(Constants.secureValidation, DateTime.now().toIso8601String());
       SecureStorage().addNewItem("auth_token",responseModel.accessToken.toString());
 
-      ProfileController profileController = ProfileController();
-      await profileController.getProfile(showValue: false);
-      if(responseModel.signInStatus==requiredRegistration){
-        analyticsFireEvent(loginOrSignUpKey,
-            input: {
-              type: "SignUp",
-              // user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
-            });
-        Get.offNamed(Routes.userDetailScreen, arguments: responseModel.asclientId);
-      }else{
+      // ProfileController profileController = ProfileController();
+      // await profileController.getProfile(showValue: false);
+      // if(responseModel.signInStatus==requiredRegistration){
+      //   analyticsFireEvent(loginOrSignUpKey,
+      //       input: {
+      //         type: "SignUp",
+      //         // user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
+      //       });
+      //   Get.offNamed(Routes.userDetailScreen, arguments: responseModel.asclientId);
+      // }else{
         analyticsFireEvent(loginOrSignUpKey,
             input: {
           type: login,
@@ -67,7 +67,7 @@ class VerifyScreenController extends GetxController{
         // }else {
         //   Get.offAllNamed(Routes.dashboardScreen);
         // }
-      }
+      //}
     }
     return response;
   }

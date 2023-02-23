@@ -16,12 +16,6 @@ class AppUpdateController extends GetxController {
 //  String staticAppVersion = "1.0.0";
   // bool isMandatory = false;
 
-  RxBool jobPhotoVisibility = false.obs;
-  RxBool projectEevaluationVisibility = false.obs;
-  RxBool leadSheetVisibility = false.obs;
-  RxBool promoPictureVisibility = false.obs;
-  RxBool onboardingVisibility = false.obs;
-  RxBool fieldIssueVisibility = false.obs;
 
   List<ResponseVersion> listVersion = [];
   List<SecurityFlagsModel> listFlags = [];
@@ -79,7 +73,7 @@ class AppUpdateController extends GetxController {
   Future<dynamic> getLatestVersion() async {
     var response = await WebService().getLatestVersionRequest();
     if (response != null) {
-      if (!response.toString().toLowerCase().contains(error)) {
+      if (!response.toString().toLowerCase().contains(error) && response.toString() != noInternetStr) {
         if (response.length > 0) {
           for (var i = 0; i < response.length; i++) {
             ResponseVersion version = ResponseVersion.fromJson(response, i);
@@ -98,7 +92,7 @@ class AppUpdateController extends GetxController {
   Future<dynamic> getSecurityFlags() async {
     var response = await WebService().getSecurityFlags();
     if (response != null) {
-      if (!response.toString().toLowerCase().contains(error)) {
+      if (!response.toString().toLowerCase().contains(error) && response.toString() != noInternetStr ) {
         response.forEach((value) async {
           SecurityFlagsModel model = SecurityFlagsModel.fromJson(value);
           await DashboardManager().insertMenu(model);
@@ -131,9 +125,6 @@ class AppUpdateController extends GetxController {
               break;
           }*/
         });
-        print(listFlags.length);
-        update();
-        refresh();
       }
     }
   }

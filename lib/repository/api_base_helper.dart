@@ -460,11 +460,12 @@ class ApiBaseHelper{
         return responseJson;
       case 401:
         var responseJson = json.decode(response.body.toString());
+
         ErrorModel errorModel =  ErrorModel.fromJson(responseJson);
-        if(showValue) {
-          Get.showSnackbar(GetSnackBar(message: errorModel.error?.message,
-            duration: Duration(seconds: 2),));
-        }
+
+        defaultDialog(Get.context!, title: alert,alert: errorModel.error?.message.toString(), cancelable: true, onTap: (){
+          Get.back();
+        });
         return responseJson;
       case 403:
         var responseJson = json.decode(response.body.toString());
