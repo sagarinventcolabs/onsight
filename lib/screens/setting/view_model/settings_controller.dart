@@ -162,7 +162,7 @@ class SettingsController extends GetxController {
       if(response.toString().contains(mobile.toString())){
         sp?.clear();
         SecureStorage().deleteAll();
-        Get.offAllNamed(Routes.loginScreen);
+        Get.offAllNamed(Routes.emailLoginScreen);
          defaultDialog(Get.context!, title: accountDeletedSuccessfully, alert: disclaimerMessage, onTap: (){
                       // logoutFun();
                      Get.back();
