@@ -83,7 +83,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     Theme.of(context);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
-    print(isDarkMode);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: SafeArea(

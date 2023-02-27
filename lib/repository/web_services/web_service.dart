@@ -629,7 +629,7 @@ class WebService {
   Future<dynamic> getSecurityFlags() async {
     var email = sp?.getString(Preference.USER_EMAIL)??"";
     var url = EndPoint.getSecurityFlags+email;
-    var response = await ApiBaseHelper().getApiCall(url, isLoading: false);
+    var response = await ApiBaseHelper().getApiCall(url, isLoading: true);
     return response;
   }
 }

@@ -334,7 +334,7 @@ const String photosSubmittedToNotShow = "Photos_Submitted_To_Not_A_Show";
 
 /// Channel ID
 const String packageName = "com.nthdegree.onsight";
-const String iosAppId = "585027354";
+const String iosAppId = "1404847786";
 const String channelID = "com.nthdegree.onsight/service";
 const String cameraShutterAction = "cameraShutterAction";
 const String cameraShutterVolume = "cameraShutterVolume";
