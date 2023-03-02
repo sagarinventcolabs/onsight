@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
+import 'package:on_sight_application/screens/dashboard/view_model/app_update_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
+import 'package:on_sight_application/utils/strings.dart';
 
 class DashboardTile extends StatefulWidget {
   final String? title;
@@ -19,6 +22,7 @@ class DashboardTile extends StatefulWidget {
 }
 
 class _DashboardTileState extends State<DashboardTile> {
+  AppUpdateController appUpdateController = Get.find<AppUpdateController>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,26 +42,65 @@ class _DashboardTileState extends State<DashboardTile> {
           }
         });
       },
-      child: Container(
-        height: MediaQuery.of(context).size.height/12,
-        margin: EdgeInsets.only(top: Dimensions.height15),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius10)),
-            border: Border.all(color: Theme.of(context).dividerColor),
-            color:Theme.of(context).cardColor
-        ),
-        child: Padding(
-          padding: EdgeInsets.only(left: Dimensions.width15),
-          child: Row(
-            children: [
-              SvgPicture.asset(Get.isDarkMode ? widget.darkSvgIcon??"" : widget.lightSvgIcon??"", height: Dimensions.height40),
-              Padding(
-                padding: EdgeInsets.only(left: Dimensions.width10),
-                child: Text(widget.title??"", style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimensions.font16)),
-              )
-            ],
-          ),
-        ),
+      child: FutureBuilder(
+          future:  DashboardManager().getMenuVisibility(widget.title!),
+        builder: (context, snapshot) {
+            bool visibility = false;
+          if(snapshot.connectionState==ConnectionState.done){
+
+            switch(widget.title!){
+              case jobPhotos:
+                visibility  = snapshot.data==1?true:false;
+              //  appUpdateController.update();
+                break;
+              case projectEvaluation:
+                visibility =  snapshot.data==1?true:false;
+               // appUpdateController.update();
+                break;
+              case leadSheet:
+                visibility =  snapshot.data==1?true:false;
+               // appUpdateController.update();
+                break;
+              case promoPictures:
+                visibility = snapshot.data==1?true:false;
+              //  appUpdateController.update();
+                break;
+              case onboarding:
+                visibility =  snapshot.data==1?true:false;
+              //  appUpdateController.update();
+                break;
+              case fieldIssue:
+                visibility = snapshot.data==1?true:false;
+              //  appUpdateController.update();
+                break;
+
+            }
+          }
+          return Visibility(
+            visible: visibility,
+            child: Container(
+              height: MediaQuery.of(context).size.height/12,
+              margin: EdgeInsets.only(top: Dimensions.height15),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius10)),
+                  border: Border.all(color: Theme.of(context).dividerColor),
+                  color:Theme.of(context).cardColor
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(left: Dimensions.width15),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(Get.isDarkMode ? widget.darkSvgIcon??"" : widget.lightSvgIcon??"", height: Dimensions.height40),
+                    Padding(
+                      padding: EdgeInsets.only(left: Dimensions.width10),
+                      child: Text(widget.title??"", style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimensions.font16)),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
       ),
     );
   }

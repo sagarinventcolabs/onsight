@@ -9,6 +9,7 @@ import 'package:on_sight_application/repository/database_managers/image_manager.
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/analytics_methods.dart';
 import 'package:on_sight_application/utils/constants.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,20 +50,50 @@ class _SplashScreenState extends State<SplashScreen>
      // await setTempData();
      // print(isLogin);
       if (isLogin) {
-        Get.offAllNamed(Routes.dashboardScreen);
-        // var a = await AppInternetManager().getSettingsTable() as List;
-        //
-        //   if(a.isNotEmpty) {
-        //     if (a[0]["AuthenticationMode"] == 1) {
-        //       await authenticateUser();
-        //     } else {
-        //       Get.offAllNamed(Routes.dashboardScreen);
-        //     }
-        //   }else{
-        //     Get.offAllNamed(Routes.dashboardScreen);
-        //   }
+        if(await sp?.getString(Constants.secureValidation)!=null) {
+          try {
+            var timeDate = sp?.getString(Constants.secureValidation) ?? "00";
+            //var timeDate = "2023-01-15T15:11:51.676344";
+            var ff = DateTime.parse(timeDate);
+            print(ff);
+            if (timeDate != "00") {
+              print("TimeDate " + timeDate);
+              var dateTime = DateTime.now();
+              print("DateTime " + dateTime.toString());
+              var diff =
+                  dateTime
+                      .difference(ff)
+                      .inDays;
+              print("Diff is " + diff.toString());
+              if (diff > 14) {
+                logoutFun();
+                Get.offAllNamed(Routes.emailLoginScreen);
+              } else {
+                Get.offAllNamed(Routes.dashboardScreen);
+              }
+            }else{
+              Get.offAllNamed(Routes.emailLoginScreen);
+            }
+          } catch (e) {
+
+          }
 
 
+          // var a = await AppInternetManager().getSettingsTable() as List;
+          //
+          //   if(a.isNotEmpty) {
+          //     if (a[0]["AuthenticationMode"] == 1) {
+          //       await authenticateUser();
+          //     } else {
+          //       Get.offAllNamed(Routes.dashboardScreen);
+          //     }
+          //   }else{
+          //     Get.offAllNamed(Routes.dashboardScreen);
+          //   }
+
+        }else{
+          Get.offAllNamed(Routes.emailLoginScreen);
+        }
       } else {
         Get.offAllNamed(Routes.appInfoSlideScreen);
       }
@@ -160,9 +191,11 @@ class _SplashScreenState extends State<SplashScreen>
 
   setTempData() async {
     var data =
-        "9gdsBpSVIWmE_LstNwXREFlFzpTiq_OTB1K3TEXMXFrJOpDDKX7aZONy41DeGfokpZf8q4WdGxdqjEPKNkXDSyD3UUy8jxX3Z441-t5G41AXmjTmHzkrlFdE-EMcyVSLiqRGEPpB8GbRLc6eGFc4NPjvyxnz-cyxXh_HYe3icyBIcgps0q1nhPfmI5Nt6L4yL16kFW-xs2lgP0McjkwLaEFPiHKQgxEzNce25aoY-LPEJe2--w2MggEcblwDjJJt7k-t4Si3FUag0C8FotXO99qfCUutYuMJaQbFeO9ovCQoObvn9nG741zAWXx7V3xGU4iADeW5lSqZPukaFEm5fDnml4PW3a1ONIz4jxm0kCiEDVQixxT6N_nTfZAkBftai58eUXVxoWVZb79J1d25gigBLeAdyQX-AMPK1n-hbTrXAtWq_-ejAm2WtUFqz_U2mTigrNjcpo31qF51n_-DSuzLszHA_M5zX4EqU6AcMt-4mW2I7_-iCZkPOFk2bUdPCtCtM1ITygcw8XCXnkfy8aMa7sNkiscYGZLa6fSdI3GQcRXO4CAQadVPz7g_3OXQqr6MpmsQ9n8dnXrvFLEWZpM0KJRysJhSVnRGqM-M6EsVDes2psxjkrsrYXIMeZ-_gwMslL4OAbGOyJSRZ0V9Z45Pe3SSTezwyUHWbXYpS3xfHp7kEE_8-fMi6ch_4izxdhbGV3r7wxohu_SpimjIZg";
+        "MzY8dLAGA5wLZhQQm3ii38lqy78WDsN_c3mt7evvmg73Q9EuDXFsWKp7QsCNOVpuTJ0TrGI98YqrR38jWKF4GBMjAGLmNNsi67dsOedVzh4OIgvv6RL0s7eSc1L9kBfaUngHLxLIOsQ39aK4k-9cGYSZVw9WNW-jecUR8EY1RjFYLlrUjHZEU-f5eP0uq0BKrFMYiHLVAg8WVrmBS5-rBuX8cIgAqON2AcmlPh6plfg4WpFxn8utRfBY4Pi80jnExEbnTVkCWIKY0RNN0fXwfSJZCmCJztdD4zPaI1e_MzIoEk8qj0Zl7cJhksE3YS1mKOAtA71KQsq5AXkL7Srm-p8ujyxGdN9hWJMl0ydCEwCLgWeZvuzmYmFAvnd5s8vugf8dgNqaiyFBBCXk_C9409XHbMyzaEkFUl14jP__jnKgIGjmUciI5bwbX750Pgx7mu-pXpLNtvzk1yG9xLyezbE2EO_quei99IhqA0Vaw1rKn6KeR_YO4cvcjcB0pH76ywPfj8p4UE7xkCqY_BX1ZZscy9ne72zoTAXuv8ry6zQAcL5tHOz97zdXENfmdt09HKggtbSfgX58tbM9XJ08BxAmsiAfyd_StVo-HH2r0p_b8DG-5_3V76Wic60FYPVLzKDp86yNBbE-1Uc1StbjaBm1-oVXs45J_sr-CbvJcMDxtLKi0ChNMmhfLaFBmTPY";
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(Preference.ACCESS_TOKEN, data);
+    preferences.setString(Preference.USER_EMAIL, "sagar.s@dreamorbit.com");
+    preferences.setString(Constants.secureValidation, DateTime.now().toIso8601String());
     isLogin = true;
 
   }

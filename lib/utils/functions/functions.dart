@@ -16,10 +16,7 @@ import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
-
-
-
-saveSuggestion(input){
+saveSuggestion(input) {
   List<String> list = [];
   list = sp!.getStringList(listAutoFill);
 
@@ -380,7 +377,7 @@ Future<void> authenticateUser() async {
 logoutFun(){
   sp?.clear();
   SecureStorage().deleteAll();
-  Get.offAllNamed(Routes.loginScreen);
+  Get.offAllNamed(Routes.emailLoginScreen);
 }
 
 class NoLeadingSpaceFormatter extends TextInputFormatter {

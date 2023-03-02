@@ -487,8 +487,13 @@ optionalUpdateDialogAction(BuildContext context, version,
                       onTap: onTapYes ??
                               () async {
                                 await appUpdateManager.updateStatus(version, 2);
-                                LaunchReview.launch(androidAppId: packageName,
-                                    iOSAppId: iosAppId);
+                                if(Platform.isAndroid){
+                                  LaunchReview.launch(androidAppId: packageName,
+                                      iOSAppId: iosAppId);
+                                }else{
+                                  LaunchReview.launch(writeReview: false,
+                                      iOSAppId: iosAppId);
+                                }
                           },
                       child: Container(
                           margin: const EdgeInsets.only(top: 25),
@@ -620,8 +625,13 @@ mandatoryUpdateDialogAction(BuildContext context,version,
                     onTap: onTap ??
                             () async {
                               await appUpdateManager.updateStatus(version, 2);
-                              LaunchReview.launch(androidAppId: packageName,
-                                  iOSAppId: iosAppId);
+                              if(Platform.isAndroid){
+                                LaunchReview.launch(androidAppId: packageName,
+                                    iOSAppId: iosAppId);
+                              }else{
+                                LaunchReview.launch(writeReview: false,
+                                    iOSAppId: iosAppId);
+                              }
                         },
                     child: Container(
                         margin: const EdgeInsets.only(top: 15,right: 22,left: 22),

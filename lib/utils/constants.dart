@@ -21,6 +21,7 @@ enum DrawerMenu {
 
 class Constants {
   static const keyName = 'key_name';
+  static const secureValidation = 'secure_validation';
 }
 
 class ColourConstants {

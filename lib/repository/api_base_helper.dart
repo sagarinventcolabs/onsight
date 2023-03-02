@@ -53,7 +53,7 @@ class ApiBaseHelper{
         log("response=========>>>> ${response.body}");
 
         try {
-          responseJson = _returnResponse(response);
+          responseJson = _returnResponse(response, showValue: false);
 
         } catch (e) {}
       } on SocketException {
@@ -460,11 +460,12 @@ class ApiBaseHelper{
         return responseJson;
       case 401:
         var responseJson = json.decode(response.body.toString());
+
         ErrorModel errorModel =  ErrorModel.fromJson(responseJson);
-        if(showValue) {
-          Get.showSnackbar(GetSnackBar(message: errorModel.error?.message,
-            duration: Duration(seconds: 2),));
-        }
+
+        defaultDialog(Get.context!, title: alert,alert: errorModel.error?.message.toString(), cancelable: true, onTap: (){
+          Get.back();
+        });
         return responseJson;
       case 403:
         var responseJson = json.decode(response.body.toString());
@@ -483,14 +484,23 @@ class ApiBaseHelper{
         }
         return responseJson;
       case 500:
-        var responseJson = json.decode(response.body.toString());
-        ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        if(showValue) {
-          Get.showSnackbar(GetSnackBar(
-            message: errorModel.errorDescription.toString(),
-            duration: Duration(seconds: 2),));
+        try{
+          var responseJson = json.decode(response.body.toString());
+          ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
+          if(showValue) {
+            Get.showSnackbar(GetSnackBar(
+              message: errorModel.errorDescription.toString(),
+              duration: Duration(seconds: 2),));
+          }else{
+            Get.showSnackbar(GetSnackBar(
+              message: "Internal Server Error",
+              duration: Duration(seconds: 2),));
+          }
+        }catch(ee){
+
         }
-        return responseJson;
+
+        return response;
 
 
       default:

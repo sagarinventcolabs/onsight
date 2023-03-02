@@ -69,6 +69,8 @@ const String emailValidation = "Please enter valid email address";
 const String cityValidation = "Please enter city";
 const String mobileNumberValidation = "Please enter valid mobile number";
 const String codeSentSuccessfully = "Code Sent Successfully";
+const String pleaseEnterYourEmail = "Please enter your email";
+const String invalidEmail = "Invalid Email";
 
 /// App info Slide screen
 const String skip = "Skip";
@@ -79,6 +81,8 @@ const String slideSubTitleString = "Nth Degree is a worldwide leader in trade sh
 /// Verify Otp Screen.........................................
 
 const String entermobilenumbertitle = "Enter mobile number to receive a\nverification code";
+const String enterEmailTitle = "Enter email to receive a\nverification code";
+const String enterVerificationCode = "Enter Verification code sent to \nMobile number ";
 const String mobileNumber = "Mobile Number";
 const String phoneNumberValidation = "Phone number is invalid";
 const String enterPhoneNumber = "Please enter Phone number";
@@ -92,7 +96,9 @@ const String requiredRegistration = "RequiredRegistration";
 
 const String alert = "Alert!";
 const String weWillverify = "We will be verifying the phone number";
+const String weWillVerifyEmail = "We will be verifying the phone number attached with this email";
 const String isItOk = "Is this ok, or would you like to edit the number?";
+const String isItOkEmail = "Is this ok, or would you like to edit the email?";
 const String edit = "Edit";
 const String ok = "OK";
 const String sendCode = "SEND CODE";
@@ -328,7 +334,7 @@ const String photosSubmittedToNotShow = "Photos_Submitted_To_Not_A_Show";
 
 /// Channel ID
 const String packageName = "com.nthdegree.onsight";
-const String iosAppId = "585027354";
+const String iosAppId = "1404847786";
 const String channelID = "com.nthdegree.onsight/service";
 const String cameraShutterAction = "cameraShutterAction";
 const String cameraShutterVolume = "cameraShutterVolume";
@@ -387,6 +393,7 @@ const String pinBioPattern = "PIN / Bio Metric / Pattern";
 const String isChecked = "isChecked";
 const String jobNumberKey = "JobNumber";
 const String request = "request";
+const String areYouSureYouWantToLogout = "Are you sure you want to logout?";
 
 
 // Service

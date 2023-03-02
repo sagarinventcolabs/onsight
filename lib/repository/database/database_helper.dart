@@ -6,6 +6,7 @@ class DatabaseHelper {
   static DatabaseHelper? _datebaseHelper;
   static Database? _database;
 
+  String mDashboardTable = 'dashboard_table';
   String mJobPhotosTable = 'job_photos_table';
   String mUserTable = 'user_table';
   String mCategoryTable = 'category_table';
@@ -58,8 +59,8 @@ class DatabaseHelper {
 
     //it says whether optional email is from Server or not
     //used for internal validation in JobPhotos page
-    await db.execute(
-        """CREATE TABLE $mJobPhotosTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, ShowNumber TEXT, ShowName TEXT, ExhibitorName TEXT, BoothNumber TEXT, ShowCity TEXT, ShowStartDate TEXT, ShowEndDate TEXT, ShowLocation TEXT, Supervision TEXT, SourceName TEXT, SourceContactName TEXT, SourceContactMobilePhone TEXT, SourceContactEmail TEXT, SalesRepFirstName TEXT, SalesRepLastName TEXT, SalesRepOfficePhone TEXT, SalesRepCellPhone TEXT, SalesRepEmailAddress TEXT, JobNumber TEXT, SNumber TEXT, WONumber TEXT, AdditionalEmail TEXT, OasisAdditionalEmail TEXT, IsOptionalEmailExist TEXT)""");//add
+    await db.execute("""CREATE TABLE $mJobPhotosTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, ShowNumber TEXT, ShowName TEXT, ExhibitorName TEXT, BoothNumber TEXT, ShowCity TEXT, ShowStartDate TEXT, ShowEndDate TEXT, ShowLocation TEXT, Supervision TEXT, SourceName TEXT, SourceContactName TEXT, SourceContactMobilePhone TEXT, SourceContactEmail TEXT, SalesRepFirstName TEXT, SalesRepLastName TEXT, SalesRepOfficePhone TEXT, SalesRepCellPhone TEXT, SalesRepEmailAddress TEXT, JobNumber TEXT, SNumber TEXT, WONumber TEXT, AdditionalEmail TEXT, OasisAdditionalEmail TEXT, IsOptionalEmailExist TEXT)""");//add
+    await db.execute("""CREATE TABLE $mDashboardTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, MenuItems TEXT, isAllowed INTEGER)""");//add
     await db.execute(
         """CREATE TABLE $mUserTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, MobileNumber TEXT, AccessToken TEXT, FirstName TEXT, LastName TEXT, EmailID TEXT)""");
     //two different categories are associated with JobAction//(JobPhotos & Project Evaluation)

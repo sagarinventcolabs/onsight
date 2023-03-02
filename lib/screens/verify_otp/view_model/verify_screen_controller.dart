@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:on_sight_application/repository/web_service_response/get_otp_response.dart';
 import 'package:on_sight_application/repository/web_service_response/verify_otp_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
@@ -8,6 +9,7 @@ import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class VerifyScreenController extends GetxController{
 
@@ -31,25 +33,26 @@ class VerifyScreenController extends GetxController{
       if (response.containsKey(error)) {
         return response;
       }else if(response.toString().toLowerCase().contains("expired")){
-        Get.offAllNamed(Routes.loginScreen);
+        Get.offAllNamed(Routes.emailLoginScreen);
 
         return false;
 
       }
       VerifyOtpResponse responseModel = VerifyOtpResponse.fromJson(response);
       sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
+      sp!.putString(Constants.secureValidation, DateTime.now().toIso8601String());
       SecureStorage().addNewItem("auth_token",responseModel.accessToken.toString());
 
-      ProfileController profileController = ProfileController();
-      await profileController.getProfile(showValue: false);
-      if(responseModel.signInStatus==requiredRegistration){
-        analyticsFireEvent(loginOrSignUpKey,
-            input: {
-              type: "SignUp",
-              // user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
-            });
-        Get.offNamed(Routes.userDetailScreen, arguments: responseModel.asclientId);
-      }else{
+      // ProfileController profileController = ProfileController();
+      // await profileController.getProfile(showValue: false);
+      // if(responseModel.signInStatus==requiredRegistration){
+      //   analyticsFireEvent(loginOrSignUpKey,
+      //       input: {
+      //         type: "SignUp",
+      //         // user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
+      //       });
+      //   Get.offNamed(Routes.userDetailScreen, arguments: responseModel.asclientId);
+      // }else{
         analyticsFireEvent(loginOrSignUpKey,
             input: {
           type: login,
@@ -64,7 +67,7 @@ class VerifyScreenController extends GetxController{
         // }else {
         //   Get.offAllNamed(Routes.dashboardScreen);
         // }
-      }
+      //}
     }
     return response;
   }
@@ -79,7 +82,18 @@ class VerifyScreenController extends GetxController{
     return response;
   }
 
+  //Api for resend otp......................................
 
+  Future<dynamic> resendOtpEmail(email) async{
+    var response = await service.getOtpForEmail(email);
+    if(response!=null) {
+      GetOtpResponse responseModel = GetOtpResponse.fromJson(response);
+      sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
+      Get.showSnackbar(const GetSnackBar(message: codeSentSuccessfully,duration: Duration(seconds: 2),));
+      await SmsAutoFill().listenForCode;
+    }
+    return response;
+  }
 
 //Validations on Text input field...............
   validate(phoneNumber, otp) {

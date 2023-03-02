@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
-import 'package:on_sight_application/routes/app_pages.dart';
+ import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/dashboard/view_model/app_update_controller.dart';
 import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -23,9 +25,10 @@ class DashboardScreen extends StatefulWidget {
   @override
   DashboardScreenState createState() => DashboardScreenState();
 }
-enum Availability { loading, available, unavailable }
-class DashboardScreenState extends State<DashboardScreen>{
 
+enum Availability { loading, available, unavailable }
+
+class DashboardScreenState extends State<DashboardScreen> {
   List<Map<String, dynamic>> choices = [
     {title: settings, icon: Icons.settings},
     {title: profile, icon: Icons.person_off},
@@ -33,14 +36,12 @@ class DashboardScreenState extends State<DashboardScreen>{
     {title: logout, icon: Icons.logout},
   ];
 
-
   SettingsController settingsController = Get.put(SettingsController());
   AppUpdateController appUpdateController = Get.put(AppUpdateController());
   PackageInfo? packageInfo;
+
   // final InAppReview _inAppReview = InAppReview.instance;
   // Availability _availability = Availability.loading;
-
-
 
   @override
   initState() {
@@ -48,7 +49,6 @@ class DashboardScreenState extends State<DashboardScreen>{
     flutterLocalNotificationsPlugin.cancelAll();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       setSettingsData();
-
     });
   }
 
@@ -56,11 +56,14 @@ class DashboardScreenState extends State<DashboardScreen>{
   void didChangeDependencies() {
     /// Checking Security for Root & Jailbreak for both IOS & Android.
     checkRootJailBreakSecurity();
-    DateTime dt1 = DateTime.parse((sp?.getString(Preference.DIALOG_TIMESTAMP)??DateTime(DateTime.now().year,DateTime.now().month-2,DateTime.now().day).toString()));
+    DateTime dt1 = DateTime.parse((sp?.getString(Preference.DIALOG_TIMESTAMP) ??
+        DateTime(DateTime.now().year, DateTime.now().month - 2,
+                DateTime.now().day)
+            .toString()));
     DateTime dt2 = DateTime.parse(DateTime.now().toString());
 
-    if (daysBetween(dt1,dt2) >= 30) {
-      if((sp?.getInt(Preference.ACTIVITY_TRACKER)??0)>=3){
+    if (daysBetween(dt1, dt2) >= 30) {
+      if ((sp?.getInt(Preference.ACTIVITY_TRACKER) ?? 0) >= 3) {
         sp?.putInt(Preference.ACTIVITY_TRACKER, 0);
         sp?.putString(Preference.DIALOG_TIMESTAMP, DateTime.now().toString());
         showRatingDialog(context);
@@ -75,43 +78,43 @@ class DashboardScreenState extends State<DashboardScreen>{
     return (to.difference(from).inDays);
   }
 
-
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
-    print(isDarkMode);
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(bottom: Dimensions.height12,right: Dimensions.height12),
+          padding: EdgeInsets.only(
+              bottom: Dimensions.height12, right: Dimensions.height12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-            Text("v${packageInfo?.version??"0"}"),
-          ],),
+              Text("v${packageInfo?.version ?? "0"}"),
+            ],
+          ),
         ),
       ),
       appBar: AppBar(
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Get.isDarkMode?ColourConstants.black:ColourConstants.white,
-        leading:Visibility(
+        backgroundColor:
+            Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
+        leading: Visibility(
           visible: visibleRefresh,
           child: GestureDetector(
             onTap: () async {
-              if(imageList.isNotEmpty){
+              if (imageList.isNotEmpty) {
                 var service = FlutterBackgroundService();
                 await service.startService();
                 showLoader(context);
                 await Future.delayed(const Duration(seconds: 5), () async {
                   Get.back();
                   var token = await sp!.getString(Preference.ACCESS_TOKEN);
-                  service.invoke(failedJobDatabase, {
-                    tokenString: token
-                  });
+                  service.invoke(failedJobDatabase, {tokenString: token});
                   setState(() {
                     visibleRefresh = false;
                   });
@@ -120,16 +123,30 @@ class DashboardScreenState extends State<DashboardScreen>{
             },
             child: Padding(
               padding: EdgeInsets.only(left: Dimensions.height20),
-              child: Image.asset(Assets.icRefresh, color: Get.isDarkMode?ColourConstants.white: ColourConstants.primary, height: Dimensions.height30, width: Dimensions.height30,),
+              child: Image.asset(
+                Assets.icRefresh,
+                color: Get.isDarkMode
+                    ? ColourConstants.white
+                    : ColourConstants.primary,
+                height: Dimensions.height30,
+                width: Dimensions.height30,
+              ),
             ),
           ),
         ),
         leadingWidth: Dimensions.width43,
-        title: Text(dashboard, style: TextStyle(color: Get.isDarkMode?ColourConstants.white: ColourConstants.primary,fontWeight: FontWeight.bold, fontSize: Dimensions.font18)),
+        title: Text(dashboard,
+            style: TextStyle(
+                color: Get.isDarkMode
+                    ? ColourConstants.white
+                    : ColourConstants.primary,
+                fontWeight: FontWeight.bold,
+                fontSize: Dimensions.font18)),
         actions: [
-
           PopupMenuButton<String>(
-            color: Get.isDarkMode ? Colors.grey.shade800 : ColourConstants.primaryLight,
+            color: Get.isPlatformDarkMode
+                ? Colors.grey.shade800
+                : ColourConstants.primaryLight,
             onSelected: (value) async {
               handlePop(value);
             },
@@ -138,8 +155,12 @@ class DashboardScreenState extends State<DashboardScreen>{
                 width: Dimensions.width42,
                 padding: EdgeInsets.only(right: Dimensions.height14),
                 alignment: Alignment.centerRight,
-                child:  SvgPicture.asset(Assets.icKebab, color: Get.isDarkMode?ColourConstants.white:ColourConstants.primary,)
-            ),
+                child: SvgPicture.asset(
+                  Assets.icKebab,
+                  color: Get.isPlatformDarkMode
+                      ? ColourConstants.white
+                      : ColourConstants.primary,
+                )),
             itemBuilder: (BuildContext context) {
               return choices.map((Map choice) {
                 return PopupMenuItem<String>(
@@ -152,7 +173,9 @@ class DashboardScreenState extends State<DashboardScreen>{
                             SizedBox(width: Dimensions.width2),
                             Text(
                               choice[title],
-                              style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
                             ),
                           ],
                         ),
@@ -170,22 +193,46 @@ class DashboardScreenState extends State<DashboardScreen>{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            DashboardTile(title: jobPhotos,lightSvgIcon: Assets.icDashboardCam,darkSvgIcon: Assets.illJobPhotosDark,routeName: Routes.jobPhotosScreen),
-            DashboardTile(title: projectEvaluation,lightSvgIcon: Assets.icProjectEvaluation,darkSvgIcon: Assets.icProjectEvaluationDark,routeName: Routes.projectEvaluationScreen),
-            DashboardTile(title: leadSheet,lightSvgIcon: Assets.icLeadSheet,darkSvgIcon: Assets.icLeadSheetDark,routeName: Routes.leadSheetScreen,),
-            DashboardTile(title: onboarding,lightSvgIcon: Assets.icOnBoarding,darkSvgIcon: Assets.icOnBoardingDark,routeName: Routes.onBoardingScreen),
-            DashboardTile(title: promoPictures,lightSvgIcon: Assets.icPromoPic,darkSvgIcon: Assets.icPromoPicDark,routeName: Routes.promoPictureScreen),
-            DashboardTile(title: fieldIssues,lightSvgIcon: Assets.icFieldIssue,darkSvgIcon: Assets.icFieldIssueDark,routeName: Routes.fieldIssues),
+            DashboardTile(
+                title: jobPhotos,
+                lightSvgIcon: Assets.icDashboardCam,
+                darkSvgIcon: Assets.illJobPhotosDark,
+                routeName: Routes.jobPhotosScreen),
+            DashboardTile(
+                title: projectEvaluation,
+                lightSvgIcon: Assets.icProjectEvaluation,
+                darkSvgIcon: Assets.icProjectEvaluationDark,
+                routeName: Routes.projectEvaluationScreen),
+            DashboardTile(
+              title: leadSheet,
+              lightSvgIcon: Assets.icLeadSheet,
+              darkSvgIcon: Assets.icLeadSheetDark,
+              routeName: Routes.leadSheetScreen,
+            ),
+            DashboardTile(
+                title: onboarding,
+                lightSvgIcon: Assets.icOnBoarding,
+                darkSvgIcon: Assets.icOnBoardingDark,
+                routeName: Routes.onBoardingScreen),
+            DashboardTile(
+                title: promoPictures,
+                lightSvgIcon: Assets.icPromoPic,
+                darkSvgIcon: Assets.icPromoPicDark,
+                routeName: Routes.promoPictureScreen),
+            DashboardTile(
+                title: fieldIssues,
+                lightSvgIcon: Assets.icFieldIssue,
+                darkSvgIcon: Assets.icFieldIssueDark,
+                routeName: Routes.fieldIssues)
           ],
         ),
-      ),
+      )
     );
   }
 
-
-
   setSettingsData() async {
-
+    await appUpdateController.getSecurityFlags();
+    setState(() {});
     debugPrint(await sp?.getString(Preference.ACCESS_TOKEN));
     AppInternetManager appInternetManager = AppInternetManager();
     //
@@ -201,25 +248,24 @@ class DashboardScreenState extends State<DashboardScreen>{
     //   Get.toNamed(Routes.IntroductionTwoStep);
     // }
     var a = await appInternetManager.getSettingsTable() as List;
-    if(a.isNotEmpty) {
 
+    if (a.isNotEmpty) {
       settingsController.setMobileDataSwitch(
           val: a[0][appInternetStatus] == 1 ? true : false);
       settingsController.setNotifyUploadSwitch(
           val: a[0][uploadCompleteStatus] == 1 ? true : false);
-
     }
     packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   handlePop(String result) async {
     switch (result) {
-      case settings:{
-        Get.toNamed(Routes.settingScreen);
-        break;}
+      case settings:
+        {
+          Get.toNamed(Routes.settingScreen);
+          break;
+        }
       case profile:
         Get.toNamed(Routes.updateProfileScreen);
         break;
@@ -227,18 +273,12 @@ class DashboardScreenState extends State<DashboardScreen>{
         Get.toNamed(Routes.aboutUsScreen);
         break;
       case logout:
-        dialogAction(context, title: "Are you sure you want to logout?", onTapNo: (){
+        dialogAction(context, title: areYouSureYouWantToLogout, onTapNo: () {
           Get.back();
-        },
-        onTapYes: (){
+        }, onTapYes: () {
           logoutFun();
-        }
-        );
+        });
         break;
     }
   }
-
-
 }
-
-

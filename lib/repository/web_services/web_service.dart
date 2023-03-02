@@ -23,7 +23,9 @@ import 'package:on_sight_application/screens/job_photos/model/notes_model.dart';
 import 'package:on_sight_application/screens/lead_sheet/model/notes_model.dart';
 import 'package:on_sight_application/screens/onboarding/model/onboarding_document_image_model.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
+import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
+import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -40,6 +42,13 @@ class WebService {
     return response;
   }
 
+  //Get otp request email...........................................................................
+  Future<dynamic> getOtpForEmail(email) async {
+    Map<String, String> body = {};
+    var response = await ApiBaseHelper().postApiCall(EndPoint.getOTPForEmail+email, body);
+
+    return response;
+  }
 //Verify Otp request...........................................................................
   Future<dynamic> verifyOtpRequest(code) async {
     Map<String, String> body = {
@@ -612,6 +621,15 @@ class WebService {
       'ClientId': "Mobile",
     };
     var response = await ApiBaseHelper().postApiCall(EndPoint.disableUser, body);
+    return response;
+  }
+
+
+  //Get Security Flags...........................................................................
+  Future<dynamic> getSecurityFlags() async {
+    var email = sp?.getString(Preference.USER_EMAIL)??"";
+    var url = EndPoint.getSecurityFlags+email;
+    var response = await ApiBaseHelper().getApiCall(url, isLoading: true);
     return response;
   }
 }

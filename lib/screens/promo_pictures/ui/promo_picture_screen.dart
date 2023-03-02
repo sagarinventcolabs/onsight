@@ -89,7 +89,7 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
               }
             }else {
               showModalBottomSheet(
-                  backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+                //  backgroundColor: Get.isPlatformDarkMode ? ColourConstants.grey900 : ColourConstants.white,
                   //backgroundColor: Color.fromARGB(255, 0, 0, 0),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(

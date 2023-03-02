@@ -176,7 +176,7 @@ class UploadPromoPicturesController extends GetxController {
       },onTapYes: (){
         Get.back();
         showModalBottomSheet(
-            backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+           // backgroundColor: Get.isPlatformDarkMode ? ColourConstants.grey900 : ColourConstants.white,
             //backgroundColor: Color.fromARGB(255, 0, 0, 0),
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(

@@ -61,7 +61,7 @@ class PromoPicturesController extends GetxController{
         if (!response.toString().contains(error) && !response.toString().contains(noInternetStr)) {
 
           showModalBottomSheet(
-              backgroundColor: Get.isDarkMode ? Colors.grey.shade900 : ColourConstants.white,
+             // backgroundColor: Get.isPlatformDarkMode ? Colors.grey.shade900 : ColourConstants.white,
               //backgroundColor: Color.fromARGB(255, 0, 0, 0),
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
