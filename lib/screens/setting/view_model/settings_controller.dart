@@ -1,4 +1,4 @@
-import 'package:battery_info/battery_info_plugin.dart';
+import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -83,9 +83,7 @@ class SettingsController extends GetxController {
 
   getBatteryPercentage() async {
     print(Platform.isAndroid.toString());
-    batteryPercentage = Platform.isAndroid
-        ? (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel ?? 0
-        : (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel ?? 0;
+    batteryPercentage = await Battery().batteryLevel;
     print(batteryPercentage.toString());
     if (batteryPercentage <= 15) {
       batterySaverSwitch.value = true;

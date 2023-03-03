@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:battery_info/battery_info_plugin.dart';
+import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,14 +61,8 @@ checkBatteryStatus() async {
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0][batterySaverStatus].toString());
   if (a[0][batterySaverStatus] == 1) {
-    int? batteryLevel;
-    if (Platform.isAndroid) {
-      debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-  batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-  }else if(Platform.isIOS){
-  debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-  batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-  }
+    int? batteryLevel = await Battery().batteryLevel;
+
   if ((batteryLevel??100) < 15) {
   Get.closeAllSnackbars();
   Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsg,duration: Duration(seconds: 3),));

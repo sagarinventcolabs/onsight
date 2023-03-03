@@ -55,7 +55,9 @@ class ApiBaseHelper{
         try {
           responseJson = _returnResponse(response, showValue: false);
 
-        } catch (e) {}
+        } catch (e) {
+
+        }
       } on SocketException {
         //showToastMessage("No Internet connection");
         Get.back();
@@ -330,6 +332,8 @@ class ApiBaseHelper{
         request.files.addAll(listImage);
         debugPrint(request.fields.toString());
         debugPrint(request.files.first.field.toString() +" "+request.files.first.filename.toString());
+        log("Fields=========>>>> ${request.fields}");
+        log("Files=========>>>> ${request.files}");
         response = await request.send();
         var res =  await response.stream.bytesToString();
         log("statusCode=========>>>> ${response.statusCode}");

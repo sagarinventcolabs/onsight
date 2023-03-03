@@ -132,31 +132,32 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height/3),
-                GestureDetector(
-                    onTap: (){
-                      loginScreenController.enableButton.value = false;
-                      loginScreenController.update();
-                      if(loginScreenController.validateEmail(loginScreenController.emailController.text)) {
-                        showAlertDialog();
-                      }
-                    },
-                    child:Padding(
-                      padding: EdgeInsets.only(left: Dimensions.height30, right: Dimensions.height30, bottom: Dimensions.height50),
-                      child: Container(
-                        height: Dimensions.height45,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(Dimensions.height10)),
-                            color:loginScreenController.enableButton.isTrue? ColourConstants.primary:ColourConstants.grey
-                        ),
-                        child: Center(child: Text(sendCode, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w500, fontSize: Dimensions.font21),)),
-                      ),
-                    )
-                ),
+               // SizedBox(height: MediaQuery.of(context).size.height/3),
+
               ],
             ),
-          )
+          ),
+        bottomNavigationBar: GestureDetector(
+            onTap: (){
+              loginScreenController.enableButton.value = false;
+              loginScreenController.update();
+              if(loginScreenController.validateEmail(loginScreenController.emailController.text)) {
+                showAlertDialog();
+              }
+            },
+            child:Padding(
+              padding: EdgeInsets.only(left: Dimensions.height30, right: Dimensions.height30, bottom: Dimensions.height35),
+              child: Container(
+                height: Dimensions.height45,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(Dimensions.height10)),
+                    color:loginScreenController.enableButton.isTrue? ColourConstants.primary:ColourConstants.grey
+                ),
+                child: Center(child: Text(sendCode, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w500, fontSize: Dimensions.font21),)),
+              ),
+            )
+        ),
       ),
     ));
   }

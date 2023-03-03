@@ -711,7 +711,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
               await FirebaseAnalytics.instance.logEvent(
                   name: jobPhotoUploadKey,
                   parameters: {
-                user:sp?.getString(Preference.FIRST_NAME),
+                user:sp?.getString(Preference.FIRST_NAME)??"",
                 category:element.name.toString(),
                 imageCount:element.listPhotos?.length.toString()??"0"
               });

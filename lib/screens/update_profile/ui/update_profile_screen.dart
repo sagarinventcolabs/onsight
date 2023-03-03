@@ -44,7 +44,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               }
             },
             child: Padding(
-              padding: EdgeInsets.only(left: Dimensions.height40, right: Dimensions.height40, bottom: Dimensions.height50),
+              padding: EdgeInsets.only(left: Dimensions.height40, right: Dimensions.height40, bottom: Dimensions.height35),
               child: Container(
                 height: Dimensions.height45,
                 width: Dimensions.height250,
