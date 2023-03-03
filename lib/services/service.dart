@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:ui';
-import 'dart:io' show Platform;
-import 'package:battery_info/battery_info_plugin.dart';
+import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -69,9 +68,6 @@ bool onIosBackground(ServiceInstance service) {
 void onStart(ServiceInstance service) async {
 
 
-  List<JobCategoriesResponse> list = [];
-  List<Email> emailList = [];
-  String jobNumber = "";
 
   // Only available for flutter 3.0.0 and later
   DartPluginRegistrant.ensureInitialized();
@@ -93,6 +89,7 @@ void onStart(ServiceInstance service) async {
       service.setAsBackgroundService();
     });
   }
+/*
 
   service.on('custom').listen((event) async {
     AppInternetManager appInternetManager = AppInternetManager();
@@ -127,6 +124,7 @@ void onStart(ServiceInstance service) async {
 
     }
   });
+*/
 
 
 
@@ -373,297 +371,23 @@ void onStart(ServiceInstance service) async {
     });
 }
 
-runApi(List<JobCategoriesResponse> list, jobNumber, emailList, token,event, index, imageIndex, service) async {
-
-  AppInternetManager appInternetManager = AppInternetManager();
-  var a = await appInternetManager.getSettingsTable();
-  debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
-  if (a[0]["BatterySaverStatus"] == 1) {
-    int? batteryLevel;
-    if (Platform.isAndroid) {
-      debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-    }
-    else if(Platform.isIOS){
-      debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-    }
-    if ((batteryLevel??100) > 15) {
-      runApiSubMethod(list, jobNumber, emailList, token,event, index, imageIndex, service);
-    }
-    else{
-      Timer.periodic(const Duration(seconds: 10), (timer) async {
-        if (Platform.isAndroid) {
-          debugPrint("Android Battery Level: ${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-        }else if(Platform.isIOS){
-          debugPrint("IOS Battery Level: ${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-        }
-        if((batteryLevel??100) > 15){
-          runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
-        }
-      });
-    }
-  }else{
-    runApiSubMethod(list, jobNumber, emailList, token,event, index, imageIndex, service);
-  }
-}
-
-runApiSubMethod(List<JobCategoriesResponse> list, jobNumber, emailList, token,event, index, imageIndex, service)async{
-  var connectivityResult = await (Connectivity().checkConnectivity());
-  if (connectivityResult == ConnectivityResult.wifi) {
-    debugPrint("-->  Uploading Through Wifi !!  <--");
-    WebService webService = WebService();
-    var response = await webService.submitImages(list, jobNumber, emailList, token, index, imageIndex);
-    if(response!=null){
-      if(response.toString().contains("error")){
-          Timer.periodic(const Duration(seconds: 10), (timer) async {
-            bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
-            if(isNetActive){
-              timer.cancel();
-              runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
-            }
-          });
-
-  /*      else{
-          ImageModel model = ImageModel();
-          model =
-          await ImageManager().getImageByImageName(
-              list[index].listPhotos![imageIndex].imageName!);
-          model.isSubmitted = 0;
-          await ImageManager().updateImageData(model);
-          ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-          if(errorModel.errorDescription!=null) {
-            showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-          }else{
-            showErrorNotification(errorMsg:errorModel.Message.toString());
-          }
-        }*/
-      }else{
-        if(!response.toString().contains("error")){
-          debugPrint("Updating in Database");
-          ImageModel model = ImageModel();
-          model =
-          await ImageManager().getImageByImageName(
-              list[index].listPhotos![imageIndex].imageName!);
-          model.isSubmitted = 2;
-          ImageManager().updateImageData(model);
-          imageIndex = imageIndex+1;
-          try{
-            UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
-            service.invoke("result",{
-              "response": uploadImageResponse.toJson()
-            });
-          }catch(e){
-
-          }
-          log(imageIndex.toString());
-          log(index.toString());
-          if(imageIndex<list[index].listPhotos?.length){
-
-            runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
-
-          }else{
-            index = index + 1;
-            try{
-              UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
-              service.invoke("result",{
-                "response": uploadImageResponse.toJson()
-              });
-            }catch(e){
-
-            }
-            if(index<list.length){
-              imageIndex = 0;
-              runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
-            }else{
-              try{
-                UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
-                service.invoke("result",{
-                  "response": uploadImageResponse.toJson()
-                });
-              }catch(e){
-
-              }
-              showNotification(service);
-            }
-          }
-        }
- /*
-        else{
-          ImageModel model = ImageModel();
-          model =
-          await ImageManager().getImageByImageName(
-              list[index].listPhotos![imageIndex].imageName!);
-          model.isSubmitted = 0;
-          await ImageManager().updateImageData(model);
-          ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-          if(errorModel.errorDescription!=null) {
-            showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-          }else{
-            showErrorNotification(errorMsg:errorModel.Message.toString());
-          }
-        }*/
-      }
-    }
-    else{
-      Timer.periodic(const Duration(seconds: 10), (timer) async {
-        AppInternetManager appInternetManager = AppInternetManager();
-        var a = await appInternetManager.getSettingsTable();
-        debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
-        if(a[0]["AppInternetStatus"] == 1){
-          timer.cancel();
-          runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
-        }
-      });
-    }
-  }
-  else{
-    debugPrint("-->  Uploading Through Mobile Internet !!  <--");
-    AppInternetManager appInternetManager = AppInternetManager();
-    var a = await appInternetManager.getSettingsTable();
-    debugPrint("Upper One - MOBILE_INTERNET_STATUS From Background Service" + (a[0]["AppInternetStatus"].toString()));
-
-    if (a[0]["AppInternetStatus"] == 1) {
-      WebService webService = WebService();
-      var response = await webService.submitImages(list, jobNumber, emailList, token, index, imageIndex);
-      if(response!=null){
-        if(response.toString().contains("error")){
-
-            Timer.periodic(const Duration(seconds: 10), (timer) async {
-              bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
-              if(isNetActive){
-                timer.cancel();
-                runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
-              }
-            });
-
-
-          /*      else{
-                  ImageModel model = ImageModel();
-                  model =
-                  await ImageManager().getImageByImageName(
-                      list[index].listPhotos![imageIndex].imageName!);
-                  model.isSubmitted = 0;
-                  await ImageManager().updateImageData(model);
-                  ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-                  if(errorModel.errorDescription!=null) {
-                    showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-                  }else{
-                    showErrorNotification(errorMsg:errorModel.Message.toString());
-                  }
-                }*/
-
-        }else{
-          if(!response.toString().contains("error")){
-            debugPrint("Updating in Database");
-            ImageModel model = ImageModel();
-            model =
-            await ImageManager().getImageByImageName(
-                list[index].listPhotos![imageIndex].imageName!);
-            model.isSubmitted = 2;
-            await ImageManager().updateImageData(model);
-            imageIndex = imageIndex+1;
-            try{
-              UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
-              service.invoke("result",{
-                "response": uploadImageResponse.toJson()
-              });
-            }catch(e){
-
-            }
-            if(imageIndex<list[index].listPhotos?.length){
-
-              runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
-
-            }else{
-              index = index + 1;
-              try{
-                UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
-                service.invoke("result",{
-                  "response": uploadImageResponse.toJson()
-                });
-              }catch(e){
-
-              }
-
-              if(index<list.length){
-                imageIndex = 0;
-                runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
-              }else{
-                try{
-                  UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
-                  service.invoke("result",{
-                    "response": uploadImageResponse.toJson()
-                  });
-                }catch(e){
-
-                }
-                showNotification(service);
-              }
-            }
-          }
-
-        }
-      }
-      else{
-        Timer.periodic(const Duration(seconds: 10), (timer) async {
-          AppInternetManager appInternetManager = AppInternetManager();
-          var a = await appInternetManager.getSettingsTable();
-          debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
-          if(a[0]["AppInternetStatus"] == 1){
-            timer.cancel();
-            runApi(list, jobNumber, emailList, token,event, index, imageIndex, service);
-          }
-        });
-      }
-     // final internetSpeed = InternetSpeed();
-
-    }
-    else{
-      Timer.periodic(
-          const Duration(seconds : 10), (timer)async {
-        AppInternetManager appInternetManager = AppInternetManager();
-        var a = await appInternetManager.getSettingsTable();
-        debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" +
-            a[0]["AppInternetStatus"].toString());
-        if (a[0]["AppInternetStatus"] == 1) {
-          timer.cancel();
-          runApi(list, jobNumber, emailList, token, event, index, imageIndex, service);
-        }
-      });
-    }
-  }
-}
-
-
 runApiLeadSheet(SaveExhibitorImagesRequest request, finalToken, List<LeadSheetImageModel> list, index, priority, service) async {
 
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
   if (a[0]["BatterySaverStatus"] == 1) {
-    int? batteryLevel;
-    if (Platform.isAndroid) {
-      debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-    }else if(Platform.isIOS){
-      debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-    }
-    if ((batteryLevel??100) > 15) {
+    int? batteryLevel = await Battery().batteryLevel;
+      debugPrint("-->  Battery Level: -->${batteryLevel.toString()}");
+
+    if ((batteryLevel) > 15) {
       runApiLeadSheetSubMethod(request, finalToken, list, index, priority, service);
     }
     else{
       Timer.periodic(const Duration(seconds: 10), (timer) async {
-        if (Platform.isAndroid) {
-          debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-        }else if(Platform.isIOS){
-          debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-        }
+        batteryLevel = await Battery().batteryLevel;
+        debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
+
         if((batteryLevel??100) > 15){
           runApiLeadSheet(request, finalToken, list, index, priority, service);
         }
@@ -786,26 +510,15 @@ runApiFieldIssue(ServiceInstance service, SubmitFieldIssueRequest request, final
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
   if (a[0]["BatterySaverStatus"] == 1) {
-    int? batteryLevel;
-    if (Platform.isAndroid) {
-      debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-    }
-    else if(Platform.isIOS){
-      debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-    }
-    if ((batteryLevel??100) > 15) {
+    int? batteryLevel = await Battery().batteryLevel;;
+      debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
+
+    if ((batteryLevel) > 15) {
       fieldIssueSubMethod(service, request, finalToken, list);
     }else{
       Timer.periodic(Duration(seconds: 10),(timer) async {
-        if (Platform.isAndroid) {
-          debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-        }else if(Platform.isIOS){
-        debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-        batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-        }
+        batteryLevel = await Battery().batteryLevel;
+        debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
         if ((batteryLevel??100) > 15) {
           runApiFieldIssue(service,request, finalToken, list);
         }
@@ -841,9 +554,7 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<F
         }
       }
       else {
-        /* FlutterBackgroundService().invoke("response",{
-          "response":value.toString()
-        });*/
+
         showNotification(service);
         // service.stopSelf();
       }
@@ -939,26 +650,16 @@ runApiPromoPicturs(service, photoList, token) async {
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
   if (a[0]["BatterySaverStatus"] == 1) {
-    int? batteryLevel;
-    if (Platform.isAndroid) {
-      debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-    }
-    else if(Platform.isIOS){
-      debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-    }
-    if ((batteryLevel??100) > 15) {
+    int? batteryLevel = await Battery().batteryLevel;
+      debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
+
+    if ((batteryLevel) > 15) {
       promoPictureSubMethod(service, photoList, token);
     }else{
       Timer.periodic(Duration(seconds: 10),(timer) async {
-        if (Platform.isAndroid) {
-          debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-        }else if(Platform.isIOS){
-          debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-        }
+        batteryLevel = await Battery().batteryLevel;
+        debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
+
         if ((batteryLevel??100) > 15) {
           promoPictureSubMethod(service, photoList, token);
         }
@@ -1067,28 +768,18 @@ runApiFromDatabaseMainMethod(service, token) async {
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
   if (a[0]["BatterySaverStatus"] == 1) {
-    int? batteryLevel;
-    if (Platform.isAndroid) {
-      debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-    }
-    else if(Platform.isIOS){
-      debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-    }
-    if ((batteryLevel??100) > 15) {
+    int? batteryLevel = await Battery().batteryLevel;
+      debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
+
+    if ((batteryLevel) > 15) {
       runApiFromDatabaseJobPhotos(service, token);
     }
     else{
       Timer.periodic(const Duration(seconds: 10), (timer) async {
-        if (Platform.isAndroid) {
-          debugPrint("Android Battery Level: ${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-        }else if(Platform.isIOS){
-          debugPrint("IOS Battery Level: ${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-        }
-        if((batteryLevel??100) > 15){
+          batteryLevel = await Battery().batteryLevel;
+          debugPrint("Battery Level: ${batteryLevel.toString()}");
+
+          if((batteryLevel??100) > 15){
           runApiFromDatabaseMainMethod(service, token);
         }
       });
@@ -1149,7 +840,6 @@ runApiFromDatabaseJobPhotos(ServiceInstance service, token)async{
         }*/
         }else{
           if(!response.toString().contains("error")){
-            debugPrint("Updating in Database");
 
             model.isSubmitted = 2;
             ImageManager().updateImageData(model);
@@ -1324,32 +1014,21 @@ runApiFromDatabaseJobPhotos(ServiceInstance service, token)async{
 
 
 jobPhotosMainMethod(service, token) async {
-    debugPrint("Code JobPhotosMainMethod");
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
   if (a[0]["BatterySaverStatus"] == 1) {
-    int? batteryLevel;
-    if (Platform.isAndroid) {
-      debugPrint("-->  Android Battery Level: -->${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-    }
-    else if(Platform.isIOS){
-      debugPrint("-->  IOS Battery Level: -->${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-      batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-    }
-    if ((batteryLevel??100) > 15) {
+    int? batteryLevel = await Battery().batteryLevel;
+    debugPrint("-->  Battery Level: -->${batteryLevel.toString()}");
+    if ((batteryLevel) > 15) {
       jobPhotosSubmethod(service, token);
     }
     else{
       Timer.periodic(const Duration(seconds: 10), (timer) async {
-        if (Platform.isAndroid) {
-          debugPrint("Android Battery Level: ${(await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().androidBatteryInfo)?.batteryLevel;
-        }else if(Platform.isIOS){
-          debugPrint("IOS Battery Level: ${(await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel.toString()??""}");
-          batteryLevel = (await BatteryInfoPlugin().iosBatteryInfo)?.batteryLevel;
-        }
+        batteryLevel = await Battery().batteryLevel;
+
+        debugPrint("Battery Level: ${batteryLevel.toString()}");
+
         if((batteryLevel??100) > 15){
           jobPhotosMainMethod(service, token);
         }
@@ -1399,23 +1078,8 @@ jobPhotosSubmethod(service, token)async{
 
             }
 
-          /*      else{
-          ImageModel model = ImageModel();
-          model =
-          await ImageManager().getImageByImageName(
-              list[index].listPhotos![imageIndex].imageName!);
-          model.isSubmitted = 0;
-          await ImageManager().updateImageData(model);
-          ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-          if(errorModel.errorDescription!=null) {
-            showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-          }else{
-            showErrorNotification(errorMsg:errorModel.Message.toString());
-          }
-        }*/
         }else{
           if(!response.toString().contains("error")){
-            debugPrint("Updating in Database");
 
             model.isSubmitted = 2;
             ImageManager().updateImageData(model);
@@ -1434,21 +1098,7 @@ jobPhotosSubmethod(service, token)async{
 
 
           }
-          /*
-        else{
-          ImageModel model = ImageModel();
-          model =
-          await ImageManager().getImageByImageName(
-              list[index].listPhotos![imageIndex].imageName!);
-          model.isSubmitted = 0;
-          await ImageManager().updateImageData(model);
-          ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-          if(errorModel.errorDescription!=null) {
-            showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-          }else{
-            showErrorNotification(errorMsg:errorModel.Message.toString());
-          }
-        }*/
+
         }
       }
       else{
@@ -1490,24 +1140,8 @@ jobPhotosSubmethod(service, token)async{
 
             }
 
-            /*      else{
-                  ImageModel model = ImageModel();
-                  model =
-                  await ImageManager().getImageByImageName(
-                      list[index].listPhotos![imageIndex].imageName!);
-                  model.isSubmitted = 0;
-                  await ImageManager().updateImageData(model);
-                  ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-                  if(errorModel.errorDescription!=null) {
-                    showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-                  }else{
-                    showErrorNotification(errorMsg:errorModel.Message.toString());
-                  }
-                }*/
-
           }else{
             if(!response.toString().contains("error")){
-              debugPrint("Updating in Database");
 
               model.isSubmitted = 2;
               await ImageManager().updateImageData(model);
@@ -1524,20 +1158,7 @@ jobPhotosSubmethod(service, token)async{
 
 
             }
-            /*        else{
-                  ImageModel model = ImageModel();
-                  model =
-                  await ImageManager().getImageByImageName(
-                      list[index].listPhotos![imageIndex].imageName!);
-                  model.isSubmitted = 0;
-                  await ImageManager().updateImageData(model);
-                  ErrorResponse errorModel =  ErrorResponse.fromJson(response);
-                  if(errorModel.errorDescription!=null) {
-                    showErrorNotification(errorMsg:errorModel.errorDescription.toString());
-                  }else{
-                    showErrorNotification(errorMsg:errorModel.Message.toString());
-                  }
-                }*/
+
           }
         }
         else{
@@ -1551,26 +1172,7 @@ jobPhotosSubmethod(service, token)async{
             }
           });
         }
-        // final internetSpeed = InternetSpeed();
-        // debugPrint("!!!Checking Internet Speed!!!");
-/*      internetSpeed.startUploadTesting(
-        fileSize: 10000,
-        onDone: (double transferRate, SpeedUnit unit) async {
-          debugPrint('the final transfer rate ---> $transferRate, and unit  --> ${unit.name}');
-          if(transferRate > 0.005){
 
-          }else{
-            runApi(list, JobNumber, emailList, token,event, index, imageIndex, service);
-          }
-        },
-        onProgress: (double percent, double transferRate, SpeedUnit unit) {
-          debugPrint('continues transferring rate --> $transferRate, and percent  --> $percent, and unit  --> ${unit.name}');
-        },
-        onError: (String errorMessage, String speedTestError) {
-          debugPrint('Error ---> $speedTestError');
-          runApi(list, JobNumber, emailList, token,event, index, imageIndex, service);
-        },
-      );*/
       }
       else{
         Timer.periodic(

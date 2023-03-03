@@ -1,5 +1,5 @@
 PODS:
-  - battery_info (0.0.1):
+  - battery_plus (1.0.0):
     - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
@@ -174,7 +174,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - battery_info (from `.symlinks/plugins/battery_info/ios`)
+  - battery_plus (from `.symlinks/plugins/battery_plus/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -220,8 +220,8 @@ SPEC REPOS:
     - Try
 
 EXTERNAL SOURCES:
-  battery_info:
-    :path: ".symlinks/plugins/battery_info/ios"
+  battery_plus:
+    :path: ".symlinks/plugins/battery_plus/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
@@ -274,7 +274,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
-  battery_info: 09f5c9ee65394f2291c8c6227bedff345b8a730c
+  battery_plus: 7851ab482c336dd101ae735dc9363f01e1223c7c
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: f92fc551ead69c94168d36c2b26188263860acd9
@@ -316,6 +316,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: a212ccb4844738e7ab9c4e22d9f32e59dbbbe8d8
+PODFILE CHECKSUM: 821a17daf09fa633a247a30d0486066d690cd122
 
 COCOAPODS: 1.11.3

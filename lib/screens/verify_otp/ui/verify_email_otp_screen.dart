@@ -85,7 +85,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                 padding: EdgeInsets.only(
                     left: Dimensions.height30,
                     right: Dimensions.height30,
-                    bottom: Dimensions.height50),
+                    bottom: Dimensions.height35),
                 child: Container(
                   height: Dimensions.height45,
                   width: Dimensions.height250,

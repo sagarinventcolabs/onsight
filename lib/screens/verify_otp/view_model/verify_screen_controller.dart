@@ -3,6 +3,7 @@ import 'package:on_sight_application/repository/web_service_response/get_otp_res
 import 'package:on_sight_application/repository/web_service_response/verify_otp_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
+import 'package:on_sight_application/screens/login/view_model/login_screen_controller.dart';
 import 'package:on_sight_application/screens/update_profile/view_model/profile_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
@@ -59,6 +60,8 @@ class VerifyScreenController extends GetxController{
           user:sp?.getString(Preference.FIRST_NAME)??""/* +" "+sp?.getString(Preference.LAST_NAME)??""*/
         });
         sp!.putBool(Preference.IS_LOGGED_IN, true);
+        LoginScreenController loginScreenController  = Get.find<LoginScreenController>();
+        loginScreenController.emailController.clear();
         Get.offAllNamed(Routes.dashboardScreen);
         // AppInternetManager appInternetManager = AppInternetManager();
         // var isAsked = await appInternetManager.getAuthPop();

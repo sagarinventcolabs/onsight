@@ -189,7 +189,7 @@ class LoginScreenState extends State<LoginScreen> {
                       }
                     },
                     child:Padding(
-                      padding: EdgeInsets.only(left: Dimensions.height30, right: Dimensions.height30, bottom: Dimensions.height50),
+                      padding: EdgeInsets.only(left: Dimensions.height30, right: Dimensions.height30, bottom: Dimensions.height35),
                       child: Container(
                         height: Dimensions.height45,
                         width: double.infinity,
