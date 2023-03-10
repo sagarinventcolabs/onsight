@@ -8,6 +8,7 @@ import 'package:on_sight_application/screens/field_issue/view_model/photo_commen
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
@@ -151,7 +152,11 @@ class _FieldIssueDetailScreenState extends State<FieldIssueDetailScreen> {
                                   topRight: Radius.circular(Dimensions.height10))),
                           isScrollControlled: true,
                           context: context,
-                          builder: (context) => bottomSheetImagePickerFieldIssue(add));
+                          builder: (context) =>
+                              //bottomSheetImagePickerFieldIssue(add));
+                              bottomSheetImagePicker(Routes.fieldIssueDetailScreen)).then((value) {
+                        ImagePickerFieldIssue(add);
+                      });
                     }
                   },
                   child:  Container(

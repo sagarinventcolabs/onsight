@@ -10,10 +10,25 @@ import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/main.dart';
+import 'package:on_sight_application/models/image_picker_model.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
+import 'package:on_sight_application/repository/database_model/field_issue_image_model.dart';
+import 'package:on_sight_application/repository/database_model/image_model.dart';
+import 'package:on_sight_application/repository/database_model/image_model_promo_pictures.dart';
+import 'package:on_sight_application/repository/database_model/lead_sheet_image_model.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
+import 'package:on_sight_application/screens/field_issue/view_model/photo_comment_controller.dart';
+import 'package:on_sight_application/screens/job_photos/view_model/job_photos_controller.dart';
+import 'package:on_sight_application/screens/job_photos/view_model/upload_job_photos_controller.dart';
+import 'package:on_sight_application/screens/lead_sheet/view_model/leadsheet_image_controller.dart';
+import 'package:on_sight_application/screens/onboarding/model/onboarding_document_image_model.dart';
+import 'package:on_sight_application/screens/onboarding/view_model/onboarding_photos_controller.dart';
+import 'package:on_sight_application/screens/promo_pictures/view_model/promo_pictures_controller.dart';
+import 'package:on_sight_application/screens/promo_pictures/view_model/upload_promo_pictures_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
+import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/secure_storage.dart';
+import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
 saveSuggestion(input) {
@@ -408,6 +423,168 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   showFlutterNotification(message);
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
+}
+
+void ImagePickerJobPhoto(route, id, jobNumber, key){
+
+  UploadJobPhotosController uploadJobPhotosC;
+  if (Get.isRegistered<UploadJobPhotosController>()) {
+    uploadJobPhotosC = Get.find<UploadJobPhotosController>();
+  } else {
+    uploadJobPhotosC = Get.put(UploadJobPhotosController());
+  }
+  JobPhotosController controller = Get.find<JobPhotosController>();
+  var i = controller.categoryList.indexWhere((element) => element.id == id);
+
+  for (var element in localList) {
+
+    ImageModel imageModel = ImageModel(
+        imagePath: element.imagePath,
+        imageName: element.imageName,
+        isPhotoAdded: 0,
+        jobNumber: jobNumber,
+        categoryId: id,
+        categoryName: controller.categoryList[i].name,
+        isSubmitted: 0);
+    uploadJobPhotosC.jobPhotosList.add(imageModel);
+    uploadJobPhotosC.enableButton.value = true;
+    uploadJobPhotosC.update();
+  }
+  uploadJobPhotosC.jobPhotosList.refresh();
+  uploadJobPhotosC.update();
+  if (localList.isEmpty) {
+    // Get.back();
+  }else {
+    Get.toNamed(Routes.uploadJobPhotosNote,
+        arguments: [id, jobNumber, key]);
+  }
+}
+
+void ImagePickerPromoPictures(String route) {
+
+  var firstName = sp?.getString(Preference.FIRST_NAME)??"";
+  var lastName = sp?.getString(Preference.LAST_NAME)??"";
+  PromoPicturesController controller ;
+  UploadPromoPicturesController uploadPromoPicturesController ;
+  if (Get.isRegistered<PromoPicturesController>()) {
+    controller = Get.find<PromoPicturesController>();
+  } else {
+    controller = Get.put(PromoPicturesController());
+  }
+
+  if(Get.isRegistered<UploadPromoPicturesController>()){
+    uploadPromoPicturesController = Get.find<UploadPromoPicturesController>();
+  }else{
+    uploadPromoPicturesController = Get.put(UploadPromoPicturesController());
+  }
+
+  if(localList.isNotEmpty){
+    localList.forEach((element) {
+      PromoImageModel model = PromoImageModel();
+      model.imageName = element.imageName;
+      model.imagePath = element.imagePath;
+      model.fullDate = "0001-01-01T00:00:00";
+      model.showName = controller.showController.text.toString();
+      model.year = DateTime.now().year.toString();
+      model.user = firstName + lastName;
+      controller.photoList.add(model);
+
+
+    });
+
+    print(controller.photoList.length);
+    controller.photoList.refresh();
+    controller.enableButton.value = true;
+    controller.update();
+    uploadPromoPicturesController.enableButton.value = true;
+    uploadPromoPicturesController.update();
+    if (controller.photoList.isEmpty) {
+    } else {
+      Get.toNamed(Routes.uploadPromoPictureScreen);
+    }
+  }
+}
+
+void ImagePickerLeadSheet(String route,String id,String s){
+  LeadSheetImageController controller ;
+  if (Get.isRegistered<LeadSheetImageController>()) {
+    controller = Get.find<LeadSheetImageController>();
+  } else {
+    controller = Get.put(LeadSheetImageController());
+  }
+
+
+  for (var element in localList) {
+
+    LeadSheetImageModel model = LeadSheetImageModel();
+    model.imageName = element.imageName;
+    model.imagePath = element.imagePath;
+    controller.photoList.add(model);
+  }
+
+  controller.photoList.refresh();
+  controller.enableButton.value = true;
+  controller.update();
+  if (controller.photoList.isEmpty) {
+    //Get.back();
+  } else {
+    if (route == Routes.leadSheetPhotosNote) {
+      //Get.back();
+    } else {
+      // Get.back();
+      Get.toNamed(
+          Routes.leadSheetPhotosNote, arguments: [id,s]);
+    }
+  }
+}
+
+void ImagePickerFieldIssue(String s){
+  PhotoCommentController controller = Get.find<PhotoCommentController>();
+  for (var element in localList) {
+    FieldIssueImageModel model = FieldIssueImageModel();
+    model.imageName = element.imageName;
+    model.imagePath = element.imagePath;
+    controller.photoList.add(model);
+  }
+
+  controller.photoList.refresh();
+  controller.enableButton.value = true;
+  controller.update();
+  if(localList.isNotEmpty) {
+    if (s == add) {
+
+      Get.toNamed(
+          Routes.fieldIssueCategoryScreen, arguments: photoStr);
+    } else {
+
+    }
+  }
+}
+
+void ImagePickerOnboarding(String route,index){
+  OnBoardingPhotosController controller = Get.find<OnBoardingPhotosController>();
+  for (var element in localList) {
+
+    OnBoardingDocumentImageModel model = OnBoardingDocumentImageModel();
+    model.imageName = element.imageName;
+    model.imagePath = element.imagePath;
+    controller.imageList[index].image?.add(model);
+    // controller.imageList[index].image?.add(model);
+    // controller.imageList.refresh();
+    controller.update();
+
+  }
+
+  controller.imageList.refresh();
+  controller.enableButton.value = true;
+  controller.update();
+  controller.imageList.forEach((element) {
+    if((element.image?.length??0) > 0){
+      controller.enableButton.value = true;
+    }
+  });
+
+
 }
 
 // Future<String> getSQFBaseUrl()async{

@@ -7,6 +7,7 @@ import 'package:on_sight_application/screens/onboarding/view_model/onboarding_ph
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 
 
 class OnBoardingPhotoScreen extends StatefulWidget {
@@ -62,12 +63,11 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
                            topRight: Radius.circular(Dimensions.height10))),
                    isScrollControlled: true,
                    context: context,
-                   builder: (context) =>  bottomSheetImagePickerOnBoardingPictures(Routes.uploadPromoPictureScreen,i)).then((value) {
-                 controller.imageList.forEach((element) {
-                   if((element.image?.length??0) > 0){
-                     controller.enableButton.value = true;
-                   }
-                 });
+                   builder: (context) =>
+                       //bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingPhotoScreen,i)).then((value) {
+                       bottomSheetImagePicker(Routes.onBoardingPhotoScreen)).then((value) {
+                         ImagePickerOnboarding(Routes.onBoardingPhotoScreen,i);
+
                  setState((){});
                });
              },

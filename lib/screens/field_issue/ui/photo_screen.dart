@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
+import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/field_issue/view_model/field_issue_controller.dart';
 import 'package:on_sight_application/screens/field_issue/view_model/photo_comment_controller.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
 class FieldIssuePhotoScreen extends StatefulWidget {
@@ -69,8 +71,12 @@ class _FieldIssuePhotoScreenState extends State<FieldIssuePhotoScreen> {
                    ),
                    isScrollControlled: true,
                    context: context,
-                   builder: (context) =>  bottomSheetImagePickerFieldIssue(smallUpdateStr),
-               );
+                   builder: (context) =>
+                       //bottomSheetImagePickerFieldIssue(smallUpdateStr),
+                       bottomSheetImagePicker(Routes.fieldIssuePhotoScreen)
+               ).then((value) {
+                 ImagePickerFieldIssue(smallUpdateStr);
+               });
              },
                child:  Image.asset(
                Assets.icAdd,

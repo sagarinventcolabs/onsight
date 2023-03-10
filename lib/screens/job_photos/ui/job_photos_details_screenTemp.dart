@@ -23,6 +23,7 @@ import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:on_sight_application/utils/widgets/text_row.dart';
@@ -617,12 +618,15 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                           builder: (ctx1){
                            return StatefulBuilder(builder: (ctx2, setState) {
                              Theme.of(context);
-                             return bottomSheetWidget(
-                                 Routes.jobPhotosDetailsScreen,
-                                 controller.categoryList[index].id,
-                                 controller.list.first.jobNumber, add);
+                            // return bottomSheetWidget(Routes.jobPhotosDetailsScreen, controller.categoryList[index].id, controller.list.first.jobNumber, add);
+                             return bottomSheetImagePicker(Routes.jobPhotosDetailsScreen);
                            });
-                          });
+                          }).then((value) {
+                            print("Steep 1");
+                            ImagePickerJobPhoto(Routes.jobPhotosDetailsScreen,
+                                controller.categoryList[index].id,
+                                controller.list.first.jobNumber, add);
+                      });
                     },
                     child: Image.asset(
                       Assets.icAdd,

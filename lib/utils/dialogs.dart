@@ -6,27 +6,16 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/main.dart';
+import 'package:on_sight_application/models/image_picker_model.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/app_update_manager.dart';
-import 'package:on_sight_application/repository/database_model/field_issue_image_model.dart';
-import 'package:on_sight_application/repository/database_model/image_model.dart';
-import 'package:on_sight_application/repository/database_model/image_model_promo_pictures.dart';
-import 'package:on_sight_application/repository/database_model/lead_sheet_image_model.dart';
 import 'package:on_sight_application/repository/database_model/version_model.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
-import 'package:on_sight_application/screens/field_issue/view_model/photo_comment_controller.dart';
-import 'package:on_sight_application/screens/job_photos/view_model/job_photos_controller.dart';
-import 'package:on_sight_application/screens/job_photos/view_model/upload_job_photos_controller.dart';
-import 'package:on_sight_application/screens/lead_sheet/view_model/leadsheet_image_controller.dart';
-import 'package:on_sight_application/screens/onboarding/model/onboarding_document_image_model.dart';
-import 'package:on_sight_application/screens/onboarding/view_model/onboarding_photos_controller.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_controller.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_install_controller.dart';
-import 'package:on_sight_application/screens/promo_pictures/view_model/promo_pictures_controller.dart';
-import 'package:on_sight_application/screens/promo_pictures/view_model/upload_promo_pictures_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
-import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -63,7 +52,7 @@ checkBatteryStatus() async {
   if (a[0][batterySaverStatus] == 1) {
     int? batteryLevel = await Battery().batteryLevel;
 
-  if ((batteryLevel??100) < 15) {
+  if ((batteryLevel) < 15) {
   Get.closeAllSnackbars();
   Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsg,duration: Duration(seconds: 3),));
   }
@@ -649,16 +638,8 @@ mandatoryUpdateDialogAction(BuildContext context,version,
   );
 }
 
- Widget bottomSheetWidget(route, id, jobNumber, key) {
-  UploadJobPhotosController uploadJobPhotosC;
-  if (Get.isRegistered<UploadJobPhotosController>()) {
-    uploadJobPhotosC = Get.find<UploadJobPhotosController>();
-  } else {
-    uploadJobPhotosC = Get.put(UploadJobPhotosController());
-  }
-  JobPhotosController controller = Get.find<JobPhotosController>();
-  var i = controller.categoryList.indexWhere((element) => element.id == id);
-  Theme.of(Get.context!);
+Widget bottomSheetImagePicker(route) {
+  localList.clear();
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 16),
     child: Column(
@@ -689,58 +670,36 @@ mandatoryUpdateDialogAction(BuildContext context,version,
         Row(
           children: [
             GestureDetector(
-                onTap: () async {
-                  analyticsFireEvent(cameraOrGalleryKey, input: {
-                    cameraOrGalleryKey:cameraStr,
-                  });
-                  final ImagePicker picker = ImagePicker();
-                  var path = await uploadJobPhotosC.createFolderInAppDocDir(camFolder);
-                  final XFile? picImage =
-                      // Capture a photo from camera
-                      await picker.pickImage(source: ImageSource.camera,imageQuality: imageQualityRatio);
+              onTap: () async {
+                analyticsFireEvent(cameraOrGalleryKey, input: {
+                  cameraOrGalleryKey:cameraStr,
+                });
+                final ImagePicker picker = ImagePicker();
+                var path = await createFolderInAppDocDir(camFolder);
+                final XFile? picImage =
+                // Capture a photo from camera
+                await picker.pickImage(source: ImageSource.camera,imageQuality: imageQualityRatio);
 
-                  if (picImage != null) {
-                    File file = File(picImage.path);
-                    String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
-                    File newFile = await file.copy(path + fileName);
-
-                    ImageModel imageModel = ImageModel(
-                        imagePath: newFile.path,
-                        imageName: fileName,
-                        isPhotoAdded: 0,
-                        jobNumber: jobNumber,
-                        categoryId: id,
-                        categoryName: controller.categoryList[i].name,
-                        isSubmitted: 0);
-
-                    uploadJobPhotosC.jobPhotosList.add(imageModel);
-
-                    uploadJobPhotosC.jobPhotosList.refresh();
-                    uploadJobPhotosC.enableButton.value = true;
-                    uploadJobPhotosC.update();
-                  }
-                 if (uploadJobPhotosC.jobPhotosList.isEmpty) {
-                    Get.back();
-                  } else {
-                    if (route == Routes.uploadJobPhotosNote) {
-                      Get.back();
-                    } else {
-                      Get.back();
-                      Get.toNamed(Routes.uploadJobPhotosNote,
-                          arguments: [id, jobNumber, key]);
-                    }
-                  }
-                },
-                child: Image.asset(
-                  Assets.icAddPhoto,
-                  height: 40,
-                  width: 40,
-                ),
+                if (picImage != null) {
+                  File file = File(picImage.path);
+                  String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
+                  File newFile = await file.copy(path + fileName);
+                  ImagePickerModel imagePickerModel = ImagePickerModel();
+                  imagePickerModel.imageName = fileName;
+                  imagePickerModel.imagePath = newFile.path;
+                  localList.add(imagePickerModel);
+                }
+                Get.back();
+              },
+              child: Image.asset(
+                Assets.icAddPhoto,
+                height: 40,
+                width: 40,
+              ),
             ),
             const SizedBox(width: 16),
             GestureDetector(
                 onTap: () async {
-                  List<ImageModel> localList = [];
                   analyticsFireEvent(cameraOrGalleryKey, input: {
                     cameraOrGalleryKey:galleryStr,
                   });
@@ -752,209 +711,104 @@ mandatoryUpdateDialogAction(BuildContext context,version,
                       for (var element in picImage) {
                         File file = File(element.path);
                         String fileName = basename(element.path);
-                        ImageModel imageModel = ImageModel(
-                            imagePath: file.path,
-                            imageName: fileName,
-                            isPhotoAdded: 0,
-                            jobNumber: jobNumber,
-                            categoryId: id,
-                            categoryName: controller.categoryList[i].name,
-                            isSubmitted: 0);
-                        localList.add(imageModel);
-                        // uploadJobPhotosC.jobPhotosList.add(imageModel);
-                        // uploadJobPhotosC.jobPhotosList.refresh();
-                        uploadJobPhotosC.enableButton.value = true;
-                        uploadJobPhotosC.update();
+                        ImagePickerModel imagePickerModel = ImagePickerModel();
+                        imagePickerModel.imageName = fileName;
+                        imagePickerModel.imagePath = file.path;
+                        localList.add(imagePickerModel);
                       }
                     }
                   }
+
                   if (localList.isEmpty) {
                     Get.back();
                   }
                   else {
-                    if (route == Routes.uploadJobPhotosNote) {
-                      int localIndex = 0;
-                      Get.back();
-                      showDialog(context: Get.context!, builder: (ctx){
-                        return StatefulBuilder(builder: (builderCtx,setState){
-                          return Scaffold(
-                            backgroundColor: ColourConstants.black,
-                            resizeToAvoidBottomInset: true,
-                            appBar: AppBar(actions: [
-                              GestureDetector(onTap: (){
-                                Get.back();
-                                uploadJobPhotosC.jobPhotosList.addAll(localList);
-                              },child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
-                                  ),
-                                ],
-                              ))],
-                              backgroundColor: ColourConstants.primary,
-                              elevation: 0,
-                              automaticallyImplyLeading: false,
-                              leading: IconButton(
-                                
-                              icon: const Icon(
-                                Icons.arrow_back_ios,
-                                color: ColourConstants.white,
-                                size: 25,
-                              ),
-                              onPressed: () {
-                                Get.back();
-                              },
-                            ),
-                            ),
-                            body: Container(
-                                width: double.infinity,height: double.infinity,
-                                child: PhotoViewGallery.builder(
-                                  scrollPhysics: const BouncingScrollPhysics(),
-                                  builder: (BuildContext context, int index) {
-                                    return PhotoViewGalleryPageOptions(
-                                      imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                      initialScale: PhotoViewComputedScale.contained * 0.8,
-                                      maxScale: 1.0,
-                                    );
-                                  },
-                                  itemCount: localList.length,
-
-                                  loadingBuilder: (context, event) => Center(
-                                    child: Container(
-                                      width: 20.0,
-                                      height: 20.0,
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  ),
-                                  // backgroundDecoration: ColourConstants.black,
-                                  // pageController: widget.pageController,
-                                  onPageChanged: (index){
-                                    localIndex = index;
-                                  },
-                                )
-                            ),
-                            bottomNavigationBar: GestureDetector(
-                              onTap: (){
-                                if (localList.length > 1) {
-                                  localList.removeAt(localIndex);
-                                  setState((){});
-                                }else{
-                                  localList.removeAt(localIndex);
-                                  setState((){});
-                                  Get.back();
-                                  Get.back();
-                                }
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Container(
-                                  height: 50,
-                                  margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                      color: ColourConstants.primary
-                                  ),
-                                  child: Center(child: Text(removeStr, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
+                    int localIndex = 0;
+                    // Get.back();
+                    showDialog(context: Get.context!, builder: (ctx){
+                      return StatefulBuilder(builder: (builderCtx,setState){
+                        return Scaffold(
+                          backgroundColor: Colors.black,
+                          resizeToAvoidBottomInset: true,
+                          appBar: AppBar(actions: [
+                            GestureDetector(onTap: (){
+                              Get.back();
+                              Get.back();
+                            },child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Text(addCaps,style: TextStyle(color: Colors.white),),
                                 ),
+                              ],
+                            ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_ios,
+                              color: ColourConstants.white,
+                              size: 25,
+                            ),
+                            onPressed: () {
+                              localList.clear();
+                              Get.back();
+                              Get.back();
+                            },
+                          ),
+                          ),
+                          body: Container(
+                              width: double.infinity,height: double.infinity,
+                              child: PhotoViewGallery.builder(
+                                scrollPhysics: const BouncingScrollPhysics(),
+                                builder: (BuildContext context, int index) {
+                                  return PhotoViewGalleryPageOptions(
+                                    imageProvider: FileImage(File(localList[index].imagePath??"")),
+                                    initialScale: PhotoViewComputedScale.contained * 0.8,
+                                    maxScale: 1.0,
+                                  );
+                                },
+                                itemCount: localList.length,
+
+                                loadingBuilder: (context, event) => Center(
+                                  child: Container(
+                                    width: 20.0,
+                                    height: 20.0,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                                // backgroundDecoration: Colors.black,
+                                // pageController: widget.pageController,
+                                onPageChanged: (index){
+                                  localIndex = index;
+                                },
+                              )
+                          ),
+                          bottomNavigationBar: GestureDetector(
+                            onTap: (){
+                              if (localList.length > 1) {
+                                localList.removeAt(localIndex);
+                                setState((){});
+                              }else{
+                                localList.removeAt(localIndex);
+                                setState((){});
+                                Get.back();
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Container(
+                                height: 50,
+                                margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                    color: ColourConstants.primary
+                                ),
+                                child: Center(child: Text(removeStr, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
                               ),
                             ),
-                          );
-                        });
+                          ),
+                        );
                       });
-                    }
-                    else {
-                      int localIndex = 0;
-                      Get.back();
-                      showDialog(context: Get.context!, builder: (ctx){
-                        return StatefulBuilder(builder: (builderCtx,setState){
-                          return Scaffold(
-                            backgroundColor: ColourConstants.black,
-                            resizeToAvoidBottomInset: true,
-                            appBar: AppBar(actions: [
-                              GestureDetector(onTap: (){
-                                Get.back();
-                                uploadJobPhotosC.jobPhotosList.addAll(localList);
-                                uploadJobPhotosC.jobPhotosList.refresh();
-                                uploadJobPhotosC.update();
-                                Get.toNamed(Routes.uploadJobPhotosNote,
-                                    arguments: [id, jobNumber, key]);
-                              },child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10),
-                                    child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
-                                  ),
-                                ],
-                              ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,
-                              leading: IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back_ios,
-                                color: ColourConstants.white,
-                                size: 25,
-                              ),
-                              onPressed: () {
-                                Get.back();
-                              },
-                            ),
-                            ),
-                            body: Container(
-                                width: double.infinity,height: double.infinity,
-                                child: PhotoViewGallery.builder(
-                                  scrollPhysics: const BouncingScrollPhysics(),
-                                  builder: (BuildContext context, int index) {
-                                    return PhotoViewGalleryPageOptions(
-                                      imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                      initialScale: PhotoViewComputedScale.contained * 0.8,
-                                      maxScale: 1.0,
-                                    );
-                                  },
-                                  itemCount: localList.length,
-
-                                  loadingBuilder: (context, event) => Center(
-                                    child: Container(
-                                      width: 20.0,
-                                      height: 20.0,
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  ),
-                                  // backgroundDecoration: ColourConstants.black,
-                                  // pageController: widget.pageController,
-                                  onPageChanged: (index){
-                                    localIndex = index;
-                                  },
-                                )
-                            ),
-                            bottomNavigationBar: GestureDetector(
-                              onTap: (){
-                                if (localList.length > 1) {
-                                  localList.removeAt(localIndex);
-                                  setState((){});
-                                }else{
-                                  localList.removeAt(localIndex);
-                                  setState((){});
-                                  Get.back();
-                                }
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Container(
-                                  height: 50,
-                                  margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                      color: ColourConstants.primary
-                                  ),
-                                  child: Center(child: Text(removeStr, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
-                                ),
-                              ),
-                            ),
-                          );
-                        });
-                      });
-                    }
+                    });
                   }
                 },
                 child: Image.asset(
@@ -970,1023 +824,6 @@ mandatoryUpdateDialogAction(BuildContext context,version,
   );
 }
 
- Widget bottomSheetImagePickerFieldIssue(String s) {
-  PhotoCommentController controller = Get.find<PhotoCommentController>();
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              color: ColourConstants.bottomSheetGrey,
-              borderRadius: BorderRadius.circular(25)),
-          height: 5,
-          width: 40,
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(addPhoto,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Get.isDarkMode ? ColourConstants.white :  ColourConstants.black,
-                    fontWeight: FontWeight.w400,
-                    fontSize: Dimensions.font18),
-            ),
-          ],
-        ),
-        const SizedBox(height: 25),
-        Row(
-          children: [
-            GestureDetector(
-                onTap: () async {
-                  final ImagePicker picker = ImagePicker();
-
-                  var path = await createFolderInAppDocDir(camFolder);
-                  final XFile? picImage =
-                      // Capture a photo from camera
-                      await picker.pickImage(source: ImageSource.camera,imageQuality: imageQualityRatio);
-
-                  if (picImage != null) {
-                    File file = File(picImage.path);
-                    final bytes = (await file.readAsBytes()).lengthInBytes;
-                    final kb = bytes / 1024;
-                    final mb = kb / 1024;
-                    debugPrint("Size of Image --> "+"${mb.toString()}");
-                    String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
-                    File newFile = await file.copy(path + fileName);
-                    FieldIssueImageModel model = FieldIssueImageModel();
-                    model.imageName = basename(newFile.path);
-                    model.imagePath = newFile.path;
-                    controller.photoList.add(model);
-                    controller.photoList.refresh();
-                    controller.enableButton.value = true;
-                    controller.update();
-                    if(s==add) {
-                      Get.back();
-                      Get.toNamed(
-                          Routes.fieldIssueCategoryScreen, arguments: photoStr);
-                    }else{
-                      Get.back();
-                    }
-                  }
-                },
-                child: Image.asset(
-                  Assets.icAddPhoto,
-                  height: 40,
-                  width: 40,
-                )),
-            const SizedBox(width: 16),
-            GestureDetector(
-                onTap: () async {
-                  int localIndex = 0;
-                  List<FieldIssueImageModel> localList = [];
-                  final ImagePicker picker = ImagePicker();
-                  // Capture a photo from gallery
-                  final List<XFile>? picImage = await picker.pickMultiImage(imageQuality: imageQualityRatio);
-                  if (picImage != null) {
-                    if (picImage.isNotEmpty) {
-                      for (var element in picImage) {
-                        File file = File(element.path);
-                        FieldIssueImageModel model = FieldIssueImageModel();
-                        model.imageName = basename(file.path);
-                        model.imagePath = file.path;
-                        localList.add(model);
-                        controller.enableButton.value = true;
-                      }
-                      if(s==add) {
-                        Get.back();
-                        showDialog(context: Get.context!, builder: (ctx){
-                          return StatefulBuilder(builder: (builderCtx,setState){
-                            return Scaffold(
-                              backgroundColor: ColourConstants.black,
-                              resizeToAvoidBottomInset: true,
-                              appBar: AppBar(actions: [
-                                GestureDetector(onTap: (){
-                                  Get.back();
-                                  controller.photoList.addAll(localList);
-                                  controller.photoList.refresh();
-                                  controller.update();
-                                  Get.toNamed(Routes.fieldIssueCategoryScreen, arguments: photoStr);
-                                },child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
-                                    ),
-                                   ],
-                                  ),
-                                 ),
-                                ],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColourConstants.white,
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                              ),
-                              body: Container(
-                                  width: double.infinity,height: double.infinity,
-                                  child: PhotoViewGallery.builder(
-                                    scrollPhysics: const BouncingScrollPhysics(),
-                                    builder: (BuildContext context, int index) {
-                                      return PhotoViewGalleryPageOptions(
-                                        imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                        initialScale: PhotoViewComputedScale.contained * 0.8,
-                                        maxScale: 1.0,
-                                      );
-                                    },
-                                    itemCount: localList.length,
-
-                                    loadingBuilder: (context, event) => Center(
-                                      child: Container(
-                                        width: 20.0,
-                                        height: 20.0,
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    ),
-                                    // backgroundDecoration: ColourConstants.black,
-                                    // pageController: widget.pageController,
-                                    onPageChanged: (index){
-                                      localIndex = index;
-                                    },
-                                  )
-                              ),
-                              bottomNavigationBar: GestureDetector(
-                                onTap: (){
-                                  if (localList.length > 1) {
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                  }else{
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                    Get.back();
-                                    // Get.back();
-                                  }
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                        color: ColourConstants.primary
-                                    ),
-                                    child: Center(child: Text(removeStr, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                        });
-                      }else{
-                        Get.back();
-                        showDialog(context: Get.context!, builder: (ctx){
-                          return StatefulBuilder(builder: (builderCtx,setState){
-                            return Scaffold(
-                              backgroundColor: ColourConstants.black,
-                              resizeToAvoidBottomInset: true,
-                              appBar: AppBar(actions: [
-                                GestureDetector(onTap: (){
-                                  controller.photoList.addAll(localList);
-                                  controller.photoList.refresh();
-                                  controller.update();
-                                  Get.back();
-                                },child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
-                                    ),
-                                  ],
-                                ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColourConstants.white,
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                              ),
-                              body: Container(
-                                  width: double.infinity,height: double.infinity,
-                                  child: PhotoViewGallery.builder(
-                                    scrollPhysics: const BouncingScrollPhysics(),
-                                    builder: (BuildContext context, int index) {
-                                      return PhotoViewGalleryPageOptions(
-                                        imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                        initialScale: PhotoViewComputedScale.contained * 0.8,
-                                        maxScale: 1.0,
-                                      );
-                                    },
-                                    itemCount: localList.length,
-
-                                    loadingBuilder: (context, event) => Center(
-                                      child: Container(
-                                        width: 20.0,
-                                        height: 20.0,
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    ),
-                                    onPageChanged: (index){
-                                      localIndex = index;
-                                    },
-                                  )
-                              ),
-                              bottomNavigationBar: GestureDetector(
-                                onTap: (){
-                                  if (localList.length > 1) {
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                  }else{
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                    Get.back();
-                                    // Get.back();
-                                  }
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                        color: ColourConstants.primary
-                                    ),
-                                    child: Center(child: Text(removeStr, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                        });
-                      }
-                    }
-                  }
-
-                },
-                child: Image.asset(
-                  Assets.icGallery,
-                  height: 40,
-                  width: 40,
-                ))
-          ],
-        ),
-        const SizedBox(height: 50),
-      ],
-    ),
-  );
-}
-
-Widget bottomSheetImagePickerLeadSheet(String route,String id,String s) {
-  Theme.of(Get.context!);
-  LeadSheetImageController controller ;
-  if (Get.isRegistered<LeadSheetImageController>()) {
-    controller = Get.find<LeadSheetImageController>();
-  } else {
-    controller = Get.put(LeadSheetImageController());
-  }
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              color: Theme.of(Get.context!).bottomSheetTheme.backgroundColor,
-              borderRadius: BorderRadius.circular(25)),
-          height: 5,
-          width: 40,
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(addPhoto,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                    fontWeight: Get.isDarkMode ? FontWeight.w300 : FontWeight.w400,
-
-                    fontSize: Dimensions.font18)),
-          ],
-        ),
-        const SizedBox(height: 25),
-        Row(
-          children: [
-            GestureDetector(
-                onTap: () async {
-                  analyticsFireEvent(cameraOrGalleryKey,
-                    input: {
-                    cameraOrGalleryKey:cameraStr,
-                  });
-                  final ImagePicker picker = ImagePicker();
-
-                  var path = await createFolderInAppDocDir(camFolder);
-                  final XFile? picImage =
-                  // Capture a photo from camera
-                  await picker.pickImage(
-                      source: ImageSource.camera,
-                      imageQuality: imageQualityRatio);
-
-                  if (picImage != null) {
-                    File file = File(picImage.path);
-                    String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
-                    File newFile = await file.copy(path + fileName);
-                    LeadSheetImageModel model = LeadSheetImageModel();
-                    model.imageName = fileName;
-                    model.imagePath = newFile.path;
-                    controller.photoList.add(model);
-                    controller.photoList.refresh();
-                    controller.enableButton.value = true;
-                    controller.update();
-                  if (controller.photoList.isEmpty) {
-                      Get.back();
-                    } else {
-                      if (route == Routes.leadSheetPhotosNote) {
-                        Get.back();
-                      } else {
-                        Get.back();
-                        Get.toNamed(
-                            Routes.leadSheetPhotosNote, arguments: [id,s]);
-                      }
-                    }
-                  }
-                },
-                child: Image.asset(
-                  Assets.icAddPhoto,
-                  height: 40,
-                  width: 40,
-                )),
-
-            const SizedBox(width: 16),
-            GestureDetector(
-                onTap: () async {
-                  List<LeadSheetImageModel> localList = [];
-                  analyticsFireEvent(cameraOrGalleryKey, input: {
-                    cameraOrGalleryKey:galleryStr,
-                  });
-                  final ImagePicker picker = ImagePicker();
-                  // Capture a photo from gallery
-                  final List<XFile>? picImage = await picker.pickMultiImage(imageQuality: imageQualityRatio);
-                  if (picImage != null) {
-                    if (picImage.isNotEmpty) {
-                      for (var element in picImage) {
-                        File file = File(element.path);
-                        final bytes = (await file.readAsBytes()).lengthInBytes;
-                        final kb = bytes / 1024;
-                        final mb = kb / 1024;
-                        debugPrint(mb.toString());
-                        String fileName = basename(element.path);
-                        LeadSheetImageModel model = LeadSheetImageModel();
-                        model.imageName = fileName;
-                        model.imagePath = file.path;
-                        localList.add(model);
-                        // controller.photoList.add(model);
-                        // controller.photoList.refresh();
-                        controller.enableButton.value = true;
-                        controller.update();
-
-                      }
-                    if (localList.isEmpty) {
-                        Get.back();
-                      } else {
-                        if (route == Routes.leadSheetPhotosNote) {
-                          int localIndex = 0;
-                          Get.back();
-                          showDialog(context: Get.context!, builder: (ctx){
-                            return StatefulBuilder(builder: (builderCtx,setState){
-                              return Scaffold(
-                                backgroundColor: ColourConstants.black,
-                                resizeToAvoidBottomInset: true,
-                                appBar: AppBar(actions: [
-                                  GestureDetector(onTap: (){
-                                    Get.back();
-                                    controller.photoList.addAll(localList);
-                                    controller.photoList.refresh();
-                                    controller.update();
-                                  },child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
-                                      ),
-                                    ],
-                                  ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_back_ios,
-                                    color: ColourConstants.white,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                ),
-                                ),
-                                body: Container(
-                                    width: double.infinity,height: double.infinity,
-                                    child: PhotoViewGallery.builder(
-                                      scrollPhysics: const BouncingScrollPhysics(),
-                                      builder: (BuildContext context, int index) {
-                                        return PhotoViewGalleryPageOptions(
-                                          imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                          initialScale: PhotoViewComputedScale.contained * 0.8,
-                                          maxScale: 1.0,
-                                        );
-                                      },
-                                      itemCount: localList.length,
-
-                                      loadingBuilder: (context, event) => Center(
-                                        child: Container(
-                                          width: 20.0,
-                                          height: 20.0,
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      ),
-                                      // backgroundDecoration: ColourConstants.black,
-                                      // pageController: widget.pageController,
-                                      onPageChanged: (index){
-                                        localIndex = index;
-                                      },
-                                    )
-                                ),
-                                bottomNavigationBar: GestureDetector(
-                                  onTap: (){
-                                    if (localList.length > 1) {
-                                      localList.removeAt(localIndex);
-                                      setState((){});
-                                    }else{
-                                      localList.removeAt(localIndex);
-                                      setState((){});
-                                      Get.back();
-                                      // Get.back();
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
-                                    child: Container(
-                                      height: 50,
-                                      margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                          color: ColourConstants.primary
-                                      ),
-                                      child: Center(child: Text(removeStr, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            });
-                          });
-                        }
-                        else {
-                          int localIndex = 0;
-                          Get.back();
-                          showDialog(context: Get.context!, builder: (ctx){
-                            return StatefulBuilder(builder: (builderCtx,setState){
-                              return Scaffold(
-                                backgroundColor: ColourConstants.black,
-                                resizeToAvoidBottomInset: true,
-                                appBar: AppBar(actions: [
-                                  GestureDetector(onTap: (){
-                                    Get.back();
-                                    controller.photoList.addAll(localList);
-                                    controller.photoList.refresh();
-                                    controller.update();
-                                    Get.toNamed(Routes.leadSheetPhotosNote, arguments: [id,s])?.then((value) {});
-                                  },child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 10),
-                                        child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
-                                      ),
-                                    ],
-                                  ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_back_ios,
-                                    color: ColourConstants.white,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                ),
-                                ),
-                                body: Container(
-                                    width: double.infinity,height: double.infinity,
-                                    child: PhotoViewGallery.builder(
-                                      scrollPhysics: const BouncingScrollPhysics(),
-                                      builder: (BuildContext context, int index) {
-                                        return PhotoViewGalleryPageOptions(
-                                          imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                          initialScale: PhotoViewComputedScale.contained * 0.8,
-                                          maxScale: 1.0,
-                                        );
-                                      },
-                                      itemCount: localList.length,
-
-                                      loadingBuilder: (context, event) => Center(
-                                        child: Container(
-                                          width: 20.0,
-                                          height: 20.0,
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      ),
-                                      // backgroundDecoration: ColourConstants.black,
-                                      // pageController: widget.pageController,
-                                      onPageChanged: (index){
-                                        localIndex = index;
-                                      },
-                                    )
-                                ),
-                                bottomNavigationBar: GestureDetector(
-                                  onTap: (){
-                                    if (localList.length > 1) {
-                                      localList.removeAt(localIndex);
-                                      setState((){});
-                                    }else{
-                                      localList.removeAt(localIndex);
-                                      setState((){});
-                                      // Get.back();
-                                      Get.back();
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
-                                    child: Container(
-                                      height: 50,
-                                      margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                      decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                          color: ColourConstants.primary
-                                      ),
-                                      child: Center(child: Text(removeStr, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            });
-                          });
-                        }
-                      }
-                    }
-                  }
-
-                },
-                child: Image.asset(
-                  Assets.icGallery,
-                  height: 40,
-                  width: 40,
-                ))
-          ],
-        ),
-        const SizedBox(height: 50),
-      ],
-    ),
-  );
-}
-
-Widget bottomSheetImagePickerOnBoardingPictures(String route,index) {
-  OnBoardingPhotosController controller = Get.find<OnBoardingPhotosController>();
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: ColourConstants.bottomSheetGrey,
-            borderRadius: BorderRadius.circular(25)),
-          height: 5,
-          width: 40,
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(addPhoto,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                    fontWeight: FontWeight.w400,
-                    fontSize: Dimensions.font18)),
-          ],
-        ),
-        const SizedBox(height: 25),
-        Row(
-          children: [
-            GestureDetector(
-                onTap: () async {
-                  final ImagePicker picker = ImagePicker();
-
-                  var path = await createFolderInAppDocDir(camFolder);
-                  final XFile? picImage =
-                  // Capture a photo from camera
-                  await picker.pickImage(source: ImageSource.camera,imageQuality: imageQualityRatio);
-
-                  if (picImage != null) {
-                    File file = File(picImage.path);
-                    String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
-                    File newFile = await file.copy(path + fileName);
-                    OnBoardingDocumentImageModel model = OnBoardingDocumentImageModel();
-                    model.imageName = fileName;
-                    model.imagePath = newFile.path;
-                    controller.imageList[index].image?.add(model);
-                    controller.imageList.refresh();
-                    debugPrint(controller.imageList[index].image?.length.toString()
-                    );
-                    controller.enableButton.value = true;
-                    controller.update();
-                    if (controller.imageList.isEmpty) {
-                      Get.back();
-                    } else {
-                      Get.back();
-                      // Get.toNamed(Routes.UploadPromoPictureScreen);
-                    }
-                  }
-                },
-                child: Image.asset(
-                  Assets.icAddPhoto,
-                  height: 40,
-                  width: 40,
-                )),
-            const SizedBox(width: 16),
-            GestureDetector(
-                onTap: () async {
-                  int localIndex = 0;
-                  List<OnBoardingDocumentImageModel> localList = [];
-                  final ImagePicker picker = ImagePicker();
-                  // Capture a photo from gallery
-                  final List<XFile>? picImage = await picker.pickMultiImage(imageQuality: imageQualityRatio);
-                  if (picImage != null) {
-                    if (picImage.isNotEmpty) {
-                      for (var element in picImage) {
-                        File file = File(element.path);
-                        String fileName = basename(element.path);
-                        OnBoardingDocumentImageModel model = OnBoardingDocumentImageModel();
-                        model.imageName = fileName;
-                        model.imagePath = file.path;
-                        localList.add(model);
-                        // controller.imageList[index].image?.add(model);
-                        // controller.imageList.refresh();
-                        controller.update();
-
-                      }
-                      if (controller.imageList.isEmpty) {
-                        Get.back();
-                      } else {
-                        Get.back();
-                        showDialog(context: Get.context!, builder: (ctx){
-                          return StatefulBuilder(builder: (builderCtx,setState){
-                            return Scaffold(
-                              backgroundColor: ColourConstants.black,
-                              resizeToAvoidBottomInset: true,
-                              appBar: AppBar(actions: [
-                                GestureDetector(onTap: (){
-                                  controller.imageList[index].image?.addAll(localList);
-                                  controller.imageList.refresh();
-                                  controller.enableButton.value = true;
-                                  controller.update();
-                                  Get.back();
-                                },child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Text(addCaps,style: TextStyle(color: ColourConstants.white),),
-                                    ),
-                                  ],
-                                ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColourConstants.white,
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                              ),
-                              body: Container(
-                                  width: double.infinity,height: double.infinity,
-                                  child: PhotoViewGallery.builder(
-                                    scrollPhysics: const BouncingScrollPhysics(),
-                                    builder: (BuildContext context, int index) {
-                                      return PhotoViewGalleryPageOptions(
-                                        imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                        initialScale: PhotoViewComputedScale.contained * 0.8,
-                                        maxScale: 1.0,
-                                      );
-                                    },
-                                    itemCount: localList.length,
-
-                                    loadingBuilder: (context, event) => Center(
-                                      child: Container(
-                                        width: 20.0,
-                                        height: 20.0,
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    ),
-                                    // backgroundDecoration: ColourConstants.black,
-                                    // pageController: widget.pageController,
-                                    onPageChanged: (index){
-                                      localIndex = index;
-                                    },
-                                  )
-                              ),
-                              bottomNavigationBar: GestureDetector(
-                                onTap: (){
-                                  if (localList.length > 1) {
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                  }else{
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                    Get.back();
-                                  }
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                        color: ColourConstants.primary
-                                    ),
-                                    child: Center(child: Text(removeStr, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                        });
-                      }
-                    }
-                  }
-
-                },
-                child: Image.asset(
-                  Assets.icGallery,
-                  height: 40,
-                  width: 40,
-                ))
-          ],
-        ),
-        const SizedBox(height: 50),
-      ],
-    ),
-  );
-}
-
-Widget bottomSheetImagePickerPromoPictures(String route) {
-  var firstName = sp?.getString(Preference.FIRST_NAME)??"";
-  var lastName = sp?.getString(Preference.LAST_NAME)??"";
-  PromoPicturesController controller ;
-  UploadPromoPicturesController uploadPromoPicturesController ;
-  if (Get.isRegistered<PromoPicturesController>()) {
-    controller = Get.find<PromoPicturesController>();
-  } else {
-    controller = Get.put(PromoPicturesController());
-  }
-
-  if(Get.isRegistered<UploadPromoPicturesController>()){
-    uploadPromoPicturesController = Get.find<UploadPromoPicturesController>();
-  }else{
-    uploadPromoPicturesController = Get.put(UploadPromoPicturesController());
-  }
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              color: ColourConstants.bottomSheetGrey,
-              borderRadius: BorderRadius.circular(25)),
-          height: 5,
-          width: 40,
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(addPhoto,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Get.isDarkMode ? Colors.white : ColourConstants.black,
-                    fontWeight: Get.isDarkMode ? FontWeight.w300 : FontWeight.w400,
-                    fontSize: Dimensions.font18)),
-          ],
-        ),
-        const SizedBox(height: 25),
-        Row(
-          children: [
-            GestureDetector(
-                onTap: () async {
-                  final ImagePicker picker = ImagePicker();
-
-                  var path = await createFolderInAppDocDir(camFolder);
-                  final XFile? picImage =
-                  // Capture a photo from camera
-                  await picker.pickImage(source: ImageSource.camera);
-
-                  if (picImage != null) {
-                    File file = File(picImage.path);
-                    String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
-                    File newFile = await file.copy(path + fileName);
-                    PromoImageModel model = PromoImageModel();
-                    model.imageName = fileName;
-                    model.imagePath = newFile.path;
-                    model.fullDate = "0001-01-01T00:00:00";
-                    model.showName = controller.showController.text.toString();
-                    model.year = DateTime.now().year.toString();
-                    model.user = firstName + lastName;
-                    controller.photoList.add(model);
-                    controller.photoList.refresh();
-                    controller.enableButton.value = true;
-                    controller.update();
-                    uploadPromoPicturesController.enableButton.value = true;
-                    uploadPromoPicturesController.update();
-                    if (controller.photoList.isEmpty) {
-                      Get.back();
-                    } else {
-                      Get.back();
-                      Get.toNamed(Routes.uploadPromoPictureScreen);
-                    }
-                  }
-                },
-                child: Image.asset(
-                  Assets.icAddPhoto,
-                  height: 40,
-                  width: 40,
-                )),
-            const SizedBox(width: 16),
-            GestureDetector(
-                onTap: () async {
-                  Get.back();
-                  List<PromoImageModel> localList = [];
-                  final ImagePicker picker = ImagePicker();
-                  // Capture a photo from gallery
-                  final List<XFile>? picImage = await picker.pickMultiImage();
-                  if (picImage != null) {
-                    if (picImage.isNotEmpty) {
-                      for (var element in picImage) {
-                        File file = File(element.path);
-                        String fileName = basename(element.path);
-                        PromoImageModel model = PromoImageModel();
-                        model.imageName = fileName;
-                        model.imagePath = file.path;
-                        model.fullDate = "0001-01-01T00:00:00";
-                        model.showName = controller.showController.text.toString();
-                        model.year = DateTime.now().year.toString();
-                        model.user = firstName + lastName;
-                        localList.add(model);
-                        // controller.photoList.add(model);
-                        // controller.photoList.refresh();
-                        controller.enableButton.value = true;
-                        controller.update();
-
-                      }
-                      if (localList.isEmpty) {
-                        Get.back();
-                      }
-                      else {
-                        int localIndex = 0;
-                        // Get.back();
-                        showDialog(context: Get.context!, builder: (ctx){
-                          return StatefulBuilder(builder: (builderCtx,setState){
-                            return Scaffold(
-                              backgroundColor: Colors.black,
-                              resizeToAvoidBottomInset: true,
-                              appBar: AppBar(actions: [
-                                GestureDetector(onTap: (){
-                                  Get.back();
-                                  controller.enableButton.value = true;
-                                  controller.photoList.addAll(localList);
-                                  controller.photoList.refresh();
-                                  controller.update();
-                                  uploadPromoPicturesController.enableButton.value = true;
-                                  uploadPromoPicturesController.update();
-                                  if (route == Routes.uploadPromoPictureScreen) {
-                                    controller.update();
-                                  }else{
-                                    Get.toNamed(Routes.uploadPromoPictureScreen)?.then((value) {
-                                      controller.update();
-                                    });
-                                  }
-
-                                },child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 10),
-                                      child: Text(addCaps,style: TextStyle(color: Colors.white),),
-                                    ),
-                                  ],
-                                ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColourConstants.white,
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  Get.back();
-                                },
-                              ),
-                              ),
-                              body: Container(
-                                  width: double.infinity,height: double.infinity,
-                                  child: PhotoViewGallery.builder(
-                                    scrollPhysics: const BouncingScrollPhysics(),
-                                    builder: (BuildContext context, int index) {
-                                      return PhotoViewGalleryPageOptions(
-                                        imageProvider: FileImage(File(localList[index].imagePath??"")),
-                                        initialScale: PhotoViewComputedScale.contained * 0.8,
-                                        maxScale: 1.0,
-                                      );
-                                    },
-                                    itemCount: localList.length,
-
-                                    loadingBuilder: (context, event) => Center(
-                                      child: Container(
-                                        width: 20.0,
-                                        height: 20.0,
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    ),
-                                    // backgroundDecoration: Colors.black,
-                                    // pageController: widget.pageController,
-                                    onPageChanged: (index){
-                                      localIndex = index;
-                                    },
-                                  )
-                              ),
-                              bottomNavigationBar: GestureDetector(
-                                onTap: (){
-                                  if (localList.length > 1) {
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                  }else{
-                                    localList.removeAt(localIndex);
-                                    setState((){});
-                                    Get.back();
-                                  }
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Container(
-                                    height: 50,
-                                    margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
-                                    decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                                        color: ColourConstants.primary
-                                    ),
-                                    child: Center(child: Text(removeStr, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                        });
-                      }
-                    }
-                  }
-
-                },
-                child: Image.asset(
-                  Assets.icGallery,
-                  height: 40,
-                  width: 40,
-                ))
-          ],
-        ),
-        const SizedBox(height: 50),
-      ],
-    ),
-  );
-}
 
 installDismantalChooserDialog(BuildContext context,
     {String? jobNumber,  bool? cancelable}) {
@@ -2089,224 +926,6 @@ installDismantalChooserDialog(BuildContext context,
 }
 
 
-/*
-bottomSheetOnboarding(BuildContext context){
-  final List<String> documentList = [ID, ssCard, W4, I9, i9Supporting, directDepositForm, directDepositSupporting];
-
-
-  ScrollController controller = ScrollController();
-  String selectedOption = documentType;
-  return StatefulBuilder(builder: (context, setState2){
-    return Stack(
-      children: [
-        ListView(
-          shrinkWrap: true,
-          controller: controller,
-          children: [
-            Padding(padding: EdgeInsets.all(20.0),child:  Text(addDocument, style: TextStyle(fontSize: Dimensions.font18, fontWeight: FontWeight.w500),),),
-            Padding(padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10) ,child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 3),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300,width: 1),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: DropdownButton(
-                isExpanded: true,
-                underline: const SizedBox(),
-                hint: Text(selectedOption),
-                style: const TextStyle(color: Colors.black),
-                onChanged: (newValue) {
-                  setState2(() {
-                    selectedOption = newValue.toString();
-                  });
-                },
-                items: documentList.map((location) {
-                  return DropdownMenuItem(
-                    value: location,
-                    child: Text(location),
-                  );
-                }).toList(),
-              ),
-            ),),
-            Padding(
-              padding: EdgeInsets.symmetric( vertical: 8),
-              child:  Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(10),
-                color: ColourConstants.primaryLight,
-                child: Padding(
-                  padding: EdgeInsets.symmetric( horizontal: 10),
-                  child: Text(addPhoto, style: TextStyle(color: Colors.white, fontSize: Dimensions.font14),),),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-
-                  const SizedBox(height: 10),
-
-                  Row(
-                    children: [
-                      GestureDetector(
-                          onTap: () async {
-                            final ImagePicker picker = ImagePicker();
-
-                            var path = await createFolderInAppDocDir(camFolder);
-                            final XFile? picImage =
-                            // Capture a photo from camera
-                            await picker.pickImage(source: ImageSource.camera,imageQuality: imageQualityRatio);
-
-                            if (picImage != null) {
-                              File file = File(picImage.path);
-                              String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
-                              File newFile = await file.copy(path + fileName);
-
-                            }
-                          },
-                          child: Image.asset(
-                            Assets.ic_add_photo,
-                            height: 40,
-                            width: 40,
-                          )),
-                      const SizedBox(width: 25),
-                      GestureDetector(
-                          onTap: () async {
-                            final ImagePicker picker = ImagePicker();
-                            // Capture a photo from gallery
-                            final List<XFile>? picImage = await picker.pickMultiImage(imageQuality: imageQualityRatio);
-                            if (picImage != null) {
-                              if (picImage.isNotEmpty) {
-                                for (var element in picImage) {
-                                  File file = File(element.path);
-                                  String fileName = basename(element.path);
-
-
-                                }
-
-                              }
-                            }
-
-                          },
-                          child: Image.asset(
-                            Assets.ic_gallery,
-                            height: 40,
-                            width: 40,
-                          ))
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-
-            Padding(padding:  EdgeInsets.symmetric( horizontal: 20), child: Divider(thickness: 2,),),
-
-            Padding(
-                padding: const EdgeInsets.all(20),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  controller: controller,
-                  itemCount: 4,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Stack(
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child:
-                            */
-/*   Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: FileImage(photoCommentController.photoList[index].file!),
-                                fit: BoxFit.fill),
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(30.0))),
-                      ),*//*
-
-                            Container(
-                              height: 45,
-                              width: 45,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(Assets.photoOnlyWithoutCross),
-                                      fit: BoxFit.fill),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(30.0))),
-                            )
-                        ),
-                        Positioned(
-                          right: 25,
-                          top: 2,
-                          child: GestureDetector(
-                            onTap: () async {
-
-                              */
-/*      photoCommentController.photoList.removeAt(index);
-                          photoCommentController.photoList.refresh();
-                          photoCommentController.update();*//*
-
-
-                            },
-                            child: Image.asset(
-                              Assets.ic_close,
-                              height: 18,
-                              width: 18,
-                            ),
-                          ),
-                        )
-                      ],
-                    );
-                  },
-                )
-
-
-            ),
-
-
-          ],
-        ),
-
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: GestureDetector(
-            onTap: () async {
-                 defaultDialog(context, title: documentAddedSuccessfully,
-                    onTap: (){
-                      Get.back();
-                      Get.back();
-
-                    });
-            },
-            child: Container(
-              height: 50,
-              margin: const EdgeInsets.only(left: 35, right: 35, bottom: 16),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  color: ColourConstants.primary),
-              child: Center(
-                  child: Text(
-                    addDocument.toUpperCase(),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: Dimensions.font16),
-                  )),
-            ),
-          ),
-        )
-
-      ],
-    );
-  });
-}
-*/
 
 showRatingDialog(BuildContext context){
   RateMyApp rateMyApp;

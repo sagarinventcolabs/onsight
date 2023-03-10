@@ -49,6 +49,7 @@ class _DashboardTileState extends State<DashboardTile> {
           if(snapshot.connectionState==ConnectionState.done){
 
             switch(widget.title!){
+
               case jobPhotos:
                 visibility  = snapshot.data==1?true:false;
               //  appUpdateController.update();
@@ -69,7 +70,7 @@ class _DashboardTileState extends State<DashboardTile> {
                 visibility =  snapshot.data==1?true:false;
               //  appUpdateController.update();
                 break;
-              case fieldIssue:
+              case fieldIssues:
                 visibility = snapshot.data==1?true:false;
               //  appUpdateController.update();
                 break;

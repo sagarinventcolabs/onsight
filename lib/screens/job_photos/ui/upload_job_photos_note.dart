@@ -10,6 +10,7 @@ import 'package:on_sight_application/screens/job_photos/view_model/upload_job_ph
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -104,7 +105,11 @@ class _UploadJobPhotosNoteState extends State<UploadJobPhotosNote> {
                             topRight: Radius.circular(Dimensions.radius10))),
                     isScrollControlled: true,
                     context: context,
-                    builder: (context) => bottomSheetWidget(Routes.uploadJobPhotosNote, id, jobNumber, key==null?smallUpdateStr:add));
+                    builder: (context) =>
+                       // bottomSheetWidget(Routes.uploadJobPhotosNote, id, jobNumber, key==null?smallUpdateStr:add));
+                        bottomSheetImagePicker(Routes.uploadJobPhotosNote)).then((value) {
+                          ImagePickerJobPhoto(Routes.uploadJobPhotosNote, id, jobNumber, key==null?smallUpdateStr:add);
+                });
               },
               child: Image.asset(
                 Assets.icAdd,

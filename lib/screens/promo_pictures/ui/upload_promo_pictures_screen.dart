@@ -102,7 +102,9 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
                             topRight: Radius.circular(Dimensions.radius10))),
                     isScrollControlled: true,
                     context: context,
-                    builder: (context) =>  bottomSheetImagePickerPromoPictures(Routes.uploadPromoPictureScreen)).then((value) {
+                    builder: (context) =>
+                    bottomSheetImagePicker(Routes.uploadPromoPictureScreen)).then((value) {
+                       // bottomSheetImagePickerPromoPictures(Routes.uploadPromoPictureScreen)).then((value) {
                   if(controller.photoList.isNotEmpty){
                     uploadPromoPicturesController.enableButton.value = true;
                     controller.update();

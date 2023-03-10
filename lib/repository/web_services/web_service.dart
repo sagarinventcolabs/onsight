@@ -440,10 +440,12 @@ class WebService {
         url = "${EndPoint.getDetailsByShowNumber}$showNumber";
         break;
       case "Show Name":
-        url = "${EndPoint.getDetailsByShowName}$showNumber";
+        var newShowNumber = showNumber.toString().replaceAll("&", "%26");
+        url = "${EndPoint.getDetailsByShowName}$newShowNumber";
         break;
       case "Exhibitor Name":
-        url = "${EndPoint.getDetailsByExhibitorName}$showNumber";
+        var newShowNumber = showNumber.toString().replaceAll("&", "%26");
+        url = "${EndPoint.getDetailsByExhibitorName}$newShowNumber";
         break;
     }
 
