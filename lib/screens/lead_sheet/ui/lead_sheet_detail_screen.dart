@@ -448,12 +448,11 @@ class _LeadSheetDetailScreenState extends State<LeadSheetDetailScreen> {
                                         context: context,
                                         builder: (context){
                                           return StatefulBuilder(builder: (context, setState){
-                                            return bottomSheetImagePickerLeadSheet(
-                                                Routes.leadSheetDetailScreen,
-                                                controller.selectedExhibitorModel.first.exhibitorId.toString(),
-                                                add);
+                                            //return bottomSheetImagePickerLeadSheet(Routes.leadSheetDetailScreen, controller.selectedExhibitorModel.first.exhibitorId.toString(), add);
+                                            return bottomSheetImagePicker(Routes.leadSheetDetailScreen);
                                           });
                                         }).then((value) {
+                                          ImagePickerLeadSheet(Routes.leadSheetDetailScreen, controller.selectedExhibitorModel.first.exhibitorId.toString(), add);
                                       setState(() {});
                                     });
                                   },

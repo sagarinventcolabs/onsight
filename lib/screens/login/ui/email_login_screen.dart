@@ -168,64 +168,67 @@ class EmailLoginScreenState extends State<EmailLoginScreen> {
   showAlertDialog(){
     showDialog(
         context: context,
-        barrierDismissible: true,
+        barrierDismissible: false,
         builder: (context){
-          return AlertDialog(
-            backgroundColor: Get.isDarkMode?Color(0xFF1C1C1C):ColourConstants.white,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(Dimensions.height10),
-                  child: Text(alert, style:TextStyle(color:  Get.isDarkMode?ColourConstants.blue:ColourConstants.primary, fontSize: Dimensions.font20, fontWeight: FontWeight.w700  )),
-                ),
-                Divider(color: ColourConstants.black,),
-              ],
-            ),
-            titlePadding: const EdgeInsets.all(0),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: Dimensions.height10,),
-                Text(weWillVerifyEmail, style:TextStyle(color: Get.isDarkMode?ColourConstants.white:ColourConstants.black, fontSize: Dimensions.font15, fontWeight: FontWeight.w400)),
-                SizedBox(height: Dimensions.height5,),
-                Text(loginScreenController.emailController.text.toString(), style: TextStyle(color:   Get.isDarkMode?ColourConstants.blue:ColourConstants.primary, fontSize: Dimensions.font15, fontWeight: FontWeight.w700)),
-                SizedBox(height: Dimensions.height15,),
-                Text(isItOkEmail, style:TextStyle(color: Get.isDarkMode?ColourConstants.white:ColourConstants.black, fontSize: Dimensions.font15, fontWeight: FontWeight.w400), textAlign: TextAlign.center,),
-              ],
-            ),
-            contentPadding: EdgeInsets.all(Dimensions.height10),
-            actions: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              backgroundColor: Get.isDarkMode?Color(0xFF1C1C1C):ColourConstants.white,
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GestureDetector(
-                    onTap: (){
-                      Get.back();
-                    },
-                    child:  SizedBox(
-                      height: Dimensions.height30,
-                      width: Dimensions.height50,
-                      child: Center(child: Text(edit, style: TextStyle(color:Get.isDarkMode?ColourConstants.blue: ColourConstants.primary, fontWeight: FontWeight.w400, fontSize: Dimensions.font15),)),
-                    ),
+                  Padding(
+                    padding: EdgeInsets.all(Dimensions.height10),
+                    child: Text(alert, style:TextStyle(color:  Get.isDarkMode?ColourConstants.blue:ColourConstants.primary, fontSize: Dimensions.font20, fontWeight: FontWeight.w700  )),
                   ),
-                  GestureDetector(
-                    onTap: ()async{
-
-                      FocusScope.of(context).unfocus();
-                      Get.back();
-                      if(loginScreenController.validate(loginScreenController.emailController.text))
-                      await loginScreenController.getOtpWithEmail(loginScreenController.emailController.text.toString());
-                    },
-                    child:  SizedBox(
-                      height: Dimensions.height50,
-                      width: Dimensions.height50,
-                      child: Center(child: Text(ok, style: TextStyle(color: Get.isDarkMode?ColourConstants.blue:ColourConstants.primary, fontWeight: FontWeight.w400, fontSize: Dimensions.font15),)),
-                    ),
-                  ),
+                  Divider(color: ColourConstants.black,),
                 ],
               ),
-            ],
+              titlePadding: const EdgeInsets.all(0),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(height: Dimensions.height10,),
+                  Text(weWillVerifyEmail, style:TextStyle(color: Get.isDarkMode?ColourConstants.white:ColourConstants.black, fontSize: Dimensions.font15, fontWeight: FontWeight.w400)),
+                  SizedBox(height: Dimensions.height5,),
+                  Text(loginScreenController.emailController.text.toString(), style: TextStyle(color:   Get.isDarkMode?ColourConstants.blue:ColourConstants.primary, fontSize: Dimensions.font15, fontWeight: FontWeight.w700)),
+                  SizedBox(height: Dimensions.height15,),
+                  Text(isItOkEmail, style:TextStyle(color: Get.isDarkMode?ColourConstants.white:ColourConstants.black, fontSize: Dimensions.font15, fontWeight: FontWeight.w400), textAlign: TextAlign.center,),
+                ],
+              ),
+              contentPadding: EdgeInsets.all(Dimensions.height10),
+              actions: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child:  SizedBox(
+                        height: Dimensions.height30,
+                        width: Dimensions.height50,
+                        child: Center(child: Text(edit, style: TextStyle(color:Get.isDarkMode?ColourConstants.blue: ColourConstants.primary, fontWeight: FontWeight.w400, fontSize: Dimensions.font15),)),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: ()async{
+
+                        FocusScope.of(context).unfocus();
+                        Get.back();
+                        if(loginScreenController.validate(loginScreenController.emailController.text))
+                        await loginScreenController.getOtpWithEmail(loginScreenController.emailController.text.toString());
+                      },
+                      child:  SizedBox(
+                        height: Dimensions.height50,
+                        width: Dimensions.height50,
+                        child: Center(child: Text(ok, style: TextStyle(color: Get.isDarkMode?ColourConstants.blue:ColourConstants.primary, fontWeight: FontWeight.w400, fontSize: Dimensions.font15),)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           );
         });
   }

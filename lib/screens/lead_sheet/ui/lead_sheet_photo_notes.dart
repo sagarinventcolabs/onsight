@@ -10,6 +10,7 @@ import 'package:on_sight_application/screens/lead_sheet/view_model/lead_sheet_co
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
 class LeadSheetPhotosNote extends StatefulWidget {
@@ -99,7 +100,10 @@ class _LeadSheetPhotosNoteState extends State<LeadSheetPhotosNote> {
                     isScrollControlled: true,
                     context: context,
                     builder: (context) =>
-                        bottomSheetImagePickerLeadSheet(Routes.leadSheetPhotosNote, id, key==null?smallUpdateStr:add));
+                        //bottomSheetImagePickerLeadSheet(Routes.leadSheetPhotosNote, id, key==null?smallUpdateStr:add));
+                        bottomSheetImagePicker(Routes.leadSheetPhotosNote)).then((value) {
+                          ImagePickerLeadSheet(Routes.leadSheetPhotosNote, id, key==null?smallUpdateStr:add);
+                });
               },
               child: Image.asset(
                 Assets.icAdd,
