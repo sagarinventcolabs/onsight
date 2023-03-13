@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Ic_job_photos" data-name="Ic_job photos" transform="translate(-120.404 -622)">
+    <path id="Path_32169" data-name="Path 32169" d="M20,0A20,20,0,1,1,0,20,20,20,0,0,1,20,0Z" transform="translate(120.404 622)" fill="#6f63c7"/>
+    <g id="fa195c9a516282bfdb3c3160a781277a" transform="translate(130.404 632)">
+      <path id="Path_34931" data-name="Path 34931" d="M0,0H19.481V19.481H0Z" fill="none"/>
+      <path id="Path_34932" data-name="Path 34932" d="M12.364,10.494A3.247,3.247,0,1,0,9.117,7.247,3.246,3.246,0,0,0,12.364,10.494Zm0-4.87A1.623,1.623,0,1,1,10.74,7.247,1.628,1.628,0,0,1,12.364,5.623Zm0,6.494c-2.167,0-6.494,1.088-6.494,3.247v1.623H18.857V15.364C18.857,13.2,14.531,12.117,12.364,12.117Zm-4.87,3.247c.179-.584,2.687-1.623,4.87-1.623s4.708,1.047,4.87,1.623ZM5.058,12.929V10.494H7.494V8.87H5.058V6.435H3.435V8.87H1v1.623H3.435v2.435Z" transform="translate(-0.188 -0.753)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

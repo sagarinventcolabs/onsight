@@ -77,6 +77,7 @@ class _DashboardTileState extends State<DashboardTile> {
 
             }
           }
+
           return Visibility(
             visible: visibility,
             child: Container(

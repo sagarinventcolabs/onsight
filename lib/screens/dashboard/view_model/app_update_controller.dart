@@ -19,7 +19,6 @@ class AppUpdateController extends GetxController {
 
   List<ResponseVersion> listVersion = [];
   List<SecurityFlagsModel> listFlags = [];
-
   @override
   void onInit() {
     super.onInit();
@@ -89,8 +88,8 @@ class AppUpdateController extends GetxController {
   }
 
   /// API function for getting security flags
-  Future<dynamic> getSecurityFlags() async {
-    var response = await WebService().getSecurityFlags();
+  Future<dynamic> getSecurityFlags(isLoading) async {
+    var response = await WebService().getSecurityFlags(isLoading);
     if (response != null) {
       if (!response.toString().toLowerCase().contains(error) && response.toString() != noInternetStr ) {
         response.forEach((value) async {

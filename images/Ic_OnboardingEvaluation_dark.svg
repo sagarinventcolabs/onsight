@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <g id="Ic_Projecxt_evaluation" data-name="Ic_Projecxt evaluation" transform="translate(-120 -622)">
+    <path id="Path_32169" data-name="Path 32169" d="M20,0A20,20,0,1,1,0,20,20,20,0,0,1,20,0Z" transform="translate(120 622)" fill="#fff"/>
+    <g id="Layer_2" data-name="Layer 2" transform="translate(130.404 632)">
+      <g id="file-add">
+        <rect id="Rectangle_20526" data-name="Rectangle 20526" width="20" height="20" fill="#583083" opacity="0"/>
+        <path id="Path_34933" data-name="Path 34933" d="M17.377,7.38l-4.623-5.1A.85.85,0,0,0,12.125,2H6.176A2.15,2.15,0,0,0,4,4.125V16.873A2.15,2.15,0,0,0,6.176,19h9.247A2.15,2.15,0,0,0,17.6,16.873V7.949a.85.85,0,0,0-.221-.569ZM12.5,4.55,14.828,7.1h-1.7a.671.671,0,0,1-.629-.722ZM15.423,17.3H6.176a.45.45,0,0,1-.476-.425V4.125A.45.45,0,0,1,6.176,3.7H10.8V6.377A2.371,2.371,0,0,0,13.1,8.8h2.8v8.074a.45.45,0,0,1-.476.425Z" transform="translate(-0.6 -0.3)" fill="#583083"/>
+        <path id="Path_34934" data-name="Path 34934" d="M13.25,12.7H12.4v-.85a.85.85,0,1,0-1.7,0v.85H9.85a.85.85,0,0,0,0,1.7h.85v.85a.85.85,0,1,0,1.7,0V14.4h.85a.85.85,0,1,0,0-1.7Z" transform="translate(-1.351 -1.651)" fill="#583083"/>
+      </g>
+    </g>
+  </g>
+</svg>

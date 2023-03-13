@@ -18,6 +18,7 @@ import 'package:on_sight_application/screens/lead_sheet/ui/lead_sheet_photo_note
 import 'package:on_sight_application/screens/lead_sheet/ui/lead_sheet_screen.dart';
 import 'package:on_sight_application/screens/login/ui/email_login_screen.dart';
 import 'package:on_sight_application/screens/login/ui/login_screen.dart';
+import 'package:on_sight_application/screens/onboarding/ui/onboarding_new_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_photo_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_registration.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_resource_screen.dart';
@@ -74,6 +75,7 @@ String whereCome="0";
     GetPage(name: Routes.leadSheetPhotosNote, page: ()=>  const LeadSheetPhotosNote()),
     GetPage(name: Routes.aboutUsScreen, page: ()=>  const AboutUsScreen()),
     GetPage(name: Routes.onBoardingScreen, page: ()=>  const OnBoardingScreen()),
+    GetPage(name: Routes.onBoardingNewScreen, page: ()=>  const OnBoardingNewScreen()),
     GetPage(name: Routes.onBoardingResourceScreen, page: ()=>  const OnBoardingResourceScreen()),
     GetPage(name: Routes.resourceDetails, page: ()=>  const ResourceDetails()),
     GetPage(name: Routes.onBoardingRegistration, page: ()=>  const OnboardingRegistration()),

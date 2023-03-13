@@ -67,4 +67,8 @@ class Assets {
   static const String photoOnlyWithoutCross = "images/ic_added photo only with out cross.png";
   static const String biometric = "images/biometric.png";
   static const String bioDarkMode = "images/bio_darkmode.png";
+  static const String ic_Projecxt_Evaluation = "images/Ic_Projecxt evaluation.svg";
+  static const String Ic_OnboardingEvaluation_dark = "images/Ic_OnboardingEvaluation_dark.svg";
+  static const String ic_job_photoss = "images/Ic_job photos.svg";
+  static const String icJobPhotosDark = "images/Ic_job photos_dark.svg";
 }

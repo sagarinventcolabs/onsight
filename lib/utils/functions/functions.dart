@@ -12,6 +12,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/models/image_picker_model.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
+import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
 import 'package:on_sight_application/repository/database_model/field_issue_image_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model_promo_pictures.dart';
@@ -389,9 +390,15 @@ Future<void> authenticateUser() async {
   }
 }
 
-logoutFun(){
+logoutFun()async{
   sp?.clear();
   SecureStorage().deleteAll();
+  try{
+    await DashboardManager().deleteAllData();
+
+  }catch(e){
+
+  }
   Get.offAllNamed(Routes.emailLoginScreen);
 }
 

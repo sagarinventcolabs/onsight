@@ -31,6 +31,7 @@ abstract class Routes {
   static const aboutUsScreen = '/AboutUsScreen';
   static const leadSheetPhotosNote = '/LeadSheetPhotosNote';
   static const onBoardingScreen = '/OnBoardingScreen';
+  static const onBoardingNewScreen = '/OnBoardingNewScreen';
   static const onBoardingResourceScreen = '/OnBoardingResourceScreen';
   static const resourceDetails = '/ResourceDetails';
   static const onBoardingRegistration = '/OnboardingRegistration';

@@ -310,6 +310,8 @@ const String i9 = "I9";
 const String i9Supporting = "I9 Supporting";
 const String directDepositForm = "Direct Deposit Form";
 const String directDepositSupporting = "Direct Deposit Supporting";
+const String addNewHire = "Add New Hire";
+const String addSupportingDocuments = "Add Supporting Documents";
 
 /// SQF Lite Keys
 const String appInternetStatus = "AppInternetStatus";
