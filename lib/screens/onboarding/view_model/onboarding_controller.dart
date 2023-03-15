@@ -19,7 +19,15 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 
 class OnboardingController extends GetxController{
-  
+
+  // Rx<FocusNode> focusNodeCity = FocusNode().obs;
+  // Rx<FocusNode> focusNodeFirstName = FocusNode().obs;
+  // Rx<FocusNode> focusNodeLastName = FocusNode().obs;
+  // Rx<FocusNode> focusNodeSSN = FocusNode().obs;
+  // Rx<FocusNode> focusNodeMobile = FocusNode().obs;
+  // Rx<FocusNode> focusNodeUnion = FocusNode().obs;
+  // Rx<FocusNode> focusNodeClassification = FocusNode().obs;
+
   /// Show Number Controller
   TextEditingController showNumberController = TextEditingController();
   /// First Name Controller
@@ -48,6 +56,8 @@ class OnboardingController extends GetxController{
   RxBool isValidMobileNumber = true.obs;
   /// check valid ssn parameter
   RxBool isValidSSN = true.obs;
+  RxBool isValidUnion = true.obs;
+  RxBool isValidClassification = true.obs;
   /// Document value
     RxString dropDownDocumentValue = "Document Type".obs;
   /// check valid city parameter
@@ -64,6 +74,8 @@ class OnboardingController extends GetxController{
   Rx<SpeechToText> speechToText = SpeechToText().obs;
   /// Listening variable for comment controller
   RxBool isListening = false.obs;
+  /// corporateSupport checkbox variable
+  RxBool corporateSupport = false.obs;
   /// Selected show number variable
   RxString selectedShow = "".obs;
   /// Webservice Instance to call API Functions
@@ -79,6 +91,13 @@ class OnboardingController extends GetxController{
   /// TextInput Validations......................................................
 
   validateFunc(){
+    if (cityController.text.isEmpty) {
+      enableButton.value = false;
+      update();
+      return false;
+    } else {
+      enableButton.value = true;
+    }
     if (firstNameController.text.isEmpty) {
       enableButton.value = false;
       update();
@@ -112,22 +131,46 @@ class OnboardingController extends GetxController{
       enableButton.value = true;
 
     }
-    if (cityController.text.isEmpty) {
-      enableButton.value = false;
-      update();
-      return false;
-    } else {
-      enableButton.value = true;
+
+    if(corporateSupport.isTrue){
+      if (unionController.text.isEmpty) {
+        enableButton.value = false;
+        update();
+        return false;
+      }else {
+        enableButton.value = true;
+      }
+      if (classificationController.text.isEmpty) {
+        enableButton.value = false;
+        update();
+        return false;
+      }else {
+        enableButton.value = true;
+      }
+
     }
+
     update();
     return true;
   }
 
   /// validation on submit button
-  validsubmit(){
+  validsubmit(context){
+    if (cityController.text.isEmpty) {
+      enableButton.value = false;
+      isValidCity.value = false;
+      // FocusScope.of(context).requestFocus(focusNodeCity.value);
+      // update();
+      return false;
+    } else {
+      enableButton.value = true;
+      isValidCity.value = true;
+    }
     if (firstNameController.text.isEmpty) {
       enableButton.value = false;
       isValidFirstName.value = false;
+     // focusNodeFirstName.value.requestFocus();
+      update();
       return false;
     } else {
       enableButton.value = true;
@@ -136,14 +179,8 @@ class OnboardingController extends GetxController{
     if (lastNameController.text.isEmpty) {
       enableButton.value = false;
       isValidLastName.value = false;
-      return false;
-    } else {
-      isValidLastName.value = true;
-      enableButton.value = true;
-    }
-    if (mobileNumberController.text.length != 10 && mobileNumberController.text.length > 0) {
-      enableButton.value = false;
-      isValidMobileNumber.value = false;
+     // focusNodeLastName.value.requestFocus();
+      update();
       return false;
     } else {
       isValidLastName.value = true;
@@ -152,23 +189,59 @@ class OnboardingController extends GetxController{
     if (ssnController.text.isEmpty) {
       enableButton.value = false;
       isValidSSN.value = false;
+      //focusNodeSSN.value.requestFocus();
+      update();
       return false;
     } else if(ssnController.text.length != 9){
       isValidSSN.value = false;
       enableButton.value = false;
+      //  focusNodeSSN.value.requestFocus();
+      update();
       return false;
     }else {
       isValidSSN.value = true;
       enableButton.value = true;
     }
-    if (cityController.text.isEmpty) {
+    if(mobileNumberController.text.isEmpty){
       enableButton.value = false;
-      isValidCity.value = false;
+      isValidMobileNumber.value = false;
+      // focusNodeMobile.value.requestFocus();
+      update();
+      return false;
+    }
+    else if (mobileNumberController.text.length != 10 && mobileNumberController.text.length > 0) {
+      enableButton.value = false;
+      isValidMobileNumber.value = false;
+     // focusNodeMobile.value.requestFocus();
+      update();
       return false;
     } else {
+      isValidLastName.value = true;
       enableButton.value = true;
-      isValidCity.value = true;
     }
+
+
+
+    if(corporateSupport.isTrue){
+      if (unionController.text.isEmpty) {
+        enableButton.value = false;
+        isValidUnion.value = false;
+        update();
+        return false;
+      }else {
+        enableButton.value = true;
+      }
+      if (classificationController.text.isEmpty) {
+        enableButton.value = false;
+        isValidClassification.value = false;
+        update();
+        return false;
+      }else {
+        enableButton.value = true;
+      }
+
+    }
+
     update();
   }
 
@@ -296,7 +369,8 @@ class OnboardingController extends GetxController{
         });
         requestModel.value.itemId = num.parse(createResourceResponse.itemId.toString());
         sp?.putInt(Preference.ACTIVITY_TRACKER, ((sp?.getInt(Preference.ACTIVITY_TRACKER)??0)+1));
-          dialogAction(Get.context!, alert: resourceCreatedSuccessfully,
+          dialogAction(Get.context!,
+              alert: resourceCreatedSuccessfully,
               title: doYouWantToAddDocument,
               onTapYes: () {
                 firstNameController.clear();

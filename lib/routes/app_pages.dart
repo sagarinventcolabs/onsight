@@ -20,11 +20,12 @@ import 'package:on_sight_application/screens/login/ui/email_login_screen.dart';
 import 'package:on_sight_application/screens/login/ui/login_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_new_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_photo_screen.dart';
-import 'package:on_sight_application/screens/onboarding/ui/onboarding_registration.dart';
+import 'package:on_sight_application/screens/onboarding/ui/onboarding_new_registration.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_resource_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_upload_photos.dart';
 import 'package:on_sight_application/screens/onboarding/ui/resource_details.dart';
+import 'package:on_sight_application/screens/onboarding/ui/resource_details_new.dart';
 import 'package:on_sight_application/screens/project_evaluation/ui/project_evaluation_details_screen.dart';
 import 'package:on_sight_application/screens/project_evaluation/ui/project_evaluation_install_screen.dart';
 import 'package:on_sight_application/screens/project_evaluation/ui/project_evaluation_screen.dart';
@@ -78,7 +79,8 @@ String whereCome="0";
     GetPage(name: Routes.onBoardingNewScreen, page: ()=>  const OnBoardingNewScreen()),
     GetPage(name: Routes.onBoardingResourceScreen, page: ()=>  const OnBoardingResourceScreen()),
     GetPage(name: Routes.resourceDetails, page: ()=>  const ResourceDetails()),
-    GetPage(name: Routes.onBoardingRegistration, page: ()=>  const OnboardingRegistration()),
+    GetPage(name: Routes.resourceDetailsNew, page: ()=>  const ResourceDetailsNew()),
+    GetPage(name: Routes.onBoardingRegistration, page: ()=>  const OnboardingNewRegistration()),
     GetPage(name: Routes.selectJobScreen, page: ()=>  const SelectJobScreen()),
     GetPage(name: Routes.promoPictureScreen, page: ()=>  const PromoPictureScreen()),
     GetPage(name: Routes.uploadPromoPictureScreen, page: ()=>  const UploadPromoPictureScreen()),

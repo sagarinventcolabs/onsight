@@ -56,8 +56,9 @@ class ColourConstants {
   static const Color blue = Colors.blue;
   static Color labelBgColor = Theme.of(Get.context!).scaffoldBackgroundColor;
   static const Color sliderColor = Color(0xFF999999);
-  static const Color textFieldFillColor = Color(0xFFF8F8F8);
+  static const Color textFieldFillColor = Color(0xFFF1F0F0);
   static const Color greenColor = Color(0xFF00BB06);
+  static const Color lightPurple = Color(0xFFF8F5FC);
   static const Color green = Colors.green;
   static const Color red = Colors.red;
   static Color grey = Colors.grey;

@@ -136,13 +136,15 @@ class DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         leadingWidth: Dimensions.width43,
-        title: Text(dashboard,
+        title: Text(
+            dashboard,
             style: TextStyle(
                 color: Get.isDarkMode
                     ? ColourConstants.white
                     : ColourConstants.primary,
                 fontWeight: FontWeight.bold,
-                fontSize: Dimensions.font18)),
+                fontSize: Dimensions.font18)
+        ),
         actions: [
           PopupMenuButton<String>(
             color: Get.isPlatformDarkMode

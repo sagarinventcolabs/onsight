@@ -68,6 +68,8 @@ const String ssnValidation = "Please enter valid SSN";
 const String emailValidation = "Please enter valid email address";
 const String cityValidation = "Please enter city";
 const String mobileNumberValidation = "Please enter valid mobile number";
+const String unionValidation = "Please select union";
+const String classificationValidation = "Please enter classification";
 const String codeSentSuccessfully = "Code Sent Successfully";
 const String pleaseEnterYourEmail = "Please enter your email";
 const String invalidEmail = "Invalid Email";
@@ -294,6 +296,7 @@ const String resourceDetails = "Resource Details";
 const String union = "Union";
 const String ssn = "SSN";
 const String classification = "Classification";
+const String lastWorkDate = "Last Work Date";
 const String documentType = "Document Type";
 const String photos = "Photos";
 const String documentAddedSuccessfully = "Document added successfully!";
@@ -312,6 +315,12 @@ const String directDepositForm = "Direct Deposit Form";
 const String directDepositSupporting = "Direct Deposit Supporting";
 const String addNewHire = "Add New Hire";
 const String addSupportingDocuments = "Add Supporting Documents";
+const String baseCity = "Base City";
+const String corporateSupport = "Corporate Support";
+const String resourceCanNotBeEntered = "Resource Can Not Be Entered";
+const String recordContainingSSNAlreadyExists = "Record Containing SSN Already Exists";
+const String viewRecords = "View Records";
+
 
 /// SQF Lite Keys
 const String appInternetStatus = "AppInternetStatus";
