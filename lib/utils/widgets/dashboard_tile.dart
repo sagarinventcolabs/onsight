@@ -69,7 +69,7 @@ class _DashboardTileState extends State<DashboardTile> {
                 visibility =  snapshot.data==1?true:false;
               //  appUpdateController.update();
                 break;
-              case fieldIssue:
+              case FieldIssue:
                 visibility = snapshot.data==1?true:false;
               //  appUpdateController.update();
                 break;
