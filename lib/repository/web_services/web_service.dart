@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter_udid/flutter_udid.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
@@ -44,16 +45,24 @@ class WebService {
 
   //Get otp request email...........................................................................
   Future<dynamic> getOtpForEmail(email) async {
-    Map<String, String> body = {};
-    var response = await ApiBaseHelper().postApiCall(EndPoint.getOTPForEmail+email, body);
+    var deviceId = await FlutterUdid.udid;
+
+    Map<String, String> body = {
+      "EmailAddress":email.toString(),
+      "UniqueID":deviceId.toString()
+    };
+    var response = await ApiBaseHelper().postApiCall(EndPoint.getOTPForEmail, body);
 
     return response;
   }
 //Verify Otp request...........................................................................
-  Future<dynamic> verifyOtpRequest(code) async {
+  Future<dynamic> verifyOtpRequest(email, code) async {
+    var deviceId = await FlutterUdid.udid;
     Map<String, String> body = {
       'OtpVerificationCode': code,
-      'ClientId': 'Mobile'
+      'ClientId': 'Mobile',
+      "EmailAddress":email.toString(),
+      "UniqueID":deviceId.toString()
     };
     var response = await ApiBaseHelper().postApiCall(EndPoint.verifyOTP, body);
     return response;

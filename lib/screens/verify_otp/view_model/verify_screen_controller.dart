@@ -28,8 +28,8 @@ class VerifyScreenController extends GetxController{
 
 // Api for Verify Otp.......................
 
-  Future<dynamic> verifyOtp(otp) async{
-    var response = await service.verifyOtpRequest(otp);
+  Future<dynamic> verifyOtp(emailId, otp) async{
+    var response = await service.verifyOtpRequest(emailId, otp);
     if(response!=null) {
       if (response.containsKey(error)) {
         return response;

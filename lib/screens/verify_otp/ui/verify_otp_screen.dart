@@ -103,7 +103,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                         phoneController.text, textEditingController.text)) {
                       FocusScope.of(context).unfocus();
                       //    Get.to(() => UserDetailScreen());
-                      var response = await controller.verifyOtp(
+                      var response = await controller.verifyOtp(widget.number,
                           textEditingController.text.toString());
                       if (response.toString().toLowerCase().contains("error")) {
                         ErrorResponse errorModel = ErrorResponse.fromJson(

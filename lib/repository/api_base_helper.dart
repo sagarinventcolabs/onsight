@@ -459,10 +459,10 @@ class ApiBaseHelper{
       case 400:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        if(showValue) {
+
           Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
             duration: Duration(seconds: 2),));
-        }
+
         return responseJson;
       case 401:
         var responseJson = json.decode(response.body.toString());
@@ -489,6 +489,13 @@ class ApiBaseHelper{
             duration: Duration(seconds: 2),));
         }
         return responseJson;
+      case 405:
+        var responseJson = json.decode(response.body.toString());
+        ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
+        defaultDialog(Get.context!, title: alert,alert: errorModel.errorDescription.toString(), cancelable: true, onTap: (){
+          Get.back();
+        });
+        return responseJson;
       case 500:
 
         try{
@@ -504,13 +511,14 @@ class ApiBaseHelper{
               message: "Internal Server Error",
               duration: Duration(seconds: 2),));
           }
+          return responseJson;
         }catch(ee){
           Get.showSnackbar(GetSnackBar(
             message: "Internal Server Error",
             duration: Duration(seconds: 2),));
         }
 
-        return response;
+        return "error";
 
 
       default:
