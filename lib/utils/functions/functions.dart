@@ -413,5 +413,5 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 // Future<String> getSQFBaseUrl()async{
 //   AppInternetManager appInternetManager = AppInternetManager();
 //   var a = await appInternetManager.getSettingsTable() as List;
-//   return a[0]["BaseUrl"];
-// }
+//   return a[0]["BaseUrl"];}
+//

@@ -11,7 +11,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/battery_info-1.1.1/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/battery_plus-2.1.4+1/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus-2.3.9/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/device_info_plus-3.2.4/android" />
@@ -26,6 +25,7 @@
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_root_jailbreak-2.0.2/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_secure_storage-6.1.0/android" />
+            <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_udid-2.0.1/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_android-0.8.5+4/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/launch_review-3.0.1/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/local_auth_android-1.0.17/android" />

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/database_managers/app_update_manager.dart';
@@ -91,8 +93,12 @@ class AppUpdateController extends GetxController {
   /// API function for getting security flags
   Future<dynamic> getSecurityFlags() async {
     var response = await WebService().getSecurityFlags();
+
     if (response != null) {
-      if (!response.toString().toLowerCase().contains(error) && response.toString() != noInternetStr ) {
+      if(response.toString().contains(noInternetStr)){
+        return ;
+      }
+      if (!response.toString().toLowerCase().contains(error)) {
         response.forEach((value) async {
           SecurityFlagsModel model = SecurityFlagsModel.fromJson(value);
           await DashboardManager().insertMenu(model);

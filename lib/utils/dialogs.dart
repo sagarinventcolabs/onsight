@@ -63,7 +63,7 @@ checkBatteryStatus() async {
   if (a[0][batterySaverStatus] == 1) {
     int? batteryLevel = await Battery().batteryLevel;
 
-  if ((batteryLevel??100) < 15) {
+  if ((batteryLevel) < 15) {
   Get.closeAllSnackbars();
   Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsg,duration: Duration(seconds: 3),));
   }

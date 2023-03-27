@@ -92,6 +92,9 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - flutter_udid (0.0.1):
+    - Flutter
+    - SAMKeychain
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -157,6 +160,7 @@ PODS:
   - rate_my_app (1.1.3):
     - Flutter
   - ReachabilitySwift (5.0.0)
+  - SAMKeychain (1.5.3)
   - shared_preferences_ios (0.0.1):
     - Flutter
   - sms_autofill (0.0.1):
@@ -188,6 +192,7 @@ DEPENDENCIES:
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_root_jailbreak (from `.symlinks/plugins/flutter_root_jailbreak/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_udid (from `.symlinks/plugins/flutter_udid/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
@@ -217,6 +222,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - ReachabilitySwift
+    - SAMKeychain
     - Try
 
 EXTERNAL SOURCES:
@@ -248,6 +254,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_root_jailbreak/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_udid:
+    :path: ".symlinks/plugins/flutter_udid/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   launch_review:
@@ -295,6 +303,7 @@ SPEC CHECKSUMS:
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_root_jailbreak: 0117e16bde16aa04a798c35f162b6fc2efd70e4f
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  flutter_udid: 0848809dbed4c055175747ae6a45a8b4f6771e1c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
@@ -308,6 +317,7 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   rate_my_app: 96f658ddb7f0a8d2f46d54452583f084760aef57
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sms_autofill: c461043483362c3f1709ee76eaae6eb570b31686
   speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
