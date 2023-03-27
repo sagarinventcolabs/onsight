@@ -53,7 +53,9 @@ class ApiBaseHelper{
         log("response=========>>>> ${response.body}");
 
         try {
-          responseJson = _returnResponse(response, showValue: false);
+
+            responseJson = _returnResponse(response, showValue: false);
+
 
         } catch (e) {
 
@@ -495,6 +497,7 @@ class ApiBaseHelper{
         });
         return responseJson;
       case 500:
+
         try{
           var responseJson = json.decode(response.body.toString());
           ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
@@ -503,13 +506,16 @@ class ApiBaseHelper{
               message: errorModel.errorDescription.toString(),
               duration: Duration(seconds: 2),));
           }else{
+
             Get.showSnackbar(GetSnackBar(
               message: "Internal Server Error",
               duration: Duration(seconds: 2),));
           }
           return responseJson;
         }catch(ee){
-
+          Get.showSnackbar(GetSnackBar(
+            message: "Internal Server Error",
+            duration: Duration(seconds: 2),));
         }
 
         return "error";

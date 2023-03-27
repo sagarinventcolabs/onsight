@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/models/image_picker_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
 import 'package:on_sight_application/repository/database_model/secure_model.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
@@ -37,6 +38,7 @@ final BehaviorSubject<String?> selectNotificationSubject =
 String? selectedNotificationPayload;
 bool visibleRefresh = false;
 List<ImageModel> imageList = [];
+List<ImagePickerModel> localList = [];
 
 Future<void> main() async {
   const bool isProduction = bool.fromEnvironment('dart.vm.product');

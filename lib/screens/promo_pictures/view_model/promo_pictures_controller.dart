@@ -6,6 +6,7 @@ import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
 
@@ -70,9 +71,9 @@ class PromoPicturesController extends GetxController{
               isScrollControlled: true,
               context: Get.context!,
               builder: (context) =>
-                  bottomSheetImagePickerPromoPictures(
-                      Routes.promoPictureScreen)).then((
-              value) {
+                  bottomSheetImagePicker(Routes.uploadPromoPictureScreen)).then((value) {
+                 // bottomSheetImagePickerPromoPictures(Routes.promoPictureScreen)).then((value) {
+            ImagePickerPromoPictures(Routes.promoPictureScreen);
                         update();
           });
         }else{

@@ -190,41 +190,43 @@ class DashboardScreenState extends State<DashboardScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: Dimensions.height15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            DashboardTile(
-                title: jobPhotos,
-                lightSvgIcon: Assets.icDashboardCam,
-                darkSvgIcon: Assets.illJobPhotosDark,
-                routeName: Routes.jobPhotosScreen),
-            DashboardTile(
-                title: projectEvaluation,
-                lightSvgIcon: Assets.icProjectEvaluation,
-                darkSvgIcon: Assets.icProjectEvaluationDark,
-                routeName: Routes.projectEvaluationScreen),
-            DashboardTile(
-              title: leadSheet,
-              lightSvgIcon: Assets.icLeadSheet,
-              darkSvgIcon: Assets.icLeadSheetDark,
-              routeName: Routes.leadSheetScreen,
-            ),
-            DashboardTile(
-                title: onboarding,
-                lightSvgIcon: Assets.icOnBoarding,
-                darkSvgIcon: Assets.icOnBoardingDark,
-                routeName: Routes.onBoardingScreen),
-            DashboardTile(
-                title: promoPictures,
-                lightSvgIcon: Assets.icPromoPic,
-                darkSvgIcon: Assets.icPromoPicDark,
-                routeName: Routes.promoPictureScreen),
-            DashboardTile(
-                title: fieldIssues,
-                lightSvgIcon: Assets.icFieldIssue,
-                darkSvgIcon: Assets.icFieldIssueDark,
-                routeName: Routes.fieldIssues)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              DashboardTile(
+                  title: jobPhotos,
+                  lightSvgIcon: Assets.icDashboardCam,
+                  darkSvgIcon: Assets.illJobPhotosDark,
+                  routeName: Routes.jobPhotosScreen),
+              DashboardTile(
+                  title: projectEvaluation,
+                  lightSvgIcon: Assets.icProjectEvaluation,
+                  darkSvgIcon: Assets.icProjectEvaluationDark,
+                  routeName: Routes.projectEvaluationScreen),
+              DashboardTile(
+                title: leadSheet,
+                lightSvgIcon: Assets.icLeadSheet,
+                darkSvgIcon: Assets.icLeadSheetDark,
+                routeName: Routes.leadSheetScreen,
+              ),
+              DashboardTile(
+                  title: onboarding,
+                  lightSvgIcon: Assets.icOnBoarding,
+                  darkSvgIcon: Assets.icOnBoardingDark,
+                  routeName: Routes.onBoardingScreen),
+              DashboardTile(
+                  title: promoPictures,
+                  lightSvgIcon: Assets.icPromoPic,
+                  darkSvgIcon: Assets.icPromoPicDark,
+                  routeName: Routes.promoPictureScreen),
+              DashboardTile(
+                  title: fieldIssues,
+                  lightSvgIcon: Assets.icFieldIssue,
+                  darkSvgIcon: Assets.icFieldIssueDark,
+                  routeName: Routes.fieldIssues)
+            ],
+          ),
         ),
       )
     );

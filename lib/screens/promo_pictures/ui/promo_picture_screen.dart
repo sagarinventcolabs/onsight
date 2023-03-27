@@ -98,8 +98,11 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
                   isScrollControlled: true,
                   context: context,
                   builder: (context) =>
-                      bottomSheetImagePickerPromoPictures(Routes.promoPictureScreen)).then((
+                      bottomSheetImagePicker(Routes.promoPictureScreen)).then((
+                     //bottomSheetImagePickerPromoPictures(Routes.promoPictureScreen)).then((
                   value) {
+                        print("Steeppp");
+                ImagePickerPromoPictures(Routes.promoPictureScreen);
                 setState(() {});
               });
             }

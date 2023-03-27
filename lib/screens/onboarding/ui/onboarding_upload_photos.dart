@@ -6,6 +6,7 @@ import 'package:on_sight_application/screens/onboarding/view_model/onboarding_ph
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
@@ -170,14 +171,11 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                                   topRight: Radius.circular(Dimensions.radius10))),
                           isScrollControlled: true,
                           context: context,
-                          builder: (context) => bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingUploadPhotosScreen,index)).then((value) {
+                          builder: (context) =>
+                              //bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingUploadPhotosScreen,index)).then((value) {
+                              bottomSheetImagePicker(Routes.onBoardingUploadPhotosScreen)).then((value) {
+                            ImagePickerOnboarding(Routes.onBoardingUploadPhotosScreen,index);
 
-                            controller.imageList.forEach((element) {
-                              if((element.image?.length??0) > 0){
-                                controller.enableButton.value = true;
-                              }
-                            });
-                            controller.update();
                       });
                     },
                     child: Image.asset(
