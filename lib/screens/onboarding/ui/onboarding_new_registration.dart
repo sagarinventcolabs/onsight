@@ -104,7 +104,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                   controller.update();
                   controller.validsubmit(context);
                   if (controller.firstNameController.text.isNotEmpty) {
-                    await controller.createResourceApi().then((value) {controller.enableButton.value = false;controller.update();});
+                    await controller.checkSSN().then((value) {controller.enableButton.value = false;controller.update();});
                    // dialogWithHyperLink(context, alert: resourceCanNotBeEntered, title: recordContainingSSNAlreadyExists, colour: ColourConstants.red, hyperLink: viewRecords, onTap: (){Get.back();});
                   } else {
                     controller.validsubmit(context);

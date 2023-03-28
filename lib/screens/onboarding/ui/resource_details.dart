@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/web_service_response/all_oasis_resources_response.dart';
+import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_photos_controller.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_resource_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -63,7 +64,7 @@ class _ResourceDetailsState extends State<ResourceDetails> {
             ),
         ),
       ),
-      bottomNavigationBar:  GestureDetector(
+      bottomNavigationBar:  data.route==Routes.onBoardingResourceScreen? GestureDetector(
         onTap: () async{
           await onBoardingPhotosController?.getCategory(itemId: data.itemId);
           },
@@ -83,7 +84,7 @@ class _ResourceDetailsState extends State<ResourceDetails> {
               )),
         ),
 
-      ),
+      ):SizedBox(height: 10,),
 
       body:  SingleChildScrollView(
           child: Column(

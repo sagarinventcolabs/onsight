@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/web_service_requests/create_resource_request.dart';
+import 'package:on_sight_application/repository/web_service_response/all_oasis_resources_response.dart';
 import 'package:on_sight_application/repository/web_service_response/create_resource_response.dart';
 import 'package:on_sight_application/repository/web_service_response/lead_sheet_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
@@ -338,7 +339,44 @@ class OnboardingController extends GetxController{
       Get.snackbar(alert,noInternet);
     }
   }
+  /// API function for creating resource
+  Future<dynamic> checkSSN() async {
 
+    OnBoardingPhotosController onBoardingPhotosController;
+    requestModel.value.firstName = firstNameController.text.trim();
+    requestModel.value.lastName = lastNameController.text.trim();
+    try {
+      requestModel.value.mobilePhone = mobileNumberController.text;
+    }catch(e){
+      requestModel.value.mobilePhone = '';
+    }
+    requestModel.value.union = unionController.text.trim();
+    requestModel.value.ssn = ssnController.text.trim();
+    requestModel.value.city = cityController.text.trim();
+    requestModel.value.classification = classificationController.text.trim();
+    requestModel.value.notes = noteController.text.trim();
+    requestModel.value.show = selectedShow.value;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    if(isNetActive){
+      var response = await service.checkSSNValidate(requestModel.value.ssn);
+      log("This is rreesponse "+response.toString());
+
+      if(response==null) {
+        print("Condition true");
+        createResourceApi();
+      }else{
+        print("Condition2 true");
+        AllOasisResourcesResponse responseModel = AllOasisResourcesResponse.fromJson(response, 0);
+        responseModel.route = Routes.onBoardingRegistration;
+        dialogWithHyperLink(Get.context!, alert: resourceCanNotBeEntered, title: recordContainingSSNAlreadyExists, colour: ColourConstants.red, hyperLink: viewRecords, onTap: (){Get.back();}, model: responseModel);
+
+      }
+      update();
+      return response;
+    }else{
+      Get.snackbar(alert,noInternet);
+    }
+  }
   /// API function for creating resource
   Future<dynamic> createResourceApi() async {
 

@@ -38,7 +38,8 @@ class AllOasisResourcesResponse {
       bool? i9, 
       bool? i9Supporting, 
       bool? directDepositForm, 
-      bool? directDepositSuppporting,}){
+      bool? directDepositSuppporting,
+      String? route}){
     _itemId = itemId;
     _firstName = firstName;
     _lastName = lastName;
@@ -57,6 +58,7 @@ class AllOasisResourcesResponse {
     _i9Supporting = i9Supporting;
     _directDepositForm = directDepositForm;
     _directDepositSuppporting = directDepositSuppporting;
+    _route = route;
 }
 
   AllOasisResourcesResponse.fromJson(dynamic json, i) {
@@ -97,6 +99,7 @@ class AllOasisResourcesResponse {
   bool? _i9Supporting;
   bool? _directDepositForm;
   bool? _directDepositSuppporting;
+  String? _route;
 AllOasisResourcesResponse copyWith({  dynamic itemId,
   String? firstName,
   String? lastName,
@@ -152,6 +155,11 @@ AllOasisResourcesResponse copyWith({  dynamic itemId,
   bool? get i9Supporting => _i9Supporting;
   bool? get directDepositForm => _directDepositForm;
   bool? get directDepositSuppporting => _directDepositSuppporting;
+  String? get route => _route;
+
+  set route(String? value) {
+    _route = value;
+  }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

@@ -646,4 +646,15 @@ class WebService {
     return response;
 
   }
+
+
+
+
+  //Get Security Flags...........................................................................
+  Future<dynamic> checkSSNValidate(ssn) async {
+    var url = EndPoint.ssnValidate+ssn;
+    var response = await ApiBaseHelper().getApiCall(url, isLoading: true);
+    return response;
+
+  }
 }

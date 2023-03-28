@@ -242,6 +242,73 @@ class ApiBaseHelper{
     }
   }
 
+
+  //Put api call method...............................................................................
+  Future<dynamic> putApiCall(String url,{isLoading = true, showSnackbarValue = true}) async {
+    var context =  Get.context;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    var deviceId = await getDeviceId();
+    if (isNetActive) {
+      if(isLoading) {
+        showLoader(context);
+      }
+      var responseJson;
+
+      Map<String, String> apiHeader = {
+        EndPointMessages.AUTHORIZATION_KEY:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
+        EndPointKeys.acceptKey: 'application/json',
+        EndPointKeys.contentType: 'application/json',
+        EndPointMessages.USERAGENT_KEY: deviceId,
+      };
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
+
+      try {
+        final http.Response response = await http.put(
+          Uri.parse(url),
+          headers: apiHeader,
+        ).timeout(const Duration(seconds: 60)).catchError((error) async {
+          if(isLoading) {
+            Get.closeAllSnackbars();
+            Get.back();
+          }
+          Get.snackbar(alert, pleaseCheckInternet);
+          return await Future.error(error);
+        });
+        if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }
+
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
+
+        try {
+          responseJson = _returnResponse(response, showValue: showSnackbarValue);
+
+
+        } catch (e) {if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }}
+      } on SocketException {
+        if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }
+        return "No Internet";
+      }
+      return responseJson;
+    } else
+    {
+      Get.closeAllSnackbars();
+      Get.closeCurrentSnackbar();
+      Get.snackbar(alert, noInternet);
+      return "No Internet";
+    }
+  }
+
+
   //Get api call method Field Issue...........................................................................................
   Future<dynamic> getApiCallFieldIssue(String url,{isLoading = true}) async {
     var context =  Get.context;

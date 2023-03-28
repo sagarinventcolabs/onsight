@@ -197,7 +197,7 @@ defaultDialog(BuildContext context,
 }
 
 dialogWithHyperLink(BuildContext context,
-    {String? title, String? alert, Color? colour, String? hyperLink,   Function()? onTap, bool? cancelable}) {
+    {String? title, String? alert, Color? colour, String? hyperLink,   Function()? onTap, bool? cancelable, model}) {
   showDialog(
     context: context,
     barrierDismissible: cancelable ?? true,
@@ -260,7 +260,11 @@ dialogWithHyperLink(BuildContext context,
                       )),
                 ),
                 hyperLink!=null? const SizedBox(height: 20):SizedBox(height: 0, width: 0,),
-                hyperLink!=null? Text(hyperLink, style: TextStyle(decoration: TextDecoration.underline, color: ColourConstants.primary),):SizedBox(height: 0, width: 0,)
+                hyperLink!=null? GestureDetector(
+                    onTap: (){
+                      Get.toNamed(Routes.resourceDetails, arguments: model);
+                    },
+                    child: Text(hyperLink, style: TextStyle(decoration: TextDecoration.underline, color: ColourConstants.primary),)):SizedBox(height: 0, width: 0,)
               ],
             )),
       );
