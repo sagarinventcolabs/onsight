@@ -639,8 +639,14 @@ class WebService {
   //Get Security Flags...........................................................................
   Future<dynamic> getSecurityFlags() async {
     var email = sp?.getString(Preference.USER_EMAIL)??"";
-    var url = EndPoint.getSecurityFlags+email.toString().replaceAll("+", "%2B");
-    var response = await ApiBaseHelper().getApiCall(url, isLoading: true);
+    var url = EndPoint.getSecurityFlags/*+email.toString().replaceAll("+", "%2B")*/;
+    var deviceId = await FlutterUdid.udid;
+
+    Map<String, String> body = {
+      "EmailAddress":email.toString(),
+      "UniqueID":"deviceId.toString()"
+    };
+    var response = await ApiBaseHelper().postApiCall(url, body);
     return response;
   }
 }

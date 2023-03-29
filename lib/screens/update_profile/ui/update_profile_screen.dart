@@ -177,6 +177,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height10),
                 child: TextField(
+                  enabled: false,
                   controller: profileController.emailController,
                   keyboardType: TextInputType.emailAddress,
                   inputFormatters: [FilteringTextInputFormatter.deny(" ")],
@@ -198,6 +199,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     labelStyle: TextStyle(
                         color: Get.isDarkMode ? Colors.white : Colors.black54),
                     enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          width: 1,
+                          color: Get.isDarkMode
+                              ? ColourConstants.primary
+                              : Colors.grey),
+                    ),
+                    disabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           width: 1,
                           color: Get.isDarkMode
