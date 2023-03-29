@@ -103,9 +103,13 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                   });
                   controller.update();
                   controller.validsubmit(context);
-                  if (controller.firstNameController.text.isNotEmpty) {
-                    await controller.checkSSN().then((value) {controller.enableButton.value = false;controller.update();});
-                   // dialogWithHyperLink(context, alert: resourceCanNotBeEntered, title: recordContainingSSNAlreadyExists, colour: ColourConstants.red, hyperLink: viewRecords, onTap: (){Get.back();});
+                  if (controller.validsubmit(context)) {
+
+                   await controller.checkSSN().then((value) {
+                     controller.enableButton.value = false;
+                     controller.update();
+                   });
+
                   } else {
                     controller.validsubmit(context);
                   }
@@ -323,6 +327,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                       onTap: () {
                         controller.corporateSupport.value =
                             !controller.corporateSupport.value;
+                        controller.validsubmit(context);
                         controller.update();
                         print(controller.corporateSupport.value);
                       },

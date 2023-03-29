@@ -242,8 +242,8 @@ class OnboardingController extends GetxController{
       }
 
     }
-
     update();
+    return true;
   }
 
 
