@@ -644,7 +644,7 @@ class WebService {
 
     Map<String, String> body = {
       "EmailAddress":email.toString(),
-      "UniqueID":"deviceId.toString()"
+      "UniqueID":deviceId
     };
     var response = await ApiBaseHelper().postApiCall(url, body);
     return response;
