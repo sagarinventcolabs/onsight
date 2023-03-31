@@ -11,6 +11,7 @@ import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/end_point.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:on_sight_application/repository/app_exception.dart';
@@ -559,9 +560,18 @@ class ApiBaseHelper{
       case 405:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        defaultDialog(Get.context!, title: alert,alert: errorModel.errorDescription.toString(), cancelable: true, onTap: (){
-          Get.back();
-        });
+        if(errorModel.errorDescription.toString().contains("different device")){
+          defaultDialog(Get.context!, title: alert,alert: errorModel.errorDescription.toString(), cancelable: false, onTap: (){
+            logoutFun();
+          });
+        }else {
+          defaultDialog(Get.context!, title: alert,
+              alert: errorModel.errorDescription.toString(),
+              cancelable: true,
+              onTap: () {
+                Get.back();
+              });
+        }
         return responseJson;
       case 500:
 

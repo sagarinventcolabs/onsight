@@ -48,7 +48,7 @@ class EndPoint {
   //Get Latest Version
   static  String getLatestVersion = "$baseURL/MobileVersion/GetMobileVersionData?operatingSystem=";
    //Get Security Flags
-   static  String getSecurityFlags = "$baseURL/DashboardItems?email=";
+   static  String getSecurityFlags = "$baseURL/DashboardItems";
    //SSN Validation Url
    static  String ssnValidate = "$baseURL/OnBoarding/FindOasisResources/";
   //Job Category Url
