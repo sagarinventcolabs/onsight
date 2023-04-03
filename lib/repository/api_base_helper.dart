@@ -76,6 +76,75 @@ class ApiBaseHelper{
   }
 
   // post api call method.....................................................................................................
+  Future<dynamic> postApiCallLoader(String url, Map<String, dynamic> jsonData, {isLoading = true}) async {
+    var context =  Get.context;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    var deviceId = await getDeviceId();
+    if (isNetActive) {
+      if(isLoading) {
+        showLoader(context);
+      }
+      var responseJson;
+
+      Map<String, String> apiHeader = {
+        EndPointMessages.AUTHORIZATION_KEY:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
+        EndPointKeys.acceptKey: 'application/json',
+        EndPointKeys.contentType: 'application/json',
+        EndPointMessages.USERAGENT_KEY: deviceId,
+      };
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
+      log("request=========>>>> ${jsonEncode(jsonData)}");
+
+      try {
+        final http.Response response = await http.post(
+          Uri.parse(url),
+          headers: apiHeader,
+          body: jsonEncode(jsonData),
+        ).timeout(const Duration(seconds: 60)).catchError((error) async {
+          if(isLoading) {
+            Get.closeAllSnackbars();
+            Get.back();
+          }
+          Get.snackbar(alert, pleaseCheckInternet);
+          return await Future.error(error);
+        });
+        if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }
+
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
+
+        try {
+
+          responseJson = _returnResponse(response, showValue: false);
+
+
+        } catch (e) {
+          if(isLoading) {
+            Get.closeAllSnackbars();
+            Get.back();
+          }
+        }
+      } on SocketException {
+        if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }
+        throw FetchDataException(noInternet);
+      }
+      return responseJson;
+    } else
+    {
+      Get.snackbar(alert,noInternet);
+
+      // internetConnectionDialog(context);
+    }
+  }
+
+  // post api call method.....................................................................................................
   Future<dynamic> deleteApiCall(String url, Map<String, dynamic> jsonData,) async {
     var context =  Get.context;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();

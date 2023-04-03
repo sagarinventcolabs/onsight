@@ -51,7 +51,13 @@ class _ResourceDetailsState extends State<ResourceDetails> {
             size: Dimensions.height25,
           ),
           onPressed: () {
-            Get.back();
+            if(data.route==Routes.onBoardingResourceScreen){
+              Get.back();
+            }else{
+              Get.back();
+              Get.back();
+            }
+
           },
         ),
         elevation: 0.0,

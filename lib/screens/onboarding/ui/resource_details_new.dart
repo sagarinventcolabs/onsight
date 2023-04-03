@@ -79,7 +79,7 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
                 TextRow(title: lastName,value: data.lastName??"N/A"),
                 TextRow(title: ssn,value: "XXX-XX-"+((data.ssn??"N/A").characters.takeLast(4).toString())),
                 TextRow(title: mobileNumber,value: data.mobilePhone??"N/A"),
-                TextRow(title: city,value: data.city??"N/A"),
+                TextRow(title: city,value: data.city.toString().capitalizeFirst??"N/A"),
                 TextRow(title: union,value: data.union??"N/A"),
                 TextRow(title: classification,value: data.classification??"N/A"),
                 TextRow(title: lastWorkDate,value: data.classification??"N/A"),

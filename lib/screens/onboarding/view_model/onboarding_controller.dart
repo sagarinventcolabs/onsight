@@ -200,6 +200,18 @@ class OnboardingController extends GetxController{
       update();
       return false;
     }else {
+      try{
+        var value = int.parse(ssnController.text.toString());
+        if(value<=0){
+          enableButton.value = false;
+          isValidSSN.value = false;
+          // focusNodeMobile.value.requestFocus();
+          update();
+          return false;
+        }
+      }catch(e){
+        debugPrint(e.toString());
+      }
       isValidSSN.value = true;
       enableButton.value = true;
     }
@@ -216,7 +228,19 @@ class OnboardingController extends GetxController{
      // focusNodeMobile.value.requestFocus();
       update();
       return false;
-    } else {
+    }  else {
+      try{
+        var value = int.parse(mobileNumberController.text.toString());
+        if(value<=0){
+          enableButton.value = false;
+          isValidMobileNumber.value = false;
+          // focusNodeMobile.value.requestFocus();
+          update();
+          return false;
+        }
+      }catch(e){
+        debugPrint(e.toString());
+      }
       isValidLastName.value = true;
       enableButton.value = true;
     }
@@ -359,13 +383,11 @@ class OnboardingController extends GetxController{
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive){
       var response = await service.checkSSNValidate(requestModel.value.ssn);
-      log("This is rreesponse "+response.toString());
+      log("This is response "+response.toString());
 
       if(response==null) {
-        print("Condition true");
         createResourceApi();
       }else{
-        print("Condition2 true");
         AllOasisResourcesResponse responseModel = AllOasisResourcesResponse.fromJson(response, 0);
         responseModel.route = Routes.onBoardingRegistration;
         dialogWithHyperLink(Get.context!, alert: resourceCanNotBeEntered, title: recordContainingSSNAlreadyExists, colour: ColourConstants.red, hyperLink: viewRecords, onTap: (){Get.back();}, model: responseModel);

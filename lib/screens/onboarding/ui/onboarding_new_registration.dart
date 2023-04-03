@@ -147,6 +147,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                   BaseTextField(
                     focusNode: focusNodeCity,
                     controller: controller.cityController,
+                    maxLength: 28,
                     onTap: () {
                       controller.value.value = 1;
                       controller.update();
@@ -156,6 +157,11 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                     ],
                     keyboardType: TextInputType.text,
                     onChanged: (val) {
+                      if(val.length>0) {
+                        controller.cityController.text = val.capitalizeFirst.toString();
+                        controller.cityController.selection = TextSelection.fromPosition(TextPosition(offset: controller.cityController.text.length));
+
+                      }
                       controller.isValidCity.value = true;
                       controller.validateFunc();
                     },
