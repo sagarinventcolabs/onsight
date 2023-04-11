@@ -1,8 +1,19 @@
-class ResourceModel{
+class EditResourceModel{
 
-  String name = "";
-  String id = "";
+  String city = "";
+  String classification = "";
+  String mobile = "";
+  String union = "";
 
 
-  ResourceModel(this.name);
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['City'] = city;
+    map['Classification'] = classification;
+    map['Mobile'] = mobile;
+    map['Union'] = union;
+    return map;
+  }
+
 }

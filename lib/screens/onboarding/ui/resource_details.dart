@@ -41,77 +41,88 @@ class _ResourceDetailsState extends State<ResourceDetails> {
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-            size: Dimensions.height25,
-          ),
-          onPressed: () {
-            if(data.route==Routes.onBoardingResourceScreen){
-              Get.back();
-            }else{
-              Get.back();
-              Get.back();
-            }
-
-          },
-        ),
-        elevation: 0.0,
-        backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
-        title:Text(resourceDetails,
-            style: TextStyle(
-                color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-                fontWeight: FontWeight.bold,
-                fontSize: Dimensions.font16,
+    return WillPopScope(
+      onWillPop: ()async{
+        if(data.route==Routes.onBoardingResourceScreen){
+          Get.back();
+        }else{
+          Get.back();
+          Get.back();
+        }
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+              size: Dimensions.height25,
             ),
-        ),
-      ),
-      bottomNavigationBar:  data.route==Routes.onBoardingResourceScreen? GestureDetector(
-        onTap: () async{
-          await onBoardingPhotosController?.getCategory(itemId: data.itemId);
-          },
-        child: Container(
-          height: Dimensions.height50,
-          margin: EdgeInsets.only(left: Dimensions.height35, right: Dimensions.height35, bottom: Dimensions.height16),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius8)),
-              color: ColourConstants.primary),
-          child: Center(
-              child: Text(
-                addDocuments,
-                style: TextStyle(
-                    color: ColourConstants.white,
-                    fontWeight: FontWeight.w300,
-                    fontSize: Dimensions.font16),
-              )),
-        ),
+            onPressed: () {
+              if(data.route==Routes.onBoardingResourceScreen){
+                Get.back();
+              }else{
+                Get.back();
+                Get.back();
+              }
 
-      ):SizedBox(height: 10,),
-
-      body:  SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: Dimensions.height10,),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.all(Dimensions.height10),
-                color: ColourConstants.primary,
-                child: Text(title, style: TextStyle(color: ColourConstants.white, fontSize: Dimensions.font13),),
+            },
+          ),
+          elevation: 0.0,
+          backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
+          title:Text(resourceDetails,
+              style: TextStyle(
+                  color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Dimensions.font16,
               ),
-              TextRow(title: firstName,value: data.firstName??"N/A"),
-              TextRow(title: lastName,value: data.lastName??"N/A"),
-              TextRow(title: mobileNumber,value: data.mobilePhone??"N/A"),
-              TextRow(title: union,value: data.union??"N/A"),
-              TextRow(title: ssn,value: "XXX-XX-"+((data.ssn??"N/A").characters.takeLast(4).toString())),
-              TextRow(title: city,value: data.city??"N/A"),
-              TextRow(title: classification,value: data.classification??"N/A"),
-            ],
+          ),
         ),
-      )
+        bottomNavigationBar:  data.route==Routes.onBoardingResourceScreen? GestureDetector(
+          onTap: () async{
+            await onBoardingPhotosController?.getCategory(itemId: data.itemId);
+            },
+          child: Container(
+            height: Dimensions.height50,
+            margin: EdgeInsets.only(left: Dimensions.height35, right: Dimensions.height35, bottom: Dimensions.height16),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius8)),
+                color: ColourConstants.primary),
+            child: Center(
+                child: Text(
+                  addDocuments,
+                  style: TextStyle(
+                      color: ColourConstants.white,
+                      fontWeight: FontWeight.w300,
+                      fontSize: Dimensions.font16),
+                )),
+          ),
+
+        ):SizedBox(height: 10,),
+
+        body:  SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: Dimensions.height10,),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.all(Dimensions.height10),
+                  color: ColourConstants.primary,
+                  child: Text(title, style: TextStyle(color: ColourConstants.white, fontSize: Dimensions.font13),),
+                ),
+                TextRow(title: firstName,value: data.firstName??"N/A"),
+                TextRow(title: lastName,value: data.lastName??"N/A"),
+                TextRow(title: mobileNumber,value: data.mobilePhone??"N/A"),
+                TextRow(title: union,value: data.union??"N/A"),
+                TextRow(title: ssn,value: "XXX-XX-"+((data.ssn??"N/A").characters.takeLast(4).toString())),
+                TextRow(title: city,value: data.city??"N/A"),
+                TextRow(title: classification,value: data.classification??"N/A"),
+              ],
+          ),
+        )
+      ),
     );
   }
 

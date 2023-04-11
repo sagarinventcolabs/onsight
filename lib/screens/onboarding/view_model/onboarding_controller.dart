@@ -161,7 +161,7 @@ class OnboardingController extends GetxController{
       enableButton.value = false;
       isValidCity.value = false;
       // FocusScope.of(context).requestFocus(focusNodeCity.value);
-      // update();
+      update();
       return false;
     } else {
       enableButton.value = true;
@@ -241,7 +241,7 @@ class OnboardingController extends GetxController{
       }catch(e){
         debugPrint(e.toString());
       }
-      isValidLastName.value = true;
+      isValidMobileNumber.value = true;
       enableButton.value = true;
     }
 
@@ -366,7 +366,6 @@ class OnboardingController extends GetxController{
   /// API function for creating resource
   Future<dynamic> checkSSN() async {
 
-    OnBoardingPhotosController onBoardingPhotosController;
     requestModel.value.firstName = firstNameController.text.trim();
     requestModel.value.lastName = lastNameController.text.trim();
     try {
@@ -383,7 +382,6 @@ class OnboardingController extends GetxController{
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive){
       var response = await service.checkSSNValidate(requestModel.value.ssn);
-      log("This is response "+response.toString());
 
       if(response==null) {
         createResourceApi();

@@ -56,7 +56,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
 
   @override
   Widget build(BuildContext context) {
-
+    Theme.of(context);
     return Obx(() => GestureDetector(
           onTap: () {
             controller.value.value = 1;
@@ -69,7 +69,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: Get.isDarkMode
+                  color: Get.isPlatformDarkMode
                       ? ColourConstants.white
                       : ColourConstants.primary,
                   size: Dimensions.height25,
@@ -79,12 +79,12 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                 },
               ),
               elevation: 0.0,
-              backgroundColor: Get.isDarkMode
+              backgroundColor: Get.isPlatformDarkMode
                   ? ColourConstants.black
                   : ColourConstants.white,
               title: Text(onboarding,
                   style: TextStyle(
-                      color: Get.isDarkMode
+                      color: Get.isPlatformDarkMode
                           ? ColourConstants.white
                           : ColourConstants.primaryLight,
                       fontWeight: FontWeight.bold,
@@ -168,13 +168,13 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                     label: Text.rich(TextSpan(children: [
                       TextSpan(
                           text: baseCity,
-                          style: TextStyle(color: ColourConstants.black)),
-                      TextSpan(text: "*", style: TextStyle(color: Colors.red))
+                          style: TextStyle(color: Get.isPlatformDarkMode?ColourConstants.white: ColourConstants.black)),
+                      TextSpan(text: " *", style: TextStyle(color: Colors.red))
                     ])),
                     floatingLabelStyle: TextStyle(
                       color: controller.isValidCity.isFalse
                           ? Colors.red
-                          : Get.isDarkMode
+                          : Get.isPlatformDarkMode
                               ? ColourConstants.white
                               : Colors.black54,
                     ),
@@ -202,13 +202,13 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                       label: Text.rich(TextSpan(children: [
                         TextSpan(
                             text: firstName,
-                            style: TextStyle(color: ColourConstants.black)),
-                        TextSpan(text: "*", style: TextStyle(color: Colors.red))
+                            style: TextStyle(color:Get.isPlatformDarkMode?ColourConstants.white: ColourConstants.black)),
+                        TextSpan(text: " *", style: TextStyle(color: Colors.red))
                       ])),
                       floatingLabelStyle: TextStyle(
                           color: controller.isValidFirstName.isFalse
                               ? Colors.red
-                              : Get.isDarkMode
+                              : Get.isPlatformDarkMode
                                   ? ColourConstants.primary
                                   : Colors.black54),
                       errorText: controller.isValidFirstName.isFalse
@@ -240,13 +240,13 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                     label: Text.rich(TextSpan(children: [
                       TextSpan(
                           text: lastName,
-                          style: TextStyle(color: ColourConstants.black)),
-                      TextSpan(text: "*", style: TextStyle(color: Colors.red))
+                          style: TextStyle(color: Get.isPlatformDarkMode?ColourConstants.white: ColourConstants.black)),
+                      TextSpan(text: " *", style: TextStyle(color: Colors.red))
                     ])),
                     floatingLabelStyle: TextStyle(
                         color: controller.isValidLastName.isFalse
                             ? Colors.red
-                            : Get.isDarkMode
+                            : Get.isPlatformDarkMode
                                 ? ColourConstants.primary
                                 : Colors.black54),
                     errorText: controller.isValidLastName.isFalse
@@ -278,13 +278,13 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                     label: Text.rich(TextSpan(children: [
                       TextSpan(
                           text: ssn,
-                          style: TextStyle(color: ColourConstants.black)),
-                      TextSpan(text: "*", style: TextStyle(color: Colors.red))
+                          style: TextStyle(color:Get.isPlatformDarkMode?ColourConstants.white: ColourConstants.black)),
+                      TextSpan(text: " *", style: TextStyle(color: Colors.red))
                     ])),
                     floatingLabelStyle: TextStyle(
                         color: controller.isValidSSN.isFalse
                             ? Colors.red
-                            : Get.isDarkMode
+                            : Get.isPlatformDarkMode
                                 ? ColourConstants.primary
                                 : Colors.black54),
                     errorText:
@@ -314,13 +314,13 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                     label: Text.rich(TextSpan(children: [
                       TextSpan(
                           text: mobileNumber,
-                          style: TextStyle(color: ColourConstants.black)),
-                      TextSpan(text: "*", style: TextStyle(color: Colors.red))
+                          style: TextStyle(color:Get.isPlatformDarkMode?ColourConstants.white: ColourConstants.black)),
+                      TextSpan(text: " *", style: TextStyle(color: Colors.red))
                     ])),
                     floatingLabelStyle: TextStyle(
                         color: controller.isValidMobileNumber.isFalse
                             ? Colors.red
-                            : Get.isDarkMode
+                            : Get.isPlatformDarkMode
                                 ? ColourConstants.primary
                                 : Colors.black54),
                     errorText: controller.isValidMobileNumber.isFalse
@@ -356,10 +356,10 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                                   visible: controller.corporateSupport.value == true
                                       ? true
                                       : false,
-                                  child: const FittedBox(
+                                  child: FittedBox(
                                     child: Icon(
                                       Icons.check,
-                                      color: ColourConstants.white,
+                                      color:ColourConstants.white,
                                     ),
                                   )),
                             ),
@@ -369,7 +369,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                           ),
                           Text(corporateSupport,
                               style: TextStyle(
-                                  color: ColourConstants.black, fontSize: 14))
+                                  color: Get.isPlatformDarkMode?ColourConstants.white:ColourConstants.black, fontSize: 14))
                         ],
                       ),
                     ),
@@ -409,7 +409,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                                 RegExp("[ a-zA-Z]")),
                           ],
                           style: TextStyle(
-                              color: Get.isDarkMode
+                              color: Get.isPlatformDarkMode
                                   ? ColourConstants.white
                                   : ColourConstants.black),
                           keyboardType: TextInputType.text,
@@ -417,15 +417,15 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                             label: Text.rich(TextSpan(children: [
                               TextSpan(
                                   text: union,
-                                  style: TextStyle(color: ColourConstants.black)),
+                                  style: TextStyle(color:Get.isPlatformDarkMode?ColourConstants.white: ColourConstants.black)),
                               TextSpan(
-                                  text: "*", style: TextStyle(color: Colors.red))
+                                  text: " *", style: TextStyle(color: Colors.red))
                             ])),
                             isDense: true,
                             floatingLabelStyle: TextStyle(
                                 color:controller.isValidUnion.isFalse
                                     ? Colors.red
-                                    : Get.isDarkMode
+                                    : Get.isPlatformDarkMode
                                     ? ColourConstants.primary
                                     : Colors.black54),
                             enabledBorder: OutlineInputBorder(
@@ -439,7 +439,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   width: 1,
-                                  color: Get.isDarkMode
+                                  color: Get.isPlatformDarkMode
                                       ? ColourConstants.primary
                                       : Colors.blue),
                             ),
@@ -516,13 +516,13 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                         label: Text.rich(TextSpan(children: [
                           TextSpan(
                               text: classification,
-                              style: TextStyle(color: ColourConstants.black)),
-                          TextSpan(text: "*", style: TextStyle(color: Colors.red))
+                              style: TextStyle(color:Get.isPlatformDarkMode?ColourConstants.white: ColourConstants.black)),
+                          TextSpan(text: " *", style: TextStyle(color: Colors.red))
                         ])),
                         floatingLabelStyle: TextStyle(
                             color:controller.isValidClassification.isFalse
                                 ? Colors.red
-                                : Get.isDarkMode
+                                : Get.isPlatformDarkMode
                                 ? ColourConstants.primary
                                 : Colors.black54),
                         errorText: controller.isValidClassification.isFalse
@@ -573,7 +573,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
 
         style: TextStyle(
             color:
-                Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
+                Get.isPlatformDarkMode ? ColourConstants.white : ColourConstants.black,
             fontWeight: FontWeight.w400,
             fontSize: Dimensions.font13),
         decoration: InputDecoration(
@@ -584,7 +584,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
           labelText: notes,
           labelStyle: TextStyle(
               fontSize: Dimensions.font15,
-              color: Get.isDarkMode
+              color: Get.isPlatformDarkMode
                   ? ColourConstants.white
                   : ColourConstants.greyText,
               fontWeight: FontWeight.w400),
@@ -618,7 +618,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                       Assets.icMic,
                       height: Dimensions.height25,
                       width: Dimensions.height25,
-                      color: Get.isDarkMode ? ColourConstants.white : null,
+                      color: Get.isPlatformDarkMode ? ColourConstants.white : null,
                     ),
             ),
           ),
@@ -635,7 +635,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
           focusedErrorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: ColourConstants.primary)),
           filled: true,
-          fillColor: Get.isDarkMode
+          fillColor: Get.isPlatformDarkMode
               ? ColourConstants.grey900
               : ColourConstants.textFieldFillColor,
         ),

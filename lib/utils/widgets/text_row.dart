@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
@@ -15,8 +16,10 @@ class TextRow extends StatefulWidget {
 }
 
 class _TextRowState extends State<TextRow> {
+
   @override
   Widget build(BuildContext context) {
+    Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(vertical: Dimensions.height11, horizontal: Dimensions.width25),
       child: Row(

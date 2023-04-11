@@ -18,6 +18,7 @@ import 'package:on_sight_application/screens/lead_sheet/ui/lead_sheet_photo_note
 import 'package:on_sight_application/screens/lead_sheet/ui/lead_sheet_screen.dart';
 import 'package:on_sight_application/screens/login/ui/email_login_screen.dart';
 import 'package:on_sight_application/screens/login/ui/login_screen.dart';
+import 'package:on_sight_application/screens/onboarding/ui/edit_resource.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_new_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_photo_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_new_registration.dart';
@@ -87,5 +88,6 @@ String whereCome="0";
     GetPage(name: Routes.onBoardingUploadPhotosScreen, page: ()=>  const OnBoardingUploadPhotosScreen()),
     GetPage(name: Routes.onBoardingPhotoScreen, page: ()=>  const OnBoardingPhotoScreen()),
     GetPage(name: Routes.introductionTwoStep, page: ()=>  const IntroductionTwoStep()),
+    GetPage(name: Routes.editResource, page: ()=>  const EditResource()),
   ];
 }

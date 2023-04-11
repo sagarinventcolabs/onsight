@@ -119,7 +119,7 @@ class _OnBoardingResourceScreenState extends State<OnBoardingResourceScreen> {
                     resourceController.oasisResourceList.refresh();
                     resourceController.update();
                     resourceController.oasisResourceList[index].route = Routes.onBoardingResourceScreen;
-                    Get.toNamed(Routes.resourceDetails,arguments: resourceController.oasisResourceList[index]);
+                    Get.toNamed(Routes.resourceDetailsNew,arguments: resourceController.oasisResourceList[index]);
                 },
                 title: Text(name.toString(),style: TextStyle(fontSize: Dimensions.font14)),
                 subtitle: Text((resourceController.oasisResourceList[index].ssn??"").characters.takeLast(4).toString(),style: TextStyle(fontSize: Dimensions.font12),),

@@ -290,6 +290,7 @@ const String searchResource = "Search Resource";
 const String selectResource = "Select Resource";
 const String addDocuments = "ADD DOCUMENTS";
 const String createResource = "CREATE RESOURCE";
+const String applyChanges = "APPLY CHANGES";
 const String addDocument = "Add Document";
 const String backStr = "BACK";
 const String resourceDetails = "Resource Details";
@@ -320,6 +321,7 @@ const String corporateSupport = "Corporate Support";
 const String resourceCanNotBeEntered = "Resource Can Not Be Entered";
 const String recordContainingSSNAlreadyExists = "Record Containing SSN Already Exists";
 const String viewRecords = "View Records";
+const String editResource = "Edit Resource";
 
 
 /// SQF Lite Keys
@@ -371,6 +373,7 @@ var regexToRemoveEmoji = '   /\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC7
 /// Firebase Analytics Events Name
 const String enableMobileDataKey = "Enable_Mobile_Data";
 const String user = "user";
+const String employee = "Employee";
 const String batterySaverKey = "Battery_Saver";
 const String poorNetworkAlertKey = "Poor_Network_Alert";
 const String cameraShutter2 = "Camera_Shutter";

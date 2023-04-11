@@ -16,6 +16,7 @@ import 'package:on_sight_application/screens/project_evaluation/view_model/proje
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_install_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/multi_image_capture.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -265,9 +266,9 @@ dialogWithHyperLink(BuildContext context,
                 hyperLink!=null? const SizedBox(height: 20):SizedBox(height: 0, width: 0,),
                 hyperLink!=null? GestureDetector(
                     onTap: (){
-                      Get.toNamed(Routes.resourceDetails, arguments: model);
+                      Get.toNamed(Routes.resourceDetailsNew, arguments: model);
                     },
-                    child: Text(hyperLink, style: TextStyle(decoration: TextDecoration.underline, color: ColourConstants.primary),)):SizedBox(height: 0, width: 0,)
+                    child: Text(hyperLink, style: TextStyle(decoration: TextDecoration.underline, color: Get.isPlatformDarkMode?ColourConstants.white:ColourConstants.primary),)):SizedBox(height: 0, width: 0,)
               ],
             )),
       );
@@ -750,25 +751,56 @@ Widget bottomSheetImagePicker(route) {
           children: [
             GestureDetector(
               onTap: () async {
+                Get.to(
+                      () => MultiImageCapture(
+                    onRemoveImage: (File image) async {
+// Show dialog
+                      return true;
+                    },
+                    onAddImage: (image) async {
+
+                      await Future.delayed(Duration(seconds: 3));
+
+                    },
+                    onComplete: (finalImages) {
+
+                      print("Captured: ${finalImages.length}");
+
+                      if (finalImages.isNotEmpty) {
+                        for (var element in finalImages) {
+                          File file = File(element.path);
+                          String fileName = basename(element.path);
+                          ImagePickerModel imagePickerModel = ImagePickerModel();
+                          imagePickerModel.imageName = fileName;
+                          imagePickerModel.imagePath = file.path;
+                          localList.add(imagePickerModel);
+                        }
+                      }
+                      Get.back();
+
+                    },
+                    maxImages: 10,
+                  ),
+                );
                 analyticsFireEvent(cameraOrGalleryKey, input: {
                   cameraOrGalleryKey:cameraStr,
                 });
-                final ImagePicker picker = ImagePicker();
-                var path = await createFolderInAppDocDir(camFolder);
-                final XFile? picImage =
-                // Capture a photo from camera
-                await picker.pickImage(source: ImageSource.camera,imageQuality: imageQualityRatio);
-
-                if (picImage != null) {
-                  File file = File(picImage.path);
-                  String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
-                  File newFile = await file.copy(path + fileName);
-                  ImagePickerModel imagePickerModel = ImagePickerModel();
-                  imagePickerModel.imageName = fileName;
-                  imagePickerModel.imagePath = newFile.path;
-                  localList.add(imagePickerModel);
-                }
-                Get.back();
+                // final ImagePicker picker = ImagePicker();
+                // var path = await createFolderInAppDocDir(camFolder);
+                // final XFile? picImage =
+                // // Capture a photo from camera
+                // await picker.pickImage(source: ImageSource.camera,imageQuality: imageQualityRatio);
+                //
+                // if (picImage != null) {
+                //   File file = File(picImage.path);
+                //   String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
+                //   File newFile = await file.copy(path + fileName);
+                //   ImagePickerModel imagePickerModel = ImagePickerModel();
+                //   imagePickerModel.imageName = fileName;
+                //   imagePickerModel.imagePath = newFile.path;
+                //   localList.add(imagePickerModel);
+                // }
+                // Get.back();
               },
               child: Image.asset(
                 Assets.icAddPhoto,
@@ -785,6 +817,219 @@ Widget bottomSheetImagePicker(route) {
                   final ImagePicker picker = ImagePicker();
                   // Capture a photo from gallery
                   final List<XFile>? picImage = await picker.pickMultiImage(imageQuality: imageQualityRatio);
+                  if (picImage != null) {
+                    if (picImage.isNotEmpty) {
+                      for (var element in picImage) {
+                        File file = File(element.path);
+                        String fileName = basename(element.path);
+                        ImagePickerModel imagePickerModel = ImagePickerModel();
+                        imagePickerModel.imageName = fileName;
+                        imagePickerModel.imagePath = file.path;
+                        localList.add(imagePickerModel);
+                      }
+                    }
+                  }
+
+                  if (localList.isEmpty) {
+                    Get.back();
+                  }
+                  else {
+                    int localIndex = 0;
+                    // Get.back();
+                    showDialog(context: Get.context!, builder: (ctx){
+                      return StatefulBuilder(builder: (builderCtx,setState){
+                        return Scaffold(
+                          backgroundColor: Colors.black,
+                          resizeToAvoidBottomInset: true,
+                          appBar: AppBar(actions: [
+                            GestureDetector(onTap: (){
+                              Get.back();
+                              Get.back();
+                            },child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Text(addCaps,style: TextStyle(color: Colors.white),),
+                                ),
+                              ],
+                            ))],backgroundColor: ColourConstants.primary,elevation: 0,automaticallyImplyLeading: false,  leading: IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_ios,
+                              color: ColourConstants.white,
+                              size: 25,
+                            ),
+                            onPressed: () {
+                              localList.clear();
+                              Get.back();
+                              Get.back();
+                            },
+                          ),
+                          ),
+                          body: Container(
+                              width: double.infinity,height: double.infinity,
+                              child: PhotoViewGallery.builder(
+                                scrollPhysics: const BouncingScrollPhysics(),
+                                builder: (BuildContext context, int index) {
+                                  return PhotoViewGalleryPageOptions(
+                                    imageProvider: FileImage(File(localList[index].imagePath??"")),
+                                    initialScale: PhotoViewComputedScale.contained * 0.8,
+                                    maxScale: 1.0,
+                                  );
+                                },
+                                itemCount: localList.length,
+
+                                loadingBuilder: (context, event) => Center(
+                                  child: Container(
+                                    width: 20.0,
+                                    height: 20.0,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                                // backgroundDecoration: Colors.black,
+                                // pageController: widget.pageController,
+                                onPageChanged: (index){
+                                  localIndex = index;
+                                },
+                              )
+                          ),
+                          bottomNavigationBar: GestureDetector(
+                            onTap: (){
+                              if (localList.length > 1) {
+                                localList.removeAt(localIndex);
+                                setState((){});
+                              }else{
+                                localList.removeAt(localIndex);
+                                setState((){});
+                                Get.back();
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Container(
+                                height: 50,
+                                margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                    color: ColourConstants.primary
+                                ),
+                                child: Center(child: Text(removeStr, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                    });
+                  }
+                },
+                child: Image.asset(
+                  Assets.icGallery,
+                  height: 40,
+                  width: 40,
+                ))
+          ],
+        ),
+        const SizedBox(height: 50),
+      ],
+    ),
+  );
+}
+
+Widget bottomSheetImagePickerPromo(route) {
+  localList.clear();
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          alignment: Alignment.center,
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              color: ColourConstants.bottomSheetGrey,
+              borderRadius: BorderRadius.circular(25)),
+          height: 5,
+          width: 40,
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(addPhoto,
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
+                    fontWeight: Get.isDarkMode ? FontWeight.w300 : FontWeight.w400,
+                    fontSize: Dimensions.font18)),
+          ],
+        ),
+        const SizedBox(height: 25),
+        Row(
+          children: [
+            GestureDetector(
+              onTap: () async {
+                Get.to(
+                      () => MultiImageCapture(
+                    onRemoveImage: (File image) async {
+                      return true;
+                    },
+                    onAddImage: (image) async {
+                      await Future.delayed(Duration(seconds: 3));
+
+                    },
+                    onComplete: (finalImages) async {
+
+                      if (finalImages.isNotEmpty) {
+                        for (var element in finalImages) {
+                          File file = File(element.path);
+                          String fileName = basename(element.path);
+                          ImagePickerModel imagePickerModel = ImagePickerModel();
+                          imagePickerModel.imageName = fileName;
+                          imagePickerModel.imagePath = file.path;
+                          localList.add(imagePickerModel);
+                        }
+                      }
+                      Get.back();
+
+                    },
+                    maxImages: 10,
+                  ),
+                );
+             /*   analyticsFireEvent(cameraOrGalleryKey, input: {
+                  cameraOrGalleryKey:cameraStr,
+                });
+                final ImagePicker picker = ImagePicker();
+                var path = await createFolderInAppDocDir(camFolder);
+                final XFile? picImage =
+                // Capture a photo from camera
+                await picker.pickImage(source: ImageSource.camera);
+
+                if (picImage != null) {
+                  File file = File(picImage.path);
+                  String fileName = "${basename(picImage.path).split(".").first}${DateTime.now().millisecondsSinceEpoch}.jpg";
+                  File newFile = await file.copy(path + fileName);
+                  ImagePickerModel imagePickerModel = ImagePickerModel();
+                  imagePickerModel.imageName = fileName;
+                  imagePickerModel.imagePath = newFile.path;
+                  localList.add(imagePickerModel);
+                }
+                Get.back();*/
+              },
+              child: Image.asset(
+                Assets.icAddPhoto,
+                height: 40,
+                width: 40,
+              ),
+            ),
+            const SizedBox(width: 16),
+            GestureDetector(
+                onTap: () async {
+                  analyticsFireEvent(cameraOrGalleryKey, input: {
+                    cameraOrGalleryKey:galleryStr,
+                  });
+                  final ImagePicker picker = ImagePicker();
+                  // Capture a photo from gallery
+                  final List<XFile>? picImage = await picker.pickMultiImage();
                   if (picImage != null) {
                     if (picImage.isNotEmpty) {
                       for (var element in picImage) {
