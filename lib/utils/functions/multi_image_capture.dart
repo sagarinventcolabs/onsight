@@ -4,6 +4,10 @@ import 'dart:ui';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/strings.dart';
+
 
 class MultiImageCapture extends StatelessWidget {
   final RxList<File> capturedImages = RxList();
@@ -130,9 +134,19 @@ class MultiImageCapture extends StatelessWidget {
                   Flexible(
                       flex: 1,
                       child: ElevatedButton(
-                        onPressed: capturedImages.contains(_dummyImageFile)
-                            ? null
-                            : () => captureImage(context),
+                        onPressed: (){
+                          print(capturedImages.length);
+                          if(capturedImages.isNotEmpty){
+                            if(capturedImages.length==10){
+                              Get.closeAllSnackbars();
+                              Get.snackbar(alert, youHaveReachedTheMaximumLimitOf);
+
+                            }
+                          }
+                          capturedImages.contains(_dummyImageFile)
+                              ? null
+                              :captureImage(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
                           padding: const EdgeInsets.all(20),
@@ -167,66 +181,62 @@ class MultiImageCapture extends StatelessWidget {
 
   Widget _buildCapturedImagesPane(BuildContext context) {
     return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
-        child: Container(
-          height: 120,
-          width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(color: Colors.transparent),
-          child: ListView.builder(
-            controller: _imagesScrollController,
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              var imageFile = capturedImages.elementAt(index);
+      child: Container(
+        height: 120,
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(color: Colors.transparent),
+        child: ListView.builder(
+          controller: _imagesScrollController,
+          physics: const BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            var imageFile = capturedImages.elementAt(index);
 
-              bool isDummy = imageFile == _dummyImageFile;
+            bool isDummy = imageFile == _dummyImageFile;
 
-              return Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                            color: Colors.lightBlue, width: 2),
-                      ),
-                      child: isDummy
-                          ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: Center(child: CircularProgressIndicator()),
-                      )
-                          : ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.file(
-                          capturedImages.elementAt(index),
-                          fit: BoxFit.cover,
-                        ),
+            return Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                          color: Colors.lightBlue, width: 2),
+                    ),
+                    child: isDummy
+                        ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: Center(child: CircularProgressIndicator()),
+                    )
+                        : ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.file(
+                        capturedImages.elementAt(index),
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Positioned(
-                      top: -20,
-                      right: -20,
-                      child: IconButton(
-                        icon: const Icon(Icons.remove_circle_outlined,
-                            color: Colors.red, size: 28),
-                        onPressed: () =>
-                            removeImageFile(capturedImages.elementAt(index)),
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-            itemCount: capturedImages.length,
-            padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
-          ),
+                  ),
+                  Positioned(
+                    top: -12,
+                    right: -12,
+                    child: Image.asset(
+                      Assets.icClose2,
+                      height: Dimensions.height25,
+                      width: Dimensions.height25,
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+          itemCount: capturedImages.length,
+          padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
         ),
       ),
     );

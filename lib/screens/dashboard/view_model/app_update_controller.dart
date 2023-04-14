@@ -92,7 +92,7 @@ class AppUpdateController extends GetxController {
   }
 
   /// API function for getting security flags
-  Future<dynamic> getSecurityFlags(isLoading) async {
+  Future<dynamic> getDashboardItems(isLoading) async {
     String  loginFlag = employee;
     sp?.putString(Preference.USERFLAG, loginFlag);
     var response = await WebService().getSecurityFlags(isLoading);

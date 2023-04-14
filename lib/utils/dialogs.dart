@@ -968,6 +968,7 @@ Widget bottomSheetImagePickerPromo(route) {
           children: [
             GestureDetector(
               onTap: () async {
+
                 Get.to(
                       () => MultiImageCapture(
                     onRemoveImage: (File image) async {
@@ -975,7 +976,6 @@ Widget bottomSheetImagePickerPromo(route) {
                     },
                     onAddImage: (image) async {
                       await Future.delayed(Duration(seconds: 3));
-
                     },
                     onComplete: (finalImages) async {
 

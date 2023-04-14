@@ -16,8 +16,8 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ## To run the flavor builds
--> flutter run --flavor dev
--> flutter run --flavor prod
+-> flutter run apk --flavor dev -t lib/main_dev.dart
+-> flutter run apk --flavor prod -t lib/main_prod.dart
 ## To make flavor builds
 -> flutter build apk --flavor dev     // old
 -> flutter build apk --flavor prod    // old

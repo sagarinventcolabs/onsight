@@ -97,7 +97,7 @@ class EndPoint {
   static  String saveLeadSheet = "$baseURLMain/LeadSheet/SaveLeadSheet";
   static  String saveLeadSheetStage = "$baseURLStage/LeadSheet/SaveLeadSheet";
   //Fetch Profile
-  static  String fetchProfile = "$baseURL/Account/GetProfileDetails";
+  static  String fetchProfile = "$baseURL/GetProfileDetails";
   //Profile Update
   static  String updateProfile = "$baseURL/Account/UpdateProfileDetails";
   //create case field issue with comment only

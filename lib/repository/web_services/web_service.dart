@@ -517,6 +517,60 @@ class WebService {
     return response;
   }
 
+  //Multipart request for images for Field Issue...........................................................
+  Future<dynamic> submitImagesFieldIssue2(
+      SubmitFieldIssueRequest request,
+      FieldIssueImageModel imageList,
+      token) async {
+
+    List<http.MultipartFile> listImage = [];
+    Map<String, String> map = Map();
+    Map<String, String> mapfinal = Map();
+    Map<String, dynamic> map1 = await request.toJson();
+    map1.forEach((key, value) {
+      map[key] = value.toString();
+    });
+    mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
+
+      var tempName = imageList.imageName.toString().split(".").first;
+      Map<String, String> mapp = Map();
+      mapp[EndPointKeys.comments] = request.comment.toString();
+      mapfinal[tempName] = jsonEncode(mapp);
+      listImage.add( http.MultipartFile(
+          'FileName',
+          File(imageList.imagePath!).readAsBytes().asStream(),
+          File(imageList.imagePath!).lengthSync(),
+          contentType:MediaType.parse('image/jpeg'),
+          filename: imageList.imagePath!.split("/").last));
+
+
+
+    var response;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    if(isNetActive) {
+      var url = EndPoint.createCase;
+      var a = await AppInternetManager().getSettingsTable() as List;
+      if(a.isNotEmpty){
+        var flavor = a[0]["Flavor"]??"prod";
+
+        if(flavor=="prod"){
+          url = EndPoint.createCase;
+
+        }else{
+          url = EndPoint.createCaseStage;
+
+        }
+      }
+      response = await ApiBaseHelper().multiPartRequest(
+          url, mapfinal, listImage, token);
+      log(response.toString());
+    }else{
+      response = "error";
+    }
+
+    return response;
+  }
+
   //Get Oasis Resources List ...........................................................................
   Future<dynamic> getOasisResourcesService() async {
     var url = EndPoint.oasisResourcesEndPoint;

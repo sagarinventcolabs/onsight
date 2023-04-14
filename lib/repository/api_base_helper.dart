@@ -110,7 +110,7 @@ class ApiBaseHelper{
           return await Future.error(error);
         });
         if(isLoading) {
-          Get.closeAllSnackbars();
+         // Get.closeAllSnackbars();
           Get.back();
         }
 
@@ -629,13 +629,33 @@ class ApiBaseHelper{
       case 405:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        if(errorModel.errorDescription.toString().contains("different device")){
-          defaultDialog(Get.context!, title: alert,alert: errorModel.errorDescription.toString(), cancelable: false, onTap: (){
-            logoutFun();
-          });
-        }else {
+        if(errorModel.errorDescription!=null) {
+          if (errorModel.errorDescription.toString().contains(
+              "different device")) {
+            defaultDialog(Get.context!, title: alert,
+                alert: errorModel.errorDescription.toString(),
+                cancelable: false,
+                onTap: () {
+                  logoutFun();
+                });
+          } else {
+            defaultDialog(Get.context!, title: alert,
+                alert: errorModel.errorDescription.toString(),
+                cancelable: true,
+                onTap: () {
+                  Get.back();
+                });
+          }
+        }else if(errorModel.message!=null){
           defaultDialog(Get.context!, title: alert,
-              alert: errorModel.errorDescription.toString(),
+              alert: errorModel.message.toString(),
+              cancelable: true,
+              onTap: () {
+                Get.back();
+              });
+        }else{
+          defaultDialog(Get.context!, title: alert,
+              alert: "Something went wrong Please try later",
               cancelable: true,
               onTap: () {
                 Get.back();

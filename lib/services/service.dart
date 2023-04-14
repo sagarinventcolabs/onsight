@@ -6,8 +6,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
+import 'package:get/get.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/email_manager.dart';
+import 'package:on_sight_application/repository/database_managers/fieldIssue_image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/leadsheet_image_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
@@ -42,13 +44,13 @@ Future<void> initializeService() async {
     ),
     iosConfiguration: IosConfiguration(
       // auto start service
-      autoStart: false,
+      autoStart: true,
 
       // this will be executed when app is in foreground in separated isolate
       onForeground: onStart,
 
       // you have to enable background fetch capability on xcode project
-      onBackground: onIosBackground,
+      onBackground: onStart,
     ),
   );
  // service.startService();
@@ -59,13 +61,14 @@ Future<void> initializeService() async {
 // run app from xcode, then from xcode menu, select Simulate Background Fetch
 bool onIosBackground(ServiceInstance service) {
   WidgetsFlutterBinding.ensureInitialized();
+    print("IOS Background Method Call");
 
   return true;
 }
 
 
 @pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
+Future<bool> onStart(ServiceInstance service) async {
 
 
 
@@ -78,6 +81,8 @@ void onStart(ServiceInstance service) async {
 
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var token =  await preferences.getString(Preference.ACCESS_TOKEN);
+  List<String> prefList  = [];
+  preferences.setStringList("tempList", prefList);
 
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
@@ -230,7 +235,9 @@ void onStart(ServiceInstance service) async {
 
   });
 
-  service.on('onboarding').listen((event) async {
+
+
+  service.on('fieldIssue2').listen((event) async {
     AppInternetManager appInternetManager = AppInternetManager();
     var a = await appInternetManager.getSettingsTable();
     int b = 0;
@@ -245,16 +252,14 @@ void onStart(ServiceInstance service) async {
     var aa = await appInternetManager.getSettingsTable();
     debugPrint("Task in progress" + aa[0]["TaskInProgress"].toString());
     if(event!=null) {
-
-      var resourceId = event['resourceId'];
+      SubmitFieldIssueRequest request = SubmitFieldIssueRequest.fromJson(event['request']);
       var finalToken = event['token'];
-      List<OnBoardingDocumentModel> list = (event["imageList"].map((data) => OnBoardingDocumentModel.fromJson(data)).toList()).cast<OnBoardingDocumentModel>();
+     // List<FieldIssueImageModel> list = (event["imageList"].map((data) => FieldIssueImageModel.fromJson(data)).toList()).cast<FieldIssueImageModel>() ;
       showNotificationUploading();
-      runApiOnboarding(service, resourceId, finalToken,list,0);
+      fieldIssueSubMethod2(service,request, finalToken);
     }
 
   });
-
 
   service.on("promoApi").listen((event) async {
     AppInternetManager appInternetManager = AppInternetManager();
@@ -319,6 +324,46 @@ void onStart(ServiceInstance service) async {
 
 
 
+  // Timer.periodic(const Duration(minutes: 1), (timer) async{
+  //   FieldIssueImageManager imageManager = FieldIssueImageManager();
+  //   List<FieldIssueImageModel>imageList = await imageManager.getImageList();
+  //
+  //   if(imageList.isNotEmpty){
+  //
+  //
+  //     imageList.forEach((element) {
+  //       JobCategoriesResponse response = JobCategoriesResponse();
+  //       response.id = element.categoryId??"";
+  //       response.name = element.categoryName??"";
+  //       if(listImage.isNotEmpty) {
+  //         for (var j = 0; j < listImage.length; j++) {
+  //           if (listImage[j].id == element.categoryId) {
+  //             listImage[j].listPhotos?.add(element);
+  //           } else {
+  //             response.listPhotos = [];
+  //             response.listPhotos?.add(element);
+  //             listImage.add(response);
+  //           }
+  //         }
+  //       }else{
+  //         response.listPhotos = [];
+  //         response.listPhotos?.add(element);
+  //         listImage.add(response);
+  //       }
+  //
+  //     });
+  //     List<dynamic> listdynamic = [];
+  //
+  //     for(var k =0; k<listImage.length; k++){
+  //       listdynamic.add(listImage[k].toJson());
+  //     }
+  //
+  //   }else{
+  //     service.stopSelf();
+  //   }
+  //
+  //
+  // });
   // uploadImg();
 
     Timer.periodic(const Duration(minutes: 30), (timer) async{
@@ -369,6 +414,8 @@ void onStart(ServiceInstance service) async {
 
 
     });
+
+    return true;
 }
 
 runApiLeadSheet(SaveExhibitorImagesRequest request, finalToken, List<LeadSheetImageModel> list, index, priority, service) async {
@@ -606,6 +653,117 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<F
             }
           }
         });
+      }
+    }
+  }
+}
+
+fieldIssueSubMethod2(service, SubmitFieldIssueRequest request, finalToken)async{
+  List<FieldIssueImageModel> tempList = await FieldIssueImageManager().getImageList();
+  print("TempList Length  ${tempList.length}");
+  print("RowId TempList  ${tempList.first.rowID}");
+  if(tempList.isNotEmpty) {
+    FieldIssueImageModel list = tempList.first;
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi) {
+      WebService webService = WebService();
+      await webService.submitImagesFieldIssue2(request, list, finalToken).then((
+          value) async {
+        if (!value.toString().contains("incidentid")) {
+          bool isNetActive = await ConnectionStatus.getInstance()
+              .checkConnection();
+          if (isNetActive) {
+            debugPrint("Error Notification");
+            if (value.toString().contains("error")) {
+              fieldIssueSubMethod2(service, request, finalToken);
+             // showErrorNotification(service, errorMsg: value["error"]);
+            }
+          } else {
+            Timer.periodic(const Duration(seconds: 10), (timer) async {
+              isNetActive =
+              await ConnectionStatus.getInstance().checkConnection();
+              if (isNetActive) {
+                timer.cancel();
+                fieldIssueSubMethod2(service, request, finalToken);
+              }
+            });
+          }
+        }
+        else {
+          print("RowId TempList  ${tempList.first.rowID}");
+          await FieldIssueImageManager().deleteImage(tempList.first.rowID!);
+          List<FieldIssueImageModel> temppList = await FieldIssueImageManager()
+              .getImageList();
+          print("TemppList Length  ${temppList.length}");
+          if (temppList.isNotEmpty) {
+            fieldIssueSubMethod2(service, request, finalToken);
+            return;
+          }
+          showNotification(service);
+          // service.stopSelf();
+        }
+      });
+    }
+    else {
+      AppInternetManager appInternetManager = AppInternetManager();
+      var a = await appInternetManager.getSettingsTable() as List;
+      debugPrint("Upper One - MOBILE_INTERNET_STATUS From Background Service" +
+          (a[0]["AppInternetStatus"].toString()));
+      if (a.isNotEmpty) {
+        if (a[0]["AppInternetStatus"] == 1) {
+          WebService webService = WebService();
+          await webService.submitImagesFieldIssue2(request, list, finalToken)
+              .then((value) async {
+            if (!value.toString().contains("incidentid")) {
+              bool isNetActive = await ConnectionStatus.getInstance()
+                  .checkConnection();
+              if (isNetActive) {
+                debugPrint("Error Notification");
+                showErrorNotification(service, errorMsg: value["error"]);
+              } else {
+                Timer.periodic(const Duration(seconds: 10), (timer) async {
+                  isNetActive = await ConnectionStatus.getInstance()
+                      .checkConnection();
+                  if (isNetActive) {
+                    timer.cancel();
+                    fieldIssueSubMethod2(service, request, finalToken);
+                  }
+                });
+              }
+            }
+            else {
+              print("RowId TempList  ${tempList.first.rowID}");
+              await FieldIssueImageManager().deleteImage(tempList.first.rowID!);
+              List<FieldIssueImageModel> temppList = await FieldIssueImageManager()
+                  .getImageList();
+              print("TemppList Length  ${temppList.length}");
+              if (temppList.isNotEmpty) {
+                fieldIssueSubMethod2(service, request, finalToken);
+                return;
+              }
+              /*     FlutterBackgroundService().invoke("response",{
+                    "response":value.toString()
+                  });*/
+
+              showNotification(service);
+              //  service.stopSelf();
+            }
+          });
+        } else {
+          Timer.periodic(const Duration(seconds: 10), (timer) async {
+            AppInternetManager appInternetManager = AppInternetManager();
+            var a = await appInternetManager.getSettingsTable() as List;
+            debugPrint(
+                "Lower One - MOBILE_INTERNET_STATUS From Background Service" +
+                    a[0]["AppInternetStatus"].toString());
+            if (a.isNotEmpty) {
+              if (a[0]["AppInternetStatus"] == 1) {
+                timer.cancel();
+                fieldIssueSubMethod2(service, request, finalToken);
+              }
+            }
+          });
+        }
       }
     }
   }
@@ -1200,3 +1358,189 @@ jobPhotosSubmethod(service, token)async{
 }
 
 
+
+jobPhotosMainMethod1(service, token) async {
+  AppInternetManager appInternetManager = AppInternetManager();
+  var a = await appInternetManager.getSettingsTable();
+  debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
+  if (a[0]["BatterySaverStatus"] == 1) {
+    int? batteryLevel = await Battery().batteryLevel;
+    debugPrint("-->  Battery Level: -->${batteryLevel.toString()}");
+    if ((batteryLevel) > 15) {
+      jobPhotosSubmethod(service, token);
+    }
+    else{
+      Timer.periodic(const Duration(seconds: 10), (timer) async {
+        batteryLevel = await Battery().batteryLevel;
+
+        debugPrint("Battery Level: ${batteryLevel.toString()}");
+
+        if((batteryLevel??100) > 15){
+          jobPhotosMainMethod(service, token);
+        }
+      });
+    }
+  }else{
+    jobPhotosSubmethod(service, token);
+  }
+}
+
+
+jobPhotosSubmethod1(service, token)async{
+  ImageManager imageManager = ImageManager();
+  List<ImageModel>imageList = await imageManager.getFailedImageList();
+  if(imageList.isNotEmpty) {
+    ImageModel model = imageList.first;
+    JobCategoriesResponse responseModel = JobCategoriesResponse();
+    responseModel.id = model.categoryId??"";
+    responseModel.name = model.categoryName??"";
+    responseModel.listPhotos = [];
+    responseModel.listPhotos?.add(model);
+    if(model.isEmailRequired==1){
+      responseModel.sendEmail = true;
+    }else{
+      responseModel.sendEmail = false;
+    }
+    var jobNumber = model.jobNumber.toString();
+    List<Email> listEmail = await EmailManager().getEmailRecord(jobNumber);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.wifi) {
+      debugPrint("-->  Uploading Through Wifi !!  <--");
+      WebService webService = WebService();
+      var response = await webService.submitImagesFromDatabase(responseModel, jobNumber, listEmail, token);
+      if(response!=null){
+        if(response.toString().contains("error")){
+          if(!response.toString().contains("Something went wrong")) {
+            Timer.periodic(const Duration(seconds: 10), (timer) async {
+              bool isNetActive = await ConnectionStatus.getInstance()
+                  .checkConnection();
+              if (isNetActive) {
+                timer.cancel();
+                jobPhotosMainMethod(service, token);
+              }
+            });
+          }else{
+            service.stopSelf();
+
+          }
+
+        }else{
+          if(!response.toString().contains("error")){
+
+            model.isSubmitted = 2;
+            ImageManager().updateImageData(model);
+
+            try{
+              UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
+              service.invoke("result",{
+                "response": uploadImageResponse.toJson()
+              });
+            }catch(e){
+
+            }
+
+
+            jobPhotosMainMethod(service, token);
+
+
+          }
+
+        }
+      }
+      else{
+        Timer.periodic(const Duration(seconds: 10), (timer) async {
+          AppInternetManager appInternetManager = AppInternetManager();
+          var a = await appInternetManager.getSettingsTable();
+          debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
+          if(a[0]["AppInternetStatus"] == 1){
+            timer.cancel();
+            jobPhotosMainMethod(service, token);
+          }
+        });
+      }
+    }
+    else{
+      debugPrint("-->  Uploading Through Mobile Internet !!  <--");
+      AppInternetManager appInternetManager = AppInternetManager();
+      var a = await appInternetManager.getSettingsTable();
+      debugPrint("Upper One - MOBILE_INTERNET_STATUS From Background Service" + (a[0]["AppInternetStatus"].toString()));
+
+      if (a[0]["AppInternetStatus"] == 1) {
+        WebService webService = WebService();
+        var response = await webService.submitImagesFromDatabase(responseModel, jobNumber, listEmail, token);
+        log(response.toString());
+        if(response!=null){
+          if(response.toString().contains("error")){
+
+            if(!response.toString().contains("Something went wrong")) {
+              Timer.periodic(const Duration(seconds: 10), (timer) async {
+                bool isNetActive = await ConnectionStatus.getInstance()
+                    .checkConnection();
+                if (isNetActive) {
+                  timer.cancel();
+                  jobPhotosMainMethod(service, token);
+                }
+              });
+            }else{
+              service.stopSelf();
+
+            }
+
+          }else{
+            if(!response.toString().contains("error")){
+
+              model.isSubmitted = 2;
+              await ImageManager().updateImageData(model);
+              try{
+                UploadImageResponse uploadImageResponse = UploadImageResponse.fromJson(response);
+                service.invoke("result",{
+                  "response": uploadImageResponse.toJson()
+                });
+              }catch(e){
+
+              }
+
+              jobPhotosMainMethod(service, token);
+
+
+            }
+
+          }
+        }
+        else{
+          Timer.periodic(const Duration(seconds: 10), (timer) async {
+            AppInternetManager appInternetManager = AppInternetManager();
+            var a = await appInternetManager.getSettingsTable();
+            debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" + a[0]["AppInternetStatus"].toString());
+            if(a[0]["AppInternetStatus"] == 1){
+              timer.cancel();
+              jobPhotosMainMethod(service, token);
+            }
+          });
+        }
+
+      }
+      else{
+        Timer.periodic(
+            const Duration(seconds : 10), (timer)async {
+          AppInternetManager appInternetManager = AppInternetManager();
+          var a = await appInternetManager.getSettingsTable();
+          debugPrint("Lower One - MOBILE_INTERNET_STATUS From Background Service" +
+              a[0]["AppInternetStatus"].toString());
+          if (a[0]["AppInternetStatus"] == 1) {
+            timer.cancel();
+            jobPhotosMainMethod(service, token);
+          }
+        });
+      }
+    }
+  }else{
+    try{
+      showNotification(service);
+
+    }catch(e){
+
+    }
+
+  }
+}

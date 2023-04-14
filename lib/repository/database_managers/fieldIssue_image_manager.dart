@@ -45,6 +45,7 @@ class FieldIssueImageManager {
 
     Database db = await DatabaseHelper().database;
     var result = await db.rawQuery('SELECT * FROM $mFieldIssueImageTable');
+    print(result);
     List<FieldIssueImageModel> list = result.isNotEmpty ? result.map((c) => FieldIssueImageModel.fromJson(c)).toList() : [];
     return list;
 
