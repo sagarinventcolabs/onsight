@@ -385,7 +385,7 @@
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -468,7 +468,7 @@
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -548,7 +548,7 @@
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -628,13 +628,13 @@
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -765,13 +765,13 @@
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -796,13 +796,13 @@
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = "/Users/apple/Desktop/projects/Nth%20Degree%20-%20Flutter/lib/main_dev.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

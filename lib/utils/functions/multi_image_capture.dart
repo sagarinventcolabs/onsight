@@ -223,12 +223,20 @@ class MultiImageCapture extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: -12,
-                    right: -12,
-                    child: Image.asset(
-                      Assets.icClose2,
-                      height: Dimensions.height25,
-                      width: Dimensions.height25,
+                    top: -15,
+                    right: -15,
+                    child: GestureDetector(
+                      onTap: (){
+                        removeImageFile(capturedImages.elementAt(index));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          Assets.icClose2,
+                          height: Dimensions.height25,
+                          width: Dimensions.height25,
+                        ),
+                      ),
                     ),
                   )
                 ],
