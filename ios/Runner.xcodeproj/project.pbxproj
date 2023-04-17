@@ -634,7 +634,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -771,7 +771,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -802,7 +802,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 2.0.4;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.On-Sight.NthDegree";
 				PRODUCT_DISPLAY_NAME = "On-Sight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
