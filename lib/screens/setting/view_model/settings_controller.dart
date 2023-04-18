@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:battery_plus/battery_plus.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +10,7 @@ import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'dart:io' show Platform;
@@ -153,21 +156,27 @@ class SettingsController extends GetxController {
   //Api for delete user......................................
 
   Future<dynamic> deleteUserApi() async{
-    var mobile = sp?.getString(Preference.USER_MOBILE)??"";
+    var mobile = sp?.getString(Preference.USER_EMAIL)??"";
     var code = sp?.getString(Preference.COUNTRY_CODE)??"";
     var response = await service.deleteUserRequest(mobile, code);
+    log("response=====> ${response}");
     if(response!=null) {
-      if(response.toString().contains(mobile.toString())){
-        sp?.clear();
-        SecureStorage().deleteAll();
-        Get.offAllNamed(Routes.emailLoginScreen);
-         defaultDialog(Get.context!, title: accountDeletedSuccessfully, alert: disclaimerMessage, onTap: (){
-                      // logoutFun();
-                     Get.back();
-                    }, cancelable: false);
-      }else{
-        Get.showSnackbar(GetSnackBar(message: response.toString(), duration: Duration(seconds: 2),));
-
+       if(!response.toString().contains(error)) {
+        if (response.toString().contains(mobile.toString())) {
+          // sp?.clear();
+          // SecureStorage().deleteAll();
+          // Get.offAllNamed(Routes.emailLoginScreen);
+          defaultDialog(Get.context!, title: accountDeletedSuccessfully,
+              alert: disclaimerMessage,
+              onTap: () {
+                // logoutFun();
+                Get.back();
+              },
+              cancelable: false);
+        } else {
+          Get.showSnackbar(GetSnackBar(
+            message: response.toString(), duration: Duration(seconds: 2),));
+        }
       }
     }
    // return response;

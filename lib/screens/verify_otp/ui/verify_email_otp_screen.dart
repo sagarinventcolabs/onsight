@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/repository/web_service_response/error_response.dart';
@@ -167,7 +168,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                     //   controller.validate(
                     //       phoneController.text, textEditingController.text);
                     // },
-                    // keyboardType: TextInputType.number,
+                   inputFormatters: [FilteringTextInputFormatter.allow("[0-9]")],
                     decoration: InputDecoration(
                       labelText: verificationCode,
                       counterText: "",

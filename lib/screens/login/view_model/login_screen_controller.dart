@@ -55,6 +55,8 @@ class LoginScreenController extends GetxController {
         responseModel = GetOtpResponse.fromJson(response);
         sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
         sp!.putString(Preference.USER_EMAIL, email.toString().trim());
+        sp!.putString(Preference.USER_MOBILE, responseModel.userName.toString().trim());
+
 
       }catch(e){
 
