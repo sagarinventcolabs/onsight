@@ -32,6 +32,7 @@ import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
+
 saveSuggestion(input) {
   List<String> list = [];
   list = sp!.getStringList(listAutoFill);
@@ -194,21 +195,23 @@ Future<void> showNotificationFailedJob(ServiceInstance service) async {
     print("Upper One - Notify Upload status From Background Service" +
         (a[0]["UploadCompleteStatus"].toString()));
     if (a[0]["UploadCompleteStatus"] == 1) {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('channel1', 'channelone',
-        channelDescription: 'channelDescription',
-        importance: Importance.max,
-        priority: Priority.high,
-        color: ColourConstants.primary,
-        ticker: 'ticker');
-    const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
-    const NotificationDetails platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        10, appName, notificationSuccessMsg,
-        platformChannelSpecifics,
-        payload: 'item x');
-     }
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails('channel1', 'channelone',
+              channelDescription: 'channelDescription',
+              importance: Importance.max,
+              priority: Priority.high,
+              color: ColourConstants.primary,
+              ticker: 'ticker');
+      const IOSNotificationDetails iosNotificationDetails =
+          IOSNotificationDetails(
+              presentAlert: true, presentBadge: false, presentSound: true);
+      const NotificationDetails platformChannelSpecifics = NotificationDetails(
+          android: androidPlatformChannelSpecifics,
+          iOS: iosNotificationDetails);
+      await flutterLocalNotificationsPlugin.show(
+          10, appName, notificationSuccessMsg, platformChannelSpecifics,
+          payload: 'item x');
+    }
 
     service.stopSelf();
   }
@@ -390,16 +393,17 @@ Future<void> authenticateUser() async {
   }
 }
 
-logoutFun()async{
+logoutFun() async {
   sp?.clear();
   SecureStorage().deleteAll();
-  try{
+  try {
     await DashboardManager().deleteAllData();
-
-  }catch(e){
-
+  } catch (e) {}
+  if (isDialogOpen == true) {
+    Get.back(closeOverlays: true);
   }
-  Get.offAllNamed(Routes.emailLoginScreen);
+
+  Get.offNamedUntil(Routes.emailLoginScreen, (p) => false);
 }
 
 class NoLeadingSpaceFormatter extends TextInputFormatter {

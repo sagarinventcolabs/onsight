@@ -11,6 +11,7 @@ import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/end_point.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:on_sight_application/repository/app_exception.dart';
@@ -242,6 +243,72 @@ class ApiBaseHelper{
     }
   }
 
+  //Get api call method...............................................................................
+  Future<dynamic> deleteMethod(String url,{isLoading = true, showSnackbarValue = true}) async {
+    var context =  Get.context;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    var deviceId = await getDeviceId();
+    if (isNetActive) {
+      if(isLoading) {
+        showLoader(context);
+      }
+      var responseJson;
+
+      Map<String, String> apiHeader = {
+        EndPointMessages.AUTHORIZATION_KEY:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
+        EndPointKeys.acceptKey: 'application/json',
+        EndPointKeys.contentType: 'application/json',
+        EndPointMessages.USERAGENT_KEY: deviceId,
+      };
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
+
+      try {
+        final http.Response response = await http.delete(
+          Uri.parse(url),
+          headers: apiHeader,
+        ).timeout(const Duration(seconds: 60)).catchError((error) async {
+          if(isLoading) {
+            Get.closeAllSnackbars();
+            Get.back();
+          }
+          Get.snackbar(alert, pleaseCheckInternet);
+          return await Future.error(error);
+        });
+        if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }
+
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
+
+        try {
+          responseJson = _returnResponse(response, showValue: showSnackbarValue);
+
+
+        } catch (e) {if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }}
+      } on SocketException {
+        if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }
+        return noInternetStr;
+      }
+      return responseJson;
+    } else
+    {
+      Get.closeAllSnackbars();
+      Get.closeCurrentSnackbar();
+      Get.snackbar(alert, noInternet);
+      return noInternetStr;
+    }
+  }
+
+
   //Get api call method Field Issue...........................................................................................
   Future<dynamic> getApiCallFieldIssue(String url,{isLoading = true}) async {
     var context =  Get.context;
@@ -468,10 +535,27 @@ class ApiBaseHelper{
         var responseJson = json.decode(response.body.toString());
 
         ErrorModel errorModel =  ErrorModel.fromJson(responseJson);
+        if(errorModel.error!=null) {
+          if (errorModel.error!.message.toString().contains(
+              "session") && errorModel.error!.message.toString().contains(
+              "expired")) {
+            defaultDialog(Get.context!, title: alert,
+                alert: errorModel.error?.message.toString(),
+                cancelable: false,
+                onTap: () {
 
-        defaultDialog(Get.context!, title: alert,alert: errorModel.error?.message.toString(), cancelable: true, onTap: (){
-          Get.back();
-        });
+                  logoutFun();
+                  return "error";
+                });
+          }else{
+            defaultDialog(Get.context!, title: alert,alert: errorModel.error?.message.toString(), cancelable: true, onTap: (){
+              Get.back();
+
+            });
+          }
+        }
+
+
         return responseJson;
       case 403:
         var responseJson = json.decode(response.body.toString());
@@ -492,9 +576,18 @@ class ApiBaseHelper{
       case 405:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-        defaultDialog(Get.context!, title: alert,alert: errorModel.errorDescription.toString(), cancelable: true, onTap: (){
-          Get.back();
-        });
+        if(errorModel.errorDescription.toString().contains("different device")){
+          defaultDialog(Get.context!, title: alert,alert: errorModel.errorDescription.toString(), cancelable: false, onTap: (){
+            logoutFun();
+          });
+        }else {
+          defaultDialog(Get.context!, title: alert,
+              alert: errorModel.errorDescription.toString(),
+              cancelable: true,
+              onTap: () {
+                Get.back();
+              });
+        }
         return responseJson;
       case 500:
 

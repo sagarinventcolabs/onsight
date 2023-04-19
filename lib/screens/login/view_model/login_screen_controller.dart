@@ -45,7 +45,7 @@ class LoginScreenController extends GetxController {
 
   // Api for Email Flow.......................
   Future<dynamic> getOtpWithEmail(email) async {
-    var response = await service.getOtpForEmail(email.toString().trim().replaceAll("+", "%2B").toString().trim());
+    var response = await service.getOtpForEmail(email.toString().trim()/*.replaceAll("+", "%2B").toString().trim()*/);
     if (response != null) {
       if (response.toString().toLowerCase().contains(error)) {
         return response;
@@ -55,6 +55,8 @@ class LoginScreenController extends GetxController {
         responseModel = GetOtpResponse.fromJson(response);
         sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
         sp!.putString(Preference.USER_EMAIL, email.toString().trim());
+        sp!.putString(Preference.USER_MOBILE, responseModel.userName.toString().trim());
+
 
       }catch(e){
 
