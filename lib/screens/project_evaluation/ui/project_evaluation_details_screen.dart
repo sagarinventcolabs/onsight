@@ -40,7 +40,7 @@ class _ProjectEvaluationDetailsScreenState extends State<ProjectEvaluationDetail
   initState(){
     super.initState();
     isData = true;
-    controller.getEmail(controller.jobPhotosModellist.first.jobNumber.toString());
+
     controller.isValidEmail.value = true;
     controller.update();
   }

@@ -32,20 +32,22 @@ import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
+
 saveSuggestion(input) {
   List<String> list = [];
   list = sp!.getStringList(listAutoFill);
 
   int a = -1;
-  a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
+  a = list.indexWhere(
+      (element) => element.toLowerCase() == input.toString().toLowerCase());
 
-  if(list.length<5){
-    if(a<0) {
+  if (list.length < 5) {
+    if (a < 0) {
       list.add(input.toString().toUpperCase());
     }
-  }else{
+  } else {
     list.removeAt(0);
-    if(a<0) {
+    if (a < 0) {
       list.add(input.toString().toUpperCase());
     }
   }
@@ -53,19 +55,20 @@ saveSuggestion(input) {
   sp!.putStringList(listAutoFill, list);
 }
 
-saveShowNameHistory(input){
+saveShowNameHistory(input) {
   List<String> list = [];
   list = sp!.getStringList(showNameHistory);
   int a = -1;
-  a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
+  a = list.indexWhere(
+      (element) => element.toLowerCase() == input.toString().toLowerCase());
 
-  if(list.length<5){
-    if(a<0) {
+  if (list.length < 5) {
+    if (a < 0) {
       list.add(input);
     }
-  }else{
+  } else {
     list.removeAt(0);
-    if(a<0) {
+    if (a < 0) {
       list.add(input);
     }
   }
@@ -73,19 +76,20 @@ saveShowNameHistory(input){
   sp!.putStringList(showNameHistory, list);
 }
 
-saveExhibitorNameHistory(input){
+saveExhibitorNameHistory(input) {
   List<String> list = [];
   list = sp!.getStringList(exhibitorNameHistory);
   int a = -1;
-  a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
+  a = list.indexWhere(
+      (element) => element.toLowerCase() == input.toString().toLowerCase());
 
-  if(list.length<5){
-    if(a<0) {
+  if (list.length < 5) {
+    if (a < 0) {
       list.add(input);
     }
-  }else{
+  } else {
     list.removeAt(0);
-    if(a<0) {
+    if (a < 0) {
       list.add(input);
     }
   }
@@ -93,22 +97,23 @@ saveExhibitorNameHistory(input){
   sp!.putStringList(exhibitorNameHistory, list);
 }
 
-saveShowNumberSuggestions(input){
+saveShowNumberSuggestions(input) {
   List<String> list = [];
   list = sp!.getStringList(showNumberAutoFill);
 
   int a = -1;
-  a = list.indexWhere((element) => element.toLowerCase()==input.toString().toLowerCase());
+  a = list.indexWhere(
+      (element) => element.toLowerCase() == input.toString().toLowerCase());
 
   debugPrint(list.toString());
   debugPrint(input.toString().toLowerCase());
-  if(list.length<5){
-    if(a<0) {
+  if (list.length < 5) {
+    if (a < 0) {
       list.add(input.toString().toUpperCase());
     }
-  }else{
+  } else {
     list.removeAt(0);
-    if(a<0) {
+    if (a < 0) {
       list.add(input.toString().toUpperCase());
     }
   }
@@ -116,45 +121,41 @@ saveShowNumberSuggestions(input){
   sp!.putStringList(showNumberAutoFill, list);
 }
 
-
-
-
-
 Future<void> showNotification(ServiceInstance service) async {
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   print("Task in progress Notification " + a[0]["TaskInProgress"].toString());
-  int b = a[0]["TaskInProgress"]??1;
+  int b = a[0]["TaskInProgress"] ?? 1;
 
-  b = b-1;
+  b = b - 1;
   await appInternetManager.updateTaskProgress(val: b);
   var aa = await appInternetManager.getSettingsTable();
   print("Task in progress Notification " + aa[0]["TaskInProgress"].toString());
-  if(b<0){
+  if (b < 0) {
     await appInternetManager.updateTaskProgress(val: 0);
   }
-  if(b<1) {
+  if (b < 1) {
     await flutterLocalNotificationsPlugin.cancel(11);
 
     print("Upper One - Notify Upload status From Background Service" +
         (a[0]["UploadCompleteStatus"].toString()));
- if (a[0]["UploadCompleteStatus"] == 1) {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('channel1', 'channelone',
-        channelDescription: 'channelDescription',
-        importance: Importance.max,
-        priority: Priority.high,
-        color: ColourConstants.primary,
-        ticker: 'ticker');
-    const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(
-        presentAlert: true, presentBadge: false, presentSound: true);
-    const NotificationDetails platformChannelSpecifics =
-    NotificationDetails(
-        android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        10, appName, notificationSuccessMsg,
-        platformChannelSpecifics,
-        payload: 'item x');
+    if (a[0]["UploadCompleteStatus"] == 1) {
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails('channel1', 'channelone',
+              channelDescription: 'channelDescription',
+              importance: Importance.max,
+              priority: Priority.high,
+              color: ColourConstants.primary,
+              ticker: 'ticker');
+      const IOSNotificationDetails iosNotificationDetails =
+          IOSNotificationDetails(
+              presentAlert: true, presentBadge: false, presentSound: true);
+      const NotificationDetails platformChannelSpecifics = NotificationDetails(
+          android: androidPlatformChannelSpecifics,
+          iOS: iosNotificationDetails);
+      await flutterLocalNotificationsPlugin.show(
+          10, appName, notificationSuccessMsg, platformChannelSpecifics,
+          payload: 'item x');
     }
 
     service.stopSelf();
@@ -167,66 +168,66 @@ Future<int> checkInternetSpeedFunction() async {
   try {
     const platform = MethodChannel(channelID);
     result = await platform.invokeMethod(checkInternetSpeed);
-
   } on PlatformException catch (e) {
     print("Failed : '${e.message}'.");
   }
 
   return result;
 }
-Future<void> showNotificationFailedJob(ServiceInstance service) async {
 
+Future<void> showNotificationFailedJob(ServiceInstance service) async {
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   print("Task in progress Notification " + a[0]["TaskInProgress"].toString());
-  int b = a[0]["TaskInProgress"]??1;
+  int b = a[0]["TaskInProgress"] ?? 1;
 
   b = 0;
   await appInternetManager.updateTaskProgress(val: b);
   var aa = await appInternetManager.getSettingsTable();
   print("Task in progress Notification " + aa[0]["TaskInProgress"].toString());
-  if(b<0){
+  if (b < 0) {
     await appInternetManager.updateTaskProgress(val: 0);
   }
-  if(b<1) {
+  if (b < 1) {
     await flutterLocalNotificationsPlugin.cancel(11);
 
     print("Upper One - Notify Upload status From Background Service" +
         (a[0]["UploadCompleteStatus"].toString()));
     if (a[0]["UploadCompleteStatus"] == 1) {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('channel1', 'channelone',
-        channelDescription: 'channelDescription',
-        importance: Importance.max,
-        priority: Priority.high,
-        color: ColourConstants.primary,
-        ticker: 'ticker');
-    const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
-    const NotificationDetails platformChannelSpecifics =
-    NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        10, appName, notificationSuccessMsg,
-        platformChannelSpecifics,
-        payload: 'item x');
-     }
+      const AndroidNotificationDetails androidPlatformChannelSpecifics =
+          AndroidNotificationDetails('channel1', 'channelone',
+              channelDescription: 'channelDescription',
+              importance: Importance.max,
+              priority: Priority.high,
+              color: ColourConstants.primary,
+              ticker: 'ticker');
+      const IOSNotificationDetails iosNotificationDetails =
+          IOSNotificationDetails(
+              presentAlert: true, presentBadge: false, presentSound: true);
+      const NotificationDetails platformChannelSpecifics = NotificationDetails(
+          android: androidPlatformChannelSpecifics,
+          iOS: iosNotificationDetails);
+      await flutterLocalNotificationsPlugin.show(
+          10, appName, notificationSuccessMsg, platformChannelSpecifics,
+          payload: 'item x');
+    }
 
     service.stopSelf();
   }
 }
 
-
-Future<void> showErrorNotification(ServiceInstance service, {required String errorMsg}) async {
-
+Future<void> showErrorNotification(ServiceInstance service,
+    {required String errorMsg}) async {
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   print("Task in progress Notification " + a[0]["TaskInProgress"].toString());
-  int b = a[0]["TaskInProgress"]??1;
+  int b = a[0]["TaskInProgress"] ?? 1;
 
-  b = b-1;
+  b = b - 1;
   await appInternetManager.updateTaskProgress(val: b);
   var aa = await appInternetManager.getSettingsTable();
   print("Task in progress Notification " + aa[0]["TaskInProgress"].toString());
-  if(b<0){
+  if (b < 0) {
     await appInternetManager.updateTaskProgress(val: 0);
   }
 
@@ -234,57 +235,54 @@ Future<void> showErrorNotification(ServiceInstance service, {required String err
 
   print("Upper One - Notify Upload status From Background Service" +
       (a[0]["UploadCompleteStatus"].toString()));
-   if (a[0]["UploadCompleteStatus"] == 1) {
-  const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  AndroidNotificationDetails('channel1', 'channelone',
-      channelDescription: 'channelDescription',
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker',
-      color: ColourConstants.primary
-  );
-  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
-  const NotificationDetails platformChannelSpecifics =
-  NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
+  if (a[0]["UploadCompleteStatus"] == 1) {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('channel1', 'channelone',
+            channelDescription: 'channelDescription',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker',
+            color: ColourConstants.primary);
+    const IOSNotificationDetails iosNotificationDetails =
+        IOSNotificationDetails(
+            presentAlert: true, presentBadge: false, presentSound: true);
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
 
-  await flutterLocalNotificationsPlugin.show(
-      10, appName, errorMsg,
-      platformChannelSpecifics,
-      payload: 'item x');
-    }
-  if(b<1) {
+    await flutterLocalNotificationsPlugin.show(
+        10, appName, errorMsg, platformChannelSpecifics,
+        payload: 'item x');
+  }
+  if (b < 1) {
     service.stopSelf();
   }
 }
 
 Future<void> showNotificationUploading() async {
-
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  AndroidNotificationDetails('channel1', 'channelone',
-      channelDescription: 'channelDescription',
-      importance: Importance.max,
-      priority: Priority.high,
-      autoCancel: false,
-      showProgress: true,
-      ticker: 'ticker',
-      color: ColourConstants.primary);
-  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: false,presentSound: true);
-  const NotificationDetails platformChannelSpecifics =
-  NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
+      AndroidNotificationDetails('channel1', 'channelone',
+          channelDescription: 'channelDescription',
+          importance: Importance.max,
+          priority: Priority.high,
+          autoCancel: false,
+          showProgress: true,
+          ticker: 'ticker',
+          color: ColourConstants.primary);
+  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(
+      presentAlert: true, presentBadge: false, presentSound: true);
+  const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
   await flutterLocalNotificationsPlugin.show(
       11, appName, uploadingImages, platformChannelSpecifics,
       payload: 'item x');
 }
-
-
 
 Future<String> createFolderInAppDocDir(String folderName) async {
   //Get this App Document Directory
 
   final Directory appDocDir = await getApplicationDocumentsDirectory();
   //App Document Directory + folder name
-  final Directory appDocDirFolder =
-  Directory('${appDocDir.path}/$folderName/');
+  final Directory appDocDirFolder = Directory('${appDocDir.path}/$folderName/');
 
   if (await appDocDirFolder.exists()) {
     //if folder already exists return path
@@ -292,100 +290,82 @@ Future<String> createFolderInAppDocDir(String folderName) async {
   } else {
     //if folder not exists create folder and then return its path
     final Directory appDocDirNewFolder =
-    await appDocDirFolder.create(recursive: true);
+        await appDocDirFolder.create(recursive: true);
     return appDocDirNewFolder.path;
   }
 }
 
-
 void showFlutterNotification(RemoteMessage message) {
   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  AndroidNotificationDetails(
-      'onsight',
-      'onsight_channel',
-      channelDescription: 'Onsight Firebase Channel',
-      importance: Importance.max,
-      priority: Priority.high,
-      autoCancel: false,
-      showProgress: true,
-      ticker: 'ticker',
-      icon: 'ic_stat_new_icon_notif',
-      color: ColourConstants.primary);
-  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(presentAlert: true, presentBadge: true,presentSound: true);
-  const NotificationDetails platformChannelSpecifics =
-  NotificationDetails(android: androidPlatformChannelSpecifics,iOS: iosNotificationDetails);
+      AndroidNotificationDetails('onsight', 'onsight_channel',
+          channelDescription: 'Onsight Firebase Channel',
+          importance: Importance.max,
+          priority: Priority.high,
+          autoCancel: false,
+          showProgress: true,
+          ticker: 'ticker',
+          icon: 'ic_stat_new_icon_notif',
+          color: ColourConstants.primary);
+  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(
+      presentAlert: true, presentBadge: true, presentSound: true);
+  const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
   if (notification != null && android != null) {
-    flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        platformChannelSpecifics
-    );
+    flutterLocalNotificationsPlugin.show(notification.hashCode,
+        notification.title, notification.body, platformChannelSpecifics);
   }
 }
 
-checkRootJailBreakSecurity(){
+checkRootJailBreakSecurity() {
   /// Checking Security for Root & Jailbreak for both IOS & Android.
-  WidgetsBinding.instance.addPostFrameCallback((_) async {
-    if (Platform.isAndroid) {
-      var isRooted = await FlutterRootJailbreak.isRooted;
+  WidgetsBinding.instance.addPostFrameCallback(
+    (_) async {
+      if (Platform.isAndroid) {
+        var isRooted = await FlutterRootJailbreak.isRooted;
 
-      if (isRooted) {
-        Get.offAllNamed(Routes.loginScreen);
-      }
-    }else{
-      var isJailBroken = await FlutterRootJailbreak.isJailBroken;
+        if (isRooted) {
+          Get.offAllNamed(Routes.loginScreen);
+        }
+      } else {
+        var isJailBroken = await FlutterRootJailbreak.isJailBroken;
 
-      if (isJailBroken) {
-        Get.offAllNamed(Routes.loginScreen);
+        if (isJailBroken) {
+          Get.offAllNamed(Routes.loginScreen);
+        }
       }
-    }
-  },
+    },
   );
 }
 
-
 analyticsFireEvent(eventName, {Map<String, dynamic>? input}) async {
-  await FirebaseAnalytics.instance.logEvent(
-      name: eventName,
-      parameters: input);
+  await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: input);
 }
-
-
 
 Future<void> authenticateUser() async {
   bool authenticated = false;
   authorized = 'Authenticating';
   try {
-
     authenticated = await auth.authenticate(
       localizedReason: 'Please wait for authenticate yourself',
-      options: const AuthenticationOptions(
-          stickyAuth: true,
-          useErrorDialogs: true
-      ),
+      options:
+          const AuthenticationOptions(stickyAuth: true, useErrorDialogs: true),
     );
-
-
   } on PlatformException catch (e) {
     authorized = 'Error - ${e.message}';
 
-    if(e.toString().contains("NotAvailable")){
+    if (e.toString().contains("NotAvailable")) {
       Get.offAllNamed(Routes.dashboardScreen);
       return;
     }
-
   }
-
-
 
   authorized = authenticated ? 'Authorized' : 'Not Authorized';
 
-  if(authorized=="Authorized"){
+  if (authorized == "Authorized") {
     Get.offAllNamed(Routes.dashboardScreen);
-  }else{
+  } else {
     exit(0);
   }
 }
@@ -393,21 +373,22 @@ Future<void> authenticateUser() async {
 logoutFun() async {
   sp?.clear();
   SecureStorage().deleteAll();
-  try{
+  try {
     await DashboardManager().deleteAllData();
-
-  }catch(e){
-
+  } catch (e) {}
+  if (isDialogOpen == true) {
+    Get.back(closeOverlays: true);
   }
-  Get.offAllNamed(Routes.emailLoginScreen);
+
+  Get.offNamedUntil(Routes.emailLoginScreen, (p) => false);
 }
 
 class NoLeadingSpaceFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.startsWith(' ')) {
       final String trimedText = newValue.text.trimLeft();
 
@@ -420,7 +401,6 @@ class NoLeadingSpaceFormatter extends TextInputFormatter {
       );
     }
 
-
     return newValue;
   }
 }
@@ -432,8 +412,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
 }
 
-void ImagePickerJobPhoto(route, id, jobNumber, key){
-
+void ImagePickerJobPhoto(route, id, jobNumber, key) {
   UploadJobPhotosController uploadJobPhotosC;
   if (Get.isRegistered<UploadJobPhotosController>()) {
     uploadJobPhotosC = Get.find<UploadJobPhotosController>();
@@ -444,7 +423,6 @@ void ImagePickerJobPhoto(route, id, jobNumber, key){
   var i = controller.categoryList.indexWhere((element) => element.id == id);
 
   for (var element in localList) {
-
     ImageModel imageModel = ImageModel(
         imagePath: element.imagePath,
         imageName: element.imageName,
@@ -461,31 +439,29 @@ void ImagePickerJobPhoto(route, id, jobNumber, key){
   uploadJobPhotosC.update();
   if (localList.isEmpty) {
     // Get.back();
-  }else {
-    Get.toNamed(Routes.uploadJobPhotosNote,
-        arguments: [id, jobNumber, key]);
+  } else {
+    Get.toNamed(Routes.uploadJobPhotosNote, arguments: [id, jobNumber, key]);
   }
 }
 
 void ImagePickerPromoPictures(String route) {
-
-  var firstName = sp?.getString(Preference.FIRST_NAME)??"";
-  var lastName = sp?.getString(Preference.LAST_NAME)??"";
-  PromoPicturesController controller ;
-  UploadPromoPicturesController uploadPromoPicturesController ;
+  var firstName = sp?.getString(Preference.FIRST_NAME) ?? "";
+  var lastName = sp?.getString(Preference.LAST_NAME) ?? "";
+  PromoPicturesController controller;
+  UploadPromoPicturesController uploadPromoPicturesController;
   if (Get.isRegistered<PromoPicturesController>()) {
     controller = Get.find<PromoPicturesController>();
   } else {
     controller = Get.put(PromoPicturesController());
   }
 
-  if(Get.isRegistered<UploadPromoPicturesController>()){
+  if (Get.isRegistered<UploadPromoPicturesController>()) {
     uploadPromoPicturesController = Get.find<UploadPromoPicturesController>();
-  }else{
+  } else {
     uploadPromoPicturesController = Get.put(UploadPromoPicturesController());
   }
 
-  if(localList.isNotEmpty){
+  if (localList.isNotEmpty) {
     localList.forEach((element) {
       PromoImageModel model = PromoImageModel();
       model.imageName = element.imageName;
@@ -495,8 +471,6 @@ void ImagePickerPromoPictures(String route) {
       model.year = DateTime.now().year.toString();
       model.user = firstName + lastName;
       controller.photoList.add(model);
-
-
     });
 
     print(controller.photoList.length);
@@ -512,17 +486,15 @@ void ImagePickerPromoPictures(String route) {
   }
 }
 
-void ImagePickerLeadSheet(String route,String id,String s){
-  LeadSheetImageController controller ;
+void ImagePickerLeadSheet(String route, String id, String s) {
+  LeadSheetImageController controller;
   if (Get.isRegistered<LeadSheetImageController>()) {
     controller = Get.find<LeadSheetImageController>();
   } else {
     controller = Get.put(LeadSheetImageController());
   }
 
-
   for (var element in localList) {
-
     LeadSheetImageModel model = LeadSheetImageModel();
     model.imageName = element.imageName;
     model.imagePath = element.imagePath;
@@ -539,13 +511,12 @@ void ImagePickerLeadSheet(String route,String id,String s){
       //Get.back();
     } else {
       // Get.back();
-      Get.toNamed(
-          Routes.leadSheetPhotosNote, arguments: [id,s]);
+      Get.toNamed(Routes.leadSheetPhotosNote, arguments: [id, s]);
     }
   }
 }
 
-void ImagePickerFieldIssue(String s){
+void ImagePickerFieldIssue(String s) {
   PhotoCommentController controller = Get.find<PhotoCommentController>();
   for (var element in localList) {
     FieldIssueImageModel model = FieldIssueImageModel();
@@ -557,21 +528,17 @@ void ImagePickerFieldIssue(String s){
   controller.photoList.refresh();
   controller.enableButton.value = true;
   controller.update();
-  if(localList.isNotEmpty) {
+  if (localList.isNotEmpty) {
     if (s == add) {
-
-      Get.toNamed(
-          Routes.fieldIssueCategoryScreen, arguments: photoStr);
-    } else {
-
-    }
+      Get.toNamed(Routes.fieldIssueCategoryScreen, arguments: photoStr);
+    } else {}
   }
 }
 
-void ImagePickerOnboarding(String route,index){
-  OnBoardingPhotosController controller = Get.find<OnBoardingPhotosController>();
+void ImagePickerOnboarding(String route, index) {
+  OnBoardingPhotosController controller =
+      Get.find<OnBoardingPhotosController>();
   for (var element in localList) {
-
     OnBoardingDocumentImageModel model = OnBoardingDocumentImageModel();
     model.imageName = element.imageName;
     model.imagePath = element.imagePath;
@@ -579,19 +546,16 @@ void ImagePickerOnboarding(String route,index){
     // controller.imageList[index].image?.add(model);
     // controller.imageList.refresh();
     controller.update();
-
   }
 
   controller.imageList.refresh();
   controller.enableButton.value = true;
   controller.update();
   controller.imageList.forEach((element) {
-    if((element.image?.length??0) > 0){
+    if ((element.image?.length ?? 0) > 0) {
       controller.enableButton.value = true;
     }
   });
-
-
 }
 
 // Future<String> getSQFBaseUrl()async{

@@ -72,7 +72,11 @@ class ProjectEvaluationController extends GetxController {
             }
           }
         }
-        Get.toNamed(Routes.projectEvaluationDetailsScreen);
+        if(jobPhotosModellist.isNotEmpty) {
+          getEmail(jobPhotosModellist.first.jobNumber.toString());
+          Get.toNamed(Routes.projectEvaluationDetailsScreen);
+        }
+
       }
     }
     return response;

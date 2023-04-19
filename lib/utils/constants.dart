@@ -8,7 +8,7 @@ Preference? sp;
 bool isLogin = false;
 final LocalAuthentication auth = LocalAuthentication();
 String authorized = 'Not Authorized';
-
+bool isDialogOpen = false;
 enum DrawerMenu {
   dashboard,
   jobPhotos,

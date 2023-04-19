@@ -42,9 +42,11 @@ class EndPoint {
   //Resend OTP Url
   static  String resendOTP = "$baseURL/MobileAuth/Authenticate/resendOtp";
   //Delete User Url
-  static  String deleteUser = "$baseURL/MobileAuth/DeleteAccount";
+   static  String deleteUser = "$baseURL/Users/Delete?email=";
   //Disable User
   static  String disableUser = "$baseURL/MobileAuth/DisableAccount";
+  //Disable from Web
+ // static  String disable = "https://onsight-stage.nthdegree.com/API/Users/Activate?email=manas.ranjan%2B11@dreamorbit.com&status=false";
   //Get Latest Version
   static  String getLatestVersion = "$baseURL/MobileVersion/GetMobileVersionData?operatingSystem=";
    //Get Security Flags
@@ -94,7 +96,7 @@ class EndPoint {
   static  String saveLeadSheet = "$baseURLMain/LeadSheet/SaveLeadSheet";
   static  String saveLeadSheetStage = "$baseURLStage/LeadSheet/SaveLeadSheet";
   //Fetch Profile
-  static  String fetchProfile = "$baseURL/Account/GetProfileDetails";
+  static  String fetchProfile = "$baseURL/GetProfileDetails";
   //Profile Update
   static  String updateProfile = "$baseURL/Account/UpdateProfileDetails";
   //create case field issue with comment only

@@ -127,6 +127,8 @@ internetConnectionDialog(context) {
 
 defaultDialog(BuildContext context,
     {String? title, String? alert, Function()? onTap, bool? cancelable}) {
+
+  isDialogOpen = true;
   showDialog(
     context: context,
     barrierDismissible: cancelable ?? true,
@@ -196,7 +198,9 @@ defaultDialog(BuildContext context,
         ),
       );
     },
-  );
+  ).then((value) {
+    isDialogOpen = false;
+  });
 }
 
 String? encodeQueryParameters(Map<String, String> params) {
