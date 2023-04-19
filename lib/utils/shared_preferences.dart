@@ -32,6 +32,7 @@ class Preference {
   static const String ShowNumberAutoFill = "showNumberAutoFill";
   static const String ShowNameHistory = "showNameHistory";
   static const String ExhibitorNameHistory = "exhibitorNameHistory";
+  static const String USERFLAG = "userFlag";
 
   static Preference? _instance;
 

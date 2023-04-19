@@ -6,9 +6,12 @@ import 'package:on_sight_application/repository/database_model/version_model.dar
 import 'package:on_sight_application/repository/web_service_response/security_flags_model.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/dashboard/model/response_version.dart';
+import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
+import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppUpdateController extends GetxController {
   late PackageInfo packageInfo;
@@ -89,8 +92,11 @@ class AppUpdateController extends GetxController {
   }
 
   /// API function for getting security flags
-  Future<dynamic> getSecurityFlags(isLoading) async {
-    var response = await WebService().getSecurityFlags();
+
+  Future<dynamic> getDashboardItems(isLoading) async {
+    String  loginFlag = employee;
+    sp?.putString(Preference.USERFLAG, loginFlag);
+    var response = await WebService().getSecurityFlags(isLoading);
     if (response != null) {
       if(response.toString().contains(noInternetStr)){
         return ;

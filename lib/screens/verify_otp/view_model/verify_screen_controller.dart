@@ -30,8 +30,9 @@ class VerifyScreenController extends GetxController{
 
   Future<dynamic> verifyOtp(emailId, otp) async{
     var response = await service.verifyOtpRequest(emailId, otp);
+    print(response);
     if(response!=null) {
-      if (response.containsKey(error)) {
+      if (response.toString().contains(error)) {
         return response;
       }else if(response.toString().toLowerCase().contains("expired")){
         Get.offAllNamed(Routes.emailLoginScreen);

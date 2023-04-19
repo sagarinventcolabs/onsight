@@ -72,13 +72,16 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                       var response = await controller.verifyOtp(widget.email.toString(),
                           textEditingController.text.toString());
                       if (response.toString().toLowerCase().contains("error")) {
-                        ErrorResponse errorModel = ErrorResponse.fromJson(
-                            response);
-                        if (errorModel.errorDescription
-                            .toString()
-                            .contains(verificationCodeIsIncorrect)) {
-                          controller.isValidOtp.value = false;
-                        }
+                        try{
+                          ErrorResponse errorModel = ErrorResponse.fromJson(
+                              response);
+                          if (errorModel.errorDescription
+                              .toString()
+                              .contains(verificationCodeIsIncorrect)) {
+                            controller.isValidOtp.value = false;
+                          }
+                        }catch(e){}
+
                       }
                 }
               },

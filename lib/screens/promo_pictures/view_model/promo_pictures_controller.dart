@@ -71,7 +71,7 @@ class PromoPicturesController extends GetxController{
               isScrollControlled: true,
               context: Get.context!,
               builder: (context) =>
-                  bottomSheetImagePicker(Routes.uploadPromoPictureScreen)).then((value) {
+                  bottomSheetImagePickerPromo(Routes.promoPictureScreen)).then((value) {
                  // bottomSheetImagePickerPromoPictures(Routes.promoPictureScreen)).then((value) {
             ImagePickerPromoPictures(Routes.promoPictureScreen);
                         update();

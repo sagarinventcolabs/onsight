@@ -128,7 +128,7 @@ Future<void> main() async {
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   showFlutterNotification(message);
   // If you're going to use other Firebase services in the background, such as Firestore,

@@ -20,6 +20,7 @@ class FieldIssueImageModel{
       });
 
   FieldIssueImageModel.fromJson(dynamic json) {
+    rowID = json['RowID'] ?? 0;
     woNumber = json['WoNumber'] ?? "";
     imageName = json['ImageName'] ?? "";
     imageNote = json['ImageNote'] ?? "";

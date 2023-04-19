@@ -55,7 +55,7 @@ class ApiBaseHelper{
 
         try {
 
-            responseJson = _returnResponse(response, showValue: false);
+          responseJson = _returnResponse(response, showValue: false);
 
 
         } catch (e) {
@@ -71,7 +71,7 @@ class ApiBaseHelper{
     {
       Get.snackbar(alert,noInternet);
 
-     // internetConnectionDialog(context);
+      // internetConnectionDialog(context);
     }
   }
 
@@ -161,7 +161,7 @@ class ApiBaseHelper{
         log("response=========>>>> ${response.body}");
 
         try {
-         return response;
+          return response;
 
         } catch (e) {}
       } on SocketException {
@@ -205,7 +205,7 @@ class ApiBaseHelper{
         ).timeout(const Duration(seconds: 60)).catchError((error) async {
           if(isLoading) {
             Get.closeAllSnackbars();
-          Get.back();
+            Get.back();
           }
           Get.snackbar(alert, pleaseCheckInternet);
           return await Future.error(error);
@@ -391,8 +391,8 @@ class ApiBaseHelper{
 
       try {
         var request = http.MultipartRequest(
-          'POST',
-          Uri.parse(url)
+            'POST',
+            Uri.parse(url)
         );
         request.headers[EndPointMessages.AUTHORIZATION_KEY] = EndPointMessages.BEARER_VALUE+ token.toString();
         request.headers[EndPointKeys.contentType] = 'multipart/form-data';
@@ -410,8 +410,8 @@ class ApiBaseHelper{
 
         try {
 
-            final JsonDecoder _decoder = new JsonDecoder();
-            return _decoder.convert(res.toString());
+          final JsonDecoder _decoder = new JsonDecoder();
+          return _decoder.convert(res.toString());
 
         } catch (e) {
 
@@ -419,7 +419,7 @@ class ApiBaseHelper{
       }
 
 
-  /*    on SocketException {
+      /*    on SocketException {
         Get.snackbar(alert, noInternet);
         return "No Internet";
       }*/
@@ -509,26 +509,95 @@ class ApiBaseHelper{
     }
   }
 
+  // post api call method.....................................................................................................
+  Future<dynamic> postApiCallLoader(String url, Map<String, dynamic> jsonData, {isLoading = true}) async {
+    var context =  Get.context;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    var deviceId = await getDeviceId();
+    if (isNetActive) {
+      if(isLoading) {
+        showLoader(context);
+      }
+      var responseJson;
+
+      Map<String, String> apiHeader = {
+        EndPointMessages.AUTHORIZATION_KEY:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
+        EndPointKeys.acceptKey: 'application/json',
+        EndPointKeys.contentType: 'application/json',
+        EndPointMessages.USERAGENT_KEY: deviceId,
+      };
+      log("ApiUrl=========>>>> ${url}");
+      log("apiHeader=========>>>> $apiHeader");
+      log("request=========>>>> ${jsonEncode(jsonData)}");
+
+      try {
+        final http.Response response = await http.post(
+          Uri.parse(url),
+          headers: apiHeader,
+          body: jsonEncode(jsonData),
+        ).timeout(const Duration(seconds: 60)).catchError((error) async {
+          if(isLoading) {
+            Get.closeAllSnackbars();
+            Get.back();
+          }
+          Get.snackbar(alert, pleaseCheckInternet);
+          return await Future.error(error);
+        });
+        if(isLoading) {
+          // Get.closeAllSnackbars();
+          Get.back();
+        }
+
+        log("statusCode=========>>>> ${response.statusCode}");
+        log("response=========>>>> ${response.body}");
+
+        try {
+
+          responseJson = _returnResponse(response, showValue: false);
+
+
+        } catch (e) {
+          if(isLoading) {
+            Get.closeAllSnackbars();
+            Get.back();
+          }
+        }
+      } on SocketException {
+        if(isLoading) {
+          Get.closeAllSnackbars();
+          Get.back();
+        }
+        throw FetchDataException(noInternet);
+      }
+      return responseJson;
+    } else
+    {
+      Get.snackbar(alert,noInternet);
+
+      // internetConnectionDialog(context);
+    }
+  }
+
   // Return Reponse Method....................................................................................................
   dynamic _returnResponse(http.Response response, {showValue = true}) {
     switch (response.statusCode) {
       case 200:
         var responseJson = json.decode(response.body.toString());
         return responseJson;
-        case 201:
-          var responseJson = json.decode(response.body.toString());
-          ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
-          if(showValue) {
-            Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
-              duration: Duration(seconds: 2),));
-          }
-          return responseJson;
+      case 201:
+        var responseJson = json.decode(response.body.toString());
+        ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
+        if(showValue) {
+          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
+            duration: Duration(seconds: 2),));
+        }
+        return responseJson;
       case 400:
         var responseJson = json.decode(response.body.toString());
         ErrorResponse errorModel =  ErrorResponse.fromJson(responseJson);
 
-          Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
-            duration: Duration(seconds: 2),));
+        Get.showSnackbar(GetSnackBar(message: errorModel.errorDescription,
+          duration: Duration(seconds: 2),));
 
         return responseJson;
       case 401:

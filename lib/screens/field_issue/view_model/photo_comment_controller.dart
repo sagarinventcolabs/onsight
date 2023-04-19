@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/repository/database_managers/fieldIssue_image_manager.dart';
 import 'package:on_sight_application/repository/database_model/field_issue_image_model.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/field_issue/view_model/field_issue_controller.dart';
@@ -117,6 +118,11 @@ class PhotoCommentController extends GetxController {
 /// Final Submit Api invoke through background service for photo module in Field Issue
   submitApi({bool showSnackBar = false}) async{
     FieldIssueController controller = Get.find<FieldIssueController>();
+    FieldIssueImageManager manager =  FieldIssueImageManager();
+    photoList.forEach((element) {
+      manager.insertImage(element);
+    });
+
     var service = FlutterBackgroundService();
     service.startService();
     showLoader(Get.context);
@@ -128,8 +134,10 @@ class PhotoCommentController extends GetxController {
       map["token"] = sp!.getString(Preference.ACCESS_TOKEN)??"";
       map["imageList"] = photoList.map((val) => val.toMap()).toList();
       print(map);
+      List<FieldIssueImageModel> tempList = await FieldIssueImageManager().getImageList();
+      print("Database Length "+tempList.length.toString());
 
-      service.invoke(fieldIssue, map);
+      service.invoke("fieldIssue2", map);
       Get.back();
       analyticsFireEvent(fieldIssueCategoryKey, input: {
         fieldIssueType: controller.selectedFieldIssue.value.trim(),

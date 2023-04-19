@@ -29,6 +29,7 @@ class DatabaseHelper {
   String mFieldIssueImageTable = 'field_issue_image_table';
   String mAppInternetTable = 'app_internet_table';
   String mAppUpdateTable = 'app_update_table';
+  String mFailedImageTable = 'failed_image_table';
 
 
 
@@ -107,8 +108,8 @@ class DatabaseHelper {
         """CREATE TABLE $mAppInternetTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, AppInternetStatus INTEGER, UploadCompleteStatus INTEGER, PoorNetworkAlert INTEGER, BatterySaverStatus INTEGER, CameraShutterStatus INTEGER, TaskInProgress INTEGER, AuthenticationMode INTEGER, IsAskedAuth INTEGER, Flavor TEXT)""");
     await db.execute(
         """CREATE TABLE $mAppUpdateTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, Version TEXT, UpdateStatus INTEGER, isAlert INTEGER, ReleaseType TEXT)""");
-    await db.execute(
-        """CREATE TABLE $reviewTime(RowID INTEGER PRIMARY KEY AUTOINCREMENT, Time TEXT)""");
+    await db.execute("""CREATE TABLE $reviewTime(RowID INTEGER PRIMARY KEY AUTOINCREMENT, Time TEXT)""");
+
 
 
   }
