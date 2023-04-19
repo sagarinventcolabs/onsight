@@ -94,8 +94,7 @@ class AppUpdateController extends GetxController {
   /// API function for getting security flags
 
   Future<dynamic> getDashboardItems(isLoading) async {
-    String  loginFlag = employee;
-    sp?.putString(Preference.USERFLAG, loginFlag);
+
     var response = await WebService().getSecurityFlags(isLoading);
     if (response != null) {
       if(response.toString().contains(noInternetStr)){
@@ -103,7 +102,11 @@ class AppUpdateController extends GetxController {
       }
       if (!response.toString().toLowerCase().contains(error)) {
         response.forEach((value) async {
+          print(value);
           SecurityFlagsModel model = SecurityFlagsModel.fromJson(value);
+          print(model.menuItems);
+          String  loginFlag = employee;
+          sp?.putString(Preference.USERFLAG, value);
           await DashboardManager().insertMenu(model);
           listFlags.add(model);
 

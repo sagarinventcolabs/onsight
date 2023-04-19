@@ -4,7 +4,9 @@
 class SecurityFlagsModel {
   SecurityFlagsModel({
       String? menuItems, 
-      bool? isAllowed,}){
+      bool? isAllowed,
+
+  }){
     _menuItems = menuItems;
     _isAllowed = isAllowed;
 }
