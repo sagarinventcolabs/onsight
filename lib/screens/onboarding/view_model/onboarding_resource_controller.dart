@@ -5,6 +5,8 @@ import 'package:on_sight_application/repository/web_service_response/lead_sheet_
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
+import 'package:on_sight_application/utils/constants.dart';
+import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
 class OnboardingResourceController extends GetxController{
@@ -19,6 +21,8 @@ class OnboardingResourceController extends GetxController{
   WebService service = WebService();
   /// model Lead Sheet Details
   ShowDetails? detailsModel;
+  //Login Flag of User
+  RxString loginFlag = "".obs;
 
   RxList<AllOasisResourcesResponse> oasisResourceList = <AllOasisResourcesResponse>[].obs;
   RxList<AllOasisResourcesResponse> searchedResourceList = <AllOasisResourcesResponse>[].obs;
@@ -33,6 +37,8 @@ class OnboardingResourceController extends GetxController{
   RxBool showExhibitor = false.obs;
   /// Show Hide Button
   RxBool buttonSubmit = false.obs;
+
+
 
   updateSelectedModel(Exhibitors element){
 
@@ -106,5 +112,8 @@ class OnboardingResourceController extends GetxController{
     }
   }
 
-
+  @override
+  void onInit() {
+    loginFlag.value = sp?.getString(Preference.USERFLAG);
+  }
 }

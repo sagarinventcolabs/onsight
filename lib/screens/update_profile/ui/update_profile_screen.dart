@@ -205,13 +205,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               ? ColourConstants.primary
                               : Colors.grey),
                     ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          width: 1,
-                          color: Get.isDarkMode
-                              ? ColourConstants.primary
-                              : Colors.grey),
-                    ),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color: Get.isDarkMode
+                                ? ColourConstants.primary
+                                : Colors.grey),
+                      ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                           width: 1,

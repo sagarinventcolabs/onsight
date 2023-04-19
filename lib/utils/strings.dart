@@ -177,6 +177,7 @@ const String supportNumber = "770-692-5575";
 const String supportEmail = "helpdesk@nthdegree.com";
 const String orStr = " or ";
 const String camFolder = "CamFolder";
+const String youHaveReachedTheMaximumLimitOf = "You have reached the maximum limit of 10";
 const String rootJailBreakMsg2 = " Rooted for android, Jailbreak for iOS";
 const String doYouWantDeleteAccount = "Do you want to delete the account ?";
 const String accountDeletedSuccessfully = "Account deleted successfully";
@@ -254,7 +255,7 @@ const String showNumberValidation = "Show number is invalid";
 const String chooseType = "Choose Type";
 const String pleaseEnterTitleFirst = "Please provide title";
 const String doYouWantAddMoreComment = "Do you want to add more comments?";
-const String doYouWantAddMorePhoto = "Do you want to add more photo?";
+const String doYouWantAddMorePhoto = "Do you want to add more photos?";
 const String commentSubmittedSuccessfully = "Comment submitted successfully!";
 const String category = "category";
 const String imageCount = "image_count";
@@ -290,6 +291,7 @@ const String searchResource = "Search Resource";
 const String selectResource = "Select Resource";
 const String addDocuments = "ADD DOCUMENTS";
 const String createResource = "CREATE RESOURCE";
+const String applyChanges = "APPLY CHANGES";
 const String addDocument = "Add Document";
 const String backStr = "BACK";
 const String resourceDetails = "Resource Details";
@@ -320,6 +322,7 @@ const String corporateSupport = "Corporate Support";
 const String resourceCanNotBeEntered = "Resource Can Not Be Entered";
 const String recordContainingSSNAlreadyExists = "Record Containing SSN Already Exists";
 const String viewRecords = "View Records";
+const String editResource = "Edit Resource";
 
 
 /// SQF Lite Keys
@@ -371,6 +374,7 @@ var regexToRemoveEmoji = '   /\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62(?:\uDB40\uDC7
 /// Firebase Analytics Events Name
 const String enableMobileDataKey = "Enable_Mobile_Data";
 const String user = "user";
+const String employee = "Employee";
 const String batterySaverKey = "Battery_Saver";
 const String poorNetworkAlertKey = "Poor_Network_Alert";
 const String cameraShutter2 = "Camera_Shutter";

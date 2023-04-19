@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/web_service_requests/create_resource_request.dart';
+import 'package:on_sight_application/repository/web_service_response/all_oasis_resources_response.dart';
 import 'package:on_sight_application/repository/web_service_response/create_resource_response.dart';
 import 'package:on_sight_application/repository/web_service_response/lead_sheet_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
@@ -160,7 +161,7 @@ class OnboardingController extends GetxController{
       enableButton.value = false;
       isValidCity.value = false;
       // FocusScope.of(context).requestFocus(focusNodeCity.value);
-      // update();
+      update();
       return false;
     } else {
       enableButton.value = true;
@@ -199,6 +200,18 @@ class OnboardingController extends GetxController{
       update();
       return false;
     }else {
+      try{
+        var value = int.parse(ssnController.text.toString());
+        if(value<=0){
+          enableButton.value = false;
+          isValidSSN.value = false;
+          // focusNodeMobile.value.requestFocus();
+          update();
+          return false;
+        }
+      }catch(e){
+        debugPrint(e.toString());
+      }
       isValidSSN.value = true;
       enableButton.value = true;
     }
@@ -215,8 +228,20 @@ class OnboardingController extends GetxController{
      // focusNodeMobile.value.requestFocus();
       update();
       return false;
-    } else {
-      isValidLastName.value = true;
+    }  else {
+      try{
+        var value = int.parse(mobileNumberController.text.toString());
+        if(value<=0){
+          enableButton.value = false;
+          isValidMobileNumber.value = false;
+          // focusNodeMobile.value.requestFocus();
+          update();
+          return false;
+        }
+      }catch(e){
+        debugPrint(e.toString());
+      }
+      isValidMobileNumber.value = true;
       enableButton.value = true;
     }
 
@@ -241,8 +266,8 @@ class OnboardingController extends GetxController{
       }
 
     }
-
     update();
+    return true;
   }
 
 
@@ -338,7 +363,40 @@ class OnboardingController extends GetxController{
       Get.snackbar(alert,noInternet);
     }
   }
+  /// API function for creating resource
+  Future<dynamic> checkSSN() async {
 
+    requestModel.value.firstName = firstNameController.text.trim();
+    requestModel.value.lastName = lastNameController.text.trim();
+    try {
+      requestModel.value.mobilePhone = mobileNumberController.text;
+    }catch(e){
+      requestModel.value.mobilePhone = '';
+    }
+    requestModel.value.union = unionController.text.trim();
+    requestModel.value.ssn = ssnController.text.trim();
+    requestModel.value.city = cityController.text.trim();
+    requestModel.value.classification = classificationController.text.trim();
+    requestModel.value.notes = noteController.text.trim();
+    requestModel.value.show = selectedShow.value;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    if(isNetActive){
+      var response = await service.checkSSNValidate(requestModel.value.ssn);
+
+      if(response==null) {
+        createResourceApi();
+      }else{
+        AllOasisResourcesResponse responseModel = AllOasisResourcesResponse.fromJson(response, 0);
+        responseModel.route = Routes.onBoardingRegistration;
+        dialogWithHyperLink(Get.context!, alert: resourceCanNotBeEntered, title: recordContainingSSNAlreadyExists, colour: ColourConstants.red, hyperLink: viewRecords, onTap: (){Get.back();}, model: responseModel);
+
+      }
+      update();
+      return response;
+    }else{
+      Get.snackbar(alert,noInternet);
+    }
+  }
   /// API function for creating resource
   Future<dynamic> createResourceApi() async {
 

@@ -42,5 +42,6 @@ abstract class Routes {
   static const onBoardingUploadPhotosScreen = '/OnBoardingUploadPhotosScreen';
   static const onBoardingPhotoScreen = '/OnBoardingPhotoScreen';
   static const introductionTwoStep = '/IntroductionTwoStep';
+  static const editResource = '/EditResource';
 
 }

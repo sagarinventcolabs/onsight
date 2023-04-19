@@ -59,8 +59,6 @@ class DashboardManager{
   }
 
 
-
-
   Future<dynamic> getAllData()async{
     Database db = await DatabaseHelper().database;
     String query="SELECT * FROM $mDashboardTable";

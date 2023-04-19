@@ -393,7 +393,7 @@ Future<void> authenticateUser() async {
   }
 }
 
-logoutFun() async {
+logoutFun()async{
   sp?.clear();
   SecureStorage().deleteAll();
   try {

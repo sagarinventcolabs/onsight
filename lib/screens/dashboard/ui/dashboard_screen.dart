@@ -236,11 +236,12 @@ class DashboardScreenState extends State<DashboardScreen> {
   }
 
   setSettingsData() async {
+    packageInfo = await PackageInfo.fromPlatform();
     var result = await DashboardManager().getAllData();
     if(result.isNotEmpty){
-      await appUpdateController.getSecurityFlags(false);
+      await appUpdateController.getDashboardItems(false);
     }else{
-      await appUpdateController.getSecurityFlags(true);
+      await appUpdateController.getDashboardItems(true);
     }
 
     setState(() {
@@ -268,7 +269,7 @@ class DashboardScreenState extends State<DashboardScreen> {
       settingsController.setNotifyUploadSwitch(
           val: a[0][uploadCompleteStatus] == 1 ? true : false);
     }
-    packageInfo = await PackageInfo.fromPlatform();
+
     setState(() {});
   }
 
