@@ -52,4 +52,20 @@ class DashboardManager{
     return false;
   }
 
+
+  Future<dynamic> deleteAllData()async{
+    Database db = await DatabaseHelper().database;
+    String query="DELETE FROM $mDashboardTable";
+    var result = await db.rawQuery(query);
+    return result;
+
+  }
+
+  Future<dynamic> getAllData()async{
+    Database db = await DatabaseHelper().database;
+    String query="SELECT * FROM $mDashboardTable";
+    var result = await db.rawQuery(query);
+    return result;
+
+  }
 }

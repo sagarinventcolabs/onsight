@@ -48,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen>
       //  FlutterBackgroundService().invoke("stopService");
 
 
-     //await setTempData();
+    //  await setTempData();
      // print(isLogin);
       if (isLogin) {
         if(await sp?.getString(Constants.secureValidation)!=null) {
@@ -194,7 +194,7 @@ class _SplashScreenState extends State<SplashScreen>
 
 
     var data =
-        "axXua51AxWqQtfgryXYGJ66UAcNsgZcFzbo5-YY4ZKiRrbaLBy5mkrb9p6HIskPd_wAi28WTHtPGrAvBWvCGh9xZjcPm8xcXBW6np5sVGgPnROBihiuFeZ7w42myd_M5PUu9s1Px8Le4od8k6XTJCHEGeB31GQx0hOimuGcWMfC3x9YeyMFh0QjNBi6lwDVWrH-T_3NnoJC3C-QyUhNYTPhev-sG_ajMACW-wvs3d7Ai0dbKiDqKoTX3YEqaKtE2ROKOEdd1HMkIkt9GqaIugJkcLMWwl4F2wbcICOBFfP1PxcOssXIaNshi85gNrALsuoZfkx5E_U_A-OTmam3eGYQvOtlA-2fDvBKaHOEd-Rlq1CkuOtckV5E5xFg-ZP9-tjnateUCb0Pi_xHf0fVhycdDCjkiIsvxCzSxMse1aKudQXzuoXHPJNc3TWPeBriiNP4x-hgT1o5hqwlU1xUAriX961Kt1E_dRfx4uZheCchv_mvuY37N3Vfr6iPdawv6_xv_pENXQeng6E5YxZXd-N80wN3BWISxYryUDI0Pwm2t74S-Xpgw20G3Q7-ZdYCu9P1RRVjfHTpgbuP1zkERRGkmlo5U5O9_-nk4-HwlMm4Ukg8C9a3WeSZyj-K3pnPVaF7qIttJMljnJZgzRXGHGey--qxqIzwctw8dJmcL9RGdEsK7LCfI8D7vBTZjrHST0PgsMv-xgM5cM2wbS9Vycg";
+        "1B2prfhhA9f9pftoHc3btywUqcp3-NdXsVqDufuUwOYwO6L4fQjiCcMisv0kD5QggPByNlUwVV8AxiPABw7xdVYZOnqVIfFL3ZqFLm9LUQ6wGoKRXbGDaFWecWUyyH9oYOd1Bi-JfS-Vjp-a8ShuUbpoOki1r0EYQvbq_gea6DcBpt-mu8l_1Jv4HpxAX6G-WZiufE1blggDS8x_LtGWaDx8qAsCjF5JYZh7cRslniXwq4hBeU0J2Wh96sMrcTCjDPToVZUnSQ8HhTU8Zoyd2Z3NfMB1l_CCZHWddSPV-pEPNmBgtKiY4Xman5CeZMEu1TdDZftSYMCzGDXmHgr5Dvk_hNjhAq2sV04kUcTAcApOwGomEfEE1A54bs6-y4nkOpKHNzJYS6kZL1FYWNe4pePF0JU36ZC7mGYm7eP7zkrvHCZlgTN2K5R7n4-GLzMS3N9325LOWECxJx-HLKvE5hLgrLiPc_ldQV8uk_mFDVJJjR1NV60xYQTwyKlV7MyIYUiC6-EJGe4HfhFmsUyRPL3w1m3cQZqZf78a_t499CUJ807ohMbHrZ8YsydbmjJfewokVVeI4kx_XZes4V7vCzbkvSyC5AvOeC0pif7Mof_Zr5qP86sDq-mGVA05kqqDSyMMIdPEvQdY2Mr_USKLq9vZxDdHZB_3omZ_QSzpexwtFdwSpi_sabKH-AtCcQuF_oKIfjiRRU8UV4nnB5Y77A";
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(Preference.ACCESS_TOKEN, data);
     preferences.setString(Preference.USER_EMAIL, "sagar.s@dreamorbit.com");

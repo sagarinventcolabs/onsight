@@ -28,7 +28,7 @@ class _BaseTextFieldState extends State<BaseTextField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height5),
+      padding: EdgeInsets.only(left: Dimensions.height20,right: Dimensions.height20, top: Dimensions.height5, bottom: Dimensions.height5),
       child: TextField(
         controller: widget.controller,
         onTap: widget.onTap,

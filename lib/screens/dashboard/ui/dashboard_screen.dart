@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
+import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
  import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/dashboard/view_model/app_update_controller.dart';
 import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
@@ -135,13 +136,15 @@ class DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
         leadingWidth: Dimensions.width43,
-        title: Text(dashboard,
+        title: Text(
+            dashboard,
             style: TextStyle(
                 color: Get.isDarkMode
                     ? ColourConstants.white
                     : ColourConstants.primary,
                 fontWeight: FontWeight.bold,
-                fontSize: Dimensions.font18)),
+                fontSize: Dimensions.font18)
+        ),
         actions: [
           PopupMenuButton<String>(
             color: Get.isPlatformDarkMode
@@ -214,7 +217,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                   title: onboarding,
                   lightSvgIcon: Assets.icOnBoarding,
                   darkSvgIcon: Assets.icOnBoardingDark,
-                  routeName: Routes.onBoardingScreen),
+                  routeName: Routes.onBoardingNewScreen),
               DashboardTile(
                   title: promoPictures,
                   lightSvgIcon: Assets.icPromoPic,
@@ -233,8 +236,16 @@ class DashboardScreenState extends State<DashboardScreen> {
   }
 
   setSettingsData() async {
-    await appUpdateController.getSecurityFlags();
-    setState(() {});
+    var result = await DashboardManager().getAllData();
+    if(result.isNotEmpty){
+      await appUpdateController.getSecurityFlags(false);
+    }else{
+      await appUpdateController.getSecurityFlags(true);
+    }
+
+    setState(() {
+
+    });
     debugPrint(await sp?.getString(Preference.ACCESS_TOKEN));
     AppInternetManager appInternetManager = AppInternetManager();
     //

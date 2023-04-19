@@ -147,7 +147,7 @@ class _OnBoardingResourceScreenState extends State<OnBoardingResourceScreen> {
                   resourceController.selectedResource.value = ind!;
                   resourceController.searchedResourceList.refresh();
                   resourceController.update();
-                  Get.toNamed(Routes.resourceDetails,arguments: resourceController.searchedResourceList[index]);
+                  Get.toNamed(Routes.resourceDetailsNew,arguments: resourceController.searchedResourceList[index]);
                 },
                 title: Text("${resourceController.searchedResourceList[index].firstName.toString()}"+" ${resourceController.searchedResourceList[index].lastName.toString()}",style: TextStyle(fontSize: Dimensions.font14),),
                 subtitle: Text((resourceController.searchedResourceList[index].ssn??"").characters.takeLast(4).toString(),style: TextStyle(fontSize: Dimensions.font12),),
