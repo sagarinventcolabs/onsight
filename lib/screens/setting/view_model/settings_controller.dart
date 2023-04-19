@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
+import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -159,17 +160,21 @@ class SettingsController extends GetxController {
     var mobile = sp?.getString(Preference.USER_EMAIL)??"";
     var code = sp?.getString(Preference.COUNTRY_CODE)??"";
     var response = await service.deleteUserRequest(mobile, code);
-    log("response=====> ${response}");
     if(response!=null) {
-       if(!response.toString().contains(error)) {
-        if (response.toString().contains(mobile.toString())) {
-          // sp?.clear();
-          // SecureStorage().deleteAll();
-          // Get.offAllNamed(Routes.emailLoginScreen);
+       if(response.toString().toLowerCase().contains(result)) {
+        if (response["Result"]=="Deleted") {
+           sp?.clear();
+           SecureStorage().deleteAll();
+           try {
+             await DashboardManager().deleteAllData();
+           } catch (e) {}
+           Get.offAllNamed(Routes.emailLoginScreen);
+
           defaultDialog(Get.context!, title: accountDeletedSuccessfully,
               alert: disclaimerMessage,
               onTap: () {
-                // logoutFun();
+           // isDialogOpen =  true;
+                 //logoutFun();
                 Get.back();
               },
               cancelable: false);

@@ -626,7 +626,8 @@ class WebService {
   //Delete User request...........................................................................
   Future<dynamic> deleteUserRequest(username, code) async {
    // var response = await ApiBaseHelper().postApiCall(EndPoint.disableUser, body);
-    var response = await ApiBaseHelper().deleteMethod(EndPoint.deleteUser+username);
+    var email  = username.toString().replaceAll("+", "%2B");
+    var response = await ApiBaseHelper().deleteMethod(EndPoint.deleteUser+email);
     return response;
   }
 

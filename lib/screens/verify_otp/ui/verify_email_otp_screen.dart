@@ -168,7 +168,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                     //   controller.validate(
                     //       phoneController.text, textEditingController.text);
                     // },
-                   inputFormatters: [FilteringTextInputFormatter.allow("[0-9]")],
+                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
                     decoration: InputDecoration(
                       labelText: verificationCode,
                       counterText: "",

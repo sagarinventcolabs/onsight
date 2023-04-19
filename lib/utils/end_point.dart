@@ -42,7 +42,7 @@ class EndPoint {
   //Resend OTP Url
   static  String resendOTP = "$baseURL/MobileAuth/Authenticate/resendOtp";
   //Delete User Url
-   static  String deleteUser = "$baseURL/Users/Delete?email";
+   static  String deleteUser = "$baseURL/Users/Delete?email=";
   //Disable User
   static  String disableUser = "$baseURL/MobileAuth/DisableAccount";
   //Disable from Web
