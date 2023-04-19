@@ -90,7 +90,7 @@ class AppUpdateController extends GetxController {
 
   /// API function for getting security flags
   Future<dynamic> getSecurityFlags(isLoading) async {
-    var response = await WebService().getSecurityFlags(isLoading);
+    var response = await WebService().getSecurityFlags();
     if (response != null) {
       if(response.toString().contains(noInternetStr)){
         return ;

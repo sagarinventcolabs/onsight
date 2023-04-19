@@ -625,25 +625,24 @@ class WebService {
 
   //Delete User request...........................................................................
   Future<dynamic> deleteUserRequest(username, code) async {
-    var codee = code.toString().replaceAll("+", "");
-    Map<String, String> body = {
-      'UsernameOrPhone': username,
-      'CountryCode': codee,
-      'ClientId': "Mobile",
-    };
-    var response = await ApiBaseHelper().postApiCall(EndPoint.disableUser, body);
+   // var response = await ApiBaseHelper().postApiCall(EndPoint.disableUser, body);
+    var email  = username.toString().replaceAll("+", "%2B");
+    var response = await ApiBaseHelper().deleteMethod(EndPoint.deleteUser+email);
     return response;
   }
 
 
   //Get Security Flags...........................................................................
-  Future<dynamic> getSecurityFlags(loading) async {
-
+  Future<dynamic> getSecurityFlags() async {
     var email = sp?.getString(Preference.USER_EMAIL)??"";
-    var finalEmail = email.toString().replaceAll("+", "%2B").trim();
-    var url = EndPoint.getSecurityFlags+finalEmail;
-    var response = await ApiBaseHelper().getApiCall(url, isLoading: loading);
-    return response;
+    var url = EndPoint.getSecurityFlags/*+email.toString().replaceAll("+", "%2B")*/;
+    var deviceId = await FlutterUdid.udid;
 
+    Map<String, String> body = {
+      "EmailAddress":email.toString(),
+      "UniqueID":deviceId
+    };
+    var response = await ApiBaseHelper().postApiCall(url, body);
+    return response;
   }
 }

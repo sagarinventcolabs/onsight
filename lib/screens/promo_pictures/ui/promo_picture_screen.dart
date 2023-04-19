@@ -101,7 +101,6 @@ class PromoPictureState extends State<PromoPictureScreen> with SearchFunctions{
                       bottomSheetImagePicker(Routes.promoPictureScreen)).then((
                      //bottomSheetImagePickerPromoPictures(Routes.promoPictureScreen)).then((
                   value) {
-                        print("Steeppp");
                 ImagePickerPromoPictures(Routes.promoPictureScreen);
                 setState(() {});
               });
