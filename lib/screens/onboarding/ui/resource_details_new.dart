@@ -138,7 +138,7 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
                   TextRow(title: firstName,value:data.firstName.toString().isEmpty?"N/A": data.firstName??"N/A"),
                   TextRow(title: lastName,value: data.lastName.toString().isEmpty?"N/A":data.lastName??"N/A"),
                   Visibility(
-                      visible: onboardingResourceController.loginFlag.value=="Employee",
+                      visible: onboardingResourceController.loginFlag.value.toLowerCase()=="employee",
                       child: TextRow(title: ssn,value: "XXX-XX-"+((data.ssn??"N/A").characters.takeLast(4).toString()))),
                   TextRow(title: mobileNumber,value:data.mobilePhone.toString().isEmpty?"N/A": data.mobilePhone??"N/A"),
                   TextRow(title: city,value: data.city.toString().isEmpty?"N/A":data.city.toString().capitalizeFirst??"N/A"),

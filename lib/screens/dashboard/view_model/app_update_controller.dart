@@ -102,11 +102,8 @@ class AppUpdateController extends GetxController {
       }
       if (!response.toString().toLowerCase().contains(error)) {
         response.forEach((value) async {
-          print(value);
           SecurityFlagsModel model = SecurityFlagsModel.fromJson(value);
-          print(model.menuItems);
-          String  loginFlag = employee;
-          sp?.putString(Preference.USERFLAG, value);
+          sp?.putString(Preference.USERFLAG, model.levelFlag??"");
           await DashboardManager().insertMenu(model);
           listFlags.add(model);
 
