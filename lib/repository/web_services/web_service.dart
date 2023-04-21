@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_udid/flutter_udid.dart';
+import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
@@ -27,6 +28,7 @@ import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
+import 'package:on_sight_application/utils/strings.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -70,8 +72,18 @@ class WebService {
 
   //Get Profile request...........................................................................
   Future<dynamic> getProfile(showSnackbar) async {
-    var response = await ApiBaseHelper().getApiCall(EndPoint.fetchProfile, showSnackbarValue: showSnackbar, isLoading: true);
-    return response;
+    var email = sp?.getString(Preference.USER_EMAIL)??"";
+    if(email!=null){
+      if(email.toString().isNotEmpty){
+        var response = await ApiBaseHelper().getApiCall(EndPoint.fetchProfile+email.toString().replaceAll("+", "%2B"), showSnackbarValue: showSnackbar, isLoading: true);
+        return response;
+      }else{
+       Get.showSnackbar(GetSnackBar(title: alert, message: "Please Relogin",));
+      }
+    }else{
+      Get.showSnackbar(GetSnackBar(title: alert, message: "Please Relogin",));
+    }
+
   }
 
   //Update Profile request...........................................................................
