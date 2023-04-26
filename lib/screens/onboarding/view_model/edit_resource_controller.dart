@@ -3,9 +3,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:on_sight_application/repository/web_service_response/all_oasis_resources_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/onboarding/model/resource_model.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
+import 'package:on_sight_application/utils/dialogs.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
 class EditResourceController extends GetxController{
@@ -18,6 +21,8 @@ class EditResourceController extends GetxController{
   TextEditingController mobileNumberController = TextEditingController();
   /// union Controller
   TextEditingController unionController = TextEditingController();
+
+  Rx<AllOasisResourcesResponse>? data = AllOasisResourcesResponse().obs;
   /// variable for show hide suggestion below text field of union number
   RxInt value = 0.obs;
   RxBool isValidMobileNumber = true.obs;
@@ -64,6 +69,11 @@ class EditResourceController extends GetxController{
       return false;
     } else {
       enableButton.value = true;
+    }
+    if(mobileNumberController.text.isEmpty){
+      enableButton.value = false;
+      update();
+      return false;
     }
     if(mobileNumberController.text.length != 10 && mobileNumberController.text.length > 0){
       enableButton.value = false;
@@ -166,72 +176,25 @@ class EditResourceController extends GetxController{
 
   Future<dynamic> editResourceSubmit() async {
 
-    EditResourceModel requestModel = EditResourceModel();
-    if(cityController.text.isNotEmpty)
-    requestModel.city = cityController.text.trim();
-    if(unionController.text.isNotEmpty)
-    requestModel.union = unionController.text.trim();
-    if(mobileNumberController.text.isNotEmpty)
-    requestModel.mobile = mobileNumberController.text;
-    if(classificationController.text.isNotEmpty)
-    requestModel.classification = classificationController.text.trim();
-    var requestJson = requestModel.toJson();
+      data!.value.city = cityController.text.trim();
+      data!.value.union = unionController.text.trim();
+      data!.value.mobilePhone = mobileNumberController.text;
+      data!.value.classification = classificationController.text.trim();
+    var requestJson = data!.value.toJson();
     print(requestJson);
- /*   bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive){
-      var response = await service.createResourceOnboarding(requestModel.toJson());
+      WebService service = WebService();
+      var response = await service.updateResourceOnboarding(requestJson);
       if(response!=null) {
+        if (response.toString().toLowerCase().contains("success")) {
 
-        if (response.toString().contains("ItemId")) {
-          CreateResourceResponse createResourceResponse = CreateResourceResponse.fromJson(response);
-          analyticsFireEvent(oasisResourceCreatedKey, input: {
-            "ssn":createResourceResponse.ssn??"",
-            user:sp?.getString(Preference.FIRST_NAME)??"" *//*+" "+sp?.getString(Preference.LAST_NAME)??""*//*
+          defaultDialog(Get.context!, title: response.toString(),cancelable: false, onTap: (){
+            Get.back();
+            Get.back();
           });
-          requestModel.value.itemId = num.parse(createResourceResponse.itemId.toString());
-          sp?.putInt(Preference.ACTIVITY_TRACKER, ((sp?.getInt(Preference.ACTIVITY_TRACKER)??0)+1));
-          dialogAction(Get.context!,
-              alert: resourceCreatedSuccessfully,
-              title: doYouWantToAddDocument,
-              onTapYes: () {
-                firstNameController.clear();
-                lastNameController.clear();
-                mobileNumberController.clear();
-                unionController.clear();
-                ssnController.clear();
-                cityController.clear();
-                classificationController.clear();
-                noteController.clear();
-                enableButton.value = false;
-                update();
-                Get.back();
-                if(Get.isRegistered<OnBoardingPhotosController>()){
-                  onBoardingPhotosController = Get.find<OnBoardingPhotosController>();
-                }else{
-                  onBoardingPhotosController = Get.put(OnBoardingPhotosController());
-                }
-                onBoardingPhotosController.getCategory(itemId: createResourceResponse.itemId);
-              },
-              onTapNo: () {
-                firstNameController.clear();
-                lastNameController.clear();
-                mobileNumberController.clear();
-                unionController.clear();
-                ssnController.clear();
-                cityController.clear();
-                classificationController.clear();
-                noteController.clear();
-                enableButton.value = false;
-                update();
-                Get.back();
-                Get.back();
-              });
 
-        }else{
-          if(response.toString().contains(showNumberNotFound)){
-            isValidShowNumber.value = false;
-            update();
-          }
+
         }
 
       }
@@ -239,6 +202,6 @@ class EditResourceController extends GetxController{
       return response;
     }else{
       Get.snackbar(alert,noInternet);
-    }*/
+    }
   }
 }

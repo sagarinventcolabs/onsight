@@ -184,4 +184,32 @@ AllOasisResourcesResponse copyWith({  dynamic itemId,
     return map;
   }
 
+
+  set city(String? value) {
+    _city = value;
+  }
+
+  set notes(String? value) {
+    _notes = value;
+  }
+
+  set classification(String? value) {
+    _classification = value;
+  }
+
+  set union(String? value) {
+    _union = value;
+  }
+
+  set mobilePhone(String? value) {
+    _mobilePhone = value;
+  }
+
+  set lastName(String? value) {
+    _lastName = value;
+  }
+
+  set firstName(String? value) {
+    _firstName = value;
+  }
 }

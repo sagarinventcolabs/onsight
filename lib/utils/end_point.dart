@@ -127,10 +127,18 @@ class EndPoint {
   static  String updateExhibitor = "$baseURL/LeadSheet/SaveExhibitor?showNumber=";
   /// Get resource list onboarding
   static  String oasisResourcesEndPoint = "$baseURL/onboarding/GetAllOasisResources";
+   /// Get resource list onboarding
+   static  String findOasisResourcesEndPoint = "$baseURL/OnBoarding/FindOasisResources/";
   /// Get document type url in onboarding
   static  String getDocumentType = "$baseURL/onboarding/GetAllDocumentType";
+   /// Get Category type url in onboarding
+   static  String getCategoryType = "$baseURL/onboarding/GetCategories";
+   /// Get photo count onboarding
+   static  String getPhotoCount = "$baseURL/onboarding/GetPhotoCountById/";
   ///Create resource onboarding url
   static  String createResourceOnboarding = "$baseURL/onboarding/CreateResource";
+   ///Create resource onboarding url
+   static  String updateResourceOnboarding = "$baseURL/onboarding/UpdateResource";
   ///Upload Document url for onboarding
   static  String uploadDocument = "$baseURLMain/onboarding/AddResourceDocuments";
   static  String uploadDocumentStage = "$baseURLStage/onboarding/AddResourceDocuments";

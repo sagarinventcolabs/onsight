@@ -11,6 +11,7 @@ import 'package:on_sight_application/screens/job_photos/view_model/job_photos_co
 import 'package:on_sight_application/screens/promo_pictures/view_model/promo_pictures_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';

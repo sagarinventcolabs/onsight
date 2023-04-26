@@ -29,8 +29,9 @@ class _OnboardingTileState extends State<OnboardingTile> {
     return GestureDetector(
       onTap: () async {
         switch(widget.routeName){
-          case Routes.onBoardingResourceScreen:
-            await onboardingResourceController.getOasisResourcesApi();
+          case Routes.onBoardingResourceScreenNew:
+            Get.toNamed(Routes.onBoardingResourceScreenNew);
+           // await onboardingResourceController.getOasisResourcesApi();
             break;
           case Routes.onBoardingRegistration:
             Get.toNamed(widget.routeName??"")?.then((value){

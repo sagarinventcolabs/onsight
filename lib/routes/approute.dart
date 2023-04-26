@@ -33,6 +33,7 @@ abstract class Routes {
   static const onBoardingScreen = '/OnBoardingScreen';
   static const onBoardingNewScreen = '/OnBoardingNewScreen';
   static const onBoardingResourceScreen = '/OnBoardingResourceScreen';
+  static const onBoardingResourceScreenNew = '/OnBoardingResourceScreenNew';
   static const resourceDetails = '/ResourceDetails';
   static const resourceDetailsNew = '/ResourceDetailsNew';
   static const onBoardingRegistration = '/OnboardingRegistration';

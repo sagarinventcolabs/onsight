@@ -102,7 +102,6 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                     controller.update();
                   });
                   controller.update();
-                  controller.validsubmit(context);
                   if (controller.validsubmit(context)) {
 
                    await controller.checkSSN().then((value) {

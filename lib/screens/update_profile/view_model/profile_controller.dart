@@ -25,8 +25,9 @@ class ProfileController extends GetxController{
 
   Future<dynamic> getProfile({showValue = true}) async{
     var response = await service.getProfile(showValue);
+    print(response);
     if(response!=null) {
-      if (response.containsKey(error)) {
+      if (response.toString().contains(error)) {
         return response;
       }
       FetchProfileResponse responseModel = FetchProfileResponse.fromJson(response);

@@ -87,6 +87,7 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
 
   /// Photo Widget
   Widget photoWidget() {
+
     return GridView.builder(
       shrinkWrap: true,
       padding: EdgeInsets.all(Dimensions.height20),

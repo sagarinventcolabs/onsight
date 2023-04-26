@@ -71,6 +71,7 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
       onWillPop: () async {
         await widget._cameraController.value?.dispose();
         widget.onComplete?.call(widget.capturedImages.toList());
+        widget._cameraController.value!.setFlashMode(FlashMode.off);
         return true;
       },
       child: Scaffold(
@@ -275,7 +276,6 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
 
   Future<void> captureImage(BuildContext context) async {
     if (widget.capturedImages.length >= widget.maxImages) {
-      // TODO: Show warning dialog
       return;
     }
 
@@ -298,5 +298,13 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
   Future<void> removeImageFile(File file) async {
     bool isRemoved = await widget.onRemoveImage(file);
     if (isRemoved) widget.capturedImages.remove(file);
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget._cameraController.value!.setFlashMode(FlashMode.off);
+
   }
 }

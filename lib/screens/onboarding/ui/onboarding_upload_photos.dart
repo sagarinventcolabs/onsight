@@ -25,14 +25,16 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
   @override
   void initState() {
     if(Get.isRegistered<OnBoardingPhotosController>()){
-      print("1");
       controller = Get.find<OnBoardingPhotosController>();
     }else{
-      print("2");
       controller = Get.put(OnBoardingPhotosController());
     }
+
+
     super.initState();
   }
+
+
   
   @override
   Widget build(BuildContext context) {
@@ -114,6 +116,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
   }
 
   Container categoryWidget(key, index) {
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.height5, horizontal: Dimensions.height16),
       padding: EdgeInsets.symmetric(vertical: Dimensions.height10, horizontal: Dimensions.height10),
@@ -151,7 +154,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                       alignment: Alignment.center,
                       constraints: BoxConstraints(minWidth: Dimensions.height25),
                       padding: EdgeInsets.symmetric(vertical: Dimensions.height3, horizontal: Dimensions.height7),
-                      child: Text(controller.imageList[index].image?.length.toString()??"0",
+                      child: Text(controller.imageList[index].itemCount.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: ColourConstants.white,

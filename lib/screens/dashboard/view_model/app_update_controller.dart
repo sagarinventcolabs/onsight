@@ -11,7 +11,6 @@ import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppUpdateController extends GetxController {
   late PackageInfo packageInfo;
@@ -103,6 +102,7 @@ class AppUpdateController extends GetxController {
       if (!response.toString().toLowerCase().contains(error)) {
         response.forEach((value) async {
           SecurityFlagsModel model = SecurityFlagsModel.fromJson(value);
+          print(model.levelFlag);
           sp?.putString(Preference.USERFLAG, model.levelFlag??"");
           await DashboardManager().insertMenu(model);
           listFlags.add(model);
@@ -137,4 +137,18 @@ class AppUpdateController extends GetxController {
       }
     }
   }
+
+  //
+  // checkSSL() async {
+  //   List<String> listSHA = [];
+  //   listSHA.add("38 45 03 EB 3C 83 04 96 C3 4B BB 6A 9B 5A 8A 9B A9 74 45 53");
+  //   listSHA.add("B5 D9 DB E6 06 92 2F DC 3F 3B 32 E4 98 28 8C A2 6B 7E 00 69 BF C0 63 2B BB 1A B3 0C C0 05 5A 4A");
+  //   String checkSSN = await SslPinningPlugin.check(
+  //       serverURL: "https://onsight-stage.nthdegree.com/",
+  //       sha: SHA.SHA256,
+  //       allowedSHAFingerprints: listSHA,
+  //       timeout: 1000);
+  //
+  //   print("Check SSN  result======> ${checkSSN}");
+  // }
 }

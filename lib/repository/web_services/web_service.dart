@@ -78,10 +78,10 @@ class WebService {
         var response = await ApiBaseHelper().getApiCall(EndPoint.fetchProfile+email.toString().replaceAll("+", "%2B"), showSnackbarValue: showSnackbar, isLoading: true);
         return response;
       }else{
-       Get.showSnackbar(GetSnackBar(title: alert, message: "Please Relogin",));
+       Get.showSnackbar(GetSnackBar(title: alert, message: pleaseRelogin,));
       }
     }else{
-      Get.showSnackbar(GetSnackBar(title: alert, message: "Please Relogin",));
+      Get.showSnackbar(GetSnackBar(title: alert, message: pleaseRelogin,));
     }
 
   }
@@ -448,7 +448,14 @@ class WebService {
   }
   //Get Category document type request...........................................................................
   Future<dynamic> getCategoryDocumentType() async {
-    var url = EndPoint.getDocumentType;
+    var url = EndPoint.getCategoryType;
+    var response = await ApiBaseHelper().getApiCall(url);
+    return response;
+  }
+
+  //Get Photo Count Onboarding...........................................................................
+  Future<dynamic> getPhotoCountOnboardingService(id) async {
+    var url = EndPoint.getPhotoCount+id.toString();
     var response = await ApiBaseHelper().getApiCall(url);
     return response;
   }
@@ -590,9 +597,23 @@ class WebService {
     return response;
   }
 
+
+  //Get Oasis Resources List ...........................................................................
+  Future<dynamic> findOasisResourcesService(key) async {
+    var url = EndPoint.findOasisResourcesEndPoint+key;
+    var response = await ApiBaseHelper().getApiCall(url);
+    return response;
+  }
+
   //Create Resources Onboarding ...........................................................................
   Future<dynamic> createResourceOnboarding(requestBody) async {
     var url = EndPoint.createResourceOnboarding;
+    var response = await ApiBaseHelper().postApiCall(url, requestBody);
+    return response;
+  }
+  //Create Resources Onboarding ...........................................................................
+  Future<dynamic> updateResourceOnboarding(requestBody) async {
+    var url = EndPoint.updateResourceOnboarding;
     var response = await ApiBaseHelper().postApiCall(url, requestBody);
     return response;
   }

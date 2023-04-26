@@ -15,7 +15,7 @@ class SecurityFlagsModel {
   SecurityFlagsModel.fromJson(dynamic json) {
     _menuItems = json['MenuItems'];
     _isAllowed = json['isAllowed'];
-    _levelFlag = json['levelFlag'];
+    _levelFlag = json['Flag'];
   }
   String? _menuItems;
   String? _levelFlag;
@@ -34,7 +34,7 @@ SecurityFlagsModel copyWith({  String? menuItems,
     final map = <String, dynamic>{};
     map['MenuItems'] = _menuItems;
     map['isAllowed'] = _isAllowed;
-    map['levelFlag'] = _levelFlag;
+    map['Flag'] = _levelFlag;
     return map;
   }
 

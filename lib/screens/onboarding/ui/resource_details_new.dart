@@ -7,6 +7,7 @@ import 'package:on_sight_application/screens/onboarding/view_model/onboarding_re
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
+import 'package:on_sight_application/utils/widgets/resource_card.dart';
 import 'package:on_sight_application/utils/widgets/text_row.dart';
 
 class ResourceDetailsNew extends StatefulWidget {
@@ -44,7 +45,7 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
 
     return WillPopScope(
       onWillPop: ()async{
-        if(data.route==Routes.onBoardingResourceScreen){
+        if(data.route==Routes.onBoardingResourceScreen || data.route == Routes.onBoardingResourceScreenNew){
           Get.back();
         }else{
           Get.back();
@@ -80,7 +81,7 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
               ),
           ),
         ),
-          bottomNavigationBar:  data.route==Routes.onBoardingResourceScreen? GestureDetector(
+          bottomNavigationBar:  data.route==Routes.onBoardingResourceScreen  ||  data.route==Routes.onBoardingResourceScreenNew? GestureDetector(
             onTap: () async{
               await onBoardingPhotosController?.getCategory(itemId: data.itemId);
             },
@@ -115,20 +116,28 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(title, style: TextStyle(color: ColourConstants.white, fontSize: Dimensions.font13),),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0),
-                          child: GestureDetector(
-                            onTap: (){
-                              Get.toNamed(Routes.editResource);
-                            },
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                                  child: Icon(Icons.edit, color: Colors.white, size: 15,),
-                                ),
-                                Text(edit, style: TextStyle(color: ColourConstants.white, fontSize: Dimensions.font13, decoration: TextDecoration.underline),),
-                              ],
+                        Visibility(
+                          visible: onboardingResourceController.loginFlag.value.toLowerCase()=="employee",
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: GestureDetector(
+                              onTap: (){
+                                Get.toNamed(Routes.editResource, arguments: data)!.then((value) {
+                                  onboardingResourceController.update();
+                                  setState(() {
+
+                                  });
+                                });
+                              },
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                    child: Icon(Icons.edit, color: Colors.white, size: 15,),
+                                  ),
+                                  Text(edit, style: TextStyle(color: ColourConstants.white, fontSize: Dimensions.font13, decoration: TextDecoration.underline),),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -141,53 +150,17 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
                       visible: onboardingResourceController.loginFlag.value.toLowerCase()=="employee",
                       child: TextRow(title: ssn,value: "XXX-XX-"+((data.ssn??"N/A").characters.takeLast(4).toString()))),
                   TextRow(title: mobileNumber,value:data.mobilePhone.toString().isEmpty?"N/A": data.mobilePhone??"N/A"),
-                  TextRow(title: city,value: data.city.toString().isEmpty?"N/A":data.city.toString().capitalizeFirst??"N/A"),
+                  TextRow(title: baseCity,value: data.city.toString().isEmpty?"N/A":data.city.toString().capitalizeFirst??"N/A"),
                   TextRow(title: union,value:data.union.toString().isEmpty?"N/A": data.union??"N/A"),
                   TextRow(title: classification,value:data.classification.toString().isEmpty?"N/A": data.classification??"N/A"),
                   //TextRow(title: lastWorkDate,value: data.classification??"N/A"),
                   TextRow(title: notes,value: data.notes.toString().isEmpty?"N/A":data.notes??"N/A"),
+
+
                 ],
             ),
           ),
         )
-      ),
-    );
-  }
-
-
-
-  Container jobDetailsRow(key, value, [isEmailPhone]) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: Dimensions.height11, horizontal: Dimensions.height16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Text(key,
-                style: TextStyle(
-                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.greyText,
-                    fontWeight: FontWeight.w400,
-                    fontSize: Dimensions.font12)),
-          ),
-          SizedBox(width: Dimensions.height20),
-          Expanded(
-            flex: 2,
-            child: Text(value,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                    color: isEmailPhone != null
-                        ? value == "N/A"
-                        ? Get.isDarkMode ? ColourConstants.white : ColourConstants.black
-                        : ColourConstants.blue
-                        : Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: Dimensions.font12,
-                ),
-            ),
-          )
-        ],
       ),
     );
   }

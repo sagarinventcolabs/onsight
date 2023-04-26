@@ -2,6 +2,7 @@
 class OnBoardingDocumentImageModel{
 
   int? rowID;
+  String? count;
   String? categoryName;
   String? imageName ;
   String? imageNote ;
@@ -11,6 +12,7 @@ class OnBoardingDocumentImageModel{
   OnBoardingDocumentImageModel(
       {
         this.rowID,
+        this.count,
         this.categoryName,
         this.imageName,
         this.imageNote,
@@ -21,6 +23,7 @@ class OnBoardingDocumentImageModel{
 
   OnBoardingDocumentImageModel.fromJson(dynamic json) {
     categoryName = json['categoryName'] ?? "";
+    count = json['count'] ?? "";
     imageName = json['ImageName'] ?? "";
     imageNote = json['ImageNote'] ?? "";
     imagePath = json['ImagePath'] ?? "";

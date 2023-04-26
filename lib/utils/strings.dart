@@ -287,7 +287,8 @@ const String subject = "subject";
 const String firstNameAsterisk = "First Name *";
 const String lastNameAsterisk = "Last Name *";
 const String onBoardingStr = "Onboarding";
-const String searchResource = "Search Resource";
+const String searchResource = "Search resource with mobile no or SSN";
+const String searchResource2 = "Search resource with mobile number or SSN";
 const String selectResource = "Select Resource";
 const String addDocuments = "ADD DOCUMENTS";
 const String createResource = "CREATE RESOURCE";
@@ -321,6 +322,8 @@ const String baseCity = "Base City";
 const String corporateSupport = "Corporate Support";
 const String resourceCanNotBeEntered = "Resource Can Not Be Entered";
 const String recordContainingSSNAlreadyExists = "Record Containing SSN Already Exists";
+const String ssnMoreThenOne = "Please inform your administrator that multiple duplicates have been detected and relay SSN.";
+const String multipleSSNFound = "Multiple records with same SSN found!";
 const String viewRecords = "View Records";
 const String editResource = "Edit Resource";
 
@@ -409,6 +412,7 @@ const String isChecked = "isChecked";
 const String jobNumberKey = "JobNumber";
 const String request = "request";
 const String areYouSureYouWantToLogout = "Are you sure you want to logout?";
+const String pleaseRelogin = "Please Re-login";
 
 
 // Service
