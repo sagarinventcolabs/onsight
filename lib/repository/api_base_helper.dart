@@ -616,6 +616,28 @@ class ApiBaseHelper{
                   logoutFun();
                   return "error";
                 });
+          }else if (errorModel.error!.message.toString().toLowerCase().contains(
+              "user") && errorModel.error!.message.toString().contains(
+              "disable")) {
+            defaultDialog(Get.context!, title: alert,
+                alert: errorModel.error?.message.toString(),
+                cancelable: false,
+                onTap: () {
+
+                  logoutFun();
+                  return "error";
+                });
+          }else if (errorModel.error!.message.toString().toLowerCase().contains(
+              "account") && errorModel.error!.message.toString().contains(
+              "suspended")) {
+            defaultDialog(Get.context!, title: alert,
+                alert: errorModel.error?.message.toString(),
+                cancelable: false,
+                onTap: () {
+
+                  logoutFun();
+                  return "error";
+                });
           }else{
             defaultDialog(Get.context!, title: alert,alert: errorModel.error?.message.toString(), cancelable: true, onTap: (){
               Get.back();

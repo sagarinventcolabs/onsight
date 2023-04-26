@@ -23,6 +23,7 @@ import 'package:on_sight_application/screens/onboarding/ui/onboarding_new_screen
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_photo_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_new_registration.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_resource_screen.dart';
+import 'package:on_sight_application/screens/onboarding/ui/onboarding_resource_screen_new.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_screen.dart';
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_upload_photos.dart';
 import 'package:on_sight_application/screens/onboarding/ui/resource_details.dart';
@@ -79,6 +80,7 @@ String whereCome="0";
     GetPage(name: Routes.onBoardingScreen, page: ()=>  const OnBoardingScreen()),
     GetPage(name: Routes.onBoardingNewScreen, page: ()=>  const OnBoardingNewScreen()),
     GetPage(name: Routes.onBoardingResourceScreen, page: ()=>  const OnBoardingResourceScreen()),
+    GetPage(name: Routes.onBoardingResourceScreenNew, page: ()=>  const OnBoardingResourceScreenNew()),
     GetPage(name: Routes.resourceDetails, page: ()=>  const ResourceDetails()),
     GetPage(name: Routes.resourceDetailsNew, page: ()=>  const ResourceDetailsNew()),
     GetPage(name: Routes.onBoardingRegistration, page: ()=>  const OnboardingNewRegistration()),

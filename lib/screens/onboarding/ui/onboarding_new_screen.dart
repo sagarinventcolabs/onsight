@@ -108,7 +108,7 @@ class OnBoardingNewScreenState extends State<OnBoardingNewScreen> with SearchFun
                     OnboardingTile(title: addSupportingDocuments,
                       lightSvgIcon: Assets.ic_Projecxt_Evaluation,
                       darkSvgIcon: Assets.Ic_OnboardingEvaluation_dark,
-                        routeName: Routes.onBoardingResourceScreen),
+                        routeName: Routes.onBoardingResourceScreenNew),
                   ],
                 ),
                 SizedBox(height: Dimensions.height100,)

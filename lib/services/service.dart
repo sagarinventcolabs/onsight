@@ -261,6 +261,31 @@ Future<bool> onStart(ServiceInstance service) async {
 
   });
 
+  service.on('onboarding').listen((event) async {
+    AppInternetManager appInternetManager = AppInternetManager();
+    var a = await appInternetManager.getSettingsTable();
+    int b = 0;
+
+    if(a.isNotEmpty) {
+      debugPrint("Task in progress " + a[0]["TaskInProgress"].toString());
+      debugPrint("Task in progress");
+      b = a[0]["TaskInProgress"] ?? 0;
+    }
+    b = b+1;
+    await appInternetManager.updateTaskProgress(val: b);
+    var aa = await appInternetManager.getSettingsTable();
+    debugPrint("Task in progress" + aa[0]["TaskInProgress"].toString());
+    if(event!=null) {
+
+      var resourceId = event['resourceId'];
+      var finalToken = event['token'];
+      List<OnBoardingDocumentModel> list = (event["imageList"].map((data) => OnBoardingDocumentModel.fromJson(data)).toList()).cast<OnBoardingDocumentModel>();
+      showNotificationUploading();
+      runApiOnboarding(service, resourceId, finalToken,list,0);
+    }
+
+  });
+
   service.on("promoApi").listen((event) async {
     AppInternetManager appInternetManager = AppInternetManager();
     var a = await appInternetManager.getSettingsTable();

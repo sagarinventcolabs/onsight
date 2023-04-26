@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter_udid/flutter_udid.dart';
+import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
@@ -27,6 +28,7 @@ import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
+import 'package:on_sight_application/utils/strings.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
@@ -70,8 +72,18 @@ class WebService {
 
   //Get Profile request...........................................................................
   Future<dynamic> getProfile(showSnackbar) async {
-    var response = await ApiBaseHelper().getApiCall(EndPoint.fetchProfile, showSnackbarValue: showSnackbar, isLoading: true);
-    return response;
+    var email = sp?.getString(Preference.USER_EMAIL)??"";
+    if(email!=null){
+      if(email.toString().isNotEmpty){
+        var response = await ApiBaseHelper().getApiCall(EndPoint.fetchProfile+email.toString().replaceAll("+", "%2B"), showSnackbarValue: showSnackbar, isLoading: true);
+        return response;
+      }else{
+       Get.showSnackbar(GetSnackBar(title: alert, message: pleaseRelogin,));
+      }
+    }else{
+      Get.showSnackbar(GetSnackBar(title: alert, message: pleaseRelogin,));
+    }
+
   }
 
   //Update Profile request...........................................................................
@@ -436,7 +448,14 @@ class WebService {
   }
   //Get Category document type request...........................................................................
   Future<dynamic> getCategoryDocumentType() async {
-    var url = EndPoint.getDocumentType;
+    var url = EndPoint.getCategoryType;
+    var response = await ApiBaseHelper().getApiCall(url);
+    return response;
+  }
+
+  //Get Photo Count Onboarding...........................................................................
+  Future<dynamic> getPhotoCountOnboardingService(id) async {
+    var url = EndPoint.getPhotoCount+id.toString();
     var response = await ApiBaseHelper().getApiCall(url);
     return response;
   }
@@ -578,9 +597,23 @@ class WebService {
     return response;
   }
 
+
+  //Get Oasis Resources List ...........................................................................
+  Future<dynamic> findOasisResourcesService(key) async {
+    var url = EndPoint.findOasisResourcesEndPoint+key;
+    var response = await ApiBaseHelper().getApiCall(url);
+    return response;
+  }
+
   //Create Resources Onboarding ...........................................................................
   Future<dynamic> createResourceOnboarding(requestBody) async {
     var url = EndPoint.createResourceOnboarding;
+    var response = await ApiBaseHelper().postApiCall(url, requestBody);
+    return response;
+  }
+  //Create Resources Onboarding ...........................................................................
+  Future<dynamic> updateResourceOnboarding(requestBody) async {
+    var url = EndPoint.updateResourceOnboarding;
     var response = await ApiBaseHelper().postApiCall(url, requestBody);
     return response;
   }

@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/battery_plus-2.1.4+1/android" />
+            <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/camera_android-0.10.5/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus-2.3.9/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/device_info_plus-3.2.4/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_analytics-10.1.0/android" />
@@ -36,6 +37,7 @@
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/sms_autofill-2.2.0/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/speech_to_text-6.1.1/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.3+1/android" />
+            <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/ssl_pinning_plugin-2.0.0/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher_android-6.0.22/android" />
             <option value="$USER_HOME$/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/webview_flutter_android-2.10.4/android" />
           </set>

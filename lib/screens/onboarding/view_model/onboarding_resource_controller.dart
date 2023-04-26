@@ -103,7 +103,34 @@ class OnboardingResourceController extends GetxController{
           oasisResourceList.addAll(localReversedList.reversed.toList());
           oasisResourceList.refresh();
           update();
-          Get.toNamed(Routes.onBoardingResourceScreen);
+          Get.toNamed(Routes.onBoardingResourceScreenNew);
+        }
+      }
+      return response;
+    }else{
+      Get.snackbar(alert, noInternet);
+    }
+  }
+
+  /// API function for getting Lead details
+  Future<dynamic> findOasisResourcesApi(key) async {
+    oasisResourceList.clear();
+    /// For making list reversed.
+    List<AllOasisResourcesResponse> localReversedList = [];
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    if(isNetActive){
+      var response = await service.findOasisResourcesService(key);
+      if(response!=null) {
+        if (!response.toString().contains(error)) {
+
+          for (var i = 0; i < response.length; i++) {
+            AllOasisResourcesResponse responseModel = AllOasisResourcesResponse.fromJson(response,i);
+            localReversedList.add(responseModel);
+          }
+          oasisResourceList.addAll(localReversedList.reversed.toList());
+          oasisResourceList.refresh();
+          update();
+          Get.toNamed(Routes.onBoardingResourceScreenNew);
         }
       }
       return response;
@@ -115,5 +142,6 @@ class OnboardingResourceController extends GetxController{
   @override
   void onInit() {
     loginFlag.value = sp?.getString(Preference.USERFLAG);
+    print("Login Flag Value is ${loginFlag.value}");
   }
 }

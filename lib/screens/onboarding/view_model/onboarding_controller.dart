@@ -385,6 +385,17 @@ class OnboardingController extends GetxController{
 
       if(response==null) {
         createResourceApi();
+      }else if(response.length>1){
+        // AllOasisResourcesResponse responseModel = AllOasisResourcesResponse.fromJson(response, 0);
+        // responseModel.route = Routes.onBoardingRegistration;
+        defaultDialog(
+            Get.context!,
+            alert: ssnMoreThenOne,
+            title: multipleSSNFound,
+            onTap: (){
+              Get.back();
+              },);
+
       }else{
         AllOasisResourcesResponse responseModel = AllOasisResourcesResponse.fromJson(response, 0);
         responseModel.route = Routes.onBoardingRegistration;

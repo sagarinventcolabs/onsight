@@ -25,15 +25,14 @@ class ProfileController extends GetxController{
 
   Future<dynamic> getProfile({showValue = true}) async{
     var response = await service.getProfile(showValue);
+    print(response);
     if(response!=null) {
-      print(response);
-      if (response.containsKey(error)) {
+      if (response.toString().contains(error)) {
         return response;
       }
       FetchProfileResponse responseModel = FetchProfileResponse.fromJson(response);
       sp!.putString(Preference.FIRST_NAME, responseModel.firstName.toString());
       sp!.putString(Preference.LAST_NAME, responseModel.lastName.toString());
-      sp!.putString(Preference.USER_EMAIL, responseModel.emailAddress.toString());
       firstNameController.text = responseModel.firstName.toString();
       lastNameController.text = responseModel.lastName.toString();
       emailController.text = responseModel.emailAddress.toString();
