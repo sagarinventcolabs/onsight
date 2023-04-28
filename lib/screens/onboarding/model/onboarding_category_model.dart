@@ -14,7 +14,7 @@ class OnBoardingDocumentModel {
     if (json['image'] != null) {
       image = <OnBoardingDocumentImageModel>[];
       json['image'].forEach((v) {
-        image!.add(new OnBoardingDocumentImageModel.fromJson(v));
+        image!.add(new OnBoardingDocumentImageModel.fromDBJson(v));
       });
     }
   }
@@ -25,7 +25,7 @@ class OnBoardingDocumentModel {
     data['rowId'] = this.rowId;
 
     if (this.image != null) {
-      data['image'] = this.image!.map((v) => v.toMap()).toList();
+      data['image'] = this.image!.map((v) => v.toDb()).toList();
     }
     return data;
   }

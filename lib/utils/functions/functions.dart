@@ -13,6 +13,7 @@ import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/models/image_picker_model.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
+import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
 import 'package:on_sight_application/repository/database_model/field_issue_image_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model_promo_pictures.dart';
@@ -572,17 +573,24 @@ void ImagePickerFieldIssue(String s){
   }
 }
 
-void ImagePickerOnboarding(String route,index){
+Future<void> ImagePickerOnboarding(String route,index, resourceKey, rowId, count, categoryName) async {
   OnBoardingPhotosController controller = Get.find<OnBoardingPhotosController>();
   for (var element in localList) {
 
     OnBoardingDocumentImageModel model = OnBoardingDocumentImageModel();
     model.imageName = element.imageName;
     model.imagePath = element.imagePath;
+    model.resourceKey = resourceKey;
+    model.count = count;
+    model.categoryName = categoryName;
+    model.rowID = rowId;
     controller.imageList[index].image?.add(model);
+    model.YetToSubmit = controller.imageList[index].image?.length.toString();
     // controller.imageList[index].image?.add(model);
     // controller.imageList.refresh();
     controller.update();
+
+    await  OnboardingImageManager().insertImage(model);
 
   }
 

@@ -801,17 +801,14 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
   if(list[i].image!.isNotEmpty) {
     dynamic response = await webService.submitImagesOnboarding(
         list[i].image!,list[i].category, resourceId, finalToken);
-    debugPrint("Response is "+response.toString()+"");
+
     if(response==null){
       list[i].image!.clear();
       i = i+1;
       if(i<list.length){
-
         runApiOnboarding(service, resourceId, finalToken, list,i);
       }else{
         showNotification(service);
-
-
       }
     }else{
       showErrorNotification(service, errorMsg: "Something Went wrong");
