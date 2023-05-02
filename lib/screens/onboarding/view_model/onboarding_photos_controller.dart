@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
-import 'package:on_sight_application/repository/web_service_response/response_model_category.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/onboarding/model/cat_model.dart';

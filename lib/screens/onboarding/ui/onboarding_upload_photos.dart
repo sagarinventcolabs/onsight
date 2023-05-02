@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/repository/database_managers/image_manager.dart';
+import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_photos_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -140,12 +142,71 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
               ),
               Row(
                 children: [
+                  Visibility(
+                      visible: controller.imageList[index].image != null
+                          ? controller.imageList[index].image!.isNotEmpty
+                          : false,
+                      child: FutureBuilder(
+                        future: OnboardingImageManager().getYetToSubmitCount(controller.imageList[index].category),
+                        builder: (ctx, snapshot) {
+                          var data = [];
+                          if (snapshot.hasData) {
+                            data = snapshot.data as List;
+                            return Visibility(
+                                visible: data[0]['COUNT(*)'].toString() ==
+                                    "null" ||
+                                    data[0]['COUNT(*)'].toString() == "0"
+                                    ? false
+                                    : true,
+                                child: GestureDetector(
+                                  onTap: () {
+
+                                  },
+                                  child: Container(
+                                    color: ColourConstants.orangeColor,
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: Dimensions.height5, horizontal: Dimensions.width7),
+                                    child: Row(
+                                      children: [
+                                        Text(yetToSubmit,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: ColourConstants.white,
+                                                fontWeight: FontWeight.w300,
+                                                fontSize: Dimensions.font8)),
+                                        SizedBox(width: Dimensions.width3),
+                                        GestureDetector(
+                                          onTap: () {},
+                                          child: Text(
+                                              snapshot.data.toString() == "null"
+                                                  ? ""
+                                                  : data[0]['COUNT(*)']
+                                                  .toString() ==
+                                                  "null"
+                                                  ? "0"
+                                                  : data[0]['COUNT(*)']
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  color: ColourConstants.white,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: Dimensions.font12)),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ));
+                          }
+                          return Container();
+                        },
+                      )),
+                  SizedBox(width: Dimensions.height8),
                   GestureDetector(
                   onTap: (){
                     if ((controller.imageList[index].image?.length??0) > 0) {
                       controller.selectedCategory.value = controller.imageList[index].category??"";
                       controller.update();
-                      Get.toNamed(Routes.onBoardingPhotoScreen);
+                      Get.toNamed(Routes.onBoardingPhotoScreen, arguments: Get.arguments);
                     }
                   },
                     child: Container(
@@ -177,7 +238,9 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                           builder: (context) =>
                               //bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingUploadPhotosScreen,index)).then((value) {
                               bottomSheetImagePicker(Routes.onBoardingUploadPhotosScreen)).then((value) {
-                            ImagePickerOnboarding(Routes.onBoardingUploadPhotosScreen,index);
+                                var resourceKey = Get.arguments;
+                                print(resourceKey);
+                            ImagePickerOnboarding(Routes.onBoardingUploadPhotosScreen,index,resourceKey.toString(), controller.imageList[index].rowId, controller.imageList[index].itemCount,controller.imageList[index].category);
 
                       });
                     },

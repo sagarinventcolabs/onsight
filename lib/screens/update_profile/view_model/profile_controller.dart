@@ -52,11 +52,14 @@ class ProfileController extends GetxController{
     print(fetchProfileResponse.toJson());
     var response = await service.updateProfileRequest(fetchProfileResponse.toJson());
     if(response!=null) {
-      print(response);
-      if (response.containsKey(error)) {
+
+      if (response.toString().contains(error)) {
+
         return response;
       }else{
+
         Get.snackbar(success, profileUpdatedSuccessfully);
+
         // getProfile();
       }
 

@@ -101,7 +101,7 @@ class EndPoint {
   //Fetch Profile
   static  String fetchProfile = "$baseURL/GetProfileDetails?email=";
   //Profile Update
-  static  String updateProfile = "$baseURL/Account/UpdateProfileDetails";
+  static  String updateProfile = "$baseURL/UpdateProfileDetails";
   //create case field issue with comment only
   static  String createCommentCase = "$baseURL/OasisCrm/CreateCaseWithCommentOnly";
   //search WO number by Show number

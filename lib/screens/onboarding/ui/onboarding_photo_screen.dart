@@ -66,7 +66,9 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
                    builder: (context) =>
                        //bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingPhotoScreen,i)).then((value) {
                        bottomSheetImagePicker(Routes.onBoardingPhotoScreen)).then((value) {
-                         ImagePickerOnboarding(Routes.onBoardingPhotoScreen,i);
+                 var resourceKey = Get.arguments;
+                 ImagePickerOnboarding(Routes.onBoardingUploadPhotosScreen,i, resourceKey.toString(), controller.imageList[i].rowId, controller.imageList[i].itemCount,controller.selectedCategory.value);
+
 
                  setState((){});
                });

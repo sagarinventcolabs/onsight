@@ -65,10 +65,15 @@ class _OnBoardingResourceScreenNewState extends State<OnBoardingResourceScreenNe
                   child: TextField(
                     textAlignVertical: TextAlignVertical.bottom,
                     controller: searchController,
+
                     onChanged: (val){
                       if(searchController.text.isEmpty){
                         resourceController.oasisResourceList.clear();
                         resourceController.update();
+                      }
+                      if(val.length>10){
+                        searchController.text = val.substring(0, (searchController.text.length-1));
+                        searchController.selection = TextSelection.fromPosition(TextPosition(offset: searchController.text.length));
                       }
                     },
                     style: const TextStyle(color: Colors.white),
@@ -77,7 +82,10 @@ class _OnBoardingResourceScreenNewState extends State<OnBoardingResourceScreenNe
                       hintText: searchResource,
                       suffixIcon: GestureDetector(
                           onTap: () async {
-                            await resourceController.findOasisResourcesApi(searchController.text.toString());
+                            if(searchController.text.length>0) {
+                              await resourceController.findOasisResourcesApi(
+                                  searchController.text.toString());
+                            }
                           },
                           child: Icon(Icons.search_outlined,color: Colors.white,)),
                       hintStyle: TextStyle(color: ColourConstants.grey, fontSize: 14),
