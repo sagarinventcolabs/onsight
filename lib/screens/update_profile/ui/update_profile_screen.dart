@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/update_profile/view_model/profile_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
@@ -36,11 +37,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 FocusScope.of(context).unfocus();
 
                 await profileController.updateProfile();
-                analyticsFireEvent(updateProfile, input: {
+                await analyticsFireEvent(updateProfile, input: {
                   firstName: profileController.firstNameController.text.toString(),
                   email: profileController.emailController.text.toString(),
                   lastName: profileController.lastNameController.text.toString(),
                 });
+                Get.offAllNamed(Routes.dashboardScreen);
               }
             },
             child: Padding(
@@ -180,6 +182,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   enabled: false,
                   controller: profileController.emailController,
                   keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(color: Colors.grey),
                   inputFormatters: [FilteringTextInputFormatter.deny(" ")],
                   onChanged: (val) {
                     if (profileController.validate()) {
