@@ -42,7 +42,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   email: profileController.emailController.text.toString(),
                   lastName: profileController.lastNameController.text.toString(),
                 });
-                Get.offAllNamed(Routes.dashboardScreen);
+                Future.delayed(Duration(seconds: 2),(){
+                  Get.back();
+                  Get.offAllNamed(Routes.dashboardScreen);
+                });
+
               }
             },
             child: Padding(

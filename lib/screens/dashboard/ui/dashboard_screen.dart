@@ -237,9 +237,12 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   setSettingsData() async {
     packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+
+    });
     var result = await DashboardManager().getAllData();
     if(result.isNotEmpty){
-      await appUpdateController.getDashboardItems(false);
+      await appUpdateController.getDashboardItems(true);
     }else{
       await appUpdateController.getDashboardItems(true);
     }
