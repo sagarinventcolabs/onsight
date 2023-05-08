@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -90,14 +89,20 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
               child: IconButton(
                 icon: Icon(widget.isFlashOn ? Icons.flash_on : Icons.flash_off, color: Colors.white),
                 onPressed: (){
-                  setState(() {
-                    if(widget.isFlashOn){
-                      widget._cameraController.value!.setFlashMode(FlashMode.off);
-                    } else {
-                      widget._cameraController.value!.setFlashMode(FlashMode.torch);
-                    }
-                    widget.isFlashOn = !widget.isFlashOn;
-                  });
+                  if(widget.isPrimaryOn){
+                    setState(() {
+                      if(widget.isFlashOn){
+                        widget._cameraController.value!.setFlashMode(FlashMode.off);
+                      } else {
+                        widget._cameraController.value!.setFlashMode(FlashMode.torch);
+                      }
+                      widget.isFlashOn = !widget.isFlashOn;
+                    });
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Flash light cant be used with selfie camera"),
+                    ));
+                  }
                 },
               ),
             ),
@@ -138,23 +143,27 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                      flex: 1,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (widget.isPrimaryOn) {
-                            widget.initSecondaryCamera();
-                          } else {
-                            widget.initPrimaryCamera();
-                          }
-                          widget.isPrimaryOn = !widget.isPrimaryOn;
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(10),
-                          // foregroundColor: Colors.red, // <-- Splash color
-                        ),
-                        child: const Icon(Icons.switch_camera, color: Colors.white),
-                      )
+                    flex: 1,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        widget._cameraController.value!.setFlashMode(FlashMode.off);
+                        setState(() {
+                          widget.isFlashOn = false;
+                        });
+                        if (widget.isPrimaryOn) {
+                          widget.initSecondaryCamera();
+                        } else {
+                          widget.initPrimaryCamera();
+                        }
+                        widget.isPrimaryOn = !widget.isPrimaryOn;
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(10),
+                        // foregroundColor: Colors.red, // <-- Splash color
+                      ),
+                      child: const Icon(Icons.switch_camera, color: Colors.white),
+                    )
                   ),
                   Flexible(
                       flex: 1,
@@ -180,19 +189,19 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
                       )
                   ),
                   Flexible(
-                      flex: 1,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await widget.onComplete?.call(widget.capturedImages);
-                          Navigator.of(context).pop();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: const CircleBorder(),
-                          padding: const EdgeInsets.all(10),
-                          //foregroundColor: Colors.red, // <-- Splash color
-                        ),
-                        child: const Icon(Icons.send, color: Colors.white),
-                      )
+                    flex: 1,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await widget.onComplete?.call(widget.capturedImages);
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(10),
+                        //foregroundColor: Colors.red, // <-- Splash color
+                      ),
+                      child: const Icon(Icons.send, color: Colors.white),
+                    )
                   ),
                 ],
               ),
@@ -276,6 +285,7 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
 
   Future<void> captureImage(BuildContext context) async {
     if (widget.capturedImages.length >= widget.maxImages) {
+      // TODO: Show warning dialog
       return;
     }
 
@@ -298,13 +308,5 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
   Future<void> removeImageFile(File file) async {
     bool isRemoved = await widget.onRemoveImage(file);
     if (isRemoved) widget.capturedImages.remove(file);
-  }
-
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget._cameraController.value!.setFlashMode(FlashMode.off);
-
   }
 }
