@@ -12,6 +12,7 @@ import 'package:on_sight_application/repository/database_managers/email_manager.
 import 'package:on_sight_application/repository/database_managers/fieldIssue_image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/leadsheet_image_manager.dart';
+import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
 import 'package:on_sight_application/repository/database_model/field_issue_image_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
@@ -803,6 +804,8 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
         list[i].image!,list[i].category, resourceId, finalToken);
 
     if(response==null){
+      OnboardingImageManager onboardingImageManager = OnboardingImageManager();
+      await onboardingImageManager.deleteImage(list[i].category, resourceId);
       list[i].image!.clear();
       i = i+1;
       if(i<list.length){
@@ -814,6 +817,11 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
       showErrorNotification(service, errorMsg: "Something Went wrong");
     }
   }else{
+    dynamic response = await webService.getPhotoCountOnboardingService(resourceId);
+
+    service.invoke("catcount",{
+      "response": response.toJson()
+    });
     i = i+1;
     if(i<list.length) {
       runApiOnboarding(service, resourceId, finalToken, list,i);

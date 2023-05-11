@@ -9,6 +9,7 @@ const String showNumberAutoFill = "showNumberAutoFill";
 
 /// Api Services...........................
 const String pleaseCheckInternet = "Please check your internet connection";
+const String internalServerError = "Internal Server Error";
 const String internetStrengthError = "Your internet strength is weak!";
 const String noInternet = "No Internet Found";
 const String noInternetStr = "No Internet";

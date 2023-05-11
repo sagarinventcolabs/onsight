@@ -204,17 +204,18 @@ class ApiBaseHelper{
           headers: apiHeader,
         ).timeout(const Duration(seconds: 60)).catchError((error) async {
           if(isLoading) {
-            Get.closeAllSnackbars();
+
             Get.back();
           }
+          Get.closeAllSnackbars();
           Get.snackbar(alert, pleaseCheckInternet);
           return await Future.error(error);
         });
         if(isLoading) {
-          Get.closeAllSnackbars();
+
           Get.back();
         }
-
+        Get.closeAllSnackbars();
         log("statusCode=========>>>> ${response.statusCode}");
         log("response=========>>>> ${response.body}");
 
@@ -222,10 +223,13 @@ class ApiBaseHelper{
           responseJson = _returnResponse(response, showValue: showSnackbarValue);
 
 
-        } catch (e) {if(isLoading) {
-          Get.closeAllSnackbars();
+        } catch (e) {
+          if(isLoading) {
+
           Get.back();
-        }}
+        }
+        Get.closeAllSnackbars();
+        }
       } on SocketException {
         if(isLoading) {
           Get.closeAllSnackbars();
@@ -537,9 +541,10 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 60)).catchError((error) async {
           if(isLoading) {
-            Get.closeAllSnackbars();
+
             Get.back();
           }
+          Get.closeAllSnackbars();
           Get.snackbar(alert, pleaseCheckInternet);
           return await Future.error(error);
         });
@@ -558,15 +563,18 @@ class ApiBaseHelper{
 
         } catch (e) {
           if(isLoading) {
-            Get.closeAllSnackbars();
+
             Get.back();
           }
+          Get.closeAllSnackbars();
         }
       } on SocketException {
         if(isLoading) {
-          Get.closeAllSnackbars();
           Get.back();
+
+
         }
+        Get.closeAllSnackbars();
         throw FetchDataException(noInternet);
       }
       return responseJson;
@@ -612,7 +620,6 @@ class ApiBaseHelper{
                 alert: errorModel.error?.message.toString(),
                 cancelable: false,
                 onTap: () {
-
                   logoutFun();
                   return "error";
                 });
@@ -692,13 +699,13 @@ class ApiBaseHelper{
           }else{
 
             Get.showSnackbar(GetSnackBar(
-              message: "Internal Server Error",
+              message: internalServerError,
               duration: Duration(seconds: 2),));
           }
           return responseJson;
         }catch(ee){
           Get.showSnackbar(GetSnackBar(
-            message: "Internal Server Error",
+            message: internalServerError,
             duration: Duration(seconds: 2),));
         }
 

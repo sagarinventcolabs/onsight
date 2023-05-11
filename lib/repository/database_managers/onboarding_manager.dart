@@ -17,7 +17,7 @@ class OnboardingImageManager{
     }
     OnBoardingDocumentImageModel model = await getImageByImageName(imageModel.imageName!);
    // String query="UPDATE ${mImageDataTable} SET ImageNote = '${imageModel.imageNote}' WHERE RowID = ${model.rowID.toString()};";
-    var result= await db.update(mOnboardingImageTable, imageModel.toMap(), where: 'RowID=?', whereArgs: [imageModel.rowID]);
+    var result= await db.update(mOnboardingImageTable, imageModel.toDb(), where: 'RowID=?', whereArgs: [imageModel.rowID]);
     await result;
       return model.rowID!;
 
@@ -56,17 +56,23 @@ class OnboardingImageManager{
 
   }
 
-  Future<List<OnBoardingDocumentImageModel>> getImageByCategoryIdandJobNumber(String categoryId, String jobNumber) async {
+  Future<List<OnBoardingDocumentImageModel>> getImageListNotSubmitted(resourceKey, CatName) async {
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT * FROM $mOnboardingImageTable WHERE CategoryId LIKE '"+categoryId+"' AND JobNumber LIKE '"+jobNumber+"'"+" AND IsSubmitted= '0'");
-    List<OnBoardingDocumentImageModel> list = result.isNotEmpty ? result.map((c) => OnBoardingDocumentImageModel.fromDBJson(c)).toList() : [];
-    return list;
+    var result = await db.rawQuery('SELECT * FROM $mOnboardingImageTable WHERE IsSubmitted= 0'+" AND ResourceKey= '$resourceKey'"+" AND CatName= '$CatName'");
+    List<OnBoardingDocumentImageModel> imageList = result.isNotEmpty ? result.map((c) => OnBoardingDocumentImageModel.fromDBJson(c)).toList() : [];
+    return imageList;
+
+
   }
 
-  Future<dynamic> deleteImage(name) async {
+
+  Future<dynamic> deleteImage(name, resourceKey) async {
+
     Database db = await DatabaseHelper().database;
-    await db.rawQuery("DELETE FROM $mOnboardingImageTable WHERE ImageName='"+name.toString()+"'");
+    var result = await db.rawQuery("DELETE FROM $mOnboardingImageTable WHERE CatName='"+name.toString()+"'"+" AND ResourceKey= '$resourceKey'");
+
+    print(result);
     return ;
   }
 
@@ -89,21 +95,22 @@ class OnboardingImageManager{
 
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT SUM(IsSubmitted), CategoryName FROM ${mOnboardingImageTable} WHERE CategoryId= '${categoryId}';");
+    var result = await db.rawQuery("SELECT SUM(IsSubmitted), CatName FROM ${mOnboardingImageTable} WHERE CategoryId= '${categoryId}';");
     //var result = await db.rawQuery("SELECT SUM(IsSubmitted) FROM ${mImageDataTable} WHERE IsSubmitted= '1' AND CategoryId= '${categoryId}';");
 
 
     return result;
   }
 
-  Future<dynamic>getYetToSubmitCount(categoryId) async {
-
+  Future<dynamic>getYetToSubmitCount(categoryId, resourceKey) async {
+    print(resourceKey);
 
     Database db = await DatabaseHelper().database;
-    var result = await db.rawQuery("SELECT COUNT(*), CatName FROM ${mOnboardingImageTable} WHERE CatName= '${categoryId}' AND IsSubmitted= '0';");
+    var result = await db.rawQuery("SELECT COUNT(*), CatName FROM ${mOnboardingImageTable} WHERE CatName= '${categoryId.toString().trim()}' AND IsSubmitted= '0' AND ResourceKey= '$resourceKey';");
     //var result = await db.rawQuery("SELECT SUM(IsSubmitted) FROM ${mImageDataTable} WHERE IsSubmitted= '1' AND CategoryId= '${categoryId}';");
 
-
+    print("This is Result "+result.toString());
     return result;
+
   }
 }

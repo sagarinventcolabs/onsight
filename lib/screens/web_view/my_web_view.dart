@@ -21,7 +21,9 @@ class _MyWebViewState extends State<MyWebView> {
   @override
   void initState() {
     super.initState();
-    url = Get.arguments;
+    if(Get.arguments!=null) {
+      url = Get.arguments;
+    }
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
     }

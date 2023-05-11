@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
+import 'package:on_sight_application/screens/onboarding/model/category_response_model.dart';
+import 'package:on_sight_application/screens/onboarding/model/onboarding_category_model.dart';
+import 'package:on_sight_application/screens/onboarding/model/onboarding_document_image_model.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_photos_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
@@ -31,7 +36,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
     }else{
       controller = Get.put(OnBoardingPhotosController());
     }
-
+    getCount();
 
     super.initState();
   }
@@ -67,9 +72,11 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
               sp?.putInt(Preference.ACTIVITY_TRACKER, ((sp?.getInt(Preference.ACTIVITY_TRACKER)??0)+1));
               print((sp?.getInt(Preference.ACTIVITY_TRACKER)??0).toString());
               defaultDialog(Get.context!, title: documentAddedSuccessfully, onTap: () {
+                setState(() {
+
+                });
                 Get.back();
-                Get.back();
-                Get.back();
+
               });
             }
             checkBatteryStatus();
@@ -118,7 +125,6 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
   }
 
   Container categoryWidget(key, index) {
-
     return Container(
       margin: EdgeInsets.symmetric(vertical: Dimensions.height5, horizontal: Dimensions.height16),
       padding: EdgeInsets.symmetric(vertical: Dimensions.height10, horizontal: Dimensions.height10),
@@ -143,24 +149,32 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
               Row(
                 children: [
                   Visibility(
-                      visible: controller.imageList[index].image != null
-                          ? controller.imageList[index].image!.isNotEmpty
-                          : false,
+                      // visible: controller.imageList[index].image != null
+                      //     ? controller.imageList[index].image!.isNotEmpty
+                      //     : false,
+                    visible: true,
                       child: FutureBuilder(
-                        future: OnboardingImageManager().getYetToSubmitCount(controller.imageList[index].category),
+                        future: OnboardingImageManager().getYetToSubmitCount(controller.imageList[index].category,Get.arguments ),
                         builder: (ctx, snapshot) {
                           var data = [];
                           if (snapshot.hasData) {
                             data = snapshot.data as List;
+                            print("Data length ${data.length}");
+                            controller.imageList[index].yetToSubmit = data[0]['COUNT(*)'].toString();
                             return Visibility(
-                                visible: data[0]['COUNT(*)'].toString() ==
+                                visible: controller.imageList[index].yetToSubmit.toString()==
                                     "null" ||
-                                    data[0]['COUNT(*)'].toString() == "0"
+                                    controller.imageList[index].yetToSubmit == "0"
                                     ? false
                                     : true,
                                 child: GestureDetector(
                                   onTap: () {
-
+                                    print("Click over here");
+                                    if ((controller.imageList[index].image?.length??0) > 0) {
+                                      controller.selectedCategory.value = controller.imageList[index].category??"";
+                                      controller.update();
+                                      Get.toNamed(Routes.onBoardingPhotoScreen, arguments: Get.arguments);
+                                    }
                                   },
                                   child: Container(
                                     color: ColourConstants.orangeColor,
@@ -178,14 +192,15 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                                         GestureDetector(
                                           onTap: () {},
                                           child: Text(
-                                              snapshot.data.toString() == "null"
-                                                  ? ""
-                                                  : data[0]['COUNT(*)']
-                                                  .toString() ==
-                                                  "null"
-                                                  ? "0"
-                                                  : data[0]['COUNT(*)']
-                                                  .toString(),
+                                            controller.imageList[index].yetToSubmit.toString(),
+                                              // snapshot.data.toString() == "null"
+                                              //     ? ""
+                                              //     : data[0]['COUNT(*)']
+                                              //     .toString() ==
+                                              //     "null"
+                                              //     ? "0"
+                                              //     : data[0]['COUNT(*)']
+                                              //     .toString(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: ColourConstants.white,
@@ -201,27 +216,48 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                         },
                       )),
                   SizedBox(width: Dimensions.height8),
-                  GestureDetector(
-                  onTap: (){
-                    if ((controller.imageList[index].image?.length??0) > 0) {
-                      controller.selectedCategory.value = controller.imageList[index].category??"";
-                      controller.update();
-                      Get.toNamed(Routes.onBoardingPhotoScreen, arguments: Get.arguments);
+                  StreamBuilder<Map<String, dynamic>?>(
+                    stream: FlutterBackgroundService().on("catCount"),
+                    builder: (context, snapshot) {
+
+
+                      if(snapshot.connectionState==ConnectionState.active){
+                        if(snapshot.hasData){
+                          if(snapshot.data!=null) {
+                            if (!snapshot.data.toString().contains("error")) {
+                             
+                              List<dynamic> listTemp = snapshot.data as List;
+                                var indexxx = listTemp.indexWhere((element) => element["Name"]==controller.imageList[index].category);
+
+                                CategoryResponseModel catModel = CategoryResponseModel.fromJson(listTemp[indexxx]);
+                                controller.imageList[index].itemCount  =   catModel.photoCount.toString();
+                                print("Here Count is"+catModel.photoCount.toString());
+
+                              controller.imageList.refresh();
+                             // controller.update();
+                            }
+                          }
+                        }
+                      }
+                      return GestureDetector(
+                      onTap: (){
+                        Get.toNamed(Routes.myWebView, arguments: controller.imageList[index].UploadURL.toString());
+                      },
+                        child: Container(
+                          color: ColourConstants.greenColor,
+                          height: Dimensions.height25,
+                          alignment: Alignment.center,
+                          constraints: BoxConstraints(minWidth: Dimensions.height25),
+                          padding: EdgeInsets.symmetric(vertical: Dimensions.height3, horizontal: Dimensions.height7),
+                          child: Text(controller.imageList[index].itemCount.toString(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: ColourConstants.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: Dimensions.font12)),
+                        ),
+                      );
                     }
-                  },
-                    child: Container(
-                      color: ColourConstants.greenColor,
-                      height: Dimensions.height25,
-                      alignment: Alignment.center,
-                      constraints: BoxConstraints(minWidth: Dimensions.height25),
-                      padding: EdgeInsets.symmetric(vertical: Dimensions.height3, horizontal: Dimensions.height7),
-                      child: Text(controller.imageList[index].itemCount.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: ColourConstants.white,
-                              fontWeight: FontWeight.w400,
-                              fontSize: Dimensions.font12)),
-                    ),
                   ),
                   SizedBox(width: Dimensions.height8),
                   GestureDetector(
@@ -255,8 +291,8 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
             ],
           ),
         ],
-      ),
-    );
+
+    ));
   }
 
 
@@ -265,6 +301,17 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
     super.dispose();
     controller.enableButton.value = false;
     controller.update();
+  }
+
+  Future<void> getCount() async {
+    List<OnBoardingDocumentImageModel> list = await OnboardingImageManager().getImageList();
+    print("ImageList Length ${list.length}");
+    list.forEach((element) {
+      print(element.categoryName);
+      print(element.resourceKey);
+      print(element.isSubmitted);
+      print(element.imageName);
+    });
   }
   
 }

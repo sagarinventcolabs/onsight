@@ -2,6 +2,7 @@
 class OnBoardingDocumentImageModel{
 
   int? rowID;
+  int? position;
   String? count;
   String? YetToSubmit;
   String? resourceKey;
@@ -46,7 +47,8 @@ class OnBoardingDocumentImageModel{
 
   Map<String, dynamic> toDb() {
     final map = <String, dynamic>{};
-    map['Position'] = rowID;
+
+    map['Position'] = position;
     map['ResourceKey'] = resourceKey;
     map['Count'] = count;
     map['YetToSubmit'] = YetToSubmit;
@@ -60,10 +62,11 @@ class OnBoardingDocumentImageModel{
 
 
   OnBoardingDocumentImageModel.fromDBJson(dynamic json) {
-    rowID = json['Position'] ?? "";
+    rowID = json['RowID']??0;
     resourceKey = json['ResourceKey'] ?? "";
+    position =  json['Position']!=null?int.parse(json['Position'].toString()):0;
     categoryName = json['CatName'] ?? "";
-    count = json['Count'] ?? "";
+    count = json['Count']!=null?json['Count'].toString():"0";
     YetToSubmit = json['YetToSubmit'] ?? "";
     imageName = json['ImageName'] ?? "";
     imagePath = json['ImagePath'] ?? "";

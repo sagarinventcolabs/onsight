@@ -135,7 +135,7 @@ Future<void> showNotification(ServiceInstance service) async {
   if(b<0){
     await appInternetManager.updateTaskProgress(val: 0);
   }
-  if(b<1) {
+
     await flutterLocalNotificationsPlugin.cancel(11);
 
     print("Upper One - Notify Upload status From Background Service" +
@@ -158,7 +158,7 @@ Future<void> showNotification(ServiceInstance service) async {
         platformChannelSpecifics,
         payload: 'item x');
     }
-
+  if(b<1) {
     service.stopSelf();
   }
 }
@@ -583,11 +583,11 @@ Future<void> ImagePickerOnboarding(String route,index, resourceKey, rowId, count
     model.resourceKey = resourceKey;
     model.count = count;
     model.categoryName = categoryName;
-    model.rowID = rowId;
+    model.position = rowId;
     controller.imageList[index].image?.add(model);
     model.YetToSubmit = controller.imageList[index].image?.length.toString();
-    // controller.imageList[index].image?.add(model);
-    // controller.imageList.refresh();
+    //controller.imageList[index].image?.add(model);
+    controller.imageList.refresh();
     controller.update();
 
     await  OnboardingImageManager().insertImage(model);
