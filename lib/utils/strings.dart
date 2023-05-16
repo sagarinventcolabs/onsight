@@ -236,7 +236,7 @@ const String noShopsFound = "No Shops Found.";
 const String noCompaniesFound = "No Companies Found";
 const String numberOfPhotos = "number_of_photos";
 const String exhibitorAddedSuccessfully = "Exhibitor added\nsuccessfully";
-const String somethingWentWrong = "Something Went Wrong!";
+const String somethingWentWrong = "Something went wrong. Please try again later";
 const String exhibitorDetailsUpdatedSuccessfully = "Exhibitor details updated\nsuccessfully";
 
 

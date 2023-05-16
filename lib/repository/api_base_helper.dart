@@ -45,7 +45,7 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 60)).catchError((error) async {
           Get.back();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         Get.back();
@@ -101,7 +101,7 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 120)).catchError((error) async {
           Get.back();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         Get.back();
@@ -153,7 +153,7 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 60)).catchError((error){
           Get.back();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
         });
         Get.back();
 
@@ -208,7 +208,7 @@ class ApiBaseHelper{
             Get.back();
           }
           Get.closeAllSnackbars();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         if(isLoading) {
@@ -276,7 +276,7 @@ class ApiBaseHelper{
             Get.closeAllSnackbars();
             Get.back();
           }
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         if(isLoading) {
@@ -342,7 +342,7 @@ class ApiBaseHelper{
             Get.closeAllSnackbars();
             Get.back();
           }
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
         });
         if(isLoading) {
           Get.closeAllSnackbars();
@@ -545,7 +545,7 @@ class ApiBaseHelper{
             Get.back();
           }
           Get.closeAllSnackbars();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         if(isLoading) {
