@@ -26,9 +26,11 @@ import 'package:on_sight_application/repository/web_service_response/saveLeadShe
 import 'package:on_sight_application/repository/web_service_response/upload_image_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/onboarding/model/onboarding_category_model.dart';
+import 'package:on_sight_application/services/upload_service_ios.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
+import 'package:on_sight_application/utils/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -156,6 +158,32 @@ Future<bool> onStart(ServiceInstance service) async {
       var token = event["token"];
       showNotificationUploading();
       runApiFromDatabaseMainMethod(service, token);
+
+    }
+  });
+
+  service.on('JobPhotosApiIOS').listen((event) async {
+    debugPrint("JobPhotoIOSMethodCalled");
+    AppInternetManager appInternetManager = AppInternetManager();
+    var a = await appInternetManager.getSettingsTable() as List;
+    int b = 0;
+
+    if(a.isNotEmpty) {
+      debugPrint("Task in progress " + a[0]["TaskInProgress"].toString());
+      debugPrint("Task in progress");
+      b = a[0]["TaskInProgress"] ?? 0;
+    }
+    b = b+1;
+    await appInternetManager.updateTaskProgress(val: b);
+    var aa = await appInternetManager.getSettingsTable();
+    debugPrint("Task in progress" + aa[0]["TaskInProgress"].toString());
+    debugPrint("Job services Database started JobPhotoIOSMethod");
+    if(event!=null) {
+
+      var token = event["token"];
+      var jobNumber = event["jobNumber"];
+      showNotificationUploading();
+      jobPhotosIos(service, jobNumber, token);
 
     }
   });
@@ -805,28 +833,61 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
 
     if(response==null){
       OnboardingImageManager onboardingImageManager = OnboardingImageManager();
-      await onboardingImageManager.deleteImage(list[i].category, resourceId);
+      for(var j in  list[i].image!){
+        await onboardingImageManager.deleteImage(j.imageName);
+      }
       list[i].image!.clear();
+      try{
+        dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+          print("Code here2");
+          service.invoke("catcount",{
+            "response": value
+          });
+        });
+
+      }catch(e){
+        print(e);
+      }
       i = i+1;
       if(i<list.length){
         runApiOnboarding(service, resourceId, finalToken, list,i);
       }else{
+        try{
+          dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+            print("Code here3");
+            service.invoke("catcount",{
+              "response": value
+            });
+            showNotification(service);
+          });
+
+        }catch(e){
+          print(e);
+        }
         showNotification(service);
       }
     }else{
-      showErrorNotification(service, errorMsg: "Something Went wrong");
+      showErrorNotification(service, errorMsg: somethingWentWrong);
     }
   }else{
-    dynamic response = await webService.getPhotoCountOnboardingService(resourceId);
 
-    service.invoke("catcount",{
-      "response": response.toJson()
-    });
+
+
     i = i+1;
     if(i<list.length) {
       runApiOnboarding(service, resourceId, finalToken, list,i);
     }else{
-      showNotification(service);
+      try{
+        dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+          print("Code here4");
+          service.invoke("catcount",{
+            "response": value
+          });
+          showNotification(service);
+        });
+      }catch(e){
+        print(e);
+      }
     }
   }
 }

@@ -454,9 +454,19 @@ class WebService {
   }
 
   //Get Photo Count Onboarding...........................................................................
-  Future<dynamic> getPhotoCountOnboardingService(id) async {
-    var url = EndPoint.getPhotoCount+id.toString();
-    var response = await ApiBaseHelper().getApiCall(url);
+  Future<dynamic> getPhotoCountOnboardingService(id, {isLoading = true, accessToken = null}) async {
+    var url = "";
+    var a = await AppInternetManager().getSettingsTable() as List;
+    var flavor = a[0]["Flavor"]??"prod";
+    if(flavor=="prod"){
+      url = EndPoint.getPhotoCount+id.toString();
+
+    }else{
+      url = EndPoint.getPhotoCountStage+id.toString();
+
+    }
+    var response = await ApiBaseHelper().getApiCall(url, isLoading: isLoading, accessToken: accessToken);
+    print("RResponse at Webservice $response");
     return response;
   }
 

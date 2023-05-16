@@ -140,7 +140,7 @@ Future<void> showNotification(ServiceInstance service) async {
 
     print("Upper One - Notify Upload status From Background Service" +
         (a[0]["UploadCompleteStatus"].toString()));
- if (a[0]["UploadCompleteStatus"] == 1) {
+// if (a[0]["UploadCompleteStatus"] == 1) {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails('channel1', 'channelone',
         channelDescription: 'channelDescription',
@@ -157,10 +157,13 @@ Future<void> showNotification(ServiceInstance service) async {
         10, appName, notificationSuccessMsg,
         platformChannelSpecifics,
         payload: 'item x');
-    }
-  if(b<1) {
+//    }
+//  if(b<1) {
+  Future.delayed(Duration(seconds: 5), (){
     service.stopSelf();
-  }
+  });
+
+//  }
 }
 
 /// check internet speed
@@ -256,9 +259,9 @@ Future<void> showErrorNotification(ServiceInstance service, {required String err
       platformChannelSpecifics,
       payload: 'item x');
     }
-  if(b<1) {
+
     service.stopSelf();
-  }
+
 }
 
 Future<void> showNotificationUploading() async {

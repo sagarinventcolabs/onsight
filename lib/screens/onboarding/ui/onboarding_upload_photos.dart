@@ -169,7 +169,6 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                                     : true,
                                 child: GestureDetector(
                                   onTap: () {
-                                    print("Click over here");
                                     if ((controller.imageList[index].image?.length??0) > 0) {
                                       controller.selectedCategory.value = controller.imageList[index].category??"";
                                       controller.update();
@@ -217,23 +216,26 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                       )),
                   SizedBox(width: Dimensions.height8),
                   StreamBuilder<Map<String, dynamic>?>(
-                    stream: FlutterBackgroundService().on("catCount"),
+                    stream: FlutterBackgroundService().on("catcount"),
                     builder: (context, snapshot) {
 
+                      print(snapshot.connectionState);
 
                       if(snapshot.connectionState==ConnectionState.active){
                         if(snapshot.hasData){
+
                           if(snapshot.data!=null) {
-                            if (!snapshot.data.toString().contains("error")) {
-                             
-                              List<dynamic> listTemp = snapshot.data as List;
+                            print("Data  is  ${snapshot.data!["response"]}");
+                            if (!snapshot.data!["response"].toString().contains("error")) {
+
+                              List<dynamic> listTemp = snapshot.data!["response"] as List;
                                 var indexxx = listTemp.indexWhere((element) => element["Name"]==controller.imageList[index].category);
 
                                 CategoryResponseModel catModel = CategoryResponseModel.fromJson(listTemp[indexxx]);
                                 controller.imageList[index].itemCount  =   catModel.photoCount.toString();
                                 print("Here Count is"+catModel.photoCount.toString());
 
-                              controller.imageList.refresh();
+                            //  controller.imageList.refresh();
                              // controller.update();
                             }
                           }

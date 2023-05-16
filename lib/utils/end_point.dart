@@ -135,6 +135,7 @@ class EndPoint {
    static  String getCategoryType = "$baseURL/onboarding/GetCategories";
    /// Get photo count onboarding
    static  String getPhotoCount = "$baseURL/onboarding/GetPhotoCountById/";
+   static  String getPhotoCountStage = "$baseURLStage/onboarding/GetPhotoCountById/";
   ///Create resource onboarding url
   static  String createResourceOnboarding = "$baseURL/onboarding/CreateResource";
    ///Create resource onboarding url

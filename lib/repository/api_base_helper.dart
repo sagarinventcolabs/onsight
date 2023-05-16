@@ -179,7 +179,7 @@ class ApiBaseHelper{
   }
 
   //Get api call method...............................................................................
-  Future<dynamic> getApiCall(String url,{isLoading = true, showSnackbarValue = true}) async {
+  Future<dynamic> getApiCall(String url,{isLoading = true, showSnackbarValue = true, accessToken = null}) async {
     var context =  Get.context;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     var deviceId = await getDeviceId();
@@ -190,7 +190,7 @@ class ApiBaseHelper{
       var responseJson;
 
       Map<String, String> apiHeader = {
-        EndPointMessages.AUTHORIZATION_KEY:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
+        EndPointMessages.AUTHORIZATION_KEY: sp==null?EndPointMessages.BEARER_VALUE+ accessToken:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
         EndPointKeys.acceptKey: 'application/json',
         EndPointKeys.contentType: 'application/json',
         EndPointMessages.USERAGENT_KEY: deviceId,
@@ -220,7 +220,7 @@ class ApiBaseHelper{
         log("response=========>>>> ${response.body}");
 
         try {
-          responseJson = _returnResponse(response, showValue: showSnackbarValue);
+          responseJson = await _returnResponse(response, showValue: showSnackbarValue);
 
 
         } catch (e) {
@@ -381,7 +381,7 @@ class ApiBaseHelper{
 
 
   //MultipartRequest api call method..........................................................................................
-
+  @pragma('vm:entry-point')
   Future<dynamic> multiPartRequest(String url, Map<String, String>fieldMap, List<http.MultipartFile> listImage, token) async {
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     var deviceId = await getDeviceId();
@@ -390,8 +390,8 @@ class ApiBaseHelper{
       var response;
       var responseJson;
 
-      log("ApiUrl=========>>>> ${url}");
-      log("Token=========>>>> ${token}");
+      print("ApiUrl=========>>>> ${url}");
+      print("Token=========>>>> ${token}");
 
       try {
         var request = http.MultipartRequest(
@@ -405,12 +405,12 @@ class ApiBaseHelper{
         request.files.addAll(listImage);
         debugPrint(request.fields.toString());
         debugPrint(request.files.first.field.toString() +" "+request.files.first.filename.toString());
-        log("Fields=========>>>> ${request.fields}");
-        log("Files=========>>>> ${request.files}");
+        print("Fields=========>>>> ${request.fields}");
+        print("Files=========>>>> ${request.files}");
         response = await request.send();
         var res =  await response.stream.bytesToString();
-        log("statusCode=========>>>> ${response.statusCode}");
-        log("response=========>>>> ${res}");
+        print("statusCode=========>>>> ${response.statusCode}");
+        print("response=========>>>> ${res}");
 
         try {
 
@@ -588,9 +588,13 @@ class ApiBaseHelper{
 
   // Return Reponse Method....................................................................................................
   dynamic _returnResponse(http.Response response, {showValue = true}) {
+    print(response.statusCode);
     switch (response.statusCode) {
+
       case 200:
+
         var responseJson = json.decode(response.body.toString());
+        print("Response at Api Base Helper $responseJson");
         return responseJson;
       case 201:
         var responseJson = json.decode(response.body.toString());

@@ -63,7 +63,7 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
               size: Dimensions.height25,
             ),
             onPressed: () {
-              if(data.route==Routes.onBoardingResourceScreen){
+              if(data.route==Routes.onBoardingResourceScreenNew){
                 Get.back();
               }else{
                 Get.back();

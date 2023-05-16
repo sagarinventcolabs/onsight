@@ -28,7 +28,7 @@ import 'package:on_sight_application/utils/functions/functions.dart';
 showLoader(context) {
   showDialog(
     barrierDismissible: false,
-    context: Get.context!,
+    context: context,
     builder: (context) {
       return const WillPopScope(
         onWillPop: _onWillPop,
