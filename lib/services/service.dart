@@ -420,7 +420,7 @@ Future<bool> onStart(ServiceInstance service) async {
   // });
   // uploadImg();
 
-    Timer.periodic(const Duration(minutes: 30), (timer) async{
+    Timer.periodic(const Duration(minutes: 15), (timer) async{
       ImageManager imageManager = ImageManager();
       List<ImageModel>imageList = await imageManager.getFailedImageList();
 
@@ -457,9 +457,8 @@ Future<bool> onStart(ServiceInstance service) async {
 
 
           service.invoke(
-              "failedJob", {
+              "failedJobDatabase", {
             "list": listdynamic,
-            "jobNumber": listImage.first.listPhotos?.first.jobNumber,
             "token": token
           });
       }else{

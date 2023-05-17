@@ -59,62 +59,68 @@ class OnBoardingNewScreenState extends State<OnBoardingNewScreen> with SearchFun
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          leading: IconButton(
-            icon: Image.asset(
-              Assets.appBarLeadingButton,
-              color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-              height: Dimensions.height25,
-              width: Dimensions.height25,
+    return WillPopScope(
+      onWillPop: ()async{
+        Get.offNamedUntil(Routes.dashboardScreen, (route) => false);
+        return true;
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            leading: IconButton(
+              icon: Image.asset(
+                Assets.appBarLeadingButton,
+                color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+                height: Dimensions.height25,
+                width: Dimensions.height25,
+              ),
+              onPressed: () {
+                Get.offNamedUntil(Routes.dashboardScreen, (route) => false);
+              },
             ),
-            onPressed: () {
-              Get.back();
-            },
+            elevation: 0.0,
+            backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
+            title: Text(onBoardingStr,
+                style: TextStyle(
+                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: Dimensions.font16)),
           ),
-          elevation: 0.0,
-          backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
-          title: Text(onBoardingStr,
-              style: TextStyle(
-                  color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Dimensions.font16)),
-        ),
 
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.height20),
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/14),
-                  child: Image.asset(
-                    Get.isDarkMode ? Assets.ilOnBoardingDark :Assets.illOnBoarding,
-                    height: MediaQuery.of(context).size.height/4.3,
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: Dimensions.height20),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/14),
+                    child: Image.asset(
+                      Get.isDarkMode ? Assets.ilOnBoardingDark :Assets.illOnBoarding,
+                      height: MediaQuery.of(context).size.height/4.3,
+                    ),
                   ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height/14),
-                Column(
-                  children: [
-                  OnboardingTile(title: addNewHire,
-                    lightSvgIcon: Assets.ic_job_photoss,
-                    darkSvgIcon: Assets.icJobPhotosDark,
-                  routeName: Routes.onBoardingRegistration,),
+                  SizedBox(height: MediaQuery.of(context).size.height/14),
+                  Column(
+                    children: [
+                    OnboardingTile(title: addNewHire,
+                      lightSvgIcon: Assets.ic_job_photoss,
+                      darkSvgIcon: Assets.icJobPhotosDark,
+                    routeName: Routes.onBoardingRegistration,),
 
-                    OnboardingTile(title: addSupportingDocuments,
-                      lightSvgIcon: Assets.ic_Projecxt_Evaluation,
-                      darkSvgIcon: Assets.Ic_OnboardingEvaluation_dark,
-                        routeName: Routes.onBoardingResourceScreenNew),
-                  ],
-                ),
-                SizedBox(height: Dimensions.height100,)
-              ],
-            ),
-          )
-        ));
+                      OnboardingTile(title: addSupportingDocuments,
+                        lightSvgIcon: Assets.ic_Projecxt_Evaluation,
+                        darkSvgIcon: Assets.Ic_OnboardingEvaluation_dark,
+                          routeName: Routes.onBoardingResourceScreenNew),
+                    ],
+                  ),
+                  SizedBox(height: Dimensions.height100,)
+                ],
+              ),
+            )
+          )),
+    );
   }
 }

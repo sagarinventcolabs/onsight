@@ -304,6 +304,7 @@ const String lastWorkDate = "Last Work Date";
 const String documentType = "Document Type";
 const String photos = "Photos";
 const String documentAddedSuccessfully = "Document added successfully!";
+const String doYouWantToAddAnotherNewHire = "Do you want to add another new hire?";
 const String resourceCreatedSuccessfully = "Resource Created Successfully!";
 const String doYouWantToAddDocument = "Do you want to add\ndocuments ?";
 const String noResultFound = "No Result Found!";

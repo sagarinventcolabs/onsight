@@ -75,7 +75,7 @@ class CreateResourceResponse {
     _i9 = json['I9'];
     _i9Supporting = json['I9Supporting'];
     _directDepositForm = json['DirectDepositForm'];
-    _directDepositSuppporting = json['DirectDepositSuppporting'];
+    _directDepositSuppporting = json['DirectDepositSupporting'];
   }
   var _itemId;
   String? _firstName;
@@ -170,7 +170,7 @@ CreateResourceResponse copyWith({  var itemId,
     map['I9'] = _i9;
     map['I9Supporting'] = _i9Supporting;
     map['DirectDepositForm'] = _directDepositForm;
-    map['DirectDepositSuppporting'] = _directDepositSuppporting;
+    map['DirectDepositSupporting'] = _directDepositSuppporting;
     return map;
   }
 

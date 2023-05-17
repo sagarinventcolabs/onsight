@@ -27,7 +27,8 @@ class OnBoardingUploadPhotosScreen extends StatefulWidget {
 class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScreen> {
   late OnBoardingPhotosController controller;
 
-
+  var args  ;
+  var resourceKey;
 
   @override
   void initState() {
@@ -39,6 +40,9 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
     getCount();
 
     super.initState();
+    args  = Get.arguments;
+    print(args);
+    resourceKey = args.itemId;
   }
 
 
@@ -67,17 +71,30 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
           if(controller.imageList.isNotEmpty) {
             if (controller.enableButton.isTrue) {
               controller.enableButton.value = false;
-              controller.saveDocumentApiRequest(Get.arguments);
+              controller.saveDocumentApiRequest(resourceKey);
               print("ACTIVITY TRACKER COUNT --> ");
               sp?.putInt(Preference.ACTIVITY_TRACKER, ((sp?.getInt(Preference.ACTIVITY_TRACKER)??0)+1));
               print((sp?.getInt(Preference.ACTIVITY_TRACKER)??0).toString());
-              defaultDialog(Get.context!, title: documentAddedSuccessfully, onTap: () {
-                setState(() {
+              if(args.route==Routes.onBoardingRegistration) {
+                dialogAction(context, title: doYouWantToAddAnotherNewHire, alert: documentAddedSuccessfully,onTapYes: (){
+                  Get.back();
+                  Get.offNamedUntil(Routes.onBoardingRegistration,(r)=>false ,arguments: args);
+                },
+                    onTapNo: (){
+                      Get.back();
+                      Get.back();
+                    }
+                );
+              }else{
+                defaultDialog(Get.context!, title: documentAddedSuccessfully, onTap: () {
+                  setState(() {
 
+                  });
+                  Get.back();
                 });
-                Get.back();
+              }
 
-              });
+
             }
             checkBatteryStatus();
           }
@@ -154,7 +171,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                       //     : false,
                     visible: true,
                       child: FutureBuilder(
-                        future: OnboardingImageManager().getYetToSubmitCount(controller.imageList[index].category,Get.arguments ),
+                        future: OnboardingImageManager().getYetToSubmitCount(controller.imageList[index].category,resourceKey ),
                         builder: (ctx, snapshot) {
                           var data = [];
                           if (snapshot.hasData) {
@@ -172,7 +189,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                                     if ((controller.imageList[index].image?.length??0) > 0) {
                                       controller.selectedCategory.value = controller.imageList[index].category??"";
                                       controller.update();
-                                      Get.toNamed(Routes.onBoardingPhotoScreen, arguments: Get.arguments);
+                                      Get.toNamed(Routes.onBoardingPhotoScreen, arguments: resourceKey);
                                     }
                                   },
                                   child: Container(
@@ -218,22 +235,16 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                   StreamBuilder<Map<String, dynamic>?>(
                     stream: FlutterBackgroundService().on("catcount"),
                     builder: (context, snapshot) {
-
-                      print(snapshot.connectionState);
-
                       if(snapshot.connectionState==ConnectionState.active){
                         if(snapshot.hasData){
-
                           if(snapshot.data!=null) {
-                            print("Data  is  ${snapshot.data!["response"]}");
                             if (!snapshot.data!["response"].toString().contains("error")) {
-
                               List<dynamic> listTemp = snapshot.data!["response"] as List;
                                 var indexxx = listTemp.indexWhere((element) => element["Name"]==controller.imageList[index].category);
 
                                 CategoryResponseModel catModel = CategoryResponseModel.fromJson(listTemp[indexxx]);
                                 controller.imageList[index].itemCount  =   catModel.photoCount.toString();
-                                print("Here Count is"+catModel.photoCount.toString());
+                                controller.imageList[index].UploadURL  =   catModel.uploadURL.toString();
 
                             //  controller.imageList.refresh();
                              // controller.update();
@@ -243,7 +254,12 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                       }
                       return GestureDetector(
                       onTap: (){
-                        Get.toNamed(Routes.myWebView, arguments: controller.imageList[index].UploadURL.toString());
+                        if(controller.imageList[index].UploadURL!=null){
+                          if(controller.imageList[index].UploadURL!.isNotEmpty){
+                            Get.toNamed(Routes.myWebView, arguments: controller.imageList[index].UploadURL.toString());
+                          }
+                        }
+
                       },
                         child: Container(
                           color: ColourConstants.greenColor,
@@ -276,8 +292,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                           builder: (context) =>
                               //bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingUploadPhotosScreen,index)).then((value) {
                               bottomSheetImagePicker(Routes.onBoardingUploadPhotosScreen)).then((value) {
-                                var resourceKey = Get.arguments;
-                                print(resourceKey);
+
                             ImagePickerOnboarding(Routes.onBoardingUploadPhotosScreen,index,resourceKey.toString(), controller.imageList[index].rowId, controller.imageList[index].itemCount,controller.imageList[index].category);
 
                       });

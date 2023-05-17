@@ -66,7 +66,7 @@ class OnBoardingPhotosController extends GetxController{
 
   getCategory({required itemId})async{
     WebService webService = WebService();
-    dynamic response = await webService.getPhotoCountOnboardingService(itemId);
+    dynamic response = await webService.getPhotoCountOnboardingService(itemId.itemId);
     if(response!=null) {
       if (!response.toString().contains("error")) {
         imageList.clear();
@@ -74,8 +74,8 @@ class OnBoardingPhotosController extends GetxController{
 
         for (int i = 0; i < listTemp.length; i++) {
           CategoryResponseModel catModel = CategoryResponseModel.fromJson(listTemp[i]);
-          var  result = await OnboardingImageManager().getYetToSubmitCount(catModel.name,itemId);
-          List<OnBoardingDocumentImageModel> dbImage = await OnboardingImageManager().getImageListNotSubmitted(itemId, catModel.name);
+          var  result = await OnboardingImageManager().getYetToSubmitCount(catModel.name,itemId.itemId);
+          List<OnBoardingDocumentImageModel> dbImage = await OnboardingImageManager().getImageListNotSubmitted(itemId.itemId, catModel.name);
           var count =  result[0]['COUNT(*)'];
           print("Count is "+count.toString());
           imageList.add(OnBoardingDocumentModel(category: catModel.name,
