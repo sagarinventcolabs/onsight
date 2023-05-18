@@ -820,7 +820,7 @@ Widget bottomSheetImagePicker(route) {
                   });
                   final ImagePicker picker = ImagePicker();
                   // Capture a photo from gallery
-                  final List<XFile>? picImage = await picker.pickMultiImage(imageQuality: imageQualityRatio);
+                  final List<XFile>? picImage = await picker.pickMultiImage(imageQuality: imageQualityRatio, requestFullMetadata: false);
                   if (picImage != null) {
                     if (picImage.isNotEmpty) {
                       for (var element in picImage) {
@@ -1033,7 +1033,8 @@ Widget bottomSheetImagePickerPromo(route) {
                   });
                   final ImagePicker picker = ImagePicker();
                   // Capture a photo from gallery
-                  final List<XFile>? picImage = await picker.pickMultiImage();
+
+                  final List<XFile>? picImage = await picker.pickMultiImage(requestFullMetadata: false);
                   if (picImage != null) {
                     if (picImage.isNotEmpty) {
                       for (var element in picImage) {
