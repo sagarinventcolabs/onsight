@@ -81,8 +81,7 @@ class _OnBoardingUploadPhotosScreenState extends State<OnBoardingUploadPhotosScr
                   Get.offNamedUntil(Routes.onBoardingRegistration,(r)=>false ,arguments: args);
                 },
                     onTapNo: (){
-                      Get.back();
-                      Get.back();
+                      Get.offNamedUntil(Routes.onBoardingNewScreen,(r)=>false);
                     }
                 );
               }else{
