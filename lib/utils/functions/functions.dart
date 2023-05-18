@@ -458,7 +458,7 @@ Future<void> ImagePickerJobPhoto(route, id, jobNumber, key) async {
     File image = await File(element.imagePath!);
     print('Original path: ${element.imagePath}');
     String dirr = await path.dirname(element.imagePath!);
-    String newPath = await path.join(dirr, '${jobNumber.toString()}-${controller.categoryList[i].name}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    String newPath = await path.join(dirr, '${jobNumber.toString()}_${controller.categoryList[i].name}_${DateTime.now().millisecondsSinceEpoch}.jpg');
     print('NewPath: ${newPath}');
     image.renameSync(newPath);
     String fileName = basename(newPath);
@@ -507,7 +507,7 @@ Future<void> ImagePickerPromoPictures(String route) async {
      File image = await File(element.imagePath!);
      print('Original path: ${element.imagePath}');
      String dirr = await path.dirname(element.imagePath!);
-     String newPath = await path.join(dirr, '${controller.showController.text.isNotEmpty?controller.showController.text:"PromoPictures"}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+     String newPath = await path.join(dirr, '${controller.showController.text.isNotEmpty?controller.showController.text+"_PromoPictures":"PromoPictures"}_${DateTime.now().millisecondsSinceEpoch}.jpg');
      print('NewPath: ${newPath}');
      image.renameSync(newPath);
      String fileName = basename(newPath);
@@ -554,7 +554,7 @@ Future<void> ImagePickerLeadSheet(String route,String id,String s) async {
     File image = await File(element.imagePath!);
     print('Original path: ${element.imagePath}');
     String dirr = await path.dirname(element.imagePath!);
-    String newPath = await path.join(dirr, '${leadSheetController.showController.text.trim()}-${id}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    String newPath = await path.join(dirr, '${leadSheetController.showController.text.trim()}_${id}_${DateTime.now().millisecondsSinceEpoch}.jpg');
     print('NewPath: ${newPath}');
     image.renameSync(newPath);
     String fileName = basename(newPath);
@@ -592,7 +592,7 @@ Future<void> ImagePickerFieldIssue(String s) async {
     File image = await File(element.imagePath!);
     print('Original path: ${element.imagePath}');
     String dirr = await path.dirname(element.imagePath!);
-    String newPath = await path.join(dirr, '${fieldIssueController.jobEditingController.text.toString().trim()}-${"FieldIssues"}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    String newPath = await path.join(dirr, '${fieldIssueController.jobEditingController.text.toString().trim()}_${"FieldIssues"}_${DateTime.now().millisecondsSinceEpoch}.jpg');
     print('NewPath: ${newPath}');
     image.renameSync(newPath);
     String fileName = basename(newPath);
@@ -622,7 +622,7 @@ Future<void> ImagePickerOnboarding(String route,index, resourceKey, rowId, count
     File image = await File(element.imagePath!);
     print('Original path: ${element.imagePath}');
     String dirr = await path.dirname(element.imagePath!);
-    String newPath = await path.join(dirr, '${resourceKey.toString()}-${categoryName}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    String newPath = await path.join(dirr, '${resourceKey.toString()}_${categoryName}_${DateTime.now().millisecondsSinceEpoch}.jpg');
     print('NewPath: ${newPath}');
     image.renameSync(newPath);
     String fileName = basename(newPath);
