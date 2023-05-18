@@ -308,4 +308,12 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
     bool isRemoved = await widget.onRemoveImage(file);
     if (isRemoved) widget.capturedImages.remove(file);
   }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget._cameraController.close();
+    widget._imagesScrollController.dispose();
+  }
 }

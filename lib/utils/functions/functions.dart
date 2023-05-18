@@ -10,7 +10,10 @@ import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/main.dart';
-import 'package:on_sight_application/models/image_picker_model.dart';
+import 'package:on_sight_application/screens/field_issue/view_model/field_issue_controller.dart';
+import 'package:on_sight_application/screens/lead_sheet/view_model/lead_sheet_controller.dart';
+import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
 import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
@@ -440,7 +443,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
 }
 
-void ImagePickerJobPhoto(route, id, jobNumber, key){
+Future<void> ImagePickerJobPhoto(route, id, jobNumber, key) async {
 
   UploadJobPhotosController uploadJobPhotosC;
   if (Get.isRegistered<UploadJobPhotosController>()) {
@@ -452,10 +455,16 @@ void ImagePickerJobPhoto(route, id, jobNumber, key){
   var i = controller.categoryList.indexWhere((element) => element.id == id);
 
   for (var element in localList) {
-
+    File image = await File(element.imagePath!);
+    print('Original path: ${element.imagePath}');
+    String dirr = await path.dirname(element.imagePath!);
+    String newPath = await path.join(dirr, '${jobNumber.toString()}-${controller.categoryList[i].name}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    print('NewPath: ${newPath}');
+    image.renameSync(newPath);
+    String fileName = basename(newPath);
     ImageModel imageModel = ImageModel(
-        imagePath: element.imagePath,
-        imageName: element.imageName,
+        imagePath: newPath,
+        imageName: fileName,
         isPhotoAdded: 0,
         jobNumber: jobNumber,
         categoryId: id,
@@ -475,7 +484,7 @@ void ImagePickerJobPhoto(route, id, jobNumber, key){
   }
 }
 
-void ImagePickerPromoPictures(String route) {
+Future<void> ImagePickerPromoPictures(String route) async {
 
   var firstName = sp?.getString(Preference.FIRST_NAME)??"";
   var lastName = sp?.getString(Preference.LAST_NAME)??"";
@@ -494,10 +503,17 @@ void ImagePickerPromoPictures(String route) {
   }
 
   if(localList.isNotEmpty){
-    localList.forEach((element) {
+   for(var element in localList){
+     File image = await File(element.imagePath!);
+     print('Original path: ${element.imagePath}');
+     String dirr = await path.dirname(element.imagePath!);
+     String newPath = await path.join(dirr, '${controller.showController.text.isNotEmpty?controller.showController.text:"PromoPictures"}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+     print('NewPath: ${newPath}');
+     image.renameSync(newPath);
+     String fileName = basename(newPath);
       PromoImageModel model = PromoImageModel();
-      model.imageName = element.imageName;
-      model.imagePath = element.imagePath;
+      model.imageName = fileName;
+      model.imagePath = newPath;
       model.fullDate = "0001-01-01T00:00:00";
       model.showName = controller.showController.text.toString();
       model.year = DateTime.now().year.toString();
@@ -505,7 +521,7 @@ void ImagePickerPromoPictures(String route) {
       controller.photoList.add(model);
 
 
-    });
+    }
 
     print(controller.photoList.length);
     controller.photoList.refresh();
@@ -520,7 +536,7 @@ void ImagePickerPromoPictures(String route) {
   }
 }
 
-void ImagePickerLeadSheet(String route,String id,String s){
+Future<void> ImagePickerLeadSheet(String route,String id,String s) async {
   LeadSheetImageController controller ;
   if (Get.isRegistered<LeadSheetImageController>()) {
     controller = Get.find<LeadSheetImageController>();
@@ -528,12 +544,23 @@ void ImagePickerLeadSheet(String route,String id,String s){
     controller = Get.put(LeadSheetImageController());
   }
 
-
+  LeadSheetController leadSheetController ;
+  if (Get.isRegistered<LeadSheetController>()) {
+    leadSheetController = Get.find<LeadSheetController>();
+  } else {
+    leadSheetController = Get.put(LeadSheetController());
+  }
   for (var element in localList) {
-
+    File image = await File(element.imagePath!);
+    print('Original path: ${element.imagePath}');
+    String dirr = await path.dirname(element.imagePath!);
+    String newPath = await path.join(dirr, '${leadSheetController.showController.text.trim()}-${id}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    print('NewPath: ${newPath}');
+    image.renameSync(newPath);
+    String fileName = basename(newPath);
     LeadSheetImageModel model = LeadSheetImageModel();
-    model.imageName = element.imageName;
-    model.imagePath = element.imagePath;
+    model.imageName = fileName;
+    model.imagePath = newPath;
     controller.photoList.add(model);
   }
 
@@ -553,12 +580,25 @@ void ImagePickerLeadSheet(String route,String id,String s){
   }
 }
 
-void ImagePickerFieldIssue(String s){
+Future<void> ImagePickerFieldIssue(String s) async {
   PhotoCommentController controller = Get.find<PhotoCommentController>();
+  FieldIssueController fieldIssueController;
+  if(Get.isRegistered<FieldIssueController>()){
+    fieldIssueController = Get.find<FieldIssueController>();
+  }else{
+    fieldIssueController = Get.put(FieldIssueController());
+  }
   for (var element in localList) {
+    File image = await File(element.imagePath!);
+    print('Original path: ${element.imagePath}');
+    String dirr = await path.dirname(element.imagePath!);
+    String newPath = await path.join(dirr, '${fieldIssueController.jobEditingController.text.toString().trim()}-${"FieldIssues"}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    print('NewPath: ${newPath}');
+    image.renameSync(newPath);
+    String fileName = basename(newPath);
     FieldIssueImageModel model = FieldIssueImageModel();
-    model.imageName = element.imageName;
-    model.imagePath = element.imagePath;
+    model.imageName = fileName;
+    model.imagePath = newPath;
     controller.photoList.add(model);
   }
 
@@ -579,10 +619,16 @@ void ImagePickerFieldIssue(String s){
 Future<void> ImagePickerOnboarding(String route,index, resourceKey, rowId, count, categoryName) async {
   OnBoardingPhotosController controller = Get.find<OnBoardingPhotosController>();
   for (var element in localList) {
-
+    File image = await File(element.imagePath!);
+    print('Original path: ${element.imagePath}');
+    String dirr = await path.dirname(element.imagePath!);
+    String newPath = await path.join(dirr, '${resourceKey.toString()}-${categoryName}-${DateTime.now().millisecondsSinceEpoch}.jpg');
+    print('NewPath: ${newPath}');
+    image.renameSync(newPath);
+    String fileName = basename(newPath);
     OnBoardingDocumentImageModel model = OnBoardingDocumentImageModel();
-    model.imageName = element.imageName;
-    model.imagePath = element.imagePath;
+    model.imageName = fileName;
+    model.imagePath = newPath;
     model.resourceKey = resourceKey;
     model.count = count;
     model.categoryName = categoryName;

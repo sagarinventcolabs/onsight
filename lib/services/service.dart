@@ -339,86 +339,6 @@ Future<bool> onStart(ServiceInstance service) async {
   service.on('stopService').listen((event) {
     service.stopSelf();
   });
-  // bring to foreground
-  /* Timer.periodic(const Duration(seconds: 1), (timer) async {
-      final hello = preferences.getString("hello");
-      debugPrint(hello);
-
-      if (service is AndroidServiceInstance) {
-        service.setForegroundNotificationInfo(
-          title: "My App Service",
-          content: "Updated at ${DateTime.now()}",
-        );
-      }
-
-      /// you can see this log in logcat
-      debugPrint('FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
-
-      // test using external plugin
-      final deviceInfo = DeviceInfoPlugin();
-      String? device;
-      if (Platform.isAndroid) {
-        final androidInfo = await deviceInfo.androidInfo;
-        device = androidInfo.model;
-      }
-
-      if (Platform.isIOS) {
-        final iosInfo = await deviceInfo.iosInfo;
-        device = iosInfo.model;
-      }
-
-      service.invoke(
-        'update',
-        {
-          "current_date": DateTime.now().toIso8601String(),
-          "device": device,
-        },
-      );
-    });*/
-
-
-
-  // Timer.periodic(const Duration(minutes: 1), (timer) async{
-  //   FieldIssueImageManager imageManager = FieldIssueImageManager();
-  //   List<FieldIssueImageModel>imageList = await imageManager.getImageList();
-  //
-  //   if(imageList.isNotEmpty){
-  //
-  //
-  //     imageList.forEach((element) {
-  //       JobCategoriesResponse response = JobCategoriesResponse();
-  //       response.id = element.categoryId??"";
-  //       response.name = element.categoryName??"";
-  //       if(listImage.isNotEmpty) {
-  //         for (var j = 0; j < listImage.length; j++) {
-  //           if (listImage[j].id == element.categoryId) {
-  //             listImage[j].listPhotos?.add(element);
-  //           } else {
-  //             response.listPhotos = [];
-  //             response.listPhotos?.add(element);
-  //             listImage.add(response);
-  //           }
-  //         }
-  //       }else{
-  //         response.listPhotos = [];
-  //         response.listPhotos?.add(element);
-  //         listImage.add(response);
-  //       }
-  //
-  //     });
-  //     List<dynamic> listdynamic = [];
-  //
-  //     for(var k =0; k<listImage.length; k++){
-  //       listdynamic.add(listImage[k].toJson());
-  //     }
-  //
-  //   }else{
-  //     service.stopSelf();
-  //   }
-  //
-  //
-  // });
-  // uploadImg();
 
     Timer.periodic(const Duration(minutes: 15), (timer) async{
       ImageManager imageManager = ImageManager();
@@ -713,8 +633,7 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<F
 
 fieldIssueSubMethod2(service, SubmitFieldIssueRequest request, finalToken)async{
   List<FieldIssueImageModel> tempList = await FieldIssueImageManager().getImageList();
-  print("TempList Length  ${tempList.length}");
-  print("RowId TempList  ${tempList.first.rowID}");
+
   if(tempList.isNotEmpty) {
     FieldIssueImageModel list = tempList.first;
     var connectivityResult = await (Connectivity().checkConnectivity());

@@ -496,6 +496,18 @@ class OnboardingController extends GetxController{
 
   /// API function for getting Union Suggestions
   Future<dynamic> getUnionSuggestions() async {
+    var args = Get.arguments;
+    if(args!=null){
+      cityController.text = args.city;
+      unionController.text = args.union;
+      classificationController.text = args.classification;
+      if(args.union!=null && args.classification!=null){
+        corporateSupport.value = true;
+      }else{
+        corporateSupport.value = false;
+      }
+    }
+    update();
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive){
       var response = await service.getUnionSuggestionsList()as List;
@@ -511,16 +523,7 @@ class OnboardingController extends GetxController{
           update();
         }
       }
-      var args = Get.arguments;
-      if(args!=null){
-        cityController.text = args.city;
-        if(args.union!=null && args.classification!=null){
-          corporateSupport.value = true;
-        }else{
-          corporateSupport.value = false;
-        }
-      }
-      update();
+
       return response;
     }
   }
