@@ -83,6 +83,7 @@ class _OnBoardingResourceScreenNewState extends State<OnBoardingResourceScreenNe
                       hintText: searchResource,
                       suffixIcon: GestureDetector(
                           onTap: () async {
+                            resourceController.selectedResource.value = -1;
                             if(searchController.text.length>0) {
                               await resourceController.findOasisResourcesApi(
                                   searchController.text.toString());
@@ -182,5 +183,6 @@ class _OnBoardingResourceScreenNewState extends State<OnBoardingResourceScreenNe
   void dispose() {
     super.dispose();
     resourceController.oasisResourceList.clear();
+    resourceController.selectedResource.value = -1;
   }
 }

@@ -581,6 +581,7 @@ Future<void> ImagePickerLeadSheet(String route,String id,String s) async {
 }
 
 Future<void> ImagePickerFieldIssue(String s) async {
+  print(s);
   PhotoCommentController controller = Get.find<PhotoCommentController>();
   FieldIssueController fieldIssueController;
   if(Get.isRegistered<FieldIssueController>()){
