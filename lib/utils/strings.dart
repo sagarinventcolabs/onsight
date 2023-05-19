@@ -9,6 +9,7 @@ const String showNumberAutoFill = "showNumberAutoFill";
 
 /// Api Services...........................
 const String pleaseCheckInternet = "Please check your internet connection";
+const String internalServerError = "Internal Server Error";
 const String internetStrengthError = "Your internet strength is weak!";
 const String noInternet = "No Internet Found";
 const String noInternetStr = "No Internet";
@@ -235,7 +236,7 @@ const String noShopsFound = "No Shops Found.";
 const String noCompaniesFound = "No Companies Found";
 const String numberOfPhotos = "number_of_photos";
 const String exhibitorAddedSuccessfully = "Exhibitor added\nsuccessfully";
-const String somethingWentWrong = "Something Went Wrong!";
+const String somethingWentWrong = "Something went wrong. Please try again later";
 const String exhibitorDetailsUpdatedSuccessfully = "Exhibitor details updated\nsuccessfully";
 
 
@@ -303,6 +304,7 @@ const String lastWorkDate = "Last Work Date";
 const String documentType = "Document Type";
 const String photos = "Photos";
 const String documentAddedSuccessfully = "Document added successfully!";
+const String doYouWantToAddAnotherNewHire = "Do you want to add another new hire?";
 const String resourceCreatedSuccessfully = "Resource Created Successfully!";
 const String doYouWantToAddDocument = "Do you want to add\ndocuments ?";
 const String noResultFound = "No Result Found!";

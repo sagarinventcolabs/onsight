@@ -61,6 +61,28 @@ class AllOasisResourcesResponse {
     _route = route;
 }
 
+
+  AllOasisResourcesResponse.fromJsonn(dynamic json) {
+    _itemId = json['ItemId'];
+    _firstName = json['FirstName'];
+    _lastName = json['LastName'];
+    _status = json['Status'];
+    _show = json['Show'];
+    _mobilePhone = json['MobilePhone'];
+    _union = json['Union'];
+    _classification = json['Classification'];
+    _notes = json['Notes'];
+    _ssn = json['SSN'];
+    _city = json['City'];
+    _id = json['ID'];
+    _sSCard = json['SSCard'];
+    _w4 = json['W4'];
+    _i9 = json['I9'];
+    _i9Supporting = json['I9Supporting'];
+    _directDepositForm = json['DirectDepositForm'];
+    _directDepositSuppporting = json['DirectDepositSuppporting'];
+  }
+
   AllOasisResourcesResponse.fromJson(dynamic json, i) {
     _itemId = json[i]['ItemId'];
     _firstName = json[i]['FirstName'];

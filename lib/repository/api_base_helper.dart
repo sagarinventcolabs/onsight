@@ -45,7 +45,7 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 60)).catchError((error) async {
           Get.back();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         Get.back();
@@ -101,7 +101,7 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 120)).catchError((error) async {
           Get.back();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         Get.back();
@@ -153,7 +153,7 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 60)).catchError((error){
           Get.back();
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
         });
         Get.back();
 
@@ -179,7 +179,7 @@ class ApiBaseHelper{
   }
 
   //Get api call method...............................................................................
-  Future<dynamic> getApiCall(String url,{isLoading = true, showSnackbarValue = true}) async {
+  Future<dynamic> getApiCall(String url,{isLoading = true, showSnackbarValue = true, accessToken = null}) async {
     var context =  Get.context;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     var deviceId = await getDeviceId();
@@ -190,7 +190,7 @@ class ApiBaseHelper{
       var responseJson;
 
       Map<String, String> apiHeader = {
-        EndPointMessages.AUTHORIZATION_KEY:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
+        EndPointMessages.AUTHORIZATION_KEY: sp==null?EndPointMessages.BEARER_VALUE+ accessToken:EndPointMessages.BEARER_VALUE+ sp!.getString(Preference.ACCESS_TOKEN).toString(),
         EndPointKeys.acceptKey: 'application/json',
         EndPointKeys.contentType: 'application/json',
         EndPointMessages.USERAGENT_KEY: deviceId,
@@ -204,28 +204,32 @@ class ApiBaseHelper{
           headers: apiHeader,
         ).timeout(const Duration(seconds: 60)).catchError((error) async {
           if(isLoading) {
-            Get.closeAllSnackbars();
+
             Get.back();
           }
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.closeAllSnackbars();
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         if(isLoading) {
-          Get.closeAllSnackbars();
+
           Get.back();
         }
-
+        Get.closeAllSnackbars();
         log("statusCode=========>>>> ${response.statusCode}");
         log("response=========>>>> ${response.body}");
 
         try {
-          responseJson = _returnResponse(response, showValue: showSnackbarValue);
+          responseJson = await _returnResponse(response, showValue: showSnackbarValue);
 
 
-        } catch (e) {if(isLoading) {
-          Get.closeAllSnackbars();
+        } catch (e) {
+          if(isLoading) {
+
           Get.back();
-        }}
+        }
+        Get.closeAllSnackbars();
+        }
       } on SocketException {
         if(isLoading) {
           Get.closeAllSnackbars();
@@ -272,7 +276,7 @@ class ApiBaseHelper{
             Get.closeAllSnackbars();
             Get.back();
           }
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         if(isLoading) {
@@ -338,7 +342,7 @@ class ApiBaseHelper{
             Get.closeAllSnackbars();
             Get.back();
           }
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.snackbar(alert, somethingWentWrong);
         });
         if(isLoading) {
           Get.closeAllSnackbars();
@@ -377,7 +381,7 @@ class ApiBaseHelper{
 
 
   //MultipartRequest api call method..........................................................................................
-
+  @pragma('vm:entry-point')
   Future<dynamic> multiPartRequest(String url, Map<String, String>fieldMap, List<http.MultipartFile> listImage, token) async {
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     var deviceId = await getDeviceId();
@@ -386,8 +390,8 @@ class ApiBaseHelper{
       var response;
       var responseJson;
 
-      log("ApiUrl=========>>>> ${url}");
-      log("Token=========>>>> ${token}");
+      print("ApiUrl=========>>>> ${url}");
+      print("Token=========>>>> ${token}");
 
       try {
         var request = http.MultipartRequest(
@@ -401,12 +405,12 @@ class ApiBaseHelper{
         request.files.addAll(listImage);
         debugPrint(request.fields.toString());
         debugPrint(request.files.first.field.toString() +" "+request.files.first.filename.toString());
-        log("Fields=========>>>> ${request.fields}");
-        log("Files=========>>>> ${request.files}");
+        print("Fields=========>>>> ${request.fields}");
+        print("Files=========>>>> ${request.files}");
         response = await request.send();
         var res =  await response.stream.bytesToString();
-        log("statusCode=========>>>> ${response.statusCode}");
-        log("response=========>>>> ${res}");
+        print("statusCode=========>>>> ${response.statusCode}");
+        print("response=========>>>> ${res}");
 
         try {
 
@@ -537,10 +541,11 @@ class ApiBaseHelper{
           body: jsonEncode(jsonData),
         ).timeout(const Duration(seconds: 60)).catchError((error) async {
           if(isLoading) {
-            Get.closeAllSnackbars();
+
             Get.back();
           }
-          Get.snackbar(alert, pleaseCheckInternet);
+          Get.closeAllSnackbars();
+          Get.snackbar(alert, somethingWentWrong);
           return await Future.error(error);
         });
         if(isLoading) {
@@ -558,15 +563,18 @@ class ApiBaseHelper{
 
         } catch (e) {
           if(isLoading) {
-            Get.closeAllSnackbars();
+
             Get.back();
           }
+          Get.closeAllSnackbars();
         }
       } on SocketException {
         if(isLoading) {
-          Get.closeAllSnackbars();
           Get.back();
+
+
         }
+        Get.closeAllSnackbars();
         throw FetchDataException(noInternet);
       }
       return responseJson;
@@ -580,9 +588,13 @@ class ApiBaseHelper{
 
   // Return Reponse Method....................................................................................................
   dynamic _returnResponse(http.Response response, {showValue = true}) {
+    print(response.statusCode);
     switch (response.statusCode) {
+
       case 200:
+
         var responseJson = json.decode(response.body.toString());
+        print("Response at Api Base Helper $responseJson");
         return responseJson;
       case 201:
         var responseJson = json.decode(response.body.toString());
@@ -612,7 +624,6 @@ class ApiBaseHelper{
                 alert: errorModel.error?.message.toString(),
                 cancelable: false,
                 onTap: () {
-
                   logoutFun();
                   return "error";
                 });
@@ -692,13 +703,13 @@ class ApiBaseHelper{
           }else{
 
             Get.showSnackbar(GetSnackBar(
-              message: "Internal Server Error",
+              message: internalServerError,
               duration: Duration(seconds: 2),));
           }
           return responseJson;
         }catch(ee){
           Get.showSnackbar(GetSnackBar(
-            message: "Internal Server Error",
+            message: internalServerError,
             duration: Duration(seconds: 2),));
         }
 

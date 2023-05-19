@@ -458,7 +458,11 @@ class OnboardingController extends GetxController{
                 }else{
                   onBoardingPhotosController = Get.put(OnBoardingPhotosController());
                 }
-                onBoardingPhotosController.getCategory(itemId: createResourceResponse.itemId);
+                AllOasisResourcesResponse model = AllOasisResourcesResponse.fromJsonn(response);
+                model.route = Routes.onBoardingRegistration;
+                print("Model is  ${model.route}");
+                print("ModelName is  ${model.firstName}");
+                onBoardingPhotosController.getCategory(itemId: model);
                 },
               onTapNo: () {
                 firstNameController.clear();
@@ -492,6 +496,7 @@ class OnboardingController extends GetxController{
 
   /// API function for getting Union Suggestions
   Future<dynamic> getUnionSuggestions() async {
+
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive){
       var response = await service.getUnionSuggestionsList()as List;
@@ -505,6 +510,17 @@ class OnboardingController extends GetxController{
           unionSuggestionsList.value = localList;
           unionSuggestionsList.refresh();
           update();
+        }
+      }
+      var args = Get.arguments;
+      if(args!=null){
+        cityController.text = args.city;
+        unionController.text = args.union;
+        classificationController.text = args.classification;
+        if(args.union!=null && args.classification!=null){
+          corporateSupport.value = true;
+        }else{
+          corporateSupport.value = false;
         }
       }
       update();

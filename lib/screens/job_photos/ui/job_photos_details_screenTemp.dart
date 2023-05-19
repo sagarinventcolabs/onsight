@@ -622,7 +622,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                              return bottomSheetImagePicker(Routes.jobPhotosDetailsScreen);
                            });
                           }).then((value) {
-                            print("Steep 1");
+
                             ImagePickerJobPhoto(Routes.jobPhotosDetailsScreen,
                                 controller.categoryList[index].id,
                                 controller.list.first.jobNumber, add);

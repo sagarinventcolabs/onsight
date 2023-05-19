@@ -63,7 +63,7 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
               size: Dimensions.height25,
             ),
             onPressed: () {
-              if(data.route==Routes.onBoardingResourceScreen){
+              if(data.route==Routes.onBoardingResourceScreenNew){
                 Get.back();
               }else{
                 Get.back();
@@ -83,7 +83,7 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
         ),
           bottomNavigationBar:  data.route==Routes.onBoardingResourceScreen  ||  data.route==Routes.onBoardingResourceScreenNew? GestureDetector(
             onTap: () async{
-              await onBoardingPhotosController?.getCategory(itemId: data.itemId);
+              await onBoardingPhotosController?.getCategory(itemId: data);
             },
             child: Container(
               height: Dimensions.height50,

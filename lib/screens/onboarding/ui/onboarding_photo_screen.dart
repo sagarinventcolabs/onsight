@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_photos_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -66,7 +67,8 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
                    builder: (context) =>
                        //bottomSheetImagePickerOnBoardingPictures(Routes.onBoardingPhotoScreen,i)).then((value) {
                        bottomSheetImagePicker(Routes.onBoardingPhotoScreen)).then((value) {
-                 var resourceKey = Get.arguments;
+                 var args = Get.arguments;
+                 var resourceKey = args;
                  ImagePickerOnboarding(Routes.onBoardingUploadPhotosScreen,i, resourceKey.toString(), controller.imageList[i].rowId, controller.imageList[i].itemCount,controller.selectedCategory.value);
 
 
@@ -122,9 +124,11 @@ class _OnBoardingPhotoScreenState extends State<OnBoardingPhotoScreen> {
               top: Dimensions.height2,
               child: GestureDetector(
                 onTap: () async {
+                  await OnboardingImageManager().deleteImage(controller.imageList[i].image![index].imageName);
                   controller.imageList[i].image?.removeAt(index);
                   controller.imageList.refresh();
                   controller.update();
+
                  if((controller.imageList[i].image?.length??0)==0){
                    controller.enableButton.value = false;
                    controller.update();

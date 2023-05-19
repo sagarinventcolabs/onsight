@@ -12,6 +12,7 @@ import 'package:on_sight_application/repository/database_managers/email_manager.
 import 'package:on_sight_application/repository/database_managers/fieldIssue_image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/leadsheet_image_manager.dart';
+import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
 import 'package:on_sight_application/repository/database_model/field_issue_image_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
@@ -25,9 +26,11 @@ import 'package:on_sight_application/repository/web_service_response/saveLeadShe
 import 'package:on_sight_application/repository/web_service_response/upload_image_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/onboarding/model/onboarding_category_model.dart';
+import 'package:on_sight_application/services/upload_service_ios.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
+import 'package:on_sight_application/utils/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -155,6 +158,32 @@ Future<bool> onStart(ServiceInstance service) async {
       var token = event["token"];
       showNotificationUploading();
       runApiFromDatabaseMainMethod(service, token);
+
+    }
+  });
+
+  service.on('JobPhotosApiIOS').listen((event) async {
+    debugPrint("JobPhotoIOSMethodCalled");
+    AppInternetManager appInternetManager = AppInternetManager();
+    var a = await appInternetManager.getSettingsTable() as List;
+    int b = 0;
+
+    if(a.isNotEmpty) {
+      debugPrint("Task in progress " + a[0]["TaskInProgress"].toString());
+      debugPrint("Task in progress");
+      b = a[0]["TaskInProgress"] ?? 0;
+    }
+    b = b+1;
+    await appInternetManager.updateTaskProgress(val: b);
+    var aa = await appInternetManager.getSettingsTable();
+    debugPrint("Task in progress" + aa[0]["TaskInProgress"].toString());
+    debugPrint("Job services Database started JobPhotoIOSMethod");
+    if(event!=null) {
+
+      var token = event["token"];
+      var jobNumber = event["jobNumber"];
+      showNotificationUploading();
+      jobPhotosIos(service, jobNumber, token);
 
     }
   });
@@ -310,88 +339,8 @@ Future<bool> onStart(ServiceInstance service) async {
   service.on('stopService').listen((event) {
     service.stopSelf();
   });
-  // bring to foreground
-  /* Timer.periodic(const Duration(seconds: 1), (timer) async {
-      final hello = preferences.getString("hello");
-      debugPrint(hello);
 
-      if (service is AndroidServiceInstance) {
-        service.setForegroundNotificationInfo(
-          title: "My App Service",
-          content: "Updated at ${DateTime.now()}",
-        );
-      }
-
-      /// you can see this log in logcat
-      debugPrint('FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
-
-      // test using external plugin
-      final deviceInfo = DeviceInfoPlugin();
-      String? device;
-      if (Platform.isAndroid) {
-        final androidInfo = await deviceInfo.androidInfo;
-        device = androidInfo.model;
-      }
-
-      if (Platform.isIOS) {
-        final iosInfo = await deviceInfo.iosInfo;
-        device = iosInfo.model;
-      }
-
-      service.invoke(
-        'update',
-        {
-          "current_date": DateTime.now().toIso8601String(),
-          "device": device,
-        },
-      );
-    });*/
-
-
-
-  // Timer.periodic(const Duration(minutes: 1), (timer) async{
-  //   FieldIssueImageManager imageManager = FieldIssueImageManager();
-  //   List<FieldIssueImageModel>imageList = await imageManager.getImageList();
-  //
-  //   if(imageList.isNotEmpty){
-  //
-  //
-  //     imageList.forEach((element) {
-  //       JobCategoriesResponse response = JobCategoriesResponse();
-  //       response.id = element.categoryId??"";
-  //       response.name = element.categoryName??"";
-  //       if(listImage.isNotEmpty) {
-  //         for (var j = 0; j < listImage.length; j++) {
-  //           if (listImage[j].id == element.categoryId) {
-  //             listImage[j].listPhotos?.add(element);
-  //           } else {
-  //             response.listPhotos = [];
-  //             response.listPhotos?.add(element);
-  //             listImage.add(response);
-  //           }
-  //         }
-  //       }else{
-  //         response.listPhotos = [];
-  //         response.listPhotos?.add(element);
-  //         listImage.add(response);
-  //       }
-  //
-  //     });
-  //     List<dynamic> listdynamic = [];
-  //
-  //     for(var k =0; k<listImage.length; k++){
-  //       listdynamic.add(listImage[k].toJson());
-  //     }
-  //
-  //   }else{
-  //     service.stopSelf();
-  //   }
-  //
-  //
-  // });
-  // uploadImg();
-
-    Timer.periodic(const Duration(minutes: 30), (timer) async{
+    Timer.periodic(const Duration(minutes: 15), (timer) async{
       ImageManager imageManager = ImageManager();
       List<ImageModel>imageList = await imageManager.getFailedImageList();
 
@@ -428,9 +377,8 @@ Future<bool> onStart(ServiceInstance service) async {
 
 
           service.invoke(
-              "failedJob", {
+              "failedJobDatabase", {
             "list": listdynamic,
-            "jobNumber": listImage.first.listPhotos?.first.jobNumber,
             "token": token
           });
       }else{
@@ -685,8 +633,7 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<F
 
 fieldIssueSubMethod2(service, SubmitFieldIssueRequest request, finalToken)async{
   List<FieldIssueImageModel> tempList = await FieldIssueImageManager().getImageList();
-  print("TempList Length  ${tempList.length}");
-  print("RowId TempList  ${tempList.first.rowID}");
+
   if(tempList.isNotEmpty) {
     FieldIssueImageModel list = tempList.first;
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -803,22 +750,62 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
         list[i].image!,list[i].category, resourceId, finalToken);
 
     if(response==null){
+      OnboardingImageManager onboardingImageManager = OnboardingImageManager();
+      for(var j in  list[i].image!){
+        await onboardingImageManager.deleteImage(j.imageName);
+      }
       list[i].image!.clear();
+      try{
+        dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+          print("Code here2");
+          service.invoke("catcount",{
+            "response": value
+          });
+        });
+
+      }catch(e){
+        print(e);
+      }
       i = i+1;
       if(i<list.length){
         runApiOnboarding(service, resourceId, finalToken, list,i);
       }else{
+        try{
+          dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+            print("Code here3");
+            service.invoke("catcount",{
+              "response": value
+            });
+            showNotification(service);
+          });
+
+        }catch(e){
+          print(e);
+        }
         showNotification(service);
       }
     }else{
-      showErrorNotification(service, errorMsg: "Something Went wrong");
+      showErrorNotification(service, errorMsg: somethingWentWrong);
     }
   }else{
+
+
+
     i = i+1;
     if(i<list.length) {
       runApiOnboarding(service, resourceId, finalToken, list,i);
     }else{
-      showNotification(service);
+      try{
+        dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+          print("Code here4");
+          service.invoke("catcount",{
+            "response": value
+          });
+          showNotification(service);
+        });
+      }catch(e){
+        print(e);
+      }
     }
   }
 }
