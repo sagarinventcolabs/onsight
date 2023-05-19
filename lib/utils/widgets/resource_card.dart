@@ -9,14 +9,15 @@ import 'package:on_sight_application/utils/strings.dart';
 import 'package:on_sight_application/utils/widgets/text_row.dart';
 
 class ResourceCard extends StatefulWidget {
-  final firstNameValue, lastNameValue, mobileValue;
-  const ResourceCard({Key? key, this.firstNameValue, this.lastNameValue, this.mobileValue}) : super(key: key);
+  final index, firstNameValue, lastNameValue, mobileValue;
+  const ResourceCard({Key? key, this.index, this.firstNameValue, this.lastNameValue, this.mobileValue}) : super(key: key);
 
   @override
   State<ResourceCard> createState() => _ResourceCardState();
 }
 
 class _ResourceCardState extends State<ResourceCard> {
+
 
   @override
   Widget build(BuildContext context) {

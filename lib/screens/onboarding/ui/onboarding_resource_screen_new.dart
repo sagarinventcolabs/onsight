@@ -78,6 +78,7 @@ class _OnBoardingResourceScreenNewState extends State<OnBoardingResourceScreenNe
                     },
                     style: const TextStyle(color: Colors.white),
                     keyboardType: TextInputType.text,
+                    cursorColor: Colors.white,
                     decoration: InputDecoration(
                       hintText: searchResource,
                       suffixIcon: GestureDetector(
@@ -124,10 +125,11 @@ class _OnBoardingResourceScreenNewState extends State<OnBoardingResourceScreenNe
               var name = first+" "+last;
               return GestureDetector(
                   onTap: (){
+                    resourceController.selectedResource.value = index;
                     resourceController.oasisResourceList[index].route = Routes.onBoardingResourceScreenNew;
                     Get.toNamed(Routes.resourceDetailsNew,arguments: resourceController.oasisResourceList[index]);
                   },
-                  child: ResourceCard(firstNameValue: resourceController.oasisResourceList[index].firstName??"",lastNameValue: resourceController.oasisResourceList[index].lastName??"",mobileValue: resourceController.oasisResourceList[index].mobilePhone??""));
+                  child: ResourceCard(index: index, firstNameValue: resourceController.oasisResourceList[index].firstName??"",lastNameValue: resourceController.oasisResourceList[index].lastName??"",mobileValue: resourceController.oasisResourceList[index].mobilePhone??""));
 
             },
           );
