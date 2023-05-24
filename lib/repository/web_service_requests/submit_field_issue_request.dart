@@ -10,6 +10,7 @@
 class SubmitFieldIssueRequest {
   SubmitFieldIssueRequest({
       String? title, 
+      String? catName,
       String description = "",
       String? workOrderNumber, 
       String? showNumber, 
@@ -41,6 +42,7 @@ class SubmitFieldIssueRequest {
     _userFullName = json['UserFullName'];
     _categoryId = json['CategoryId'];
     _comment = json['Comments']??"";
+    _catName= json['CatName']??"";
   }
   String? _title;
   String? _description;
@@ -51,6 +53,7 @@ class SubmitFieldIssueRequest {
   String? _userFullName;
   num? _categoryId;
   String? _comment;
+  String? _catName;
 
   String? get title => _title;
   String? get description => _description;
@@ -61,6 +64,7 @@ class SubmitFieldIssueRequest {
   String? get userFullName => _userFullName;
   num? get categoryId => _categoryId;
   String? get comment => _comment;
+  String? get catName => _catName;
 
 
   set title(String? value) {
@@ -78,6 +82,7 @@ class SubmitFieldIssueRequest {
     map['UserFullName'] = _userFullName;
     map['CategoryId'] = _categoryId;
     map['Comments'] = _comment??"";
+    map['CatName'] = _catName??"";
     return map;
   }
 
@@ -111,5 +116,9 @@ class SubmitFieldIssueRequest {
 
   set comment(String? value) {
     _comment = value??"";
+  }
+
+  set catName(String? value) {
+    _catName = value??"";
   }
 }

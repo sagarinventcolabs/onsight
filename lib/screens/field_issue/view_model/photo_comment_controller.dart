@@ -137,7 +137,7 @@ class PhotoCommentController extends GetxController {
       List<FieldIssueImageModel> tempList = await FieldIssueImageManager().getImageList();
       print("Database Length "+tempList.length.toString());
 
-      service.invoke("fieldIssue2", map);
+      service.invoke("fieldIssue", map);
       Get.back();
       analyticsFireEvent(fieldIssueCategoryKey, input: {
         fieldIssueType: controller.selectedFieldIssue.value.trim(),

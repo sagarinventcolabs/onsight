@@ -67,6 +67,7 @@ class _FieldIssueCategoryScreenState extends State<FieldIssueCategoryScreen> {
                       fieldIssueController.categoryList.refresh();
                       fieldIssueController.update();
                       fieldIssueController.requestModel.value.categoryId = fieldIssueController.categoryList[i].id;
+                      fieldIssueController.requestModel.value.catName = fieldIssueController.categoryList[i].name;
                       fieldIssueController.requestModel.refresh();
                       if (Get.arguments == Routes.fieldIssueDetailScreen) {
                         Get.toNamed(Routes.fieldIssueCommentScreen);

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -11,6 +12,7 @@ import 'package:on_sight_application/repository/database_managers/dashboard_mana
  import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/dashboard/view_model/app_update_controller.dart';
 import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
+import 'package:on_sight_application/services/upload_service_ios.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
@@ -109,17 +111,27 @@ class DashboardScreenState extends State<DashboardScreen> {
           child: GestureDetector(
             onTap: () async {
               if (imageList.isNotEmpty) {
-                var service = FlutterBackgroundService();
-                await service.startService();
-                showLoader(context);
-                await Future.delayed(const Duration(seconds: 5), () async {
-                  Get.back();
-                  var token = await sp!.getString(Preference.ACCESS_TOKEN);
-                  service.invoke(failedJobDatabase, {tokenString: token});
+                var jobN = "";
+                jobN  = imageList.first.jobNumber.toString();
+
+                if(Platform.isIOS){
+                  await jobPhotosIos(jobN);
                   setState(() {
                     visibleRefresh = false;
                   });
-                });
+                }else {
+                  var service = FlutterBackgroundService();
+                  await service.startService();
+                  showLoader(context);
+                  await Future.delayed(const Duration(seconds: 5), () async {
+                    Get.back();
+                    var token = await sp!.getString(Preference.ACCESS_TOKEN);
+                    service.invoke(failedJobDatabase, {tokenString: token});
+                    setState(() {
+                      visibleRefresh = false;
+                    });
+                  });
+                }
               }
             },
             child: Padding(

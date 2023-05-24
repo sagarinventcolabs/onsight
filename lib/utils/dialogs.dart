@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/functions/multi_image_capture.dart';
 import 'package:on_sight_application/utils/strings.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:rate_my_app/rate_my_app.dart';
@@ -58,6 +61,23 @@ checkBatteryStatus() async {
   Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsg,duration: Duration(seconds: 3),));
   }
 }
+}
+
+checkBatteryStatusBool() async {
+  AppInternetManager appInternetManager = AppInternetManager();
+  var a = await appInternetManager.getSettingsTable();
+  debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0][batterySaverStatus].toString());
+  if (a[0][batterySaverStatus] == 1) {
+    int? batteryLevel = await Battery().batteryLevel;
+
+    if ((batteryLevel) < 15) {
+      return  false;
+    }else{
+      return true;
+    }
+  }else{
+    return true;
+  }
 }
 
 
@@ -647,6 +667,69 @@ singleImageDialog({required BuildContext context,required String image}){
   });
 }
 
+singleImageDialogJobPhoto({required BuildContext context,required String image}){
+  print(image);
+  showDialog(context: Get.context!, builder: (ctx){
+    return StatefulBuilder(builder: (builderCtx,setState){
+      return Scaffold(
+        backgroundColor: ColourConstants.black,
+        resizeToAvoidBottomInset: true,
+        appBar: AppBar(backgroundColor: ColourConstants.primary,elevation: 0, automaticallyImplyLeading: false,  leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: ColourConstants.white,
+            size: 25,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        ),
+        body: Container(
+            width: double.infinity,height: double.infinity,
+            child: PhotoViewGallery.builder(
+              scrollPhysics: const BouncingScrollPhysics(),
+              builder: (BuildContext context, int index) {
+                return PhotoViewGalleryPageOptions(
+                 // imageProvider: Image.memory(base64Decode(image)).image,
+                  imageProvider: Image.file(File(image)).image,
+                  initialScale: PhotoViewComputedScale.contained * 0.8,
+                  maxScale: 1.0,
+                );
+              },
+              itemCount: 1,
+
+              loadingBuilder: (context, event) => Center(
+                child: Container(
+                  width: 20.0,
+                  height: 20.0,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            )
+        ),
+        bottomNavigationBar: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              height: 50,
+              margin: EdgeInsets.only(bottom: MediaQuery.of(Get.context!).size.height/24,top: 10),
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  color: ColourConstants.primary
+              ),
+              child: Center(child: Text(cLOSE, style: TextStyle(color: ColourConstants.white, fontWeight: FontWeight.w400, fontSize: Dimensions.font16),)),
+            ),
+          ),
+        ),
+      );
+    });
+  });
+}
+
 mandatoryUpdateDialogAction(BuildContext context,version,
     {Function()? onTap, bool? cancelable}) {
   AppUpdateManager appUpdateManager = AppUpdateManager();
@@ -763,10 +846,8 @@ Widget bottomSheetImagePicker(route) {
                     },
                     onAddImage: (image) async {
 
-                      await Future.delayed(Duration(seconds: 3));
-
                     },
-                    onComplete: (finalImages) {
+                    onComplete: (finalImages) async {
 
                       print("Captured: ${finalImages.length}");
 
@@ -777,6 +858,9 @@ Widget bottomSheetImagePicker(route) {
                           ImagePickerModel imagePickerModel = ImagePickerModel();
                           imagePickerModel.imageName = fileName;
                           imagePickerModel.imagePath = file.path;
+                          Random rng = new Random();
+                          imagePickerModel.created_at = (DateTime.now().add(Duration(milliseconds: rng.nextInt(99))).millisecondsSinceEpoch).toString();
+
                           localList.add(imagePickerModel);
                         }
                       }
@@ -829,6 +913,9 @@ Widget bottomSheetImagePicker(route) {
                         ImagePickerModel imagePickerModel = ImagePickerModel();
                         imagePickerModel.imageName = fileName;
                         imagePickerModel.imagePath = file.path;
+                        Random rng = new Random();
+                        imagePickerModel.created_at = (DateTime.now().add(Duration(milliseconds: rng.nextInt(99))).millisecondsSinceEpoch).toString();
+
                         localList.add(imagePickerModel);
                       }
                     }
@@ -990,6 +1077,9 @@ Widget bottomSheetImagePickerPromo(route) {
                           ImagePickerModel imagePickerModel = ImagePickerModel();
                           imagePickerModel.imageName = fileName;
                           imagePickerModel.imagePath = file.path;
+                          Random rng = new Random();
+                          imagePickerModel.created_at = (DateTime.now().add(Duration(milliseconds: rng.nextInt(99))).millisecondsSinceEpoch).toString();
+
                           localList.add(imagePickerModel);
                         }
                       }
@@ -1043,6 +1133,12 @@ Widget bottomSheetImagePickerPromo(route) {
                         ImagePickerModel imagePickerModel = ImagePickerModel();
                         imagePickerModel.imageName = fileName;
                         imagePickerModel.imagePath = file.path;
+                        Random rng = new Random();
+                          imagePickerModel.created_at = (DateTime
+                              .now()
+                              .add(Duration(milliseconds: rng.nextInt(99)))
+                              .millisecondsSinceEpoch).toString();
+
                         localList.add(imagePickerModel);
                       }
                     }

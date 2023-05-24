@@ -152,8 +152,10 @@ class _ResourceDetailsNewState extends State<ResourceDetailsNew> {
                   TextRow(title: mobileNumber,value:data.mobilePhone.toString().isEmpty?"N/A": data.mobilePhone??"N/A"),
                   TextRow(title: baseCity,value: data.city.toString().isEmpty?"N/A":data.city.toString().capitalizeFirst??"N/A"),
                   TextRow(title: union,value:data.union.toString().isEmpty?"N/A": data.union??"N/A"),
-                  TextRow(title: classification,value:data.classification.toString().isEmpty?"N/A": data.classification??"N/A"),
-                  //TextRow(title: lastWorkDate,value: data.classification??"N/A"),
+                  Visibility(
+                      visible: onboardingResourceController.loginFlag.value.toLowerCase()=="employee",
+                      child: TextRow(title: classification,value:data.classification.toString().isEmpty?"N/A": data.classification??"N/A")),
+                  TextRow(title: lastWorkDate,value:data.lastWorkingDay.toString().isEmpty?"N/A": data.lastWorkingDay??"N/A"),
                   TextRow(title: notes,value: data.notes.toString().isEmpty?"N/A":data.notes??"N/A"),
 
 

@@ -1,9 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/generated/assets.dart';
@@ -13,12 +17,14 @@ import 'package:on_sight_application/repository/database_managers/image_manager.
 import 'package:on_sight_application/repository/database_model/email.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
 import 'package:on_sight_application/repository/web_service_response/job_categories_response.dart';
+import 'package:on_sight_application/repository/web_service_response/upload_image_response.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/job_photos/view_model/job_photos_controller.dart';
 import 'package:on_sight_application/screens/job_photos/view_model/upload_job_photos_controller.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_controller.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_install_controller.dart';
 import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
+import 'package:on_sight_application/services/upload_service_ios.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
@@ -69,6 +75,8 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
     });
     controller.isValidEmail.value = true;
     controller.update();
+
+   // getTotalImageList();
   }
 
   @override
@@ -100,6 +108,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
             bottom: TabBar(
               onTap: (index) {
                 //your currently selected index
+               // getTotalImageList();
                 controller.tabCurrentIndex.value = index;
                 if (controller.tabCurrentIndex.value == 1) {
                   controller.getJobDetails(
@@ -133,15 +142,43 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                 bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
                 if (isNetActive) {
                   if (connectivityResult == ConnectivityResult.wifi) {
-                    uploadImages();
+                    if(Platform.isIOS){
+                      bool shouldUpload = true;
+                      shouldUpload = await checkBatteryStatusBool();
+                      if(shouldUpload) {
+                        uploadImages();
+
+                      }else{
+                        Get.closeAllSnackbars();
+                        Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
+                      }
+                    }else {
+                      uploadImages();
+                    }
                   }else {
                     AppInternetManager appInternetManager = AppInternetManager();
                     var a = await appInternetManager.getSettingsTable();
                     if (a.isNotEmpty){
                       if (a[0][appInternetStatus] == 1) {
-                        uploadImages();
+                        if(Platform.isIOS){
+                          bool shouldUpload = true;
+                          shouldUpload = await checkBatteryStatusBool();
+                          if(shouldUpload) {
+                            uploadImages();
+
+                          }else{
+                            Get.closeAllSnackbars();
+                            Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
+                          }
+                        }else {
+                          uploadImages();
+                        }
                       } else {
-                        uploadImages(showAppSettingSnackBar: true);
+                        if(Platform.isIOS){
+                          Get.showSnackbar(GetSnackBar(title: alert, message: settingsInternetMsgIOS,duration: Duration(seconds: 3),));
+                        }else {
+                          uploadImages(showAppSettingSnackBar: true);
+                        }
                       }
                   }else{
                       uploadImages();
@@ -553,6 +590,87 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                         },
                       )),
                   SizedBox(width: Dimensions.width8),
+                  Platform.isIOS?   StreamBuilder<UploadTaskResponse>(
+                      stream: FlutterUploader().result,
+                      builder: (context, snapshot){
+
+                        print(snapshot.connectionState);
+
+                        if(snapshot.connectionState==ConnectionState.active) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data != null) {
+                              UploadTaskResponse response = snapshot.data!;
+
+                              if (response.statusCode == 200) {
+                                print("API  Response is ${response.response}");
+                                final JsonDecoder _decoder = new JsonDecoder();
+                                var responseJson = _decoder.convert(response
+                                    .response.toString());
+                                UploadImageResponse uploadImageResponse = UploadImageResponse
+                                    .fromJson(responseJson);
+                                if(uploadImageResponse
+                                    .categoryModelDetails!=null) {
+                                  for (var element in uploadImageResponse
+                                      .categoryModelDetails!) {
+                                    var jobNumberr = uploadImageResponse
+                                        .jobNumber;
+                                    if (jobNumberr ==
+                                        controller.list.first.jobNumber) {
+                                      var catId = element.categoryId.toString();
+                                      var count = element.imageCount;
+                                      if (catId ==
+                                          controller.categoryList[index].id) {
+                                        controller.categoryList[index]
+                                            .submitted =
+                                            count.toString();
+                                        if(element.photoUploadSummaryDetails!=null) {
+                                          for (var k in element
+                                              .photoUploadSummaryDetails!) {
+                                            var imageName =  k.fileName;
+                                            print("Image Name is  ${imageName}");
+                                            ImageManager().getImageByImageName(imageName!).then((value) {
+                                              print("Model Image  Name is  ${value.imageName}");
+                                              value.isSubmitted = 2;
+                                              ImageManager().updateImageData(value);
+                                            });
+
+
+                                          }
+                                        }
+
+
+                                      }
+                                    }
+                                  };
+                                }
+                              }
+
+                            }
+                          }
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.myWebView, arguments: controller.categoryList[index].url.toString());
+                          },
+                          child: Container(
+                            color: ColourConstants.greenColor,
+                            height: Dimensions.height25,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(horizontal: Dimensions.height5),
+                            child: Text(
+                                controller.categoryList[index].submitted.toString() ==
+                                    "null"
+                                    ? "0"
+                                    : controller.categoryList[index].submitted
+                                    .toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: ColourConstants.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: Dimensions.font12)),
+                          ),
+                        );
+                      }):
                   StreamBuilder<Map<String, dynamic>?>(
                     stream: FlutterBackgroundService().on(result),
                       builder: (context, snapshot){
@@ -766,10 +884,17 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
               }
             }
           }
-          service.invoke(
-              "JobPhotosApi", {
-            "token": token
-          });
+          if(Platform.isIOS){
+
+            service.invoke("stopService");
+            await jobPhotosIos(controller.list.first.jobNumber);
+
+          }else {
+            service.invoke(
+                "JobPhotosApi", {
+              "token": token
+            });
+          }
           for (var element in controller.emailList) {
             EmailManager().updateEmailStatus(
                 element.additionalEmail.toString(), 2);
@@ -997,4 +1122,13 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
     super.dispose();
     controller.enableButton.value = false;
   }
+
+  // Future<void> getTotalImageList() async {
+  //   List<ImageModel> imageList  = await manager.getImageList();
+  //   print("Total Length is ${imageList.length}");
+  //
+  //   imageList.forEach((element) {
+  //     print("Find Path is ${element.imagePath}");
+  //   });
+  // }
 }

@@ -1,7 +1,12 @@
 import UIKit
 import Flutter
 import flutter_background_service_ios
+import flutter_uploader
 
+
+func registerPlugins(registry: FlutterPluginRegistry) {
+    GeneratedPluginRegistrant.register(with: registry)
+}
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -23,6 +28,7 @@ import flutter_background_service_ios
      }
     GeneratedPluginRegistrant.register(with: self)
     application.registerForRemoteNotifications()
+    SwiftFlutterUploaderPlugin.registerPlugins = registerPlugins
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

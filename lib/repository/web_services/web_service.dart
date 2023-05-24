@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/email_manager.dart';
+import 'package:on_sight_application/repository/database_managers/fieldIssue_image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_count_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
@@ -27,10 +28,13 @@ import 'package:on_sight_application/screens/onboarding/model/onboarding_documen
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+
 
 class WebService {
 //Get otp request...........................................................................
@@ -506,20 +510,34 @@ class WebService {
       map[key] = value.toString();
     });
     mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
-    imageList.forEach((element) {
-      var tempName = element.imageName.toString().split(".").first;
+    for(var element in imageList){
+      File image = await File(element.imagePath!);
+      print('Original path: ${element.imagePath}');
+      String dirr = await path.dirname(element.imagePath!);
+      await Future.delayed(Duration(milliseconds: 20),(){
+
+      });
+      String newPath = await path.join(dirr,
+          '${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"]}"}_${DateTime.now().millisecondsSinceEpoch.toString()}.jpg');
+      print('NewPath: ${newPath}');
+      image.renameSync(newPath);
+      String fileName = path.basename(newPath);
+      var tempName = fileName.toString().split(".").first;
+
       Map<String, String> mapp = Map();
       mapp[EndPointKeys.comments] = request.comment.toString();
       mapfinal[tempName] = jsonEncode(mapp);
       listImage.add( http.MultipartFile(
           'FileName',
-          File(element.imagePath!).readAsBytes().asStream(),
-          File(element.imagePath!).lengthSync(),
+          File(newPath).readAsBytes().asStream(),
+          File(newPath).lengthSync(),
           contentType:MediaType.parse('image/jpeg'),
-          filename: element.imagePath!.split("/").last));
-    });
+          filename: fileName));
+    }
+    map.remove("CatName");
+    mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
 
-
+    print("Final Map ${mapfinal}");
     var response;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
     if(isNetActive) {
@@ -549,9 +567,8 @@ class WebService {
   //Multipart request for images for Field Issue...........................................................
   Future<dynamic> submitImagesFieldIssue2(
       SubmitFieldIssueRequest request,
-      FieldIssueImageModel imageList,
       token) async {
-
+    List<FieldIssueImageModel> imageList = await FieldIssueImageManager().getImageList();
     List<http.MultipartFile> listImage = [];
     Map<String, String> map = Map();
     Map<String, String> mapfinal = Map();
@@ -560,18 +577,30 @@ class WebService {
       map[key] = value.toString();
     });
     mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
-
-      var tempName = imageList.imageName.toString().split(".").first;
+    imageList.forEach((element) {
+      var tempName = element.imageName.toString().split(".").first;
       Map<String, String> mapp = Map();
       mapp[EndPointKeys.comments] = request.comment.toString();
       mapfinal[tempName] = jsonEncode(mapp);
       listImage.add( http.MultipartFile(
           'FileName',
-          File(imageList.imagePath!).readAsBytes().asStream(),
-          File(imageList.imagePath!).lengthSync(),
+          File(element.imagePath!).readAsBytes().asStream(),
+          File(element.imagePath!).lengthSync(),
           contentType:MediaType.parse('image/jpeg'),
-          filename: imageList.imagePath!.split("/").last));
+          filename: element.imagePath!.split("/").last));
+    });
 
+      // var tempName = imageList.imageName.toString().split(".").first;
+      // Map<String, String> mapp = Map();
+      // mapp[EndPointKeys.comments] = request.comment.toString();
+      // mapfinal[tempName] = jsonEncode(mapp);
+      // listImage.add( http.MultipartFile(
+      //     'FileName',
+      //     File(imageList.imagePath!).readAsBytes().asStream(),
+      //     File(imageList.imagePath!).lengthSync(),
+      //     contentType:MediaType.parse('image/jpeg'),
+      //     filename: imageList.imagePath!.split("/").last));
+      //
 
 
     var response;

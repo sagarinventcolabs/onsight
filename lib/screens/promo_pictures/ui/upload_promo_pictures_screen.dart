@@ -57,135 +57,154 @@ class _UploadPromoPictureScreenState extends State<UploadPromoPictureScreen> {
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color:Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-              size: Dimensions.height25,
-            ),
-            onPressed: () async{
-              List<ImageModel> listModel = await ImageManager().getImageByCategoryIdandJobNumber(id, jobNumber);
-              if(listModel.length<controller.photoList.length){
-                dialogAction(context, title: doYouWantDiscardPhotos, onTapYes: (){
-                  controller.photoList.clear();
-                  controller.update();
-                  Get.back();
-                  Get.back();
-                },
-                    onTapNo: (){
-                      Get.back();
-                    });
-              }else {
+    return WillPopScope(
+      onWillPop: () async{
+        List<ImageModel> listModel = await ImageManager().getImageByCategoryIdandJobNumber(id, jobNumber);
+        if(listModel.length<controller.photoList.length){
+          dialogAction(context, title: doYouWantDiscardPhotos, onTapYes: (){
+            controller.photoList.clear();
+            controller.update();
+            Get.back();
+            Get.back();
+          },
+              onTapNo: (){
                 Get.back();
+              });
+        }else {
+          Get.back();
+        }
+        return true;
+      },
+      child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color:Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+                size: Dimensions.height25,
+              ),
+              onPressed: () async{
+                List<ImageModel> listModel = await ImageManager().getImageByCategoryIdandJobNumber(id, jobNumber);
+                if(listModel.length<controller.photoList.length){
+                  dialogAction(context, title: doYouWantDiscardPhotos, onTapYes: (){
+                    controller.photoList.clear();
+                    controller.update();
+                    Get.back();
+                    Get.back();
+                  },
+                      onTapNo: (){
+                        Get.back();
+                      });
+                }else {
+                  Get.back();
+                }
+              },
+            ),
+            elevation: 0.0,
+            backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
+            title: Text(uploadText,
+                style: TextStyle(
+                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: Dimensions.font16)),
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    //  backgroundColor: Get.isPlatformDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+                      //backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(Dimensions.radius10),
+                              topRight: Radius.circular(Dimensions.radius10))),
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) =>
+
+                          bottomSheetImagePickerPromo(Routes.uploadPromoPictureScreen)).then((value) {
+                         // bottomSheetImagePickerPromoPictures(Routes.uploadPromoPictureScreen)).then((value) {
+                    ImagePickerPromoPictures(Routes.promoPictureScreen);
+                    if(controller.photoList.isNotEmpty){
+                      uploadPromoPicturesController.enableButton.value = true;
+                      controller.update();
+                    }
+                    setState((){});
+                  });
+                },
+                child: Image.asset(
+                  Assets.icAdd2,
+                  height: Dimensions.height25,
+                  width: Dimensions.height25,
+                ),
+              ),
+              SizedBox(width: Dimensions.height16)
+            ],
+          ),
+          bottomNavigationBar: Obx(()=>
+              GestureDetector(
+            onTap: () async {
+
+              if(uploadPromoPicturesController.enableButton.isTrue) {
+                if (controller.radioButtonValue == 1) {
+                  analyticsFireEvent(promoPicturesKey, input: {
+                    photoCount: controller.photoList.length.toString().trim(),
+                    showNumber: controller.showController.text,
+                    type: controller.radioButtonValue == 1 ? photosSubmittedToShow : photosSubmittedToNotShow,
+                    user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+sp?.getString(Preference.LAST_NAME)??""*/
+                  });
+                }else{
+                  analyticsFireEvent(promoPicturesKey, input: {
+                    photoCount: controller.photoList.length.toString().trim(),
+                    type: controller.radioButtonValue == 1 ? photosSubmittedToShow : photosSubmittedToNotShow,
+                    user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+sp?.getString(Preference.LAST_NAME)??""*/
+                  });
+                }
+                dynamic token = await sp?.getString(Preference.ACCESS_TOKEN)??"";
+                await uploadPromoPicturesController.runApiPromoPicturs(token,0);
+                uploadPromoPicturesController.enableButton.value = false;
               }
             },
-          ),
-          elevation: 0.0,
-          backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
-          title: Text(uploadText,
-              style: TextStyle(
-                  color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Dimensions.font16)),
-          actions: [
-            GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  //  backgroundColor: Get.isPlatformDarkMode ? ColourConstants.grey900 : ColourConstants.white,
-                    //backgroundColor: Color.fromARGB(255, 0, 0, 0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(Dimensions.radius10),
-                            topRight: Radius.circular(Dimensions.radius10))),
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (context) =>
-
-                        bottomSheetImagePickerPromo(Routes.uploadPromoPictureScreen)).then((value) {
-                       // bottomSheetImagePickerPromoPictures(Routes.uploadPromoPictureScreen)).then((value) {
-                  ImagePickerPromoPictures(Routes.promoPictureScreen);
-                  if(controller.photoList.isNotEmpty){
-                    uploadPromoPicturesController.enableButton.value = true;
-                    controller.update();
-                  }
-                  setState((){});
-                });
-              },
-              child: Image.asset(
-                Assets.icAdd2,
-                height: Dimensions.height25,
-                width: Dimensions.height25,
-              ),
-            ),
-            SizedBox(width: Dimensions.height16)
-          ],
-        ),
-        bottomNavigationBar: Obx(()=>
-            GestureDetector(
-          onTap: () async {
-
-            if(uploadPromoPicturesController.enableButton.isTrue) {
-              if (controller.radioButtonValue == 1) {
-                analyticsFireEvent(promoPicturesKey, input: {
-                  photoCount: controller.photoList.length.toString().trim(),
-                  showNumber: controller.showController.text,
-                  type: controller.radioButtonValue == 1 ? photosSubmittedToShow : photosSubmittedToNotShow,
-                  user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+sp?.getString(Preference.LAST_NAME)??""*/
-                });
-              }else{
-                analyticsFireEvent(promoPicturesKey, input: {
-                  photoCount: controller.photoList.length.toString().trim(),
-                  type: controller.radioButtonValue == 1 ? photosSubmittedToShow : photosSubmittedToNotShow,
-                  user:(sp?.getString(Preference.FIRST_NAME)??"")/*+"_"+sp?.getString(Preference.LAST_NAME)??""*/
-                });
-              }
-              dynamic token = await sp?.getString(Preference.ACCESS_TOKEN)??"";
-              await uploadPromoPicturesController.runApiPromoPicturs(token,0);
-              uploadPromoPicturesController.enableButton.value = false;
-            }
-          },
-          child: Container(
-            height: Dimensions.height50,
-            margin: EdgeInsets.only(left: Dimensions.height35, right: Dimensions.height35, bottom: Dimensions.height16),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius8)),
-                color: uploadPromoPicturesController.enableButton.isTrue?ColourConstants.primary:ColourConstants.grey),
-            child: Center(
-                child: Text(
-                  key==null?addPhotos:key==smallUpdateStr?updatePhotos:addPhotos,
-                  style: TextStyle(
-                      color: ColourConstants.white,
-                      fontWeight: FontWeight.w300,
-                      fontSize: Dimensions.font16),
+            child: Container(
+              height: Dimensions.height50,
+              margin: EdgeInsets.only(left: Dimensions.height35, right: Dimensions.height35, bottom: Dimensions.height16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius8)),
+                  color: uploadPromoPicturesController.enableButton.isTrue?ColourConstants.primary:ColourConstants.grey),
+              child: Center(
+                  child: Text(
+                    key==null?addPhotos:key==smallUpdateStr?updatePhotos:addPhotos,
+                    style: TextStyle(
+                        color: ColourConstants.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: Dimensions.font16),
+                  ),
+                 ),
                 ),
                ),
               ),
-             ),
-            ),
-        body: Obx(() => ListView(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.height16),
-          shrinkWrap: true,
-          controller: _scrollController,
-          children: [
-            Text("You have selected ${controller.photoList.length} photos to upload!",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color:Get.isDarkMode?ColourConstants.white: ColourConstants.greyText,
-                    fontWeight: FontWeight.w400,
-                    fontSize: Dimensions.font14)),
-            SizedBox(height: Dimensions.height30),
-            ListView.builder(
-                shrinkWrap: true,
-                controller: _scrollController,
-                itemCount: controller.photoList.length,
-                itemBuilder: (builder, photoIndex) {
-                  return imageNoteWidget(photoIndex);
-                }),
-          ],
-        )));
+          body: Obx(() => ListView(
+            padding: EdgeInsets.symmetric(horizontal: Dimensions.height16),
+            shrinkWrap: true,
+            controller: _scrollController,
+            children: [
+              Text("You have selected ${controller.photoList.length} photos to upload!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color:Get.isDarkMode?ColourConstants.white: ColourConstants.greyText,
+                      fontWeight: FontWeight.w400,
+                      fontSize: Dimensions.font14)),
+              SizedBox(height: Dimensions.height30),
+              ListView.builder(
+                  shrinkWrap: true,
+                  controller: _scrollController,
+                  itemCount: controller.photoList.length,
+                  itemBuilder: (builder, photoIndex) {
+                    return imageNoteWidget(photoIndex);
+                  }),
+            ],
+          ))),
+    );
   }
 
   /// define image with note widget
