@@ -130,6 +130,10 @@ class PhotoCommentController extends GetxController {
     Future.delayed(Duration(seconds: 3),() async {
 
       Map<String, dynamic> map = HashMap();
+      controller.requestModel.value.userFirstName = sp?.getString(Preference.FIRST_NAME)??"";
+      controller.requestModel.value.userLastName = sp?.getString(Preference.LAST_NAME)??"";
+      controller.requestModel.value.userFullName = controller.requestModel.value.userFirstName.toString()+" "+controller.requestModel.value.userLastName.toString();
+
       map["request"]= controller.requestModel.toJson();
       map["token"] = sp!.getString(Preference.ACCESS_TOKEN)??"";
       map["imageList"] = photoList.map((val) => val.toMap()).toList();

@@ -33,6 +33,8 @@ class _FieldIssueDetailScreenState extends State<FieldIssueDetailScreen> {
   void initState() {
     super.initState();
     controller.initSpeech();
+    print(sp?.getString(Preference.FIRST_NAME));
+    print(sp?.getString(Preference.LAST_NAME));
     controller.requestModel.value.userFirstName = sp?.getString(Preference.FIRST_NAME)??"";
     controller.requestModel.value.userLastName = sp?.getString(Preference.LAST_NAME)??"";
     controller.requestModel.value.userFullName = controller.requestModel.value.userFirstName.toString()+" "+controller.requestModel.value.userLastName.toString();

@@ -549,7 +549,10 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken)async{
         }
       }
       else {
-
+        for(var k in list){
+          print("RowId TempList  ${list.first.rowID}");
+          await FieldIssueImageManager().deleteImage(k.rowID!);
+        }
         showNotification(service);
         // service.stopSelf();
       }
@@ -581,9 +584,10 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken)async{
             }
           }
           else {
-            /*     FlutterBackgroundService().invoke("response",{
-                    "response":value.toString()
-                  });*/
+            for(var k in list){
+              print("RowId TempList  ${list.first.rowID}");
+              await FieldIssueImageManager().deleteImage(k.rowID!);
+            }
             showNotification(service);
             //  service.stopSelf();
           }
