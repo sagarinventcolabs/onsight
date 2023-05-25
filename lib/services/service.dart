@@ -162,32 +162,6 @@ Future<bool> onStart(ServiceInstance service) async {
     }
   });
 
-  service.on('JobPhotosApiIOS').listen((event) async {
-    debugPrint("JobPhotoIOSMethodCalled");
-    AppInternetManager appInternetManager = AppInternetManager();
-    var a = await appInternetManager.getSettingsTable() as List;
-    int b = 0;
-
-    if(a.isNotEmpty) {
-      debugPrint("Task in progress " + a[0]["TaskInProgress"].toString());
-      debugPrint("Task in progress");
-      b = a[0]["TaskInProgress"] ?? 0;
-    }
-    b = b+1;
-    await appInternetManager.updateTaskProgress(val: b);
-    var aa = await appInternetManager.getSettingsTable();
-    debugPrint("Task in progress" + aa[0]["TaskInProgress"].toString());
-    debugPrint("Job services Database started JobPhotoIOSMethod");
-    if(event!=null) {
-
-      var token = event["token"];
-      var jobNumber = event["jobNumber"];
-      showNotificationUploading();
-      jobPhotosIos(service, jobNumber, token);
-
-    }
-  });
-
   service.on('JobPhotosApi').listen((event) async {
     debugPrint("JobPhotoMethodCalled");
     AppInternetManager appInternetManager = AppInternetManager();
@@ -257,9 +231,9 @@ Future<bool> onStart(ServiceInstance service) async {
     if(event!=null) {
       SubmitFieldIssueRequest request = SubmitFieldIssueRequest.fromJson(event['request']);
       var finalToken = event['token'];
-      List<FieldIssueImageModel> list = (event["imageList"].map((data) => FieldIssueImageModel.fromJson(data)).toList()).cast<FieldIssueImageModel>() ;
+      //List<FieldIssueImageModel> list = (event["imageList"].map((data) => FieldIssueImageModel.fromJson(data)).toList()).cast<FieldIssueImageModel>() ;
       showNotificationUploading();
-      runApiFieldIssue(service,request, finalToken,list);
+      runApiFieldIssue(service,request, finalToken);
     }
 
   });
@@ -525,7 +499,7 @@ runApiLeadSheetSubMethod(SaveExhibitorImagesRequest request, finalToken, List<Le
   }
 }
 
-runApiFieldIssue(ServiceInstance service, SubmitFieldIssueRequest request, finalToken, List<FieldIssueImageModel> list )async {
+runApiFieldIssue(ServiceInstance service, SubmitFieldIssueRequest request, finalToken )async {
   AppInternetManager appInternetManager = AppInternetManager();
   var a = await appInternetManager.getSettingsTable();
   debugPrint("Lower One - BatterySaverStatus From Background Service" + a[0]["BatterySaverStatus"].toString());
@@ -534,24 +508,25 @@ runApiFieldIssue(ServiceInstance service, SubmitFieldIssueRequest request, final
       debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
 
     if ((batteryLevel) > 15) {
-      fieldIssueSubMethod(service, request, finalToken, list);
+      fieldIssueSubMethod(service, request, finalToken);
     }else{
       Timer.periodic(Duration(seconds: 10),(timer) async {
         batteryLevel = await Battery().batteryLevel;
         debugPrint("--> Battery Level: -->${batteryLevel.toString()}");
         if ((batteryLevel??100) > 15) {
-          runApiFieldIssue(service,request, finalToken, list);
+          runApiFieldIssue(service,request, finalToken);
         }
       },
       );
     }
   }
   else{
-    fieldIssueSubMethod(service, request, finalToken, list);
+    fieldIssueSubMethod(service, request, finalToken);
   }
 }
 
-fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<FieldIssueImageModel> list)async{
+fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken)async{
+  List<FieldIssueImageModel> list = await FieldIssueImageManager().getImageList();
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.wifi) {
     WebService webService = WebService();
@@ -568,13 +543,16 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<F
             await ConnectionStatus.getInstance().checkConnection();
             if (isNetActive) {
               timer.cancel();
-              runApiFieldIssue(service, request, finalToken, list);
+              runApiFieldIssue(service, request, finalToken);
             }
           });
         }
       }
       else {
-
+        for(var k in list){
+          print("RowId TempList  ${list.first.rowID}");
+          await FieldIssueImageManager().deleteImage(k.rowID!);
+        }
         showNotification(service);
         // service.stopSelf();
       }
@@ -600,15 +578,16 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<F
                     .checkConnection();
                 if (isNetActive) {
                   timer.cancel();
-                  runApiFieldIssue(service, request, finalToken, list);
+                  runApiFieldIssue(service, request, finalToken);
                 }
               });
             }
           }
           else {
-            /*     FlutterBackgroundService().invoke("response",{
-                    "response":value.toString()
-                  });*/
+            for(var k in list){
+              print("RowId TempList  ${list.first.rowID}");
+              await FieldIssueImageManager().deleteImage(k.rowID!);
+            }
             showNotification(service);
             //  service.stopSelf();
           }
@@ -622,7 +601,7 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken, List<F
           if (a.isNotEmpty) {
             if (a[0]["AppInternetStatus"] == 1) {
               timer.cancel();
-              runApiFieldIssue(service, request, finalToken, list);
+              runApiFieldIssue(service, request, finalToken);
             }
           }
         });
@@ -635,11 +614,10 @@ fieldIssueSubMethod2(service, SubmitFieldIssueRequest request, finalToken)async{
   List<FieldIssueImageModel> tempList = await FieldIssueImageManager().getImageList();
 
   if(tempList.isNotEmpty) {
-    FieldIssueImageModel list = tempList.first;
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.wifi) {
       WebService webService = WebService();
-      await webService.submitImagesFieldIssue2(request, list, finalToken).then((
+      await webService.submitImagesFieldIssue2(request,finalToken).then((
           value) async {
         if (!value.toString().contains("incidentid")) {
           bool isNetActive = await ConnectionStatus.getInstance()
@@ -662,8 +640,11 @@ fieldIssueSubMethod2(service, SubmitFieldIssueRequest request, finalToken)async{
           }
         }
         else {
-          print("RowId TempList  ${tempList.first.rowID}");
-          await FieldIssueImageManager().deleteImage(tempList.first.rowID!);
+          for(var k in tempList){
+            print("RowId TempList  ${tempList.first.rowID}");
+            await FieldIssueImageManager().deleteImage(k.rowID!);
+          }
+
           List<FieldIssueImageModel> temppList = await FieldIssueImageManager()
               .getImageList();
           print("TemppList Length  ${temppList.length}");
@@ -684,7 +665,7 @@ fieldIssueSubMethod2(service, SubmitFieldIssueRequest request, finalToken)async{
       if (a.isNotEmpty) {
         if (a[0]["AppInternetStatus"] == 1) {
           WebService webService = WebService();
-          await webService.submitImagesFieldIssue2(request, list, finalToken)
+          await webService.submitImagesFieldIssue2(request, finalToken)
               .then((value) async {
             if (!value.toString().contains("incidentid")) {
               bool isNetActive = await ConnectionStatus.getInstance()
@@ -704,8 +685,10 @@ fieldIssueSubMethod2(service, SubmitFieldIssueRequest request, finalToken)async{
               }
             }
             else {
-              print("RowId TempList  ${tempList.first.rowID}");
-              await FieldIssueImageManager().deleteImage(tempList.first.rowID!);
+              for(var k in tempList){
+                print("RowId TempList  ${tempList.first.rowID}");
+                await FieldIssueImageManager().deleteImage(k.rowID!);
+              }
               List<FieldIssueImageModel> temppList = await FieldIssueImageManager()
                   .getImageList();
               print("TemppList Length  ${temppList.length}");

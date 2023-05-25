@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/models/image_picker_model.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
@@ -118,6 +119,7 @@ Future<void> main() async {
     sp = await Preference.getInstance();
     isLogin = await sp?.getBool(Preference.IS_LOGGED_IN) ?? false;
     initializeService();
+    FlutterUploader().setBackgroundHandler(backgroundHandler);
     Get.put(JobPhotosController());
     Get.put(ProjectEvaluationController());
     Get.put(ProjectEvaluationInstallController());
@@ -209,6 +211,16 @@ class _MyAppState extends State<MyApp> {
             sound: true,
           );
     } else if (Platform.isAndroid) {
+      await FirebaseMessaging.instance.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      );
+
       flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>();
 

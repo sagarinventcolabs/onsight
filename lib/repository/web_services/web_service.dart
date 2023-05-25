@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
@@ -8,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/api_base_helper.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/email_manager.dart';
+import 'package:on_sight_application/repository/database_managers/fieldIssue_image_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_count_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
@@ -27,10 +29,14 @@ import 'package:on_sight_application/screens/onboarding/model/onboarding_documen
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+
 
 class WebService {
 //Get otp request...........................................................................
@@ -89,19 +95,6 @@ class WebService {
   //Update Profile request...........................................................................
   Future<dynamic> updateProfileRequest(code) async {
     var response = await ApiBaseHelper().postApiCall(EndPoint.updateProfile, code);
-    return response;
-  }
-  Future<dynamic> multipartRequest(code) async{
-    var uri = Uri.parse('https://example.com/create');
-    var request = http.MultipartRequest('POST', uri)
-      ..fields['user'] = 'nweiz@google.com'
-      ..files.add(await http.MultipartFile.fromPath(
-          'package', 'build/package.tar.gz',
-          //contentType: MediaType('application', 'x-tar')
-      )
-      );
-    var response = await request.send();
-    if (response.statusCode == 200) log('Uploaded!');
     return response;
   }
 
@@ -212,7 +205,6 @@ class WebService {
 
       }
 
-      log("Map "+map.toString());
           var url = "";
     var a = await AppInternetManager().getSettingsTable() as List;
     if(a.isNotEmpty){
@@ -296,7 +288,6 @@ class WebService {
 
     }
 
-    log("Map "+map.toString());
     var url = "";
     var a = await AppInternetManager().getSettingsTable() as List;
     if(a.isNotEmpty){
@@ -308,7 +299,6 @@ class WebService {
       }
     }
     var response = await ApiBaseHelper().multiPartRequest(url, map, listImage, token);
-    log("response is "+response.toString()+"^^");
     try{
       List<Email> listEmail = await EmailManager().getEmailRecord(jobNumber);
       listEmail.forEach((element) async {
@@ -506,6 +496,95 @@ class WebService {
       map[key] = value.toString();
     });
     mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
+    for(var element in imageList){
+      String fileName = "";
+      String newPath = "";
+      try{
+        File image = await File(element.imagePath!);
+        // print('Original path: ${element.imagePath}');
+        // String dirr = await path.dirname(element.imagePath!);
+        // Random random = Random();
+        //
+        // newPath = await path.join(dirr,
+        //     '${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"]}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
+        // print('NewPath: ${newPath}');
+        // image.renameSync(newPath);
+        // fileName = path.basename(newPath);
+
+        Directory documents ;
+        if(Platform.isIOS) {
+          documents = await getApplicationDocumentsDirectory();
+        }else{
+          documents = (await getExternalStorageDirectory())!;
+        }
+        Random random = Random();
+        String pathh = documents.path;
+        File newImage = await image.copy('$pathh/${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"].toString().replaceAll("/", "-").replaceAll(" ", "-")}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
+        newPath = newImage.path;
+        fileName = newImage.path.split("/").last;
+      }catch(e){
+
+      }
+      print(newPath);
+      print(fileName);
+      if(fileName!=""){
+        element.imagePath = newPath;
+        element.imageName = fileName;
+      }
+      var tempName = element.imageName.toString().split(".").first;
+
+      Map<String, String> mapp = Map();
+      mapp[EndPointKeys.comments] = request.comment.toString();
+      mapfinal[tempName] = jsonEncode(mapp);
+      listImage.add( http.MultipartFile(
+          'FileName',
+          File(element.imagePath!).readAsBytes().asStream(),
+          File(element.imagePath!).lengthSync(),
+          contentType:MediaType.parse('image/jpeg'),
+          filename: element.imageName));
+    }
+    map.remove("CatName");
+    mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
+
+    print("Final Map ${mapfinal}");
+    var response;
+    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+    if(isNetActive) {
+      var url = EndPoint.createCase;
+      var a = await AppInternetManager().getSettingsTable() as List;
+      if(a.isNotEmpty){
+        var flavor = a[0]["Flavor"]??"prod";
+
+        if(flavor=="prod"){
+          url = EndPoint.createCase;
+
+        }else{
+          url = EndPoint.createCaseStage;
+
+        }
+      }
+      response = await ApiBaseHelper().multiPartRequest(
+          url, mapfinal, listImage, token);
+    }else{
+      response = "error";
+    }
+
+    return response;
+  }
+
+  //Multipart request for images for Field Issue...........................................................
+  Future<dynamic> submitImagesFieldIssue2(
+      SubmitFieldIssueRequest request,
+      token) async {
+    List<FieldIssueImageModel> imageList = await FieldIssueImageManager().getImageList();
+    List<http.MultipartFile> listImage = [];
+    Map<String, String> map = Map();
+    Map<String, String> mapfinal = Map();
+    Map<String, dynamic> map1 = await request.toJson();
+    map1.forEach((key, value) {
+      map[key] = value.toString();
+    });
+    mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
     imageList.forEach((element) {
       var tempName = element.imageName.toString().split(".").first;
       Map<String, String> mapp = Map();
@@ -519,59 +598,17 @@ class WebService {
           filename: element.imagePath!.split("/").last));
     });
 
-
-    var response;
-    bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
-    if(isNetActive) {
-      var url = EndPoint.createCase;
-      var a = await AppInternetManager().getSettingsTable() as List;
-      if(a.isNotEmpty){
-        var flavor = a[0]["Flavor"]??"prod";
-
-        if(flavor=="prod"){
-          url = EndPoint.createCase;
-
-        }else{
-          url = EndPoint.createCaseStage;
-
-        }
-      }
-      response = await ApiBaseHelper().multiPartRequest(
-          url, mapfinal, listImage, token);
-      log(response.toString());
-    }else{
-      response = "error";
-    }
-
-    return response;
-  }
-
-  //Multipart request for images for Field Issue...........................................................
-  Future<dynamic> submitImagesFieldIssue2(
-      SubmitFieldIssueRequest request,
-      FieldIssueImageModel imageList,
-      token) async {
-
-    List<http.MultipartFile> listImage = [];
-    Map<String, String> map = Map();
-    Map<String, String> mapfinal = Map();
-    Map<String, dynamic> map1 = await request.toJson();
-    map1.forEach((key, value) {
-      map[key] = value.toString();
-    });
-    mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
-
-      var tempName = imageList.imageName.toString().split(".").first;
-      Map<String, String> mapp = Map();
-      mapp[EndPointKeys.comments] = request.comment.toString();
-      mapfinal[tempName] = jsonEncode(mapp);
-      listImage.add( http.MultipartFile(
-          'FileName',
-          File(imageList.imagePath!).readAsBytes().asStream(),
-          File(imageList.imagePath!).lengthSync(),
-          contentType:MediaType.parse('image/jpeg'),
-          filename: imageList.imagePath!.split("/").last));
-
+      // var tempName = imageList.imageName.toString().split(".").first;
+      // Map<String, String> mapp = Map();
+      // mapp[EndPointKeys.comments] = request.comment.toString();
+      // mapfinal[tempName] = jsonEncode(mapp);
+      // listImage.add( http.MultipartFile(
+      //     'FileName',
+      //     File(imageList.imagePath!).readAsBytes().asStream(),
+      //     File(imageList.imagePath!).lengthSync(),
+      //     contentType:MediaType.parse('image/jpeg'),
+      //     filename: imageList.imagePath!.split("/").last));
+      //
 
 
     var response;
@@ -592,7 +629,6 @@ class WebService {
       }
       response = await ApiBaseHelper().multiPartRequest(
           url, mapfinal, listImage, token);
-      log(response.toString());
     }else{
       response = "error";
     }
@@ -669,7 +705,6 @@ class WebService {
       }
       response = await ApiBaseHelper().multiPartRequest(
           url, mapfinal, listImage, token);
-      log(response.toString());
     }else{
       response = "error";
     }
@@ -712,7 +747,6 @@ class WebService {
       }
       response = await ApiBaseHelper().multiPartRequestPromopictures(
           url, mapfinal, listImage, token);
-      log(response.toString());
     }else{
       response = "No Internet";
     }

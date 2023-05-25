@@ -118,4 +118,16 @@ class ImageManager{
 
     return result;
   }
+
+
+  Future<List<ImageModel>> getImageListByJobNumber(jobNumber) async {
+
+    Database db = await DatabaseHelper().database;
+    var result = await db.rawQuery("SELECT * FROM $mImageDataTable WHERE IsSubmitted= 1"+" AND JobNumber LIKE '$jobNumber'");
+    //var result = await db.rawQuery("SELECT * FROM $mImageDataTable WHERE IsSubmitted= 1");
+    List<ImageModel> imageList = result.isNotEmpty ? result.map((c) => ImageModel.fromJson(c)).toList() : [];
+    return imageList;
+
+
+  }
 }

@@ -30,6 +30,7 @@ class AllOasisResourcesResponse {
       String? union,
       String? classification,
       String? notes,
+      String? lastWorkingDay,
       String? ssn,
       String? city,
       bool? id, 
@@ -49,6 +50,7 @@ class AllOasisResourcesResponse {
     _union = union;
     _classification = classification;
     _notes = notes;
+    _lastWorkingDay = lastWorkingDay;
     _ssn = ssn;
     _city = city;
     _id = id;
@@ -72,6 +74,7 @@ class AllOasisResourcesResponse {
     _union = json['Union'];
     _classification = json['Classification'];
     _notes = json['Notes'];
+    _lastWorkingDay = json['LastWorkingDay'];
     _ssn = json['SSN'];
     _city = json['City'];
     _id = json['ID'];
@@ -93,6 +96,7 @@ class AllOasisResourcesResponse {
     _union = json[i]['Union'];
     _classification = json[i]['Classification'];
     _notes = json[i]['Notes'];
+    _lastWorkingDay = json[i]['LastWorkingDay'];
     _ssn = json[i]['SSN'];
     _city = json[i]['City'];
     _id = json[i]['ID'];
@@ -112,6 +116,7 @@ class AllOasisResourcesResponse {
   String? _union;
   String? _classification;
   String? _notes;
+  String? _lastWorkingDay;
   String? _ssn;
   String? _city;
   bool? _id;
@@ -131,6 +136,7 @@ AllOasisResourcesResponse copyWith({  dynamic itemId,
   String? union,
   String? classification,
   String? notes,
+  String? lastWorkingDay,
   String? ssn,
   String? city,
   bool? id,
@@ -149,6 +155,7 @@ AllOasisResourcesResponse copyWith({  dynamic itemId,
   union: union ?? _union,
   classification: classification ?? _classification,
   notes: notes ?? _notes,
+  lastWorkingDay: lastWorkingDay ?? _lastWorkingDay,
   ssn: ssn ?? _ssn,
   city: city ?? _city,
   id: id ?? _id,
@@ -168,6 +175,7 @@ AllOasisResourcesResponse copyWith({  dynamic itemId,
   String? get union => _union;
   String? get classification => _classification;
   String? get notes => _notes;
+  String? get lastWorkingDay => _lastWorkingDay;
   String? get ssn => _ssn;
   String? get city => _city;
   bool? get id => _id;
@@ -194,6 +202,7 @@ AllOasisResourcesResponse copyWith({  dynamic itemId,
     map['Union'] = _union;
     map['Classification'] = _classification;
     map['Notes'] = _notes;
+    map['LastWorkingDay'] = _lastWorkingDay;
     map['SSN'] = _ssn;
     map['City'] = _city;
     map['ID'] = _id;
@@ -225,6 +234,10 @@ AllOasisResourcesResponse copyWith({  dynamic itemId,
 
   set mobilePhone(String? value) {
     _mobilePhone = value;
+  }
+
+  set lastWorkingDay(String? value) {
+    _lastWorkingDay = value;
   }
 
   set lastName(String? value) {

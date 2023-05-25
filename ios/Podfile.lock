@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.2.2)
   - battery_plus (1.0.0):
     - Flutter
   - camera_avfoundation (0.0.1):
@@ -97,6 +98,9 @@ PODS:
   - flutter_udid (0.0.1):
     - Flutter
     - SAMKeychain
+  - flutter_uploader (1.2.0):
+    - Alamofire (= 5.2.2)
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -196,6 +200,7 @@ DEPENDENCIES:
   - flutter_root_jailbreak (from `.symlinks/plugins/flutter_root_jailbreak/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_udid (from `.symlinks/plugins/flutter_udid/ios`)
+  - flutter_uploader (from `.symlinks/plugins/flutter_uploader/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
@@ -211,6 +216,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -261,6 +267,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_udid:
     :path: ".symlinks/plugins/flutter_udid/ios"
+  flutter_uploader:
+    :path: ".symlinks/plugins/flutter_uploader/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   launch_review:
@@ -287,6 +295,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
 SPEC CHECKSUMS:
+  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
   battery_plus: 7851ab482c336dd101ae735dc9363f01e1223c7c
   camera_avfoundation: 82dc5597033fe2dcdcca6e41f7e464d0855e74ad
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
@@ -310,6 +319,7 @@ SPEC CHECKSUMS:
   flutter_root_jailbreak: 0117e16bde16aa04a798c35f162b6fc2efd70e4f
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   flutter_udid: 0848809dbed4c055175747ae6a45a8b4f6771e1c
+  flutter_uploader: 2b07c4d41cf1218f25e6d5b8bcfa2d913838e27c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
