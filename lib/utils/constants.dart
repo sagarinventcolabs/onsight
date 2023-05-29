@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:local_auth/local_auth.dart';
+// import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 
 enum DashboardMenuItems { settings, profile, about }
 Preference? sp;
 bool isLogin = false;
-final LocalAuthentication auth = LocalAuthentication();
+// final LocalAuthentication auth = LocalAuthentication();
 String authorized = 'Not Authorized';
 bool isDialogOpen = false;
 enum DrawerMenu {

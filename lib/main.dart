@@ -41,6 +41,15 @@ bool visibleRefresh = false;
 List<ImageModel> imageList = [];
 List<ImagePickerModel> localList = [];
 
+const AndroidInitializationSettings initializationSettingsAndroid =
+AndroidInitializationSettings('ic_stat_new_icon_notif');
+final DarwinInitializationSettings initializationSettingsDarwin =
+DarwinInitializationSettings(
+    onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsDarwin);
+
 Future<void> main() async {
   const bool isProduction = bool.fromEnvironment('dart.vm.product');
 /*  final NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
@@ -61,8 +70,8 @@ Future<void> main() async {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('ic_stat_new_icon_notif');
-    final IOSInitializationSettings iosInitializationSettings =
-        IOSInitializationSettings(
+    final DarwinInitializationSettings iosInitializationSettings =
+    DarwinInitializationSettings(
             requestAlertPermission: true,
             requestBadgePermission: true,
             requestSoundPermission: true,
@@ -88,12 +97,12 @@ Future<void> main() async {
             iOS: iosInitializationSettings);
 
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? payload) async {
+        onDidReceiveNotificationResponse: (NotificationResponse? payload) async {
       if (payload != null) {
         debugPrint('notification payload: $payload');
       }
-      selectedNotificationPayload = payload;
-      selectNotificationSubject.add(payload);
+      selectedNotificationPayload = payload!.payload;
+      selectNotificationSubject.add(payload.payload);
     });
 
     await FirebaseMessaging.instance

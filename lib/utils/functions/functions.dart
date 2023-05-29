@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
-import 'package:local_auth/local_auth.dart';
+// import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/web_service_response/upload_image_response.dart';
@@ -156,12 +157,11 @@ Future<void> showNotification([ServiceInstance? service]) async {
           priority: Priority.high,
           color: ColourConstants.primary,
           ticker: 'ticker');
-  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(
-      presentAlert: true, presentBadge: false, presentSound: true);
-  const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
+  const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(presentSound: true, presentAlert: true, presentBadge: true);
+  const NotificationDetails notificationDetails =
+  NotificationDetails(android: androidPlatformChannelSpecifics, iOS: darwinNotificationDetails);
   await flutterLocalNotificationsPlugin.show(
-      10, appName, notificationSuccessMsg, platformChannelSpecifics,
+      10, appName, notificationSuccessMsg, notificationDetails,
       payload: 'item x');
 //    }
 //  if(b<1) {
@@ -174,6 +174,27 @@ Future<void> showNotification([ServiceInstance? service]) async {
 //  }
 }
 
+void onDidReceiveLocalNotification(
+    int? id, String? title, String? body, String? payload) async {
+  // display a dialog with the notification details, tap ok to go to another page
+  showDialog(
+    context: Get.context!,
+    builder: (BuildContext context) =>
+        CupertinoAlertDialog(
+          title: Text(title ?? ""),
+          content: Text(body ?? ""),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text('Ok'),
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+              },
+            )
+          ],
+        ),
+  );
+}
 /// check internet speed
 Future<int> checkInternetSpeedFunction() async {
   var result = 5;
@@ -213,12 +234,11 @@ Future<void> showNotificationFailedJob(ServiceInstance service) async {
               priority: Priority.high,
               color: ColourConstants.primary,
               ticker: 'ticker');
-      const IOSNotificationDetails iosNotificationDetails =
-          IOSNotificationDetails(
-              presentAlert: true, presentBadge: false, presentSound: true);
+      const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(presentSound: true, presentAlert: true, presentBadge: true);
+
       const NotificationDetails platformChannelSpecifics = NotificationDetails(
           android: androidPlatformChannelSpecifics,
-          iOS: iosNotificationDetails);
+          iOS: darwinNotificationDetails);
       await flutterLocalNotificationsPlugin.show(
           10, appName, notificationSuccessMsg, platformChannelSpecifics,
           payload: 'item x');
@@ -255,11 +275,10 @@ Future<void> showErrorNotification(ServiceInstance service,
             priority: Priority.high,
             ticker: 'ticker',
             color: ColourConstants.primary);
-    const IOSNotificationDetails iosNotificationDetails =
-        IOSNotificationDetails(
-            presentAlert: true, presentBadge: false, presentSound: true);
+    const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(presentSound: true, presentAlert: true, presentBadge: true);
+
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
+        android: androidPlatformChannelSpecifics, iOS: darwinNotificationDetails);
 
     await flutterLocalNotificationsPlugin.show(
         10, appName, errorMsg, platformChannelSpecifics,
@@ -279,10 +298,10 @@ Future<void> showNotificationUploading() async {
           showProgress: true,
           ticker: 'ticker',
           color: ColourConstants.primary);
-  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(
-      presentAlert: true, presentBadge: false, presentSound: true);
+  const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(presentSound: true, presentAlert: true, presentBadge: true);
+
   const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
+      android: androidPlatformChannelSpecifics, iOS: darwinNotificationDetails);
   await flutterLocalNotificationsPlugin.show(
       11, appName, uploadingImages, platformChannelSpecifics,
       payload: 'item x');
@@ -317,10 +336,10 @@ void showFlutterNotification(RemoteMessage message) {
           ticker: 'ticker',
           icon: 'ic_stat_new_icon_notif',
           color: ColourConstants.primary);
-  const IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails(
-      presentAlert: true, presentBadge: true, presentSound: true);
+  const DarwinNotificationDetails darwinNotificationDetails = DarwinNotificationDetails(presentSound: true, presentAlert: true, presentBadge: true);
+
   const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics, iOS: iosNotificationDetails);
+      android: androidPlatformChannelSpecifics, iOS: darwinNotificationDetails);
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
   if (notification != null && android != null) {
@@ -354,32 +373,32 @@ analyticsFireEvent(eventName, {Map<String, dynamic>? input}) async {
   await FirebaseAnalytics.instance.logEvent(name: eventName, parameters: input);
 }
 
-Future<void> authenticateUser() async {
-  bool authenticated = false;
-  authorized = 'Authenticating';
-  try {
-    authenticated = await auth.authenticate(
-      localizedReason: 'Please wait for authenticate yourself',
-      options:
-          const AuthenticationOptions(stickyAuth: true, useErrorDialogs: true),
-    );
-  } on PlatformException catch (e) {
-    authorized = 'Error - ${e.message}';
-
-    if (e.toString().contains("NotAvailable")) {
-      Get.offAllNamed(Routes.dashboardScreen);
-      return;
-    }
-  }
-
-  authorized = authenticated ? 'Authorized' : 'Not Authorized';
-
-  if (authorized == "Authorized") {
-    Get.offAllNamed(Routes.dashboardScreen);
-  } else {
-    exit(0);
-  }
-}
+// Future<void> authenticateUser() async {
+//   bool authenticated = false;
+//   authorized = 'Authenticating';
+//   try {
+//     authenticated = await auth.authenticate(
+//       localizedReason: 'Please wait for authenticate yourself',
+//       options:
+//           const AuthenticationOptions(stickyAuth: true, useErrorDialogs: true),
+//     );
+//   } on PlatformException catch (e) {
+//     authorized = 'Error - ${e.message}';
+//
+//     if (e.toString().contains("NotAvailable")) {
+//       Get.offAllNamed(Routes.dashboardScreen);
+//       return;
+//     }
+//   }
+//
+//   authorized = authenticated ? 'Authorized' : 'Not Authorized';
+//
+//   if (authorized == "Authorized") {
+//     Get.offAllNamed(Routes.dashboardScreen);
+//   } else {
+//     exit(0);
+//   }
+// }
 
 logoutFun() async {
   sp?.clear();

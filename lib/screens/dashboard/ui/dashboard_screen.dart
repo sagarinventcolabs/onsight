@@ -49,9 +49,11 @@ class DashboardScreenState extends State<DashboardScreen> {
   @override
   initState() {
     super.initState();
+
     flutterLocalNotificationsPlugin.cancelAll();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       setSettingsData();
+
     });
   }
 
@@ -262,6 +264,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     setState(() {
 
     });
+    showRatingDialog(context);
     debugPrint(await sp?.getString(Preference.ACCESS_TOKEN));
     AppInternetManager appInternetManager = AppInternetManager();
     //

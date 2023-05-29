@@ -1353,6 +1353,7 @@ installDismantalChooserDialog(BuildContext context,
 
 
 showRatingDialog(BuildContext context){
+  print("Show Rate dilaogees");
   RateMyApp rateMyApp;
   rateMyApp = RateMyApp(
     preferencesPrefix: 'rateMyApp_',
@@ -1360,7 +1361,7 @@ showRatingDialog(BuildContext context){
     minLaunches: 10,
     remindDays: 7,
     remindLaunches: 10,
-    // googlePlayIdentifier: 'fr.skyost.example',
+    googlePlayIdentifier: packageName,
     appStoreIdentifier: iosAppId,
   );
   rateMyApp.showStarRateDialog(
@@ -1371,7 +1372,7 @@ showRatingDialog(BuildContext context){
     // contentBuilder: (context, defaultContent) => content, // This one allows you to change the default dialog content.
     actionsBuilder: (context, stars) { // Triggered when the user updates the star rating.
       return [ // Return a list of actions (that will be shown at the bottom of the dialog).
-        /*        FlatButton(
+                TextButton(
             child: Text('OK'),
 
             onPressed: () async {
@@ -1381,7 +1382,7 @@ showRatingDialog(BuildContext context){
               await rateMyApp?.callEvent(RateMyAppEventType.rateButtonPressed);
               Navigator.pop<RateMyAppDialogButton>(context, RateMyAppDialogButton.rate);
             },
-          ),*/
+          ),
       ];
     },
     ignoreNativeDialog: false, // Set to false if you want to show the Apple's native app rating dialog on iOS or Google's native app rating dialog (depends on the current Platform).

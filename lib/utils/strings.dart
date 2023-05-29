@@ -355,6 +355,7 @@ const String photosSubmittedToNotShow = "Photos_Submitted_To_Not_A_Show";
 /// Channel ID
 const String packageName = "com.nthdegree.onsight";
 const String iosAppId = "1404847786";
+const String packageNameProd = "com.nthdegree.onsight";
 const String channelID = "com.nthdegree.onsight/service";
 const String cameraShutterAction = "cameraShutterAction";
 const String cameraShutterVolume = "cameraShutterVolume";
@@ -364,6 +365,9 @@ const String checkInternetSpeed = "checkInternetSpeed";
 int imageQualityRatio = 20;
 /// Others
 const String jobNumber = "Job Number";
+const String flavor = "Flavor";
+const String prod = "prod";
+const String c = "Flavor";
 const String screenLock = "Screen Lock";
 const String confirmCaps = "CONFIRM";
 const String skipCaps = "SKIP";

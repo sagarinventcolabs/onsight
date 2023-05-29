@@ -3,6 +3,7 @@ package com.nthdegree.onsight
 import android.content.Context
 import android.media.AudioManager
 import android.net.ConnectivityManager
+import android.os.Build
 import android.widget.Toast
 import android.os.Handler
 import android.os.Looper
@@ -80,7 +81,7 @@ class MainActivity : FlutterFragmentActivity(), MethodChannel.MethodCallHandler 
         var downSpeed = 5;
         if(nc!=null) {
             // DownSpeed in MBPS
-            downSpeed = (nc?.linkDownstreamBandwidthKbps)
+            downSpeed = (nc?.linkDownstreamBandwidthKbps!!)
 
             // UpSpeed in MBPS
             val upSpeed = (nc.linkUpstreamBandwidthKbps)

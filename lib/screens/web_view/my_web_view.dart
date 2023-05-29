@@ -17,6 +17,7 @@ class _MyWebViewState extends State<MyWebView> {
   Completer<WebViewController>();
   var url = "";
   bool isLoading=true;
+  WebViewController _webViewController = WebViewController();
 
   @override
   void initState() {
@@ -24,9 +25,21 @@ class _MyWebViewState extends State<MyWebView> {
     if(Get.arguments!=null) {
       url = Get.arguments;
     }
-    if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
+    _webViewController = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            // Update loading bar.
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {
+            setState(() {
+              isLoading = false;
+            });
+          },
+        ),
+      )
+    ..loadRequest(Uri.parse(url.toString()));
   }
 
   @override
@@ -40,22 +53,8 @@ class _MyWebViewState extends State<MyWebView> {
       ),
       body: Stack(
         children: [
-          WebView(
-            initialUrl: url.toString(),
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) {
-              _controller.complete(webViewController);
-            },
-            onProgress: (int progress) {
-
-            },
-
-            onPageFinished: (finish) {
-              setState(() {
-                isLoading = false;
-              });
-            },
-
+          WebViewWidget(
+            controller: _webViewController,
           ),
 
           isLoading ? Center( child: CircularProgressIndicator(),)

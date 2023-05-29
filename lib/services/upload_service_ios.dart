@@ -1,14 +1,8 @@
 
-import 'dart:collection';
 import 'dart:convert';
 import 'dart:async';
-import 'package:path/path.dart' as path;
-import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:flutter_uploader/flutter_uploader.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:battery_plus/battery_plus.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -20,15 +14,14 @@ import 'package:on_sight_application/repository/database_model/email.dart';
 import 'package:on_sight_application/repository/database_model/image_count.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
 import 'package:on_sight_application/repository/web_service_response/job_categories_response.dart';
-import 'package:on_sight_application/repository/web_service_response/upload_image_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/job_photos/model/job_key_model.dart';
 import 'package:on_sight_application/screens/job_photos/model/notes_model.dart';
-import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
+import 'package:on_sight_application/utils/strings.dart';
 import 'package:uuid/uuid.dart';
 
 Future<void> jobPhotosIos(jobNumber) async{
@@ -39,7 +32,6 @@ Future<void> jobPhotosIos(jobNumber) async{
   var appManager = await appInternetManager.getSettingsTable();
   if (appManager[0]["BatterySaverStatus"] == 1) {
     int? batteryLevel = await Battery().batteryLevel;
-    debugPrint("-->  Battery Level: -->${batteryLevel.toString()}");
     if ((batteryLevel) > 15) {
       jobPhotosSubmethod(token, jobNumber);
     }
@@ -64,7 +56,6 @@ jobPhotosSubmethod(token, jobNumber) async {
   ImageManager imageManager = ImageManager();
   List<ImageModel> imageList =
   await imageManager.getImageListByJobNumber(jobNumber);
-  print("Image Length is " + imageList.length.toString());
   if (imageList.isNotEmpty) {
     ImageModel model = imageList.first;
     List<JobCategoriesResponse> listJobCat = [];
@@ -84,11 +75,7 @@ jobPhotosSubmethod(token, jobNumber) async {
     });
 
     print(listJobCat.length);
-    //var jobNumber = model.jobNumber.toString();
-    List<Email> emailList = await EmailManager().getEmailRecord(jobNumber);
-    debugPrint("-->  Uploading Through Wifi !!  <--");
-    WebService webService = WebService();
-    //  var response = await webService.iosJobPhotosUploadImage(listJobCat, jobNumber, listEmail, token);
+   List<Email> emailList = await EmailManager().getEmailRecord(jobNumber);
 
     List<http.MultipartFile> listImage = [];
     List<String> pathList = [];
@@ -122,7 +109,6 @@ jobPhotosSubmethod(token, jobNumber) async {
           try {
             for (var l = 0; l < element.listPhotos!.length; l++) {
               var e = element.listPhotos![l];
-              print(e.categoryName);
               NotesModel notesModel = NotesModel(
                   notes: e.imageNote.toString(),
                   categoryName: e.categoryName,
@@ -133,7 +119,6 @@ jobPhotosSubmethod(token, jobNumber) async {
                   isPromoPictures: e.promoFlag == 1 ? true : false);
               var tempName = await e.imageName!.split(".").first;
               map[tempName] = await jsonEncode(notesModel);
-              print("Map with  NotesModel is " + map.toString());
               //
               // File image = await File(await createFileFromString(e.imageString));
               // String dirr = await path.dirname(image.path);
@@ -166,19 +151,17 @@ jobPhotosSubmethod(token, jobNumber) async {
       print(l);
       listFileIteem.add(FileItem(path: l, field: "FileName"));
     }
-    print("ListFileItem Length ${listFileIteem.length}");
     var url = "";
     var a = await AppInternetManager().getSettingsTable() as List;
     if(a.isNotEmpty){
-      var flavor = a[0]["Flavor"]??"prod";
-      if(flavor=="prod"){
+      var flavorr = a[0][flavor]??prod;
+      if(flavorr==prod){
         url = EndPoint.uploadCategory;
       }else{
         url = EndPoint.uploadCategoryStage;
       }
     }
-    print(url);
-    final taskId = await FlutterUploader().enqueue(
+    await FlutterUploader().enqueue(
       MultipartFormDataUpload(
         url: url, //required: url to upload to
         files: listFileIteem, // required: list of files that you want to upload
