@@ -64,16 +64,16 @@ dependencies:
   flutter_secure_storage:
   flutter_root_jailbreak:
   rate_my_app:
-#  local_auth:
   sms_autofill:
   battery_plus:
   flutter_udid:
   camera:
   flutter_uploader: ^3.0.0-beta.4
+#  local_auth:
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
-  change_app_package_name: ^1.1.0
+#  change_app_package_name: ^1.1.0
   flutter_native_splash: ^2.2.9
   flutter_test:
     sdk: flutter

@@ -264,7 +264,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     setState(() {
 
     });
-    showRatingDialog(context);
+    //showRatingDialog(context);
     debugPrint(await sp?.getString(Preference.ACCESS_TOKEN));
     AppInternetManager appInternetManager = AppInternetManager();
     //
