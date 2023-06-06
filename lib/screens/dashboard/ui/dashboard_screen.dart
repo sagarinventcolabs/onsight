@@ -117,7 +117,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 jobN  = imageList.first.jobNumber.toString();
 
                 if(Platform.isIOS){
-                  await jobPhotosIos(jobN);
+                  await jobPhotosSubmethod(jobN);
                   setState(() {
                     visibleRefresh = false;
                   });

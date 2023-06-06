@@ -205,6 +205,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<void> getRefresh() async {
       ImageManager imageManager = ImageManager();
+      //await imageManager.deleteAllImage();
       imageList = await imageManager.getFailedImageList();
 
       await WidgetsFlutterBinding.ensureInitialized();

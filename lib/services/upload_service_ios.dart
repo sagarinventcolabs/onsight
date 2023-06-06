@@ -1,7 +1,12 @@
 
 import 'dart:convert';
 import 'dart:async';
+// import 'package:background_downloader/background_downloader.dart';
+import 'package:on_sight_application/models/image_picker_model.dart';
+import 'package:path/path.dart' as path;
+import 'dart:io';
 import 'package:flutter_uploader/flutter_uploader.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,19 +26,21 @@ import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
-import 'package:on_sight_application/utils/strings.dart';
 import 'package:uuid/uuid.dart';
 
+@pragma('vm:entry-point')
 Future<void> jobPhotosIos(jobNumber) async{
 
   var token = sp?.getString(Preference.ACCESS_TOKEN);
+
   showNotificationUploading();
   AppInternetManager appInternetManager = AppInternetManager();
   var appManager = await appInternetManager.getSettingsTable();
   if (appManager[0]["BatterySaverStatus"] == 1) {
     int? batteryLevel = await Battery().batteryLevel;
+    debugPrint("-->  Battery Level: -->${batteryLevel.toString()}");
     if ((batteryLevel) > 15) {
-      jobPhotosSubmethod(token, jobNumber);
+      jobPhotosSubmethod(jobNumber);
     }
     else{
       Timer.periodic(const Duration(minutes: 1), (timer) async {
@@ -47,15 +54,18 @@ Future<void> jobPhotosIos(jobNumber) async{
       });
     }
   }else{
-    jobPhotosSubmethod(token, jobNumber);
+    jobPhotosSubmethod(jobNumber);
   }
 }
 
-
-jobPhotosSubmethod(token, jobNumber) async {
+@pragma('vm:entry-point')
+jobPhotosSubmethod(jobNumber) async {
+  var token = sp?.getString(Preference.ACCESS_TOKEN);
+  showNotificationUploading();
   ImageManager imageManager = ImageManager();
   List<ImageModel> imageList =
   await imageManager.getImageListByJobNumber(jobNumber);
+  print("Image Length is " + imageList.length.toString());
   if (imageList.isNotEmpty) {
     ImageModel model = imageList.first;
     List<JobCategoriesResponse> listJobCat = [];
@@ -75,11 +85,10 @@ jobPhotosSubmethod(token, jobNumber) async {
     });
 
     print(listJobCat.length);
-   List<Email> emailList = await EmailManager().getEmailRecord(jobNumber);
-
+    List<Email> emailList = await EmailManager().getEmailRecord(jobNumber);
     List<http.MultipartFile> listImage = [];
     List<String> pathList = [];
-    List<String> nameList = [];
+    List<ImagePickerModel> treeList = [];
     final f = DateFormat('MM-dd-yyyy HH:mm:ss');
     var dateTime = await f.format(DateTime.now());
     String emailString =
@@ -91,7 +100,6 @@ jobPhotosSubmethod(token, jobNumber) async {
         additionalEmail: emailString);
     Map<String, String> map = Map();
     map['jobkey'] = await jsonEncode(jobKeyModel);
-    print("Map is " + map.toString());
 
     if (listJobCat.isNotEmpty) {
       for (var k = 0; k < listJobCat.length; k++) {
@@ -109,6 +117,7 @@ jobPhotosSubmethod(token, jobNumber) async {
           try {
             for (var l = 0; l < element.listPhotos!.length; l++) {
               var e = element.listPhotos![l];
+              print(e.categoryName);
               NotesModel notesModel = NotesModel(
                   notes: e.imageNote.toString(),
                   categoryName: e.categoryName,
@@ -117,17 +126,20 @@ jobPhotosSubmethod(token, jobNumber) async {
                   isEmailRequired: element.sendEmail ?? true,
                   requestId: requestId,
                   isPromoPictures: e.promoFlag == 1 ? true : false);
-              var tempName = await e.imageName!.split(".").first;
+
+              File image = await File(await createFileFromString(e.imageString, e.imageName));
+              print('NewPath  At Ios Service Class: ${image.path}');
+              String fileName = path.basename(image.path);
+              pathList.add(image.path);
+            //  nameList.add(e.imageName!);
+              var tempName = await fileName.split(".").first;
               map[tempName] = await jsonEncode(notesModel);
-              //
-              // File image = await File(await createFileFromString(e.imageString));
-              // String dirr = await path.dirname(image.path);
-              // String newPath = await path.join(dirr,
-              //     '${e.imageName}');
-              // print('NewPath  At Ios Service Class: ${newPath}');
-              // image.renameSync(newPath);
-              pathList.add(e.imagePath!);
-              nameList.add(e.imageName!);
+              print("Map with  NotesModel is " + map.toString());
+              ImagePickerModel imagePickerModel = ImagePickerModel();
+              imagePickerModel.imageName = fileName;
+              imagePickerModel.imagePath = image.path;
+
+              treeList.add(imagePickerModel);
               // listImage.add(
               //   http.MultipartFile(
               //       'FileName',
@@ -139,8 +151,6 @@ jobPhotosSubmethod(token, jobNumber) async {
             }
           } catch (v) {
             print(v.toString());
-            // ImageManager manager = ImageManager();
-            // await manager.deleteImage(e.imageName!);
           }
         }
       }
@@ -151,26 +161,40 @@ jobPhotosSubmethod(token, jobNumber) async {
       print(l);
       listFileIteem.add(FileItem(path: l, field: "FileName"));
     }
+    print("ListFileItem Length ${treeList.length}");
     var url = "";
     var a = await AppInternetManager().getSettingsTable() as List;
     if(a.isNotEmpty){
-      var flavorr = a[0][flavor]??prod;
-      if(flavorr==prod){
+      var flavor = a[0]["Flavor"]??"prod";
+      if(flavor=="prod"){
         url = EndPoint.uploadCategory;
       }else{
         url = EndPoint.uploadCategoryStage;
       }
     }
-    await FlutterUploader().enqueue(
-      MultipartFormDataUpload(
-        url: url, //required: url to upload to
-        files: listFileIteem, // required: list of files that you want to upload
-        method: UploadMethod.POST, // HTTP method  (POST or PUT or PATCH)
-        headers: {EndPointMessages.AUTHORIZATION_KEY: "${EndPointMessages.BEARER_VALUE} $token"},
-        data: map, // any data you want to send in upload request
-        tag: 'IOS Upload', // custom tag which is returned in result/progress
-      ),
-    );
+    print(url);
+    for(var i = 0; i<listFileIteem.length; i++) {
+      FlutterUploader uploader = FlutterUploader();
+      final taskId = await uploader.enqueue(
+        MultipartFormDataUpload(
+            url: url,
+            //required: url to upload to
+            files: [listFileIteem[i]],
+            // required: list of files that you want to upload
+            method: UploadMethod.POST,
+            // HTTP method  (POST or PUT or PATCH)
+            headers: {"Authorization": "Bearer $token"},
+            data: map,
+            // any data you want to send in upload request
+            tag: 'IOS Upload $i',
+            // custom tag which is returned in result/progress
+            allowCellular: true
+        ),
+      );
+
+    }
+
+
   }
 
 

@@ -73,7 +73,7 @@ class DatabaseHelper {
     await db.execute(
         """CREATE TABLE $mImageCountTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, CategoryId TEXT, JobNumber TEXT, TotalImageCount INTEGER, TotalImageCountServer INTEGER, ImageLink TEXT)""");
     await db.execute(
-        """CREATE TABLE $mImageDataTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, CategoryId TEXT, CategoryName TEXT, JobNumber TEXT, ImageName TEXT, ImageNote TEXT, ImagePath TEXT, IsSubmitted INTEGER, PromoFlag INTEGER, IsEmailRequired INTEGER, JobAction INTEGER, RequestId TEXT, AttemptCount INTEGER, SubmitID INTEGER, isPhotoAdded INTEGER)""");
+        """CREATE TABLE $mImageDataTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, CategoryId TEXT, CategoryName TEXT, JobNumber TEXT, ImageName TEXT, ImageNote TEXT, ImagePath TEXT, ImageString TEXT, IsSubmitted INTEGER, PromoFlag INTEGER, IsEmailRequired INTEGER, JobAction INTEGER, RequestId TEXT, AttemptCount INTEGER, SubmitID INTEGER, isPhotoAdded INTEGER)""");
 
     await db.execute(
         """CREATE TABLE $mLastSavedJobsTable(RowID INTEGER PRIMARY KEY AUTOINCREMENT, JobNumber TEXT, JobAction INTEGER)""");

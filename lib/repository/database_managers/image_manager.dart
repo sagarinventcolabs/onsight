@@ -53,6 +53,8 @@ class ImageManager{
     Database db = await DatabaseHelper().database;
     var result = await db.rawQuery('SELECT * FROM $mImageDataTable');
     List<ImageModel> list = result.isNotEmpty ? result.map((c) => ImageModel.fromJson(c)).toList() : [];
+
+    print("ImageList Length ${list.length}");
     return list;
 
 
@@ -82,6 +84,13 @@ class ImageManager{
     return ;
   }
 
+  Future<dynamic> deleteAllImage() async {
+    Database db = await DatabaseHelper().database;
+    await db.rawQuery("DELETE FROM $mImageDataTable");
+
+    getImageList();
+    return ;
+  }
 
   Future<ImageModel> getImageByImageName(String imageName) async {
 

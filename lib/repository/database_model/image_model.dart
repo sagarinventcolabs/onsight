@@ -10,6 +10,7 @@ class ImageModel{
   String? imageName ;
   String? imageNote ;
   String? imagePath ;
+  String? imageString ;
   String? requestId ;
   int? isSubmitted ;
   int? promoFlag = 0;
@@ -28,6 +29,7 @@ class ImageModel{
         this.categoryName,
         this.jobNumber,
         this.imageName,
+        this.imageString,
         this.imageNote,
         this.imagePath,
         this.requestId,
@@ -48,6 +50,7 @@ class ImageModel{
     imageName = json['ImageName'] ?? "";
     imageNote = json['ImageNote'] ?? "";
     imagePath = json['ImagePath'] ?? "";
+    imageString = json['ImageString'] ?? "";
     requestId = json['RequestId'] ?? "";
     promoFlag = json['PromoFlag'] ?? 0;
     isSubmitted =json['IsSubmitted'].toString()=='null'?0: int.parse(json['IsSubmitted'].toString());
@@ -57,6 +60,7 @@ class ImageModel{
     submitID =json['SubmitID'].toString()=='null'?0: int.parse(json['SubmitID'].toString());
     isPhotoAdded =json['isPhotoAdded'].toString()=='null'?0: int.parse(json['isPhotoAdded'].toString());
   }
+
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
       map['RowID'] = rowID;
@@ -64,6 +68,7 @@ class ImageModel{
       map['CategoryName'] = categoryName;
       map['JobNumber'] = jobNumber;
       map['ImageName'] = imageName;
+      map['ImageString'] = imageString??"";
       map['ImageNote'] = imageNote;
       map['ImagePath'] = imagePath;
       map['RequestId'] = requestId;
@@ -84,6 +89,7 @@ class ImageModel{
     map['CategoryName'] = categoryName;
     map['JobNumber'] = jobNumber;
     map['ImageName'] = imageName;
+    map['ImageString'] = imageString??"";
     map['ImageNote'] = imageNote;
     map['ImagePath'] = imagePath;
     map['RequestId'] = requestId;

@@ -144,7 +144,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                   if (connectivityResult == ConnectivityResult.wifi) {
                     if(Platform.isIOS){
                       bool shouldUpload = true;
-                      shouldUpload = await checkBatteryStatusBool();
+                      shouldUpload = /*await checkBatteryStatusBool() =*/ true;
                       if(shouldUpload) {
                         uploadImages();
 
@@ -593,9 +593,6 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                   Platform.isIOS?   StreamBuilder<UploadTaskResponse>(
                       stream: FlutterUploader().result,
                       builder: (context, snapshot){
-
-                        print(snapshot.connectionState);
-
                         if(snapshot.connectionState==ConnectionState.active) {
                           if (snapshot.hasData) {
                             if (snapshot.data != null) {
@@ -628,11 +625,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                                               .photoUploadSummaryDetails!) {
                                             var imageName =  k.fileName;
                                             print("Image Name is  ${imageName}");
-                                            ImageManager().getImageByImageName(imageName!).then((value) {
-                                              print("Model Image  Name is  ${value.imageName}");
-                                              value.isSubmitted = 2;
-                                              ImageManager().updateImageData(value);
-                                            });
+                                            ImageManager().deleteImage(imageName);
 
 
                                           }
@@ -887,7 +880,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
           if(Platform.isIOS){
 
             service.invoke("stopService");
-            await jobPhotosIos(controller.list.first.jobNumber);
+            await jobPhotosSubmethod(controller.list.first.jobNumber);
 
           }else {
             service.invoke(

@@ -42,6 +42,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>FUMaximumUploadOperation</key>
+    <integer>50</integer>
+    <key>FUMaximumConnectionsPerHost</key>
+    <integer>50</integer>
+    <key>FUTimeoutInSeconds</key>
+    <integer>3600</integer>
 	<key>NSCameraUsageDescription</key>
 	<string>On Sight application seeks permission to access camera for capturing exhibition`s images which can be uploaded to server.</string>
 	<key>NSMicrophoneUsageDescription</key>

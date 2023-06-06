@@ -40,7 +40,7 @@ class MultiImageCapture extends StatefulWidget {
     _availableCameras.addAll(await availableCameras());
     _camerasLoading.value = false;
     if (_availableCameras.isNotEmpty) {
-      _cameraController.value = CameraController(_availableCameras.first, ResolutionPreset.max);
+      _cameraController.value = CameraController(_availableCameras.first, ResolutionPreset.max,imageFormatGroup: ImageFormatGroup.jpeg);
       await _cameraController.value!.initialize();
       _cameraController.value!.setFlashMode(FlashMode.off);
       _cameraController.refresh();
@@ -51,7 +51,7 @@ class MultiImageCapture extends StatefulWidget {
     _availableCameras.addAll(await availableCameras());
     _camerasLoading.value = false;
     if (_availableCameras.length > 1) {
-      _cameraController.value = CameraController(_availableCameras.elementAt(1), ResolutionPreset.max);
+      _cameraController.value = CameraController(_availableCameras.elementAt(1), ResolutionPreset.max,imageFormatGroup: ImageFormatGroup.jpeg);
       await _cameraController.value!.initialize();
       _cameraController.value!.setFlashMode(FlashMode.off);
       _cameraController.refresh();
@@ -223,6 +223,7 @@ class _MultiImageCaptureState extends State<MultiImageCapture> {
           physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
+            print(widget.capturedImages[index].path);
             var imageFile = widget.capturedImages.elementAt(index);
 
             bool isDummy = imageFile == widget._dummyImageFile;

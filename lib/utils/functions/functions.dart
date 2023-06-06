@@ -42,6 +42,7 @@ import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 saveSuggestion(input) {
   List<String> list = [];
@@ -454,29 +455,33 @@ Future<void> ImagePickerJobPhoto(route, id, jobNumber, key) async {
 
   for (var element in localList) {
     File image = await File(element.imagePath!);
-    // Uint8List _bytes = await image.readAsBytes();
-    // String _base64String = base64.encode(_bytes);
-    // print(_base64String);
+    String _base64String = "";
+    if(Platform.isIOS) {
+      Uint8List _bytes = await image.readAsBytes();
+      _base64String = base64.encode(_bytes);
+      print(_base64String);
+    }
       print('Original path: ${element.imagePath}');
     String dirr = await path.dirname(element.imagePath!);
     String newPath = await path.join(dirr,
         '${jobNumber.toString()}_${controller.categoryList[i].name.toString().replaceAll(" ", "-")}_${element.created_at}.jpg');
     print('NewPath: ${newPath}');
-    image.renameSync(newPath);
+    await image.renameSync(newPath);
     String fileName = basename(newPath);
-    // Directory documents;
-    // if(Platform.isIOS) {
-    //   documents = await getApplicationDocumentsDirectory();
-    // }else {
-    //   documents = (await getExternalStorageDirectory())!;
-    // }
-    // String dir = documents.path;
-    // final File newImage = await image.copy('$dir/${jobNumber.toString()}_${controller.categoryList[i].name.toString().replaceAll(" ", "-")}_${element.created_at}.jpg');
-    // String fileName = basename(newImage.path);
-    // print('NewPath: ${newImage.path}');
+/*    Directory documents;
+    if(Platform.isIOS) {
+      documents = await getApplicationDocumentsDirectory();
+      String dir = documents.path;
+      final File newImage = await image.copy('$dir/${jobNumber.toString()}_${controller.categoryList[i].name.toString().replaceAll(" ", "-")}_${element.created_at}.jpg');
+      fileName = basename(newImage.path);
+      newPath = newImage.path;
+      print('NewPathIs: ${newImage.path}');
+    }*/
+
     ImageModel imageModel = ImageModel(
         imagePath: newPath,
         imageName: fileName,
+        imageString: _base64String,
         isPhotoAdded: 0,
         jobNumber: jobNumber,
         categoryId: id,
@@ -673,10 +678,12 @@ void backgroundHandler() {
 
   // You have now access to:
   uploader.progress.listen((progress) {
+
     // upload progress
     print("Progress: $progress");
   });
   uploader.result.listen((result) async {
+
     var jobNumber  =  "";
     UploadTaskResponse response = result;
     print("Response at function is ${response}");
@@ -689,32 +696,61 @@ void backgroundHandler() {
       jobNumber = uploadImageResponse.jobNumber.toString();
       for (var element in uploadImageResponse.categoryModelDetails!) {
         for (var k in element.photoUploadSummaryDetails!) {
-          var imageName = k.fileName!;
-          print("Image Name is  ${imageName}");
-          ImageModel model =
-              await ImageManager().getImageByImageName(imageName);
-          print("Model Image  Name is  ${model.imageName}");
-          model.isSubmitted = 2;
-          await ImageManager().updateImageData(model);
+          try{
+            var imageName = k.fileName!;
+            print("Image Name is  ${imageName}");
+            ImageModel model =
+            await ImageManager().getImageByImageName(imageName);
+            print("Model Image  Name is  ${model.imageName}");
+            model.isSubmitted = 2;
+            await ImageManager().deleteImage(model.imageName);
+
+          }catch(e){
+
+          }
+
         }
       }
+     // SharedPreferences pref = await SharedPreferences.getInstance();
+     // List<String> listTask = pref.getStringList("taskList")??[];
 
-      FlutterUploader().clearUploads();
+
       List<ImageModel> filteredList =
           await ImageManager().getImageListByJobNumber(jobNumber);
       print("Filtered List Length is ${filteredList.length}");
       if (filteredList.isEmpty) {
         showNotification();
+        // bool isNotify = await pref.getBool("Notify")??false;
+        // print("isNotify ${isNotify}");
+        // FlutterUploader().clearUploads();
+        //     if(isNotify==false) {
+        //
+        //     }
+        //   await pref.setBool("Notify", true);
+
+
+        FlutterUploader().cancelAll();
       }
       //  showNotification();
+    }else{
+      FlutterUploader().clearUploads();
     }
   });
+
+
 }
-Future<String> createFileFromString(encodedStr) async {
+
+/// Process the user tapping on a notification by printing a message
+// void myNotificationTapCallback(Task task, NotificationType notificationType) {
+//   debugPrint(
+//       'Tapped notification $notificationType for taskId ${task.taskId}');
+// }
+Future<String> createFileFromString(encodedStr, imageName) async {
+  print("${imageName} - ${encodedStr}");
   Uint8List bytes = base64.decode(encodedStr);
   String dir = (await getApplicationDocumentsDirectory()).path;
   File file = File(
-      "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".jpg");
+      "$dir/" + imageName);
   await file.writeAsBytes(bytes);
   return file.path;
 }
@@ -722,6 +758,9 @@ Future<String> createFileFromString(encodedStr) async {
 Uint8List convertBase64Image(String base64String) {
   return Base64Decoder().convert(base64String.split(',').last);
 }
+
+
+
 // Future<String> getSQFBaseUrl()async{
 //   AppInternetManager appInternetManager = AppInternetManager();
 //   var a = await appInternetManager.getSettingsTable() as List;

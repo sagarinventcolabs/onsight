@@ -67,8 +67,9 @@ dependencies:
   sms_autofill:
   battery_plus:
   flutter_udid:
-  camera:
+  camera: ^0.10.3+2
   flutter_uploader: ^3.0.0-beta.4
+ # background_downloader: ^7.3.0
 #  local_auth:
 
 dev_dependencies:

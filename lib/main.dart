@@ -58,9 +58,6 @@ Future<void> main() async {
 }*/
 
   if (isProduction) {
-    // analyser does not like empty function body
-    // debugPrint = (String message, {int wrapWidth}) {};
-    // so i changed it to this:
     debugPrint = (String? message, {int? wrapWidth}) => null;
   }
   runZonedGuarded<Future<void>>(() async {
@@ -112,7 +109,7 @@ Future<void> main() async {
       sound: true,
     );
 
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+   // FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarIconBrightness: Brightness.dark,
