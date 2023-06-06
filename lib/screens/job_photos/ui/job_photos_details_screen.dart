@@ -817,7 +817,8 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
       controller.update();
       await service.startService();
       showLoader(context);
-      await Future.delayed(const Duration(seconds: 5), () async {
+      int delay =  Platform.isIOS?2:5;
+      await Future.delayed(Duration(seconds: delay), () async {
         Get.back();
         List<dynamic> listdynamic = [];
         for (var element in controller.categoryList) {

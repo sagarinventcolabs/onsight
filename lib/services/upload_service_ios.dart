@@ -117,7 +117,6 @@ jobPhotosSubmethod(jobNumber) async {
           try {
             for (var l = 0; l < element.listPhotos!.length; l++) {
               var e = element.listPhotos![l];
-              print(e.categoryName);
               NotesModel notesModel = NotesModel(
                   notes: e.imageNote.toString(),
                   categoryName: e.categoryName,

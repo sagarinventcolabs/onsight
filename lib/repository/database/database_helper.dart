@@ -52,7 +52,7 @@ class DatabaseHelper {
   Future<Database> intializeDatabase() async {
     var directory = await getApplicationDocumentsDirectory();
     var dbPath = directory.path + '/OnSight.db';
-    var createdDB = await openDatabase(dbPath, version: 3, onCreate: _createDB);
+    var createdDB = await openDatabase(dbPath, version: 4, onCreate: _createDB);
     return createdDB;
   }
 
