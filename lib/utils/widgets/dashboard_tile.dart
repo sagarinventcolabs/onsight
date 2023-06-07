@@ -47,9 +47,11 @@ class _DashboardTileState extends State<DashboardTile> {
         builder: (context, snapshot) {
             bool visibility = false;
           if(snapshot.connectionState==ConnectionState.done){
-
+            print(widget.title!);
+            print(snapshot.data);
             switch(widget.title!){
-              case jobPhotos:
+
+              case jobUpdates:
                 visibility  = snapshot.data==1?true:false;
               //  appUpdateController.update();
                 break;
@@ -74,6 +76,11 @@ class _DashboardTileState extends State<DashboardTile> {
               //  appUpdateController.update();
                 break;
 
+              case updateNeeded:
+                visibility = snapshot.data==1?true:true;
+                //  appUpdateController.update();
+                break;
+
             }
           }
 
@@ -95,7 +102,30 @@ class _DashboardTileState extends State<DashboardTile> {
                     Padding(
                       padding: EdgeInsets.only(left: Dimensions.width10),
                       child: Text(widget.title??"", style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimensions.font16)),
-                    )
+                    ),
+                    Spacer(),
+                    Visibility(
+                      visible: widget.title == updateNeeded,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 18.0),
+                        child: Center(
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.all(Radius.circular(30))
+                            ),
+                            child: Center(
+                              child: Text(
+                                "3",style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
               ),
@@ -105,6 +135,7 @@ class _DashboardTileState extends State<DashboardTile> {
       ),
     );
   }
+  
   int daysBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);

@@ -40,6 +40,8 @@ class Assets {
   static const String icPromoPicDark = "images/ic_promopic_dark.svg";
   static const String icPromoPic = "images/dashboard_promopicture.svg";
   static const String icFieldIssueDark = "images/ic_fieldissues_dark.svg";
+  static const String updateNeededLight = "images/update_needed_light.svg";
+  static const String updateNeededDark = "images/update_needed_dark.svg";
   static const String icFieldIssue = "images/dashboard_fieldIssue.svg";
   static const String icAddComment = "images/ic-add comment.png";
   static const String imageLeadSheetDarkMode = "images/leadsheet_darkmode.png";
