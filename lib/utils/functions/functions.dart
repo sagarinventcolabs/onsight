@@ -519,17 +519,17 @@ Future<void> ImagePickerPromoPictures(String route) async {
 
   if (localList.isNotEmpty) {
     for (var element in localList) {
-      File image = await File(element.imagePath!);
-      print('Original path: ${element.imagePath}');
-      String dirr = await path.dirname(element.imagePath!);
-      String newPath = await path.join(dirr,
-          '${controller.showController.text.isNotEmpty ? controller.showController.text + "_PromoPictures" : "PromoPictures"}_${element.created_at}.jpg');
-      print('NewPath: ${newPath}');
-      image.renameSync(newPath);
-      String fileName = basename(newPath);
+      // File image = await File(element.imagePath!);
+      // print('Original path: ${element.imagePath}');
+      // String dirr = await path.dirname(element.imagePath!);
+      // String newPath = await path.join(dirr,
+      //     '${controller.showController.text.isNotEmpty ? controller.showController.text + "_PromoPictures" : "PromoPictures"}_${element.created_at}.jpg');
+      // print('NewPath: ${newPath}');
+      // image.renameSync(newPath);
+      // String fileName = basename(newPath);
       PromoImageModel model = PromoImageModel();
-      model.imageName = fileName;
-      model.imagePath = newPath;
+      model.imageName = element.imageName;
+      model.imagePath = element.imagePath;
       model.fullDate = "0001-01-01T00:00:00";
       model.showName = controller.showController.text.toString();
       model.year = DateTime.now().year.toString();
@@ -676,7 +676,6 @@ void backgroundHandler() {
   // This uploader instance works within the isolate only.
   FlutterUploader uploader = FlutterUploader();
 
-  // You have now access to:
   uploader.progress.listen((progress) {
 
     // upload progress
@@ -758,6 +757,7 @@ Future<String> createFileFromString(encodedStr, imageName) async {
 Uint8List convertBase64Image(String base64String) {
   return Base64Decoder().convert(base64String.split(',').last);
 }
+
 
 
 

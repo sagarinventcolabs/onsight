@@ -86,9 +86,7 @@ jobPhotosSubmethod(jobNumber) async {
 
     print(listJobCat.length);
     List<Email> emailList = await EmailManager().getEmailRecord(jobNumber);
-    List<http.MultipartFile> listImage = [];
     List<String> pathList = [];
-    List<ImagePickerModel> treeList = [];
     final f = DateFormat('MM-dd-yyyy HH:mm:ss');
     var dateTime = await f.format(DateTime.now());
     String emailString =
@@ -134,11 +132,7 @@ jobPhotosSubmethod(jobNumber) async {
               var tempName = await fileName.split(".").first;
               map[tempName] = await jsonEncode(notesModel);
               print("Map with  NotesModel is " + map.toString());
-              ImagePickerModel imagePickerModel = ImagePickerModel();
-              imagePickerModel.imageName = fileName;
-              imagePickerModel.imagePath = image.path;
 
-              treeList.add(imagePickerModel);
               // listImage.add(
               //   http.MultipartFile(
               //       'FileName',
@@ -160,7 +154,7 @@ jobPhotosSubmethod(jobNumber) async {
       print(l);
       listFileIteem.add(FileItem(path: l, field: "FileName"));
     }
-    print("ListFileItem Length ${treeList.length}");
+    print("ListFileItem Length ${listFileIteem.length}");
     var url = "";
     var a = await AppInternetManager().getSettingsTable() as List;
     if(a.isNotEmpty){
@@ -172,26 +166,26 @@ jobPhotosSubmethod(jobNumber) async {
       }
     }
     print(url);
-    for(var i = 0; i<listFileIteem.length; i++) {
+   // for(var i = 0; i<listFileIteem.length; i++) {
       FlutterUploader uploader = FlutterUploader();
       final taskId = await uploader.enqueue(
         MultipartFormDataUpload(
             url: url,
             //required: url to upload to
-            files: [listFileIteem[i]],
+            files: listFileIteem,
             // required: list of files that you want to upload
             method: UploadMethod.POST,
             // HTTP method  (POST or PUT or PATCH)
             headers: {"Authorization": "Bearer $token"},
             data: map,
             // any data you want to send in upload request
-            tag: 'IOS Upload $i',
+            tag: 'IOS Upload',
             // custom tag which is returned in result/progress
             allowCellular: true
         ),
       );
 
-    }
+   // }
 
 
   }

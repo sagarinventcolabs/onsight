@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
@@ -37,10 +38,18 @@ class MultiImageCapture extends StatefulWidget {
   }
 
   Future<void> initPrimaryCamera() async {
+    SettingsController controller;
+    if(Get.isRegistered<SettingsController>()){
+      controller  = Get.find<SettingsController>();
+    }else{
+      controller = Get.put(SettingsController());
+    }
+    print("Camera shutter value is ${controller.cameraShutter}");
+    bool isSoundEnable = controller.cameraShutter.value;
     _availableCameras.addAll(await availableCameras());
     _camerasLoading.value = false;
     if (_availableCameras.isNotEmpty) {
-      _cameraController.value = CameraController(_availableCameras.first, ResolutionPreset.max,imageFormatGroup: ImageFormatGroup.jpeg);
+      _cameraController.value = CameraController(_availableCameras.first, ResolutionPreset.max,imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: isSoundEnable);
       await _cameraController.value!.initialize();
       _cameraController.value!.setFlashMode(FlashMode.off);
       _cameraController.refresh();
@@ -48,10 +57,18 @@ class MultiImageCapture extends StatefulWidget {
   }
 
   Future<void> initSecondaryCamera() async {
+    SettingsController controller;
+    if(Get.isRegistered<SettingsController>()){
+      controller  = Get.find<SettingsController>();
+    }else{
+      controller = Get.put(SettingsController());
+    }
+    print("Camera shutter value is ${controller.cameraShutter}");
+    bool isSoundEnable = controller.cameraShutter.value;
     _availableCameras.addAll(await availableCameras());
     _camerasLoading.value = false;
     if (_availableCameras.length > 1) {
-      _cameraController.value = CameraController(_availableCameras.elementAt(1), ResolutionPreset.max,imageFormatGroup: ImageFormatGroup.jpeg);
+      _cameraController.value = CameraController(_availableCameras.elementAt(1), ResolutionPreset.max,imageFormatGroup: ImageFormatGroup.jpeg, enableAudio: isSoundEnable);
       await _cameraController.value!.initialize();
       _cameraController.value!.setFlashMode(FlashMode.off);
       _cameraController.refresh();

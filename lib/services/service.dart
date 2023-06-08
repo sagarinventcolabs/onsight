@@ -536,7 +536,9 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken)async{
         bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
         if (isNetActive) {
           debugPrint("Error Notification");
+          await FieldIssueImageManager().deleteAllImage();
           showErrorNotification(service, errorMsg: value["error"]);
+
         } else {
           Timer.periodic(const Duration(seconds: 10), (timer) async {
             isNetActive =
@@ -549,10 +551,9 @@ fieldIssueSubMethod(service, SubmitFieldIssueRequest request, finalToken)async{
         }
       }
       else {
-        for(var k in list){
-          print("RowId TempList  ${list.first.rowID}");
-          await FieldIssueImageManager().deleteImage(k.rowID!);
-        }
+
+          await FieldIssueImageManager().deleteAllImage();
+
         showNotification(service);
         // service.stopSelf();
       }
