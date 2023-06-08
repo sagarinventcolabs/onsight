@@ -487,7 +487,7 @@ class WebService {
       SubmitFieldIssueRequest request,
       List<FieldIssueImageModel> imageList,
       token) async {
-
+      print("submitImagesFieldIssue");
     List<http.MultipartFile> listImage = [];
     Map<String, String> map = Map();
     Map<String, String> mapfinal = Map();
@@ -497,46 +497,51 @@ class WebService {
     });
     mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
     for(var element in imageList){
-      String fileName = "";
-      String newPath = "";
-      try{
-        File image = await File(element.imagePath!);
-        // print('Original path: ${element.imagePath}');
-        // String dirr = await path.dirname(element.imagePath!);
-        // Random random = Random();
-        //
-        // newPath = await path.join(dirr,
-        //     '${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"]}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
-        // print('NewPath: ${newPath}');
-        // image.renameSync(newPath);
-        // fileName = path.basename(newPath);
-
-        Directory documents ;
-        if(Platform.isIOS) {
-          documents = await getApplicationDocumentsDirectory();
-        }else{
-          documents = (await getExternalStorageDirectory())!;
-        }
-        Random random = Random();
-        String pathh = documents.path;
-        File newImage = await image.copy('$pathh/${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"].toString().replaceAll("/", "-").replaceAll(" ", "-")}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
-        newPath = newImage.path;
-        fileName = newImage.path.split("/").last;
-      }catch(e){
-
-      }
-      print(newPath);
-      print(fileName);
-      if(fileName!=""){
-        element.imagePath = newPath;
-        element.imageName = fileName;
-      }
+      // String fileName = "";
+      // String newPath = "";
+      // try{
+      //   File image = await File(element.imagePath!);
+      //   // print('Original path: ${element.imagePath}');
+      //   // String dirr = await path.dirname(element.imagePath!);
+      //   // Random random = Random();
+      //   //
+      //   // newPath = await path.join(dirr,
+      //   //     '${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"]}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
+      //   // print('NewPath: ${newPath}');
+      //   // image.renameSync(newPath);
+      //   // fileName = path.basename(newPath);
+      //
+      //   Directory documents ;
+      //   if(Platform.isIOS) {
+      //     documents = await getApplicationDocumentsDirectory();
+      //   }else{
+      //     documents = (await getExternalStorageDirectory())!;
+      //   }
+      //   Random random = Random();
+      //   String pathh = documents.path;
+      //   File newImage = await image.copy('$pathh/${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"].toString().replaceAll("/", "-").replaceAll(" ", "-")}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
+      //   newPath = newImage.path;
+      //   fileName = newImage.path.split("/").last;
+      // }catch(e){
+      //
+      // }
+      // print(newPath);
+      // print(fileName);
+      // if(fileName!=""){
+      //   element.imagePath = newPath;
+      //   element.imageName = fileName;
+      // }
       var tempName = element.imageName.toString().split(".").first;
 
       Map<String, String> mapp = Map();
       mapp[EndPointKeys.comments] = request.comment.toString();
       mapfinal[tempName] = jsonEncode(mapp);
-      listImage.add( http.MultipartFile(
+      // await Future.delayed(Duration(seconds: 1),() async {
+      //   listImage.add(await http.MultipartFile.fromPath("FileName", element.imagePath!
+      //   ));
+      // });
+
+      listImage.add( await http.MultipartFile(
           'FileName',
           File(element.imagePath!).readAsBytes().asStream(),
           File(element.imagePath!).lengthSync(),
@@ -585,18 +590,18 @@ class WebService {
       map[key] = value.toString();
     });
     mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
-    imageList.forEach((element) {
+    for(var element in imageList){
       var tempName = element.imageName.toString().split(".").first;
       Map<String, String> mapp = Map();
       mapp[EndPointKeys.comments] = request.comment.toString();
       mapfinal[tempName] = jsonEncode(mapp);
-      listImage.add( http.MultipartFile(
+      listImage.add( await http.MultipartFile(
           'FileName',
           File(element.imagePath!).readAsBytes().asStream(),
           File(element.imagePath!).lengthSync(),
           contentType:MediaType.parse('image/jpeg'),
           filename: element.imagePath!.split("/").last));
-    });
+    }
 
       // var tempName = imageList.imageName.toString().split(".").first;
       // Map<String, String> mapp = Map();
@@ -784,4 +789,7 @@ class WebService {
     var response = await ApiBaseHelper().getApiCall(url, isLoading: true);
     return response;
   }
+
+
+
 }

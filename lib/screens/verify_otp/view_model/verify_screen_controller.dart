@@ -43,11 +43,10 @@ class VerifyScreenController extends GetxController{
       VerifyOtpResponse responseModel = VerifyOtpResponse.fromJson(response);
       sp!.putString(Preference.ACCESS_TOKEN, responseModel.accessToken.toString());
       sp!.putString(Constants.secureValidation, DateTime.now().toIso8601String());
-
       SecureStorage().addNewItem("auth_token",responseModel.accessToken.toString());
 
-      // ProfileController profileController = ProfileController();
-      // await profileController.getProfile(showValue: false);
+       ProfileController profileController = ProfileController();
+       await profileController.getProfile(showValue: false);
       // if(responseModel.signInStatus==requiredRegistration){
       //   analyticsFireEvent(loginOrSignUpKey,
       //       input: {

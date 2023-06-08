@@ -913,10 +913,13 @@ Widget bottomSheetImagePicker(route) {
                         ImagePickerModel imagePickerModel = ImagePickerModel();
                         imagePickerModel.imageName = fileName;
                         imagePickerModel.imagePath = file.path;
-                        Random rng = new Random();
-                        imagePickerModel.created_at = (DateTime.now().add(Duration(milliseconds: rng.nextInt(99))).millisecondsSinceEpoch).toString();
+                        await Future.delayed(Duration(milliseconds: 10),(){
+                          Random rng = new Random();
+                          imagePickerModel.created_at = (DateTime.now().add(Duration(milliseconds: rng.nextInt(999))).millisecondsSinceEpoch).toString();
 
-                        localList.add(imagePickerModel);
+                          localList.add(imagePickerModel);
+                        });
+
                       }
                     }
                   }

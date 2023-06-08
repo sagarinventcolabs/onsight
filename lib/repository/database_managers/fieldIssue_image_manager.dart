@@ -112,4 +112,13 @@ class FieldIssueImageManager {
 
   }
 
+
+  Future<dynamic> deleteAllImage() async {
+    Database db = await DatabaseHelper().database;
+    await db.rawQuery("DELETE FROM $mFieldIssueImageTable");
+
+    getImageList();
+    return ;
+  }
+
 }
