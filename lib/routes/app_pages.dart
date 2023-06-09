@@ -8,6 +8,7 @@ import 'package:on_sight_application/screens/field_issue/ui/field_issue_new_deta
 import 'package:on_sight_application/screens/field_issue/ui/field_issues_screen.dart';
 import 'package:on_sight_application/screens/field_issue/ui/photo_screen.dart';
 import 'package:on_sight_application/screens/field_issue/ui/select_job_screen.dart';
+import 'package:on_sight_application/screens/job_photos/ui/job_photos_category_screen.dart';
 import 'package:on_sight_application/screens/job_photos/ui/job_photos_details_screen.dart';
 import 'package:on_sight_application/screens/job_photos/ui/job_photos_screen.dart';
 import 'package:on_sight_application/screens/job_photos/ui/job_updates_details_screen.dart';
@@ -29,6 +30,7 @@ import 'package:on_sight_application/screens/onboarding/ui/onboarding_screen.dar
 import 'package:on_sight_application/screens/onboarding/ui/onboarding_upload_photos.dart';
 import 'package:on_sight_application/screens/onboarding/ui/resource_details.dart';
 import 'package:on_sight_application/screens/onboarding/ui/resource_details_new.dart';
+import 'package:on_sight_application/screens/project_evaluation/ui/project_evaluation_category_screen.dart';
 import 'package:on_sight_application/screens/project_evaluation/ui/project_evaluation_details_screen.dart';
 import 'package:on_sight_application/screens/project_evaluation/ui/project_evaluation_install_screen.dart';
 import 'package:on_sight_application/screens/project_evaluation/ui/project_evaluation_screen.dart';
@@ -64,6 +66,7 @@ String whereCome="0";
     GetPage(name: Routes.uploadJobPhotosNote, page: ()=>  const UploadJobPhotosNote()),
     GetPage(name: Routes.projectEvaluationScreen, page: ()=>  const ProjectEvaluationScreen()),
     GetPage(name: Routes.projectEvaluationDetailsScreen, page: ()=>  const ProjectEvaluationDetailsScreen()),
+    GetPage(name: Routes.projectEvaluationCategoryScreen, page: ()=>  const ProjectEvaluationCategoryScreen()),
     GetPage(name: Routes.projectEvaluationInstallScreen, page: ()=>  const ProjectEvaluationInstallScreen()),
     GetPage(name: Routes.myWebView, page: ()=>  MyWebView()),
     GetPage(name: Routes.leadSheetScreen, page: ()=>  const LeadSheetScreen()),
@@ -93,5 +96,6 @@ String whereCome="0";
     GetPage(name: Routes.onBoardingPhotoScreen, page: ()=>  const OnBoardingPhotoScreen()),
     GetPage(name: Routes.introductionTwoStep, page: ()=>  const IntroductionTwoStep()),
     GetPage(name: Routes.editResource, page: ()=>  const EditResource()),
+    GetPage(name: Routes.jobPhotoCategoryScreen, page: ()=>  const JobPhotosCategoryScreen()),
   ];
 }

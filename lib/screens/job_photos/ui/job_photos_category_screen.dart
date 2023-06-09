@@ -7,7 +7,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -33,18 +32,17 @@ import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:on_sight_application/utils/widgets/jobphoto_grid_container.dart';
 import 'package:on_sight_application/utils/widgets/text_row.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class JobUpdatesDetailsScreen extends StatefulWidget {
-  const JobUpdatesDetailsScreen({Key? key}) : super(key: key);
+class JobPhotosCategoryScreen extends StatefulWidget {
+  const JobPhotosCategoryScreen({Key? key}) : super(key: key);
 
   @override
-  State<JobUpdatesDetailsScreen> createState() => _JobUpdatesDetailsScreenState();
+  State<JobPhotosCategoryScreen> createState() => _JobPhotosCategoryScreenState();
 }
 
-class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
+class _JobPhotosCategoryScreenState extends State<JobPhotosCategoryScreen> {
   var isData = false;
   final f = DateFormat('dd-MM-yyyy');
   TextEditingController emailEditingController =
@@ -84,496 +82,156 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     Theme.of(context);
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-                size: Dimensions.size25,
-              ),
-              onPressed: () {
-                Get.back();
-              },
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+              size: Dimensions.size25,
             ),
-            elevation: 0.0,
-            backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
-            title: Text(
-                isData ? controller.list.first.jobNumber.toString() : "",
-                style: TextStyle(
-                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Dimensions.font16)),
-       /*     bottom: TabBar(
-              onTap: (index) {
-                //your currently selected index
-               // getTotalImageList();
-                controller.tabCurrentIndex.value = index;
-                if (controller.tabCurrentIndex.value == 1) {
-                  controller.getJobDetails(
-                      controller.jobNumber2.toString(), Get.arguments, false, fromCat);
-                }
-                controller.isValidEmail.value = true;
-                controller.update();
-              },
-              indicatorColor: ColourConstants.primaryLight,
-              indicatorWeight: 4.0,
-              padding: EdgeInsets.zero,
-              unselectedLabelColor: ColourConstants.greyText,
-              labelColor: Get.isDarkMode ? ColourConstants.primaryLight : ColourConstants.black,
-              unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: Dimensions.font14),
-              labelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: Dimensions.font14),
-              tabs: const [
-                Tab(
-                  text: showDetails,
-                ),
-                Tab(
-                  text: categoriesText,
-                ),
-              ],
-            ),*/
-          ),
-       /*   bottomNavigationBar: Obx(() => controller.tabCurrentIndex.value == 1
-              ? GestureDetector(
-              onTap: () async {
-              if (controller.enableButton.isTrue) {
-                var connectivityResult = await (Connectivity().checkConnectivity());
-                bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
-                if (isNetActive) {
-                  if (connectivityResult == ConnectivityResult.wifi) {
-                    if(Platform.isIOS){
-                      bool shouldUpload = true;
-                      shouldUpload = *//*await checkBatteryStatusBool() =*//* true;
-                      if(shouldUpload) {
-                        uploadImages();
-
-                      }else{
-                        Get.closeAllSnackbars();
-                        Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
-                      }
-                    }else {
-                      uploadImages();
-                    }
-                  }else {
-                    AppInternetManager appInternetManager = AppInternetManager();
-                    var a = await appInternetManager.getSettingsTable();
-                    if (a.isNotEmpty){
-                      if (a[0][appInternetStatus] == 1) {
-                        if(Platform.isIOS){
-                          bool shouldUpload = true;
-                          shouldUpload = await checkBatteryStatusBool();
-                          if(shouldUpload) {
-                            uploadImages();
-
-                          }else{
-                            Get.closeAllSnackbars();
-                            Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
-                          }
-                        }else {
-                          uploadImages();
-                        }
-                      } else {
-                        if(Platform.isIOS){
-                          Get.showSnackbar(GetSnackBar(title: alert, message: settingsInternetMsgIOS,duration: Duration(seconds: 3),));
-                        }else {
-                          uploadImages(showAppSettingSnackBar: true);
-                        }
-                      }
-                  }else{
-                      uploadImages();
-                    }
-                  }
-                }
-                else {
-                  Get.snackbar(alert, pleaseCheckInternet);
-                }
-              }
+            onPressed: () {
+              Get.back();
             },
-            child: Container(
-              height: Dimensions.height50,
-              margin: EdgeInsets.only(
-                  left: Dimensions.width35, right: Dimensions.width35, bottom: Dimensions.height16, top: Dimensions.height10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius8)),
-                  color: controller.enableButton.isTrue
-                      ? ColourConstants.primary
-                      : ColourConstants.grey),
-              child: Center(
-                  child: Text(
-                    submit,
-                    style: TextStyle(
-                        color: ColourConstants.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Dimensions.font16),
-                  )),
-            ),
-          )
-              : const Text("")),*/
-            body: Obx(() => ListView(
-              controller: scrollController,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: GridView.count(
-                    shrinkWrap: true,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 14.0,
-                      mainAxisSpacing: 18.0,
-                      childAspectRatio: 1.4,
-                      children: [
-                        JobPhotoGridContainer(title: dailyTime, lightIcon: Assets.daily_time, darkIcon: Assets.daily_time,onTap:(){Get.toNamed(Routes.aboutUsScreen);}),
-                        JobPhotoGridContainer(title: rankings, lightIcon: Assets.ranking, darkIcon: Assets.ranking,onTap:(){Get.toNamed(Routes.aboutUsScreen);}),
-                        JobPhotoGridContainer(title: jobPhotos, lightIcon: Assets.job_photo, darkIcon: Assets.job_photo,onTap:(){Get.toNamed(Routes.jobPhotoCategoryScreen);}),
-                        JobPhotoGridContainer(title: evaluation, lightIcon: Assets.evalution, darkIcon: Assets.evalution,onTap:() async {
-                          ProjectEvaluationController projectEvaluationController = Get.put(ProjectEvaluationController());
-                          await projectEvaluationController.getProjectEvaluationDetails(controller.list.first.jobNumber, false);
-
-
-                        })
-                      ]),
-                ),
-                    TextRow(title: showName,value: isData ? controller.list.first.showName.toString() : naStr),
-                TextRow(title: showNumber,value: isData ? controller.list.first.showNumber.toString() : naStr),
-                TextRow(title: exhibitorName,value: isData ? controller.list.first.exhibitorName.toString() : naStr),
-                TextRow(title: booth,value: isData ? controller.list.first.boothNumber.toString() : naStr),
-                TextRow(title: city,value: isData ? controller.list.first.cityOffice.toString() : naStr),
-                TextRow(title: showDates,value: isData ? "${controller.formatTime(controller.list.first.showStartDate.toString())} - ${controller.formatTime(controller.list.first.showEndDate.toString())}" : naStr),
-                TextRow(title: location,value: isData ? controller.list.first.showLocation.toString() : naStr),
-                TextRow(title: supervision,value: isData ? controller.list.first.supervision.toString() : naStr),
-                SizedBox(height: Dimensions.height10),
-                const Divider(
-                  color: ColourConstants.greyText,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height5),
-                  child: Text(additionalInfo,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: Dimensions.font14)),
-                ),
-                TextRow(title: source,value: isData ? controller.list.first.sourceName : naStr),
-                TextRow(title: sourceContact,value: isData ? controller.list.first.sourceContactName : naStr),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.sourceContactMobilePhone !=
-                        null) {
-                      final Uri phoneLaunchUri = Uri(
-                        scheme: 'tel',
-                        path: controller
-                            .list.first.sourceContactMobilePhone,
-                      );
-
-                      if (!await launchUrl(phoneLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.sourceContactMobilePhone}';
-                      }
-                    }
-                  },
-                  child: TextRow(title: sourceContactHash,value: isData ? controller.list.first.sourceContactMobilePhone : naStr,isEmail: "phone"),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.sourceContactEmail != null) {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: mailto,
-                        path: controller.list.first.sourceContactEmail,
-                        query: encodeQueryParameters(<String, String>{
-                          subject: nthDegreeOnSight,
-                        }),
-                      );
-
-                      if (!await launchUrl(emailLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
-                      }
-                    }
-                  },
-                  child: TextRow(title: sourceContactEmail,value: isData ? controller.list.first.sourceContactEmail : naStr,isEmail: "email"),
-                  // child: jobDetailsRow(sourceContactEmail, controller.list.first.sourceContactEmail ?? naStr, "email"),
-                ),
-                jobDetailsRow(salesRep, "${controller.list.first.salesRepFirstName??""} ${controller.list.first.salesRepLastName??""}"),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.salesRepCellPhone != null) {
-                      final Uri phoneLaunchUri = Uri(
-                        scheme: 'tel',
-                        path: controller.list.first.salesRepCellPhone,
-                      );
-
-                      if (!await launchUrl(phoneLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.salesRepCellPhone}';
-                      }
-                    }
-                  },
-                  child: TextRow(title: salesRepHash,value: isData ? controller.list.first.salesRepCellPhone : naStr,isEmail: "phone"),
-                  // child: jobDetailsRow(
-                  //     salesRepHash,
-                  //     controller.list.first.salesRepCellPhone ?? naStr,
-                  //     "phone"),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.salesRepEmailAddress !=
-                        null) {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: mailto,
-                        path: controller.list.first.salesRepEmailAddress,
-                        query: encodeQueryParameters(<String, String>{
-                          subject: nthDegreeOnSight,
-                        }),
-                      );
-
-                      if (!await launchUrl(emailLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
-                      }
-                    }
-                  },
-                  child: TextRow(title: salesRepEmail,value: isData ? controller.list.first.salesRepEmailAddress : naStr,isEmail: "email"),
-                ),
-                GestureDetector(
-                  onTap: ()async{
-                    if (controller.list.first.oasisAdditionalEmail != null) {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: mailto,
-                        path: controller.list.first.oasisAdditionalEmail,
-                        query: encodeQueryParameters(<String, String>{
-                          subject: nthDegreeOnSight,
-                        }),
-                      );
-
-                      if (!await launchUrl(emailLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.oasisAdditionalEmail}';
-                      }
-                    }
-                  },
-                  child: TextRow(title: "Oasis Contacts",value: isData ? controller.list.first.oasisAdditionalEmail : naStr,isEmail: "email"),
-                ),
-                // jobDetailsRow ("Show",controller.list.first.showName??naStr),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Dimensions.width25, vertical: Dimensions.height5),
-                  child: Divider(color: ColourConstants.greyText),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height5),
-                  child: Text(additionalEmailAddress,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: Dimensions.font14)),
-                ),
-                SizedBox(height: Dimensions.width10),
-
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.height26, vertical: Dimensions.height5),
-                  child: textField(),
-                ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    controller: scrollController,
-                    itemCount: controller.emailList.length,
-                    itemBuilder: (builder, index) {
-                      return additionalEmailWidget(
-                          controller.emailList[index].additionalEmail
-                              .toString(),
-                          index);
-                    })
-              ],
-            ),
-
-
-
-    /*            TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              ListView(
-                controller: scrollController,
-                children: [
-                  SizedBox(height: Dimensions.height10),
-                  TextRow(title: showName,value: isData ? controller.list.first.showName.toString() : naStr),
-                  TextRow(title: showNumber,value: isData ? controller.list.first.showNumber.toString() : naStr),
-                  TextRow(title: exhibitorName,value: isData ? controller.list.first.exhibitorName.toString() : naStr),
-                  TextRow(title: booth,value: isData ? controller.list.first.boothNumber.toString() : naStr),
-                  TextRow(title: city,value: isData ? controller.list.first.cityOffice.toString() : naStr),
-                  TextRow(title: showDates,value: isData ? "${controller.formatTime(controller.list.first.showStartDate.toString())} - ${controller.formatTime(controller.list.first.showEndDate.toString())}" : naStr),
-                  TextRow(title: location,value: isData ? controller.list.first.showLocation.toString() : naStr),
-                  TextRow(title: supervision,value: isData ? controller.list.first.supervision.toString() : naStr),
-                  SizedBox(height: Dimensions.height10),
-                  const Divider(
-                    color: ColourConstants.greyText,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height5),
-                    child: Text(additionalInfo,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: Dimensions.font14)),
-                  ),
-                  TextRow(title: source,value: isData ? controller.list.first.sourceName : naStr),
-                  TextRow(title: sourceContact,value: isData ? controller.list.first.sourceContactName : naStr),
-                  GestureDetector(
-                    onTap: () async {
-                      if (controller.list.first.sourceContactMobilePhone !=
-                          null) {
-                        final Uri phoneLaunchUri = Uri(
-                          scheme: 'tel',
-                          path: controller
-                              .list.first.sourceContactMobilePhone,
-                        );
-
-                        if (!await launchUrl(phoneLaunchUri)) {
-                          throw 'Could not launch ${controller.list.first.sourceContactMobilePhone}';
-                        }
-                      }
-                    },
-                    child: TextRow(title: sourceContactHash,value: isData ? controller.list.first.sourceContactMobilePhone : naStr,isEmail: "phone"),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      if (controller.list.first.sourceContactEmail != null) {
-                        final Uri emailLaunchUri = Uri(
-                          scheme: mailto,
-                          path: controller.list.first.sourceContactEmail,
-                          query: encodeQueryParameters(<String, String>{
-                            subject: nthDegreeOnSight,
-                          }),
-                        );
-
-                        if (!await launchUrl(emailLaunchUri)) {
-                          throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
-                        }
-                      }
-                    },
-                    child: TextRow(title: sourceContactEmail,value: isData ? controller.list.first.sourceContactEmail : naStr,isEmail: "email"),
-                    // child: jobDetailsRow(sourceContactEmail, controller.list.first.sourceContactEmail ?? naStr, "email"),
-                  ),
-                  jobDetailsRow(salesRep, "${controller.list.first.salesRepFirstName??""} ${controller.list.first.salesRepLastName??""}"),
-                  GestureDetector(
-                    onTap: () async {
-                      if (controller.list.first.salesRepCellPhone != null) {
-                        final Uri phoneLaunchUri = Uri(
-                          scheme: 'tel',
-                          path: controller.list.first.salesRepCellPhone,
-                        );
-
-                        if (!await launchUrl(phoneLaunchUri)) {
-                          throw 'Could not launch ${controller.list.first.salesRepCellPhone}';
-                        }
-                      }
-                    },
-                    child: TextRow(title: salesRepHash,value: isData ? controller.list.first.salesRepCellPhone : naStr,isEmail: "phone"),
-                    // child: jobDetailsRow(
-                    //     salesRepHash,
-                    //     controller.list.first.salesRepCellPhone ?? naStr,
-                    //     "phone"),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      if (controller.list.first.salesRepEmailAddress !=
-                          null) {
-                        final Uri emailLaunchUri = Uri(
-                          scheme: mailto,
-                          path: controller.list.first.salesRepEmailAddress,
-                          query: encodeQueryParameters(<String, String>{
-                            subject: nthDegreeOnSight,
-                          }),
-                        );
-
-                        if (!await launchUrl(emailLaunchUri)) {
-                          throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
-                        }
-                      }
-                    },
-                    child: TextRow(title: salesRepEmail,value: isData ? controller.list.first.salesRepEmailAddress : naStr,isEmail: "email"),
-                  ),
-                  GestureDetector(
-                    onTap: ()async{
-                      if (controller.list.first.oasisAdditionalEmail != null) {
-                        final Uri emailLaunchUri = Uri(
-                          scheme: mailto,
-                          path: controller.list.first.oasisAdditionalEmail,
-                          query: encodeQueryParameters(<String, String>{
-                            subject: nthDegreeOnSight,
-                          }),
-                        );
-
-                        if (!await launchUrl(emailLaunchUri)) {
-                      throw 'Could not launch ${controller.list.first.oasisAdditionalEmail}';
-                      }
-                    }
-                    },
-                    child: TextRow(title: "Oasis Contacts",value: isData ? controller.list.first.oasisAdditionalEmail : naStr,isEmail: "email"),
-                  ),
-                  // jobDetailsRow ("Show",controller.list.first.showName??naStr),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimensions.width25, vertical: Dimensions.height5),
-                    child: Divider(color: ColourConstants.greyText),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height5),
-                    child: Text(additionalEmailAddress,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: Dimensions.font14)),
-                  ),
-                  SizedBox(height: Dimensions.width10),
-
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.height26, vertical: Dimensions.height5),
-                    child: textField(),
-                  ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      controller: scrollController,
-                      itemCount: controller.emailList.length,
-                      itemBuilder: (builder, index) {
-                        return additionalEmailWidget(
-                            controller.emailList[index].additionalEmail
-                                .toString(),
-                            index);
-                      })
-                ],
+          ),
+          elevation: 0.0,
+          backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
+          title: Text(
+              isData ? controller.list.first.jobNumber.toString() : "",
+              style: TextStyle(
+                  color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Dimensions.font16)),
+/*          bottom: TabBar(
+            onTap: (index) {
+              //your currently selected index
+             // getTotalImageList();
+              controller.tabCurrentIndex.value = index;
+              if (controller.tabCurrentIndex.value == 1) {
+                controller.getJobDetails(
+                    controller.jobNumber2.toString(), Get.arguments, false, fromCat);
+              }
+              controller.isValidEmail.value = true;
+              controller.update();
+            },
+            indicatorColor: ColourConstants.primaryLight,
+            indicatorWeight: 4.0,
+            padding: EdgeInsets.zero,
+            unselectedLabelColor: ColourConstants.greyText,
+            labelColor: Get.isDarkMode ? ColourConstants.primaryLight : ColourConstants.black,
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: Dimensions.font14),
+            labelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: Dimensions.font14),
+            tabs: const [
+              Tab(
+                text: showDetails,
               ),
-              ListView(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimensions.height11, vertical: Dimensions.height16),
-                    child: Text(chooseCategory,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: Dimensions.font15)),
-                  ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      controller: scrollController,
-                      itemCount: controller.categoryList.length,
-                      itemBuilder: (builder, index) {
-                        return categoryWidget(
-                            controller.categoryList[index].isChecked,
-                            controller.categoryList[index].name.toString(),
-                            index);
-                      },
-                  )
-                ],
+              Tab(
+                text: categoriesText,
               ),
             ],
-          )*/
+          ),*/
+        ),
+        bottomNavigationBar: Obx(() => controller.tabCurrentIndex.value == 1
+            ? GestureDetector(
+            onTap: () async {
+            if (controller.enableButton.isTrue) {
+              var connectivityResult = await (Connectivity().checkConnectivity());
+              bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
+              if (isNetActive) {
+                if (connectivityResult == ConnectivityResult.wifi) {
+                  if(Platform.isIOS){
+                    bool shouldUpload = true;
+                    shouldUpload = /*await checkBatteryStatusBool() =*/ true;
+                    if(shouldUpload) {
+                      uploadImages();
 
-            ),
-        backgroundColor: Get.isPlatformDarkMode ? ColourConstants.black :  ColourConstants.white,
-      ),
-    );
+                    }else{
+                      Get.closeAllSnackbars();
+                      Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
+                    }
+                  }else {
+                    uploadImages();
+                  }
+                }else {
+                  AppInternetManager appInternetManager = AppInternetManager();
+                  var a = await appInternetManager.getSettingsTable();
+                  if (a.isNotEmpty){
+                    if (a[0][appInternetStatus] == 1) {
+                      if(Platform.isIOS){
+                        bool shouldUpload = true;
+                        shouldUpload = await checkBatteryStatusBool();
+                        if(shouldUpload) {
+                          uploadImages();
+
+                        }else{
+                          Get.closeAllSnackbars();
+                          Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
+                        }
+                      }else {
+                        uploadImages();
+                      }
+                    } else {
+                      if(Platform.isIOS){
+                        Get.showSnackbar(GetSnackBar(title: alert, message: settingsInternetMsgIOS,duration: Duration(seconds: 3),));
+                      }else {
+                        uploadImages(showAppSettingSnackBar: true);
+                      }
+                    }
+                }else{
+                    uploadImages();
+                  }
+                }
+              }
+              else {
+                Get.snackbar(alert, pleaseCheckInternet);
+              }
+            }
+          },
+          child: Container(
+            height: Dimensions.height50,
+            margin: EdgeInsets.only(
+                left: Dimensions.width35, right: Dimensions.width35, bottom: Dimensions.height16, top: Dimensions.height10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius8)),
+                color: controller.enableButton.isTrue
+                    ? ColourConstants.primary
+                    : ColourConstants.grey),
+            child: Center(
+                child: Text(
+                  submit,
+                  style: TextStyle(
+                      color: ColourConstants.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: Dimensions.font16),
+                )),
+          ),
+        )
+            : const Text("")),
+          body: ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: Dimensions.height11, vertical: Dimensions.height16),
+                child: Text(chooseCategory,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: Dimensions.font15)),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                controller: scrollController,
+                itemCount: controller.categoryList.length,
+                itemBuilder: (builder, index) {
+                  return categoryWidget(
+                      controller.categoryList[index].isChecked,
+                      controller.categoryList[index].name.toString(),
+                      index);
+                },
+              )
+            ],
+          ),);
   }
 
   String? encodeQueryParameters(Map<String, String> params) {

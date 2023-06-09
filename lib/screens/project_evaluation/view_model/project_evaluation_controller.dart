@@ -74,7 +74,8 @@ class ProjectEvaluationController extends GetxController {
         }
         if(jobPhotosModellist.isNotEmpty) {
           getEmail(jobPhotosModellist.first.jobNumber.toString());
-          Get.toNamed(Routes.projectEvaluationDetailsScreen);
+          Get.toNamed(Routes.projectEvaluationCategoryScreen);
+
         }
 
       }

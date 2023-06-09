@@ -16,6 +16,7 @@ abstract class Routes {
   static const uploadJobPhotosNote = '/UploadJobPhotosNote';
   static const projectEvaluationScreen = '/ProjectEvaluationScreen';
   static const projectEvaluationDetailsScreen = '/ProjectEvaluationDetailsScreen';
+  static const projectEvaluationCategoryScreen = '/ProjectEvaluationCategoryScreen';
   static const projectEvaluationInstallScreen = '/ProjectEvaluationInstallScreen';
   static const myWebView = '/MyWebView';
   static const leadSheetScreen = '/LeadSheetScreen';
@@ -45,5 +46,6 @@ abstract class Routes {
   static const onBoardingPhotoScreen = '/OnBoardingPhotoScreen';
   static const introductionTwoStep = '/IntroductionTwoStep';
   static const editResource = '/EditResource';
+  static const jobPhotoCategoryScreen = '/JobPhotoCategoryScreen';
 
 }

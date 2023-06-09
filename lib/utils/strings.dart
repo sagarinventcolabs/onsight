@@ -201,6 +201,8 @@ const String wouldYouLikeToSubmitAgain = " would you like to submit form again?"
 const String yes = "Yes";
 const String no = "No";
 const String noQuestionaire = "No Questionnaire available for this job id";
+const String evaluation = "Evaluation";
+
 
 /// Lead Sheet Strings
 const String showLabel = "Show #";
@@ -432,3 +434,10 @@ const String stopService = "stopService";
 const String fieldIssue = "fieldIssue";
 const String FieldIssue = "Field Issues";
 const String result = "result";
+
+
+// DailyTime
+const String dailyTime = "Daily Time";
+
+//Ranking
+const String rankings = "Rankings";
