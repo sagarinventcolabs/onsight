@@ -21,7 +21,7 @@ class _TextRowState extends State<TextRow> {
   Widget build(BuildContext context) {
     Theme.of(context);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: Dimensions.height11, horizontal: Dimensions.width25),
+      padding: EdgeInsets.symmetric(vertical: Dimensions.height11, horizontal: Dimensions.width20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

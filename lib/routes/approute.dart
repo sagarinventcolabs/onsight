@@ -12,6 +12,7 @@ abstract class Routes {
   static const dashboardScreen = '/DashboardScreen';
   static const jobPhotosScreen = '/JobPhotosScreen';
   static const jobPhotosDetailsScreen = '/JobPhotosDetailsScreen';
+  static const jobUpdatesDetailScreen = '/JobUpdatesDetailScreen';
   static const uploadJobPhotosNote = '/UploadJobPhotosNote';
   static const projectEvaluationScreen = '/ProjectEvaluationScreen';
   static const projectEvaluationDetailsScreen = '/ProjectEvaluationDetailsScreen';

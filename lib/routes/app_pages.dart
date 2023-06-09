@@ -10,6 +10,7 @@ import 'package:on_sight_application/screens/field_issue/ui/photo_screen.dart';
 import 'package:on_sight_application/screens/field_issue/ui/select_job_screen.dart';
 import 'package:on_sight_application/screens/job_photos/ui/job_photos_details_screen.dart';
 import 'package:on_sight_application/screens/job_photos/ui/job_photos_screen.dart';
+import 'package:on_sight_application/screens/job_photos/ui/job_updates_details_screen.dart';
 import 'package:on_sight_application/screens/job_photos/ui/upload_job_photos_note.dart';
 import 'package:on_sight_application/screens/lead_sheet/ui/exhibitor_listing_screen.dart';
 import 'package:on_sight_application/screens/lead_sheet/ui/exhibitor_screen.dart';
@@ -59,6 +60,7 @@ String whereCome="0";
     GetPage(name: Routes.dashboardScreen, page: ()=>  const DashboardScreen()),
     GetPage(name: Routes.jobPhotosScreen, page: ()=>  const JobPhotosScreen()),
     GetPage(name: Routes.jobPhotosDetailsScreen, page: ()=>  const JobPhotosDetailsScreenTemp()),
+    GetPage(name: Routes.jobUpdatesDetailScreen, page: ()=>  const JobUpdatesDetailsScreen()),
     GetPage(name: Routes.uploadJobPhotosNote, page: ()=>  const UploadJobPhotosNote()),
     GetPage(name: Routes.projectEvaluationScreen, page: ()=>  const ProjectEvaluationScreen()),
     GetPage(name: Routes.projectEvaluationDetailsScreen, page: ()=>  const ProjectEvaluationDetailsScreen()),
