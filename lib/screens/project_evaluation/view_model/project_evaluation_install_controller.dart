@@ -241,8 +241,17 @@ class ProjectEvaluationInstallController extends GetxController {
 
 /// Create Json request body for final submit of Questions and answer
   createFinalJson(){
+    for(var el in questionList){
+      if(!el.visible){
+        if(el.explainController!=null) {
+          el.explainController!.text = "";
+        }
+        el.details = "";
+      }
+    }
     ProjectEvaluationController controller = Get.find<ProjectEvaluationController>();
     model!.questionnaireDataList = questionList;
+
     QuestionnaireDocument document = QuestionnaireDocument();
     document.showName = controller.jobPhotosModellist.first.showName;
     document.exhibitorName = controller.jobPhotosModellist.first.exhibitorName;
@@ -257,7 +266,7 @@ class ProjectEvaluationInstallController extends GetxController {
     modelQuestionarie.categoryDetails = model;
     modelQuestionarie.document = document;
     var map = modelQuestionarie.toJson();
-
+  log("Created map ${map}");
     return map;
   }
 

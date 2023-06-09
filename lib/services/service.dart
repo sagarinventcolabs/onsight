@@ -20,6 +20,7 @@ import 'package:on_sight_application/repository/database_model/image_model_promo
 import 'package:on_sight_application/repository/database_model/lead_sheet_image_model.dart';
 import 'package:on_sight_application/repository/web_service_requests/save_exhibitor_images_request.dart';
 import 'package:on_sight_application/repository/web_service_requests/submit_field_issue_request.dart';
+import 'package:on_sight_application/repository/web_service_response/error_model.dart';
 import 'package:on_sight_application/repository/web_service_response/error_response.dart';
 import 'package:on_sight_application/repository/web_service_response/job_categories_response.dart';
 import 'package:on_sight_application/repository/web_service_response/saveLeadSheetResponse.dart';
@@ -972,8 +973,18 @@ runApiFromDatabaseJobPhotos(ServiceInstance service, token)async{
               }
             });
           }else{
-           service.stopSelf();
+            try{
+              print(response);
+              ErrorResponse errorModel =  ErrorResponse.fromJson(response);
+              print("Error is "+errorModel.errorDescription.toString());
+              showErrorNotification(service, errorMsg: errorModel.errorDescription??"Something Went Wrong");
+            }catch(e){
+              print(e);
+            }
 
+            Future.delayed(Duration(seconds: 3),(){
+              service.stopSelf();
+            });
           }
           /*      else{
           ImageModel model = ImageModel();
@@ -1059,7 +1070,18 @@ runApiFromDatabaseJobPhotos(ServiceInstance service, token)async{
                 }
               });
             }else{
-              service.stopSelf();
+              try{
+                print(response);
+                ErrorResponse errorModel =  ErrorResponse.fromJson(response);
+                print("Error is "+errorModel.errorDescription.toString());
+                showErrorNotification(service, errorMsg: errorModel.errorDescription??"Something Went Wrong");
+              }catch(e){
+                print(e);
+              }
+
+              Future.delayed(Duration(seconds: 3),(){
+                service.stopSelf();
+              });
 
             }
 
@@ -1225,7 +1247,18 @@ jobPhotosSubmethod(service, token)async{
                 }
               });
             }else{
-             service.stopSelf();
+              try{
+                print(response);
+                ErrorResponse errorModel =  ErrorResponse.fromJson(response);
+                print("Error is "+errorModel.errorDescription.toString());
+                showErrorNotification(service, errorMsg: errorModel.errorDescription??"Something Went Wrong");
+              }catch(e){
+                print(e);
+              }
+
+              Future.delayed(Duration(seconds: 3),(){
+                service.stopSelf();
+              });
 
             }
 
@@ -1287,7 +1320,18 @@ jobPhotosSubmethod(service, token)async{
                 }
               });
             }else{
-             service.stopSelf();
+              try{
+                print(response);
+                ErrorResponse errorModel =  ErrorResponse.fromJson(response);
+                print("Error is "+errorModel.errorDescription.toString());
+                showErrorNotification(service, errorMsg: errorModel.errorDescription??"Something Went Wrong");
+              }catch(e){
+                print(e);
+              }
+
+              Future.delayed(Duration(seconds: 3),(){
+                service.stopSelf();
+              });
 
             }
 
