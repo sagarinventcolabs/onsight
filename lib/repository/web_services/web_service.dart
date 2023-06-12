@@ -497,40 +497,40 @@ class WebService {
     });
     mapfinal[EndPointKeys.jobKey] = jsonEncode(map);
     for(var element in imageList){
-      // String fileName = "";
-      // String newPath = "";
-      // try{
-      //   File image = await File(element.imagePath!);
-      //   // print('Original path: ${element.imagePath}');
-      //   // String dirr = await path.dirname(element.imagePath!);
-      //   // Random random = Random();
-      //   //
-      //   // newPath = await path.join(dirr,
-      //   //     '${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"]}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
-      //   // print('NewPath: ${newPath}');
-      //   // image.renameSync(newPath);
-      //   // fileName = path.basename(newPath);
-      //
-      //   Directory documents ;
-      //   if(Platform.isIOS) {
-      //     documents = await getApplicationDocumentsDirectory();
-      //   }else{
-      //     documents = (await getExternalStorageDirectory())!;
-      //   }
-      //   Random random = Random();
-      //   String pathh = documents.path;
-      //   File newImage = await image.copy('$pathh/${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"].toString().replaceAll("/", "-").replaceAll(" ", "-")}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
-      //   newPath = newImage.path;
-      //   fileName = newImage.path.split("/").last;
-      // }catch(e){
-      //
-      // }
-      // print(newPath);
-      // print(fileName);
-      // if(fileName!=""){
-      //   element.imagePath = newPath;
-      //   element.imageName = fileName;
-      // }
+      String fileName = "";
+      String newPath = "";
+      try{
+        File image = await File(element.imagePath!);
+        // print('Original path: ${element.imagePath}');
+        // String dirr = await path.dirname(element.imagePath!);
+        // Random random = Random();
+        //
+        // newPath = await path.join(dirr,
+        //     '${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"]}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
+        // print('NewPath: ${newPath}');
+        // image.renameSync(newPath);
+        // fileName = path.basename(newPath);
+
+        Directory documents ;
+        if(Platform.isIOS) {
+          documents = await getApplicationDocumentsDirectory();
+        }else{
+          documents = (await getExternalStorageDirectory())!;
+        }
+        Random random = Random();
+        String pathh = documents.path;
+        File newImage = await image.copy('$pathh/${map["WorkOrderNumber"]}_${"FieldIssues"}_${"${map["CatName"].toString().replaceAll("/", "-").replaceAll(" ", "-")}"}_${DateTime.now().add(Duration(milliseconds: random.nextInt(99))).millisecondsSinceEpoch.toString()}.jpg');
+        newPath = newImage.path;
+        fileName = newImage.path.split("/").last;
+      }catch(e){
+
+      }
+      print(newPath);
+      print(fileName);
+      if(fileName!=""){
+        element.imagePath = newPath;
+        element.imageName = fileName;
+      }
       var tempName = element.imageName.toString().split(".").first;
 
       Map<String, String> mapp = Map();
