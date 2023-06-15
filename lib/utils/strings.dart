@@ -425,6 +425,7 @@ const String jobNumberKey = "JobNumber";
 const String request = "request";
 const String areYouSureYouWantToLogout = "Are you sure you want to logout?";
 const String pleaseRelogin = "Please Re-login";
+const String testJobNumber = "W-105681";
 
 
 // Service
@@ -438,6 +439,10 @@ const String result = "result";
 
 // DailyTime
 const String dailyTime = "Daily Time";
+const String missingDailyTime = "Missing Daily Time";
+const String pleaseEnterValidBillNumber = "Please Enter Valid Bill Number";
+const String billOfLading = "Bill Of Lading";
+const String summary = "Summary";
 
 //Ranking
 const String rankings = "Rankings";

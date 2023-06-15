@@ -50,5 +50,6 @@ abstract class Routes {
   static const updateNeeded = '/UpdateNeeded';
   static const updateNeededCategory = '/UpdateNeededCategory';
   static const missingDailyTime = '/MissingDailyTime';
+  static const dailyTimeDescription = '/DailyTimeDescription';
 
 }

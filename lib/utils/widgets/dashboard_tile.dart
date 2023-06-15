@@ -48,6 +48,7 @@ class _DashboardTileState extends State<DashboardTile> {
          // future:  DashboardManager().getMenuVisibility(widget.title!),
           stream:  dataStream,
         builder: (context, snapshot) {
+            var j = 0;
             bool visibility = false;
             print(snapshot.connectionState);
             List<SecurityFlagsModel> list = [];
@@ -126,8 +127,8 @@ class _DashboardTileState extends State<DashboardTile> {
                       child: Text(widget.title??"", style: TextStyle(fontWeight: FontWeight.bold, fontSize: Dimensions.font16)),
                     ),
                     Spacer(),
-                    Visibility(
-                      visible: widget.title == updateNeeded,
+                   list.isNotEmpty? Visibility(
+                      visible: widget.title == updateNeeded && list[j].UpdateWO!=null && list[j].UpdateWO!>0,
                       child: Padding(
                         padding: const EdgeInsets.only(right: 18.0),
                         child: Center(
@@ -140,13 +141,13 @@ class _DashboardTileState extends State<DashboardTile> {
                             ),
                             child: Center(
                               child: Text(
-                                "3",style: TextStyle(color: Colors.white),
+                                list[j].UpdateWO.toString(),style: TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ):Container(),
 
                   ],
                 ),

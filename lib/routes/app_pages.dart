@@ -1,6 +1,7 @@
 import 'package:get/get.dart' show GetPage;
 import 'package:on_sight_application/screens/about_us/about_us_screen.dart';
 import 'package:on_sight_application/screens/app_info_slide/ui/app_info_slide_screen.dart';
+import 'package:on_sight_application/screens/daily_time/ui/daily_time_description.dart';
 import 'package:on_sight_application/screens/daily_time/ui/missing_daily_time.dart';
 import 'package:on_sight_application/screens/dashboard/ui/dashboard_screen.dart';
 import 'package:on_sight_application/screens/field_issue/ui/comment_screen.dart';
@@ -103,5 +104,6 @@ String whereCome="0";
     GetPage(name: Routes.updateNeeded, page: ()=>  const UpdateNeeded()),
     GetPage(name: Routes.updateNeededCategory, page: ()=>  const UpdateNeededCategory()),
     GetPage(name: Routes.missingDailyTime, page: ()=>  const MissingDailyTime()),
+    GetPage(name: Routes.dailyTimeDescription, page: ()=>  DailyTimeDescription()),
   ];
 }

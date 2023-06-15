@@ -25,7 +25,7 @@ class AppUpdateController extends GetxController {
 
 
   List<ResponseVersion> listVersion = [];
-  RxList<SecurityFlagsModel> listFlags = <SecurityFlagsModel>[].obs;
+  List<SecurityFlagsModel> listFlags = [];
 
   @override
   void onInit() {
@@ -128,7 +128,7 @@ class AppUpdateController extends GetxController {
       }
       if (!response.toString().toLowerCase().contains(error)) {
         listFlags.clear();
-        print("Lenght900===> ${listFlags.length}");
+
         response.forEach((value) async {
           SecurityFlagsModel model = SecurityFlagsModel.fromJson(value);
           print(model.levelFlag);
