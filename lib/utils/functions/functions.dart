@@ -272,7 +272,7 @@ Future<void> showErrorNotification(ServiceInstance service,
 
   print("Upper One - Notify Upload status From Background Service" +
       (a[0]["UploadCompleteStatus"].toString()));
-  if (a[0]["UploadCompleteStatus"] == 1) {
+  // if (a[0]["UploadCompleteStatus"] == 1) {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails('channel1', 'channelone',
             channelDescription: 'channelDescription',
@@ -288,7 +288,7 @@ Future<void> showErrorNotification(ServiceInstance service,
     await flutterLocalNotificationsPlugin.show(
         10, appName, errorMsg, platformChannelSpecifics,
         payload: 'item x');
-  }
+ // }
 
   service.stopSelf();
 }
@@ -523,17 +523,17 @@ Future<void> ImagePickerPromoPictures(String route) async {
 
   if (localList.isNotEmpty) {
     for (var element in localList) {
-      // File image = await File(element.imagePath!);
-      // print('Original path: ${element.imagePath}');
-      // String dirr = await path.dirname(element.imagePath!);
-      // String newPath = await path.join(dirr,
-      //     '${controller.showController.text.isNotEmpty ? controller.showController.text + "_PromoPictures" : "PromoPictures"}_${element.created_at}.jpg');
-      // print('NewPath: ${newPath}');
-      // image.renameSync(newPath);
-      // String fileName = basename(newPath);
+      File image = await File(element.imagePath!);
+      print('Original path: ${element.imagePath}');
+      String dirr = await path.dirname(element.imagePath!);
+      String newPath = await path.join(dirr,
+          '${controller.showController.text.isNotEmpty ? controller.showController.text + "_PromoPictures" : "PromoPictures"}_${element.created_at}.jpg');
+      print('NewPath: ${newPath}');
+      image.renameSync(newPath);
+      String fileName = basename(newPath);
       PromoImageModel model = PromoImageModel();
-      model.imageName = element.imageName;
-      model.imagePath = element.imagePath;
+      model.imageName = fileName;
+      model.imagePath = newPath;
       model.fullDate = "0001-01-01T00:00:00";
       model.showName = controller.showController.text.toString();
       model.year = DateTime.now().year.toString();
@@ -663,7 +663,9 @@ Future<void> ImagePickerOnboarding(
   }
 
   controller.imageList.refresh();
-  controller.enableButton.value = true;
+  if(imageList.isNotEmpty) {
+    controller.enableButton.value = true;
+  }
   controller.update();
   controller.imageList.forEach((element) {
     if ((element.image?.length ?? 0) > 0) {
