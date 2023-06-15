@@ -6,7 +6,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
-import 'package:get/get.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/email_manager.dart';
 import 'package:on_sight_application/repository/database_managers/fieldIssue_image_manager.dart';
@@ -20,14 +19,12 @@ import 'package:on_sight_application/repository/database_model/image_model_promo
 import 'package:on_sight_application/repository/database_model/lead_sheet_image_model.dart';
 import 'package:on_sight_application/repository/web_service_requests/save_exhibitor_images_request.dart';
 import 'package:on_sight_application/repository/web_service_requests/submit_field_issue_request.dart';
-import 'package:on_sight_application/repository/web_service_response/error_model.dart';
 import 'package:on_sight_application/repository/web_service_response/error_response.dart';
 import 'package:on_sight_application/repository/web_service_response/job_categories_response.dart';
 import 'package:on_sight_application/repository/web_service_response/saveLeadSheetResponse.dart';
 import 'package:on_sight_application/repository/web_service_response/upload_image_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/onboarding/model/onboarding_category_model.dart';
-import 'package:on_sight_application/services/upload_service_ios.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
@@ -741,8 +738,7 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
       }
       list[i].image!.clear();
       try{
-        dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
-          print("Code here2");
+        await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
           service.invoke("catcount",{
             "response": value
           });
@@ -756,8 +752,8 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
         runApiOnboarding(service, resourceId, finalToken, list,i);
       }else{
         try{
-          dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
-            print("Code here3");
+          await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+
             service.invoke("catcount",{
               "response": value
             });
@@ -781,8 +777,8 @@ runApiOnboarding(service, resourceId, finalToken, list,i) async {
       runApiOnboarding(service, resourceId, finalToken, list,i);
     }else{
       try{
-        dynamic response = await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
-          print("Code here4");
+        await webService.getPhotoCountOnboardingService(resourceId, isLoading: false, accessToken: finalToken).then((value){
+
           service.invoke("catcount",{
             "response": value
           });

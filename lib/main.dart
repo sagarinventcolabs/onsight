@@ -269,6 +269,7 @@ class Themes {
     scaffoldBackgroundColor: Colors.white,
     cardColor: Colors.transparent,
     dividerColor: ColourConstants.grey,
+    hoverColor: Color(0XFFF6F5FF),
     inputDecorationTheme: InputDecorationTheme(
         labelStyle: const TextStyle(color: Colors.black54)),
     textTheme: TextTheme(
@@ -294,6 +295,7 @@ class Themes {
     bottomAppBarColor: Colors.deepPurple,
     cardColor: ColourConstants.primary,
     dividerColor: ColourConstants.primary,
+    hoverColor: ColourConstants.primaryLight,
     bottomSheetTheme:
         BottomSheetThemeData(backgroundColor: ColourConstants.grey900),
     textTheme: TextTheme(

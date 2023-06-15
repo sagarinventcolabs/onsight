@@ -47,5 +47,8 @@ abstract class Routes {
   static const introductionTwoStep = '/IntroductionTwoStep';
   static const editResource = '/EditResource';
   static const jobPhotoCategoryScreen = '/JobPhotoCategoryScreen';
+  static const updateNeeded = '/UpdateNeeded';
+  static const updateNeededCategory = '/UpdateNeededCategory';
+  static const missingDailyTime = '/MissingDailyTime';
 
 }

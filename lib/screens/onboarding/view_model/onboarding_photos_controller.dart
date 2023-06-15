@@ -1,11 +1,9 @@
 import 'dart:collection';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:get/get.dart';
-import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/onboarding_manager.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
-import 'package:on_sight_application/screens/onboarding/model/cat_model.dart';
 import 'package:on_sight_application/screens/onboarding/model/category_response_model.dart';
 import 'package:on_sight_application/screens/onboarding/model/onboarding_category_model.dart';
 import 'package:on_sight_application/screens/onboarding/model/onboarding_document_image_model.dart';

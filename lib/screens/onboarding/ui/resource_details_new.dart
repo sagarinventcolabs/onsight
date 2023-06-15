@@ -7,7 +7,6 @@ import 'package:on_sight_application/screens/onboarding/view_model/onboarding_re
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:on_sight_application/utils/widgets/resource_card.dart';
 import 'package:on_sight_application/utils/widgets/text_row.dart';
 
 class ResourceDetailsNew extends StatefulWidget {

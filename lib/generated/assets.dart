@@ -74,7 +74,12 @@ class Assets {
   static const String ic_job_photoss = "images/Ic_job photos.svg";
   static const String icJobPhotosDark = "images/Ic_job photos_dark.svg";
   static const String daily_time = "images/daily_time.svg";
+  static const String daily_time_white = "images/daily_time_white.svg";
   static const String evalution = "images/evalution.svg";
   static const String job_photo = "images/job_photo.svg";
   static const String ranking = "images/ranking.svg";
+  static const String ranking_white = "images/ranking_white.svg";
+  static const String jobphoto_white = "images/jobphoto_white.svg";
+  static const String evaluation_white = "images/evaluation_white.svg";
+  static const String calender = "images/calender.svg";
 }

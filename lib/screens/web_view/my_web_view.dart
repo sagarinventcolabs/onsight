@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/utils/strings.dart';
@@ -13,8 +11,6 @@ class MyWebView extends StatefulWidget {
 }
 
 class _MyWebViewState extends State<MyWebView> {
-  final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
   var url = "";
   bool isLoading=true;
   WebViewController _webViewController = WebViewController();
@@ -31,7 +27,9 @@ class _MyWebViewState extends State<MyWebView> {
           onProgress: (int progress) {
             // Update loading bar.
           },
-          onPageStarted: (String url) {},
+          onPageStarted: (String url) {
+
+          },
           onPageFinished: (String url) {
             setState(() {
               isLoading = false;
@@ -39,6 +37,7 @@ class _MyWebViewState extends State<MyWebView> {
           },
         ),
       )
+
     ..loadRequest(Uri.parse(url.toString()));
   }
 
@@ -51,15 +50,8 @@ class _MyWebViewState extends State<MyWebView> {
         // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
 
       ),
-      body: Stack(
-        children: [
-          WebViewWidget(
-            controller: _webViewController,
-          ),
-
-          isLoading ? Center( child: CircularProgressIndicator(),)
-              : Stack()
-        ],
+      body: isLoading ? Center( child: CircularProgressIndicator(),):WebViewWidget(
+        controller: _webViewController,
       )
     );
   }

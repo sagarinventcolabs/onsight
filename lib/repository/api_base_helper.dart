@@ -154,6 +154,7 @@ class ApiBaseHelper{
         ).timeout(const Duration(seconds: 60)).catchError((error){
           Get.back();
           Get.snackbar(alert, somethingWentWrong);
+          return error;
         });
         Get.back();
 
@@ -343,6 +344,7 @@ class ApiBaseHelper{
             Get.back();
           }
           Get.snackbar(alert, somethingWentWrong);
+          return error;
         });
         if(isLoading) {
           Get.closeAllSnackbars();

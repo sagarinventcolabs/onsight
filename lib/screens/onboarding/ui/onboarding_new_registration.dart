@@ -7,7 +7,6 @@ import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
-import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';

@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_resource_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';

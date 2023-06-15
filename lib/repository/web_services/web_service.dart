@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter_udid/flutter_udid.dart';
 import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
@@ -29,13 +27,10 @@ import 'package:on_sight_application/screens/onboarding/model/onboarding_documen
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/end_point.dart';
-import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as path;
 
 
 class WebService {

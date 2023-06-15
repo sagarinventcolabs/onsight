@@ -69,6 +69,7 @@ dependencies:
   flutter_udid:
   camera: ^0.10.3+2
   flutter_uploader: ^3.0.0-beta.4
+  pull_to_refresh: ^2.0.0
  # background_downloader: ^7.3.0
 #  local_auth:
 

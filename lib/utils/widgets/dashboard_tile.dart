@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
+import 'package:on_sight_application/repository/web_service_response/security_flags_model.dart';
 import 'package:on_sight_application/screens/dashboard/view_model/app_update_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
@@ -42,48 +44,68 @@ class _DashboardTileState extends State<DashboardTile> {
           }
         });
       },
-      child: FutureBuilder(
-          future:  DashboardManager().getMenuVisibility(widget.title!),
+      child: StreamBuilder(
+         // future:  DashboardManager().getMenuVisibility(widget.title!),
+          stream:  dataStream,
         builder: (context, snapshot) {
             bool visibility = false;
-          if(snapshot.connectionState==ConnectionState.done){
-            print(widget.title!);
-            print(snapshot.data);
-            switch(widget.title!){
+            print(snapshot.connectionState);
+            List<SecurityFlagsModel> list = [];
+            if(snapshot.hasData){
+            list = snapshot.data as List<SecurityFlagsModel>;
+            if(widget.title!=updateNeeded) {
+              var i = list.indexWhere((element) =>
+              element.menuItems == widget.title!);
+              if(i!=-1) {
 
-              case jobUpdates:
-                visibility  = snapshot.data==1?true:false;
-              //  appUpdateController.update();
-                break;
-              case projectEvaluation:
-                visibility =  snapshot.data==1?true:false;
-               // appUpdateController.update();
-                break;
-              case leadSheet:
-                visibility =  snapshot.data==1?true:false;
-               // appUpdateController.update();
-                break;
-              case promoPictures:
-                visibility = snapshot.data==1?true:false;
-              //  appUpdateController.update();
-                break;
-              case onboarding:
-                visibility =  snapshot.data==1?true:false;
-              //  appUpdateController.update();
-                break;
-              case FieldIssue:
-                visibility = snapshot.data==1?true:false;
-              //  appUpdateController.update();
-                break;
-
-              case updateNeeded:
-                visibility = snapshot.data==1?true:true;
-                //  appUpdateController.update();
-                break;
-
+                visibility = list[i].isAllowed??false;
+              }
+            }else{
+              visibility  = true;
             }
-          }
 
+            // switch(widget.title!){
+            //
+            //   case jobUpdates:
+            //     visibility  = list[i].isAllowed==1?true:false;
+            //   //  visibility  = snapshot.data==1?true:false;
+            //   //  appUpdateController.update();
+            //     break;
+            //   case projectEvaluation:
+            //     visibility  = list[i].isAllowed==1?true:false;
+            //    // visibility =  snapshot.data==1?true:false;
+            //    // appUpdateController.update();
+            //     break;
+            //   case leadSheet:
+            //     visibility  = list[i].isAllowed==1?true:false;
+            //    // visibility =  snapshot.data==1?true:false;
+            //    // appUpdateController.update();
+            //     break;
+            //   case promoPictures:
+            //     print(list[i].isAllowed);
+            //     visibility  = list[i].isAllowed==1?true:false;
+            //   //  visibility = snapshot.data==1?true:false;
+            //   //  appUpdateController.update();
+            //     break;
+            //   case onboarding:
+            //     visibility  = list[i].isAllowed==1?true:false;
+            //   //  visibility =  snapshot.data==1?true:false;
+            //   //  appUpdateController.update();
+            //     break;
+            //   case FieldIssue:
+            //     visibility  = list[i].isAllowed==1?true:false;
+            //    // visibility = snapshot.data==1?true:false;
+            //   //  appUpdateController.update();
+            //     break;
+            //
+            //   case updateNeeded:
+            //
+            //     visibility =true;
+            //     //  appUpdateController.update();
+            //     break;
+            //
+            // }
+          }
           return Visibility(
             visible: visibility,
             child: Container(

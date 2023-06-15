@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -12,11 +13,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_root_jailbreak/flutter_root_jailbreak.dart';
 import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
-// import 'package:local_auth/local_auth.dart';
 import 'package:on_sight_application/main.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
+import 'package:on_sight_application/repository/web_service_response/security_flags_model.dart';
 import 'package:on_sight_application/repository/web_service_response/upload_image_response.dart';
-import 'package:on_sight_application/screens/field_issue/view_model/field_issue_controller.dart';
 import 'package:on_sight_application/screens/lead_sheet/view_model/lead_sheet_controller.dart';
 import 'package:path/path.dart' as path;
 import 'package:path/path.dart';
@@ -37,12 +37,16 @@ import 'package:on_sight_application/screens/onboarding/view_model/onboarding_ph
 import 'package:on_sight_application/screens/promo_pictures/view_model/promo_pictures_controller.dart';
 import 'package:on_sight_application/screens/promo_pictures/view_model/upload_promo_pictures_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
-import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/secure_storage.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+
+final dataStreamController = StreamController<List<SecurityFlagsModel>>.broadcast(onListen: (){
+
+});
+Stream<List<SecurityFlagsModel>> get dataStream => dataStreamController.stream;
 
 saveSuggestion(input) {
   List<String> list = [];
@@ -595,14 +599,14 @@ Future<void> ImagePickerLeadSheet(String route, String id, String s) async {
 }
 
 Future<void> ImagePickerFieldIssue(String s) async {
-  print(s);
+
   PhotoCommentController controller = Get.find<PhotoCommentController>();
-  FieldIssueController fieldIssueController;
-  if (Get.isRegistered<FieldIssueController>()) {
-    fieldIssueController = Get.find<FieldIssueController>();
-  } else {
-    fieldIssueController = Get.put(FieldIssueController());
-  }
+  // FieldIssueController fieldIssueController;
+  // if (Get.isRegistered<FieldIssueController>()) {
+  //   fieldIssueController = Get.find<FieldIssueController>();
+  // } else {
+  //   fieldIssueController = Get.put(FieldIssueController());
+  // }
   for (var element in localList) {
     // File image = await File(element.imagePath!);
     // print('Original path: ${element.imagePath}');

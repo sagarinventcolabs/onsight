@@ -141,6 +141,7 @@ class OnboardingResourceController extends GetxController{
 
   @override
   void onInit() {
+    super.onInit();
     loginFlag.value = sp?.getString(Preference.USERFLAG);
     print("Login Flag Value is ${loginFlag.value}");
   }

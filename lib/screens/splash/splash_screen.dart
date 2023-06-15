@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/env.dart';
@@ -211,6 +210,7 @@ class _SplashScreenState extends State<SplashScreen>
       await WidgetsFlutterBinding.ensureInitialized();
       AppInternetManager appInternetManager = AppInternetManager();
       await appInternetManager.updateFlavor(val: AppEnvironment.currentBuildFlavor);
+      if(mounted)
       setState(() {
         if (imageList.isNotEmpty) {
           visibleRefresh = true;

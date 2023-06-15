@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:on_sight_application/repository/web_service_response/all_oasis_resources_response.dart';
 import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/onboarding/view_model/onboarding_resource_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -121,9 +120,6 @@ class _OnBoardingResourceScreenNewState extends State<OnBoardingResourceScreenNe
             shrinkWrap: true,
             itemCount: resourceController.oasisResourceList.length,
             itemBuilder: (context, index) {
-              var first = resourceController.oasisResourceList[index].firstName??"";
-              var last = resourceController.oasisResourceList[index].lastName??"";
-              var name = first+" "+last;
               return GestureDetector(
                   onTap: (){
                     resourceController.selectedResource.value = index;

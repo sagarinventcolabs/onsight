@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/database_managers/app_update_manager.dart';
@@ -8,19 +10,22 @@ import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/dashboard/model/response_version.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
+import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class AppUpdateController extends GetxController {
   late PackageInfo packageInfo;
-
+  RefreshController refreshController =
+  RefreshController(initialRefresh: true);
 //  String staticAppVersion = "1.0.0";
   // bool isMandatory = false;
 
 
   List<ResponseVersion> listVersion = [];
-  List<SecurityFlagsModel> listFlags = [];
+  RxList<SecurityFlagsModel> listFlags = <SecurityFlagsModel>[].obs;
 
   @override
   void onInit() {
@@ -92,20 +97,47 @@ class AppUpdateController extends GetxController {
 
   /// API function for getting security flags
 
+  void onRefresh() async{
+    // monitor network fetch
+    await getDashboardItems(true);
+    // if failed,use refreshFailed()
+    refreshController.refreshCompleted();
+  }
+
+
+
+
+
+
+
+
+
+  void onLoading() async{
+    // monitor network fetch
+    await getDashboardItems(true);
+    refreshController.loadComplete();
+    update();
+  }
   Future<dynamic> getDashboardItems(isLoading) async {
 
-    var response = await WebService().getSecurityFlags(isLoading);
+
+    var response = await WebService().getSecurityFlags(false);
     if (response != null) {
       if(response.toString().contains(noInternetStr)){
         return ;
       }
       if (!response.toString().toLowerCase().contains(error)) {
+        listFlags.clear();
+        print("Lenght900===> ${listFlags.length}");
         response.forEach((value) async {
           SecurityFlagsModel model = SecurityFlagsModel.fromJson(value);
           print(model.levelFlag);
           sp?.putString(Preference.USERFLAG, model.levelFlag??"");
           await DashboardManager().insertMenu(model);
           listFlags.add(model);
+          print("ListLength "+listFlags.length.toString());
+          dataStreamController.sink.add([]);
+          dataStreamController.sink.add(listFlags);
 
      /*     switch (model.menuItems) {
             case jobPhotos:
@@ -136,7 +168,11 @@ class AppUpdateController extends GetxController {
         });
       }
     }
+    refreshController.loadComplete();
   }
+
+
+
 
   //
   // checkSSL() async {

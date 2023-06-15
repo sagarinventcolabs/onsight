@@ -144,7 +144,7 @@ class _JobPhotosDetailsScreenTempState extends State<JobPhotosDetailsScreenTemp>
                   if (connectivityResult == ConnectivityResult.wifi) {
                     if(Platform.isIOS){
                       bool shouldUpload = true;
-                      shouldUpload = /*await checkBatteryStatusBool() =*/ true;
+                      shouldUpload = await checkBatteryStatusBool();
                       if(shouldUpload) {
                         uploadImages();
 

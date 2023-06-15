@@ -1,14 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:on_sight_application/repository/web_service_response/error_model.dart';
-import 'package:on_sight_application/repository/web_service_response/error_response.dart';
 import 'package:on_sight_application/repository/web_service_response/get_otp_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/verify_otp/ui/verify_email_otp_screen.dart';
 import 'package:on_sight_application/screens/verify_otp/ui/verify_otp_screen.dart';
 import 'package:on_sight_application/utils/constants.dart';
-import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
 

@@ -11,11 +11,7 @@ import 'package:on_sight_application/screens/onboarding/view_model/onboarding_re
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/functions/SearchFunctions.dart';
-import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:on_sight_application/utils/widgets/base_typeahead.dart';
-import 'package:on_sight_application/utils/widgets/custom_drop_down.dart';
-import 'package:on_sight_application/utils/widgets/dashboard_tile.dart';
 import 'package:on_sight_application/utils/widgets/onboarding_tile.dart';
 
 class OnBoardingNewScreen extends StatefulWidget {

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -32,7 +31,6 @@ import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:on_sight_application/utils/widgets/text_row.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobPhotosCategoryScreen extends StatefulWidget {
@@ -64,17 +62,14 @@ class _JobPhotosCategoryScreenState extends State<JobPhotosCategoryScreen> {
     if (controller.list.isNotEmpty) {
       isData = true;
       controller.jobNumber2.value = controller.list.first.jobNumber.toString();
-      controller.update();
+
     }
 
-    if(controller.list.isNotEmpty) {
-      controller.getEmail(controller.list.first.jobNumber.toString());
-    }
     controller.categoryList.sort((a, b) {
       return a.rowId.toString().compareTo(b.rowId.toString());
     });
     controller.isValidEmail.value = true;
-    controller.update();
+
 
    // getTotalImageList();
   }
@@ -132,8 +127,7 @@ class _JobPhotosCategoryScreenState extends State<JobPhotosCategoryScreen> {
             ],
           ),*/
         ),
-        bottomNavigationBar: Obx(() => controller.tabCurrentIndex.value == 1
-            ? GestureDetector(
+        bottomNavigationBar: GestureDetector(
             onTap: () async {
             if (controller.enableButton.isTrue) {
               var connectivityResult = await (Connectivity().checkConnectivity());
@@ -142,7 +136,7 @@ class _JobPhotosCategoryScreenState extends State<JobPhotosCategoryScreen> {
                 if (connectivityResult == ConnectivityResult.wifi) {
                   if(Platform.isIOS){
                     bool shouldUpload = true;
-                    shouldUpload = /*await checkBatteryStatusBool() =*/ true;
+                    shouldUpload = await checkBatteryStatusBool() ;
                     if(shouldUpload) {
                       uploadImages();
 
@@ -206,8 +200,7 @@ class _JobPhotosCategoryScreenState extends State<JobPhotosCategoryScreen> {
                       fontSize: Dimensions.font16),
                 )),
           ),
-        )
-            : const Text("")),
+        ),
           body: ListView(
             children: [
               Padding(
@@ -219,7 +212,7 @@ class _JobPhotosCategoryScreenState extends State<JobPhotosCategoryScreen> {
                         fontWeight: FontWeight.w500,
                         fontSize: Dimensions.font15)),
               ),
-              ListView.builder(
+              Obx(() => ListView.builder(
                 shrinkWrap: true,
                 controller: scrollController,
                 itemCount: controller.categoryList.length,
@@ -229,7 +222,7 @@ class _JobPhotosCategoryScreenState extends State<JobPhotosCategoryScreen> {
                       controller.categoryList[index].name.toString(),
                       index);
                 },
-              )
+              ))
             ],
           ),);
   }

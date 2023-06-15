@@ -1,18 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_uploader/flutter_uploader.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/generated/assets.dart';
-import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/email_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
 import 'package:on_sight_application/repository/database_model/email.dart';
@@ -26,7 +23,6 @@ import 'package:on_sight_application/screens/project_evaluation/view_model/proje
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_install_controller.dart';
 import 'package:on_sight_application/screens/setting/view_model/settings_controller.dart';
 import 'package:on_sight_application/services/upload_service_ios.dart';
-import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';

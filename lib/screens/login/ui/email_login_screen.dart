@@ -10,7 +10,6 @@ import 'package:on_sight_application/screens/login/view_model/login_screen_contr
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
-import 'package:on_sight_application/utils/functions/multi_image_capture.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
 class EmailLoginScreen extends StatefulWidget {

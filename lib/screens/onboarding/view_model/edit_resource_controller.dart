@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/repository/web_service_response/all_oasis_resources_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
-import 'package:on_sight_application/screens/onboarding/model/resource_model.dart';
 import 'package:on_sight_application/utils/connectivity.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
-import 'package:on_sight_application/utils/functions/functions.dart';
 import 'package:on_sight_application/utils/strings.dart';
 
 class EditResourceController extends GetxController{

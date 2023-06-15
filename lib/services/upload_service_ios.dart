@@ -2,14 +2,11 @@
 import 'dart:convert';
 import 'dart:async';
 // import 'package:background_downloader/background_downloader.dart';
-import 'package:on_sight_application/models/image_picker_model.dart';
 import 'package:path/path.dart' as path;
 import 'dart:io';
 import 'package:flutter_uploader/flutter_uploader.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:on_sight_application/repository/database_managers/app_internet_manager.dart';
 import 'package:on_sight_application/repository/database_managers/email_manager.dart';
@@ -19,7 +16,6 @@ import 'package:on_sight_application/repository/database_model/email.dart';
 import 'package:on_sight_application/repository/database_model/image_count.dart';
 import 'package:on_sight_application/repository/database_model/image_model.dart';
 import 'package:on_sight_application/repository/web_service_response/job_categories_response.dart';
-import 'package:on_sight_application/repository/web_services/web_service.dart';
 import 'package:on_sight_application/screens/job_photos/model/job_key_model.dart';
 import 'package:on_sight_application/screens/job_photos/model/notes_model.dart';
 import 'package:on_sight_application/utils/constants.dart';
@@ -31,7 +27,6 @@ import 'package:uuid/uuid.dart';
 @pragma('vm:entry-point')
 Future<void> jobPhotosIos(jobNumber) async{
 
-  var token = sp?.getString(Preference.ACCESS_TOKEN);
 
   showNotificationUploading();
   AppInternetManager appInternetManager = AppInternetManager();
@@ -168,7 +163,7 @@ jobPhotosSubmethod(jobNumber) async {
     print(url);
    // for(var i = 0; i<listFileIteem.length; i++) {
       FlutterUploader uploader = FlutterUploader();
-      final taskId = await uploader.enqueue(
+      await uploader.enqueue(
         MultipartFormDataUpload(
             url: url,
             //required: url to upload to

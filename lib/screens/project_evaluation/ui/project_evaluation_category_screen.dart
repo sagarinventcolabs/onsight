@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
-import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_controller.dart';
 import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_install_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
 import 'package:on_sight_application/utils/strings.dart';
-import 'package:on_sight_application/utils/widgets/text_row.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 

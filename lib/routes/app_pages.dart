@@ -1,6 +1,7 @@
 import 'package:get/get.dart' show GetPage;
 import 'package:on_sight_application/screens/about_us/about_us_screen.dart';
 import 'package:on_sight_application/screens/app_info_slide/ui/app_info_slide_screen.dart';
+import 'package:on_sight_application/screens/daily_time/ui/missing_daily_time.dart';
 import 'package:on_sight_application/screens/dashboard/ui/dashboard_screen.dart';
 import 'package:on_sight_application/screens/field_issue/ui/comment_screen.dart';
 import 'package:on_sight_application/screens/field_issue/ui/field_issue_category_screen.dart';
@@ -39,6 +40,8 @@ import 'package:on_sight_application/screens/promo_pictures/ui/upload_promo_pict
 import 'package:on_sight_application/screens/setting/ui/setting_screen.dart';
 import 'package:on_sight_application/screens/splash/splash_screen.dart';
 import 'package:on_sight_application/screens/two_factor_authentication/ui/two_step_screen.dart';
+import 'package:on_sight_application/screens/update_needed/ui/update_needed_category.dart';
+import 'package:on_sight_application/screens/update_needed/ui/update_needed_main.dart';
 import 'package:on_sight_application/screens/update_profile/ui/update_profile_screen.dart';
 import 'package:on_sight_application/screens/user_detail/ui/user_detail_screen.dart';
 import 'package:on_sight_application/screens/verify_otp/ui/verify_email_otp_screen.dart';
@@ -97,5 +100,8 @@ String whereCome="0";
     GetPage(name: Routes.introductionTwoStep, page: ()=>  const IntroductionTwoStep()),
     GetPage(name: Routes.editResource, page: ()=>  const EditResource()),
     GetPage(name: Routes.jobPhotoCategoryScreen, page: ()=>  const JobPhotosCategoryScreen()),
+    GetPage(name: Routes.updateNeeded, page: ()=>  const UpdateNeeded()),
+    GetPage(name: Routes.updateNeededCategory, page: ()=>  const UpdateNeededCategory()),
+    GetPage(name: Routes.missingDailyTime, page: ()=>  const MissingDailyTime()),
   ];
 }

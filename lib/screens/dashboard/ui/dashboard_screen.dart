@@ -21,6 +21,7 @@ import 'package:on_sight_application/utils/widgets/dashboard_tile.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:on_sight_application/utils/dialogs.dart';
 import 'package:on_sight_application/utils/shared_preferences.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -207,58 +208,60 @@ class DashboardScreenState extends State<DashboardScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: Dimensions.height15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ListView(
-              shrinkWrap: true,
-              children: [
-                DashboardTile(
-                    title: jobUpdates,
-                    lightSvgIcon: Assets.icDashboardCam,
-                    darkSvgIcon: Assets.illJobPhotosDark,
-                    routeName: Routes.jobPhotosScreen),
-                // DashboardTile(
-                //     title: projectEvaluation,
-                //     lightSvgIcon: Assets.icProjectEvaluation,
-                //     darkSvgIcon: Assets.icProjectEvaluationDark,
-                //     routeName: Routes.projectEvaluationScreen),
-                DashboardTile(
-                  title: leadSheet,
-                  lightSvgIcon: Assets.icLeadSheet,
-                  darkSvgIcon: Assets.icLeadSheetDark,
-                  routeName: Routes.leadSheetScreen,
-                ),
-                DashboardTile(
-                    title: onboarding,
-                    lightSvgIcon: Assets.icOnBoarding,
-                    darkSvgIcon: Assets.icOnBoardingDark,
-                    routeName: Routes.onBoardingNewScreen),
-                DashboardTile(
-                    title: promoPictures,
-                    lightSvgIcon: Assets.icPromoPic,
-                    darkSvgIcon: Assets.icPromoPicDark,
-                    routeName: Routes.promoPictureScreen),
-                DashboardTile(
-                    title: fieldIssues,
-                    lightSvgIcon: Assets.icFieldIssue,
-                    darkSvgIcon: Assets.icFieldIssueDark,
-                    routeName: Routes.fieldIssues),
-              ],
-            ),
+        child: SmartRefresher(
+          controller: appUpdateController.refreshController,
+          onRefresh: appUpdateController.onRefresh,
+          onLoading: appUpdateController.onLoading,
+          child: Column(
 
-
-            Padding(
-              padding: EdgeInsets.only(bottom: 10),
-              child: DashboardTile(
-                  title: updateNeeded,
-                  lightSvgIcon: Assets.updateNeededLight,
-                  darkSvgIcon: Assets.updateNeededDark,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisSize: MainAxisSize.max,
+            children: [
+              DashboardTile(
+                  title: jobUpdates,
+                  lightSvgIcon: Assets.icDashboardCam,
+                  darkSvgIcon: Assets.illJobPhotosDark,
+                  routeName: Routes.jobPhotosScreen),
+              // DashboardTile(
+              //     title: projectEvaluation,
+              //     lightSvgIcon: Assets.icProjectEvaluation,
+              //     darkSvgIcon: Assets.icProjectEvaluationDark,
+              //     routeName: Routes.projectEvaluationScreen),
+              DashboardTile(
+                title: leadSheet,
+                lightSvgIcon: Assets.icLeadSheet,
+                darkSvgIcon: Assets.icLeadSheetDark,
+                routeName: Routes.leadSheetScreen,
+              ),
+              DashboardTile(
+                  title: onboarding,
+                  lightSvgIcon: Assets.icOnBoarding,
+                  darkSvgIcon: Assets.icOnBoardingDark,
+                  routeName: Routes.onBoardingNewScreen),
+              DashboardTile(
+                  title: promoPictures,
+                  lightSvgIcon: Assets.icPromoPic,
+                  darkSvgIcon: Assets.icPromoPicDark,
+                  routeName: Routes.promoPictureScreen),
+              DashboardTile(
+                  title: fieldIssues,
+                  lightSvgIcon: Assets.icFieldIssue,
+                  darkSvgIcon: Assets.icFieldIssueDark,
                   routeName: Routes.fieldIssues),
-            ),
 
-          ],
+             Spacer(),
+
+              Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: DashboardTile(
+                    title: updateNeeded,
+                    lightSvgIcon: Assets.updateNeededLight,
+                    darkSvgIcon: Assets.updateNeededDark,
+                    routeName: Routes.updateNeeded),
+              ),
+
+            ],
+          ),
         ),
       )
     );
@@ -328,4 +331,15 @@ class DashboardScreenState extends State<DashboardScreen> {
         break;
     }
   }
+
+
+  @override
+  void dispose() {
+
+    super.dispose();
+    dataStreamController.close();
+    appUpdateController.dispose();
+  }
+
+
 }

@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:on_sight_application/generated/assets.dart';
 import 'package:on_sight_application/repository/web_service_response/error_response.dart';
-import 'package:on_sight_application/routes/app_pages.dart';
 import 'package:on_sight_application/screens/verify_otp/view_model/verify_screen_controller.dart';
 import 'package:on_sight_application/utils/constants.dart';
 import 'package:on_sight_application/utils/dimensions.dart';
