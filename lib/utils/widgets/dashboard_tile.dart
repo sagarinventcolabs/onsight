@@ -31,6 +31,7 @@ class _DashboardTileState extends State<DashboardTile> {
 
     return GestureDetector(
       onTap: (){
+        if(widget.routeName!=null)
         Get.toNamed(widget.routeName??"")?.then((value){
           DateTime dt1 = DateTime.parse((sp?.getString(Preference.DIALOG_TIMESTAMP)??DateTime(DateTime.now().year,DateTime.now().month-2,DateTime.now().day).toString()));
           DateTime dt2 = DateTime.parse(DateTime.now().toString());

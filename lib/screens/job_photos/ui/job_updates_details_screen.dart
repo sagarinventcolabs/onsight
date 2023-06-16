@@ -103,111 +103,7 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                     color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
                     fontWeight: FontWeight.bold,
                     fontSize: Dimensions.font16)),
-       /*     bottom: TabBar(
-              onTap: (index) {
-                //your currently selected index
-               // getTotalImageList();
-                controller.tabCurrentIndex.value = index;
-                if (controller.tabCurrentIndex.value == 1) {
-                  controller.getJobDetails(
-                      controller.jobNumber2.toString(), Get.arguments, false, fromCat);
-                }
-                controller.isValidEmail.value = true;
-                controller.update();
-              },
-              indicatorColor: ColourConstants.primaryLight,
-              indicatorWeight: 4.0,
-              padding: EdgeInsets.zero,
-              unselectedLabelColor: ColourConstants.greyText,
-              labelColor: Get.isDarkMode ? ColourConstants.primaryLight : ColourConstants.black,
-              unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: Dimensions.font14),
-              labelStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: Dimensions.font14),
-              tabs: const [
-                Tab(
-                  text: showDetails,
-                ),
-                Tab(
-                  text: categoriesText,
-                ),
-              ],
-            ),*/
           ),
-       /*   bottomNavigationBar: Obx(() => controller.tabCurrentIndex.value == 1
-              ? GestureDetector(
-              onTap: () async {
-              if (controller.enableButton.isTrue) {
-                var connectivityResult = await (Connectivity().checkConnectivity());
-                bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
-                if (isNetActive) {
-                  if (connectivityResult == ConnectivityResult.wifi) {
-                    if(Platform.isIOS){
-                      bool shouldUpload = true;
-                      shouldUpload = *//*await checkBatteryStatusBool() =*//* true;
-                      if(shouldUpload) {
-                        uploadImages();
-
-                      }else{
-                        Get.closeAllSnackbars();
-                        Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
-                      }
-                    }else {
-                      uploadImages();
-                    }
-                  }else {
-                    AppInternetManager appInternetManager = AppInternetManager();
-                    var a = await appInternetManager.getSettingsTable();
-                    if (a.isNotEmpty){
-                      if (a[0][appInternetStatus] == 1) {
-                        if(Platform.isIOS){
-                          bool shouldUpload = true;
-                          shouldUpload = await checkBatteryStatusBool();
-                          if(shouldUpload) {
-                            uploadImages();
-
-                          }else{
-                            Get.closeAllSnackbars();
-                            Get.showSnackbar(GetSnackBar(title: alert, message: lowBatteryMsgIOS,duration: Duration(seconds: 3),));
-                          }
-                        }else {
-                          uploadImages();
-                        }
-                      } else {
-                        if(Platform.isIOS){
-                          Get.showSnackbar(GetSnackBar(title: alert, message: settingsInternetMsgIOS,duration: Duration(seconds: 3),));
-                        }else {
-                          uploadImages(showAppSettingSnackBar: true);
-                        }
-                      }
-                  }else{
-                      uploadImages();
-                    }
-                  }
-                }
-                else {
-                  Get.snackbar(alert, pleaseCheckInternet);
-                }
-              }
-            },
-            child: Container(
-              height: Dimensions.height50,
-              margin: EdgeInsets.only(
-                  left: Dimensions.width35, right: Dimensions.width35, bottom: Dimensions.height16, top: Dimensions.height10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.radius8)),
-                  color: controller.enableButton.isTrue
-                      ? ColourConstants.primary
-                      : ColourConstants.grey),
-              child: Center(
-                  child: Text(
-                    submit,
-                    style: TextStyle(
-                        color: ColourConstants.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: Dimensions.font16),
-                  )),
-            ),
-          )
-              : const Text("")),*/
             body: Obx(() => ListView(
               controller: scrollController,
               children: [
@@ -220,15 +116,16 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                       mainAxisSpacing: 18.0,
                       childAspectRatio: 1.4,
                       children: [
-                        JobPhotoGridContainer(title: dailyTime, lightIcon: Assets.daily_time, darkIcon: Assets.daily_time,onTap:(){Get.toNamed(Routes.aboutUsScreen);}),
-                        JobPhotoGridContainer(title: rankings, lightIcon: Assets.ranking, darkIcon: Assets.ranking,onTap:(){Get.toNamed(Routes.aboutUsScreen);}),
+                        JobPhotoGridContainer(title: dailyTime, lightIcon: Assets.daily_time, darkIcon: Assets.daily_time,onTap:(){}),
+                        JobPhotoGridContainer(title: rankings, lightIcon: Assets.ranking, darkIcon: Assets.ranking,onTap:(){}),
                         JobPhotoGridContainer(title: jobPhotos, lightIcon: Assets.job_photo, darkIcon: Assets.job_photo,onTap:(){Get.toNamed(Routes.jobPhotoCategoryScreen);}),
                         JobPhotoGridContainer(title: evaluation, lightIcon: Assets.evalution, darkIcon: Assets.evalution,onTap:() async {
                           ProjectEvaluationController projectEvaluationController = Get.put(ProjectEvaluationController());
                           await projectEvaluationController.getProjectEvaluationDetails(controller.list.first.jobNumber, false);
 
 
-                        })
+                        }
+                        )
                       ]),
                 ),
                     TextRow(title: showName,value: isData ? controller.list.first.showName.toString() : naStr),
