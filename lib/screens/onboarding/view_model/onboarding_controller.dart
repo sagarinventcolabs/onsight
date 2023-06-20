@@ -410,19 +410,24 @@ class OnboardingController extends GetxController{
   }
   /// API function for creating resource
   Future<dynamic> createResourceApi() async {
-
     OnBoardingPhotosController onBoardingPhotosController;
     requestModel.value.firstName = firstNameController.text.trim();
     requestModel.value.lastName = lastNameController.text.trim();
     try {
       requestModel.value.mobilePhone = mobileNumberController.text;
-    }catch(e){
+    } catch (e) {
       requestModel.value.mobilePhone = '';
     }
-    requestModel.value.union = unionController.text.trim();
+    if (corporateSupport.isTrue){
+      requestModel.value.union = unionController.text.trim();
+    requestModel.value.classification = classificationController.text.trim();
+  }else{
+      requestModel.value.union = null;
+      requestModel.value.classification = null;
+    }
     requestModel.value.ssn = ssnController.text.trim();
     requestModel.value.city = cityController.text.trim();
-    requestModel.value.classification = classificationController.text.trim();
+
     requestModel.value.notes = noteController.text.trim();
     requestModel.value.show = selectedShow.value;
     bool isNetActive = await ConnectionStatus.getInstance().checkConnection();
@@ -451,6 +456,7 @@ class OnboardingController extends GetxController{
                 classificationController.clear();
                 noteController.clear();
                 enableButton.value = false;
+
                 update();
                 Get.back();
                 if(Get.isRegistered<OnBoardingPhotosController>()){
@@ -462,6 +468,8 @@ class OnboardingController extends GetxController{
                 model.route = Routes.onBoardingRegistration;
                 print("Model is  ${model.route}");
                 print("ModelName is  ${model.firstName}");
+                print("ModelUnion is  ${model.union}");
+                print("ModelClassification is  ${model.classification}");
                 onBoardingPhotosController.getCategory(itemId: model);
                 },
               onTapNo: () {

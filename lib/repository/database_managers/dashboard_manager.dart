@@ -5,10 +5,11 @@ import 'package:sqflite/sqflite.dart';
 
 class DashboardManager{
 
+  /// Variable for dashboard table name
   String mDashboardTable = 'dashboard_table';
 
 
-
+  /// Method for insert menu items
   Future<int> insertMenu(SecurityFlagsModel flagsModel) async {
     Database db = await DatabaseHelper().database;
     var rs = -1;
@@ -21,7 +22,7 @@ class DashboardManager{
 
     return rs;
   }
-
+  /// Method for get menu items by  menu  item name
   Future<int> getMenuVisibility(String menuItem) async {
 
     Database db = await DatabaseHelper().database;
@@ -55,7 +56,6 @@ class DashboardManager{
     //     return 0;
     //   }
     // }else {
-      print("Condition 2");
       result = await db.rawQuery(
           'SELECT * FROM $mDashboardTable' + " WHERE MenuItems='" + menuItem +
               "'");
@@ -73,6 +73,7 @@ class DashboardManager{
 
   }
 
+  /// Method for delete all data from dashboard table
   Future<dynamic> deleteAllData()async{
     Database db = await DatabaseHelper().database;
     String query="DELETE FROM $mDashboardTable";
@@ -81,7 +82,7 @@ class DashboardManager{
 
   }
 
-
+  /// Method for checking if item exist or not
   Future<dynamic> existOrNot(String menuItem) async {
     Database db = await DatabaseHelper().database;
     String query="SELECT CASE WHEN count(RowID) > 0 THEN 'true' ELSE 'false' END as result from $mDashboardTable where MenuItems = '$menuItem'";
@@ -92,12 +93,13 @@ class DashboardManager{
     return false;
   }
 
-
+  /// Method for getting all menu items
   Future<dynamic> getAllData()async{
     Database db = await DatabaseHelper().database;
     String query="SELECT * FROM $mDashboardTable";
     var result = await db.rawQuery(query);
-    return result;
+    List<SecurityFlagsModel> flagList = result.isNotEmpty?result.map((e) => SecurityFlagsModel.fromDBJson(e)).toList():[];
+    return flagList;
 
   }
 }

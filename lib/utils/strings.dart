@@ -40,6 +40,7 @@ const String settings = "Settings";
 const String about = "About";
 const String showDetails = "Show Details";
 const String jobPhotos = "Job Photos";
+const String basicJobInfo = "Basic Job Info";
 const String jobUpdates = "Job Updates";
 const String additionalInfo = "Additional Info";
 const String projectEvaluation = "Project Evaluation";
@@ -446,3 +447,4 @@ const String summary = "Summary";
 
 //Ranking
 const String rankings = "Rankings";
+const String starRanking = "Star Ranking";

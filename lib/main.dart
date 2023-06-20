@@ -27,18 +27,22 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:on_sight_application/models/model_notification.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+/// Global variable for keychain localStorage data list
 List<SecureModel> localStorage = [];
+/// Global variable for keychain localStorage
 final storage = const FlutterSecureStorage();
+/// Global variable for flutter local notification
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
     BehaviorSubject<ReceivedNotification>();
-
-final BehaviorSubject<String?> selectNotificationSubject =
-    BehaviorSubject<String?>();
+final BehaviorSubject<String?> selectNotificationSubject = BehaviorSubject<String?>();
 String? selectedNotificationPayload;
+/// Global variable for refresh icon on dashboard should be visible or not
 bool visibleRefresh = false;
+/// Global variable for image list for failed images from database
 List<ImageModel> imageList = [];
+/// Global variable for image list for taking images from camera or gallery
 List<ImagePickerModel> localList = [];
 
 const AndroidInitializationSettings initializationSettingsAndroid =
@@ -52,11 +56,6 @@ final InitializationSettings initializationSettings = InitializationSettings(
 
 Future<void> main() async {
   const bool isProduction = bool.fromEnvironment('dart.vm.product');
-/*  final NotificationAppLaunchDetails? notificationAppLaunchDetails = await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-  if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-    selectedNotificationPayload = notificationAppLaunchDetails!.payload;
-}*/
-
   if (isProduction) {
     debugPrint = (String? message, {int? wrapWidth}) => null;
   }
@@ -135,7 +134,7 @@ Future<void> main() async {
     runApp(const MyApp());
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
-
+/// Method for handling notification in background
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   showFlutterNotification(message);
@@ -156,12 +155,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   initState() {
-    // final window = WidgetsBinding.instance.window;
-    // window.onPlatformBrightnessChanged = () {
-    //   final brightness = window.platformBrightness;
-    //   print("Brightness Name"+brightness.name);
-    // };
-
     WidgetsBinding.instance.window.onPlatformBrightnessChanged = () {
       if (WidgetsBinding.instance.window.platformBrightness.name == "light") {
         Get.changeTheme(ThemeData.light());
@@ -195,9 +188,8 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen(showFlutterNotification);
 
     FirebaseMessaging.onMessageOpenedApp.listen(showFlutterNotification);
-    // var brightness = SchedulerBinding.instance.window.platformBrightness;
   }
-
+  /// Method for requesting permission for notification
   Future<void> _requestPermissions() async {
     if (Platform.isIOS || Platform.isMacOS) {
       await flutterLocalNotificationsPlugin
@@ -261,7 +253,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
+/// Theme Class
 class Themes {
   static final light = ThemeData.light().copyWith(
     backgroundColor: Colors.white,

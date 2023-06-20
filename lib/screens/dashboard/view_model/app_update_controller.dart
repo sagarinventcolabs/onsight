@@ -31,6 +31,7 @@ class AppUpdateController extends GetxController {
   void onInit() {
     super.onInit();
     getLatestVersion();
+    getDashboardDataOffline();
   }
 
   showUpdateDialog(version, releaseType) async {
@@ -136,7 +137,7 @@ class AppUpdateController extends GetxController {
           await DashboardManager().insertMenu(model);
           listFlags.add(model);
           print("ListLength "+listFlags.length.toString());
-          dataStreamController.sink.add([]);
+          if(!dataStreamController.isClosed)
           dataStreamController.sink.add(listFlags);
 
      /*     switch (model.menuItems) {
@@ -169,6 +170,13 @@ class AppUpdateController extends GetxController {
       }
     }
     refreshController.loadComplete();
+  }
+
+
+  getDashboardDataOffline()async{
+    listFlags.clear();
+    listFlags = await DashboardManager().getAllData();
+    dataStreamController.sink.add(listFlags);
   }
 
 

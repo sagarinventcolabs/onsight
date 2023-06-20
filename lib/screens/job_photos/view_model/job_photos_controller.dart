@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:on_sight_application/generated/assets.dart';
+import 'package:on_sight_application/repository/database_managers/dashboard_manager.dart';
 import 'package:on_sight_application/repository/database_managers/email_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_count_manager.dart';
 import 'package:on_sight_application/repository/database_managers/image_manager.dart';
@@ -10,7 +13,10 @@ import 'package:on_sight_application/repository/database_model/image_count.dart'
 import 'package:on_sight_application/repository/web_service_response/job_categories_response.dart';
 import 'package:on_sight_application/repository/web_service_response/job_details_response.dart';
 import 'package:on_sight_application/repository/web_services/web_service.dart';
+import 'package:on_sight_application/routes/app_pages.dart';
+import 'package:on_sight_application/screens/project_evaluation/view_model/project_evaluation_controller.dart';
 import 'package:on_sight_application/utils/strings.dart';
+import 'package:on_sight_application/utils/widgets/jobphoto_grid_container.dart';
 
 
 class JobPhotosController extends GetxController{
@@ -39,13 +45,21 @@ class JobPhotosController extends GetxController{
   RxInt tabCurrentIndex = 0.obs;
   RxList<JobDetailsResponse> list = <JobDetailsResponse>[].obs;
 
+  RxBool isVisibleDailyTime = false.obs;
+  RxBool isVisibleRankings = false.obs;
+  RxBool isVisibleJobPhotos = false.obs;
+  RxBool isVisibleEvaluation = false.obs;
+  RxBool isVisibleBasicInfo = false.obs;
+
   @override
   void onInit() {
     super.onInit();
     value.value = 1;
+    getVisibility();
     update();
 
   }
+
   /// function for adding email in database
   addEmail(emaill, jobNumber, onProgress)async{
     EmailManager emailManager = EmailManager();
@@ -327,6 +341,62 @@ class JobPhotosController extends GetxController{
     }
     categoryList.refresh();
     update();
+  }
+
+  void getVisibility() async{
+    isVisibleDailyTime.value = await DashboardManager().getMenuVisibility(dailyTime)==0?false:true;
+    isVisibleRankings.value = await DashboardManager().getMenuVisibility(starRanking)==0?false:true;
+    isVisibleJobPhotos.value = await DashboardManager().getMenuVisibility(jobPhotos)==0?false:true;
+    isVisibleEvaluation.value = await DashboardManager().getMenuVisibility(projectEvaluation)==0?false:true;
+    isVisibleBasicInfo.value = await DashboardManager().getMenuVisibility(basicJobInfo)==0?false:true;
+  }
+
+  bool getVisibilityTitle(title){
+    bool visible = false;
+    switch (title){
+      case dailyTime:
+        visible  =  isVisibleDailyTime.value;
+        break;
+      case rankings:
+        visible  =  isVisibleRankings.value;
+        break;
+      case jobPhotos:
+        visible  =  isVisibleJobPhotos.value;
+        break;
+      case evaluation:
+        visible  =  isVisibleEvaluation.value;
+        break;
+
+      default:
+        visible = false;
+
+
+    }
+    return visible;
+  }
+
+  List<Widget> getWidgetList(){
+    List<Widget> list = [];
+    if(isVisibleDailyTime.isTrue){
+      list.add(JobPhotoGridContainer(title: dailyTime, lightIcon: Assets.daily_time, darkIcon: Assets.daily_time,onTap:(){}));
+    }
+    if(isVisibleRankings.isTrue){
+      list.add(JobPhotoGridContainer(title: rankings, lightIcon: Assets.ranking, darkIcon: Assets.ranking,onTap:(){}));
+    }
+    if(isVisibleJobPhotos.isTrue){
+      list.add(JobPhotoGridContainer(title: jobPhotos, lightIcon: Assets.job_photo, darkIcon: Assets.job_photo,onTap:(){Get.toNamed(Routes.jobPhotoCategoryScreen);}));
+    }
+    if(isVisibleEvaluation.isTrue){
+      list.add(  JobPhotoGridContainer(title: evaluation, lightIcon: Assets.evalution, darkIcon: Assets.evalution,onTap:() async {
+        ProjectEvaluationController projectEvaluationController = Get.put(ProjectEvaluationController());
+        await projectEvaluationController.getProjectEvaluationDetails(jobNumber2.value, false);
+
+
+      }
+      ));
+    }
+    print("LenghtWidgetList : ${list.length}");
+    return list;
   }
 
 

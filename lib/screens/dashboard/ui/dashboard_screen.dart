@@ -257,7 +257,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                     title: updateNeeded,
                     lightSvgIcon: Assets.updateNeededLight,
                     darkSvgIcon: Assets.updateNeededDark,
-                    routeName: Routes.updateNeeded),
+                    routeName: null /*Routes.updateNeeded*/),
               ),
 
             ],

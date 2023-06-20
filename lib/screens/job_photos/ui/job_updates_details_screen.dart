@@ -37,19 +37,20 @@ class JobUpdatesDetailsScreen extends StatefulWidget {
   const JobUpdatesDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  State<JobUpdatesDetailsScreen> createState() => _JobUpdatesDetailsScreenState();
+  State<JobUpdatesDetailsScreen> createState() =>
+      _JobUpdatesDetailsScreenState();
 }
 
 class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
   var isData = false;
   final f = DateFormat('dd-MM-yyyy');
   TextEditingController emailEditingController =
-  TextEditingController(text: "");
+      TextEditingController(text: "");
   FocusNode emailFocusNode = FocusNode();
 
   JobPhotosController controller = Get.find<JobPhotosController>();
   UploadJobPhotosController _uploadJobPhotosController =
-  Get.put(UploadJobPhotosController());
+      Get.put(UploadJobPhotosController());
 
   ScrollController scrollController = ScrollController();
   ImageManager manager = ImageManager();
@@ -65,16 +66,17 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
       controller.update();
     }
 
-    if(controller.list.isNotEmpty) {
+    if (controller.list.isNotEmpty) {
       controller.getEmail(controller.list.first.jobNumber.toString());
     }
     controller.categoryList.sort((a, b) {
       return a.rowId.toString().compareTo(b.rowId.toString());
     });
     controller.isValidEmail.value = true;
+    controller.getVisibility();
     controller.update();
 
-   // getTotalImageList();
+    // getTotalImageList();
   }
 
   @override
@@ -83,204 +85,297 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-                size: Dimensions.size25,
-              ),
-              onPressed: () {
-                Get.back();
-              },
+        appBar: AppBar(
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Get.isDarkMode
+                  ? ColourConstants.white
+                  : ColourConstants.primary,
+              size: Dimensions.size25,
             ),
-            elevation: 0.0,
-            backgroundColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
-            title: Text(
-                isData ? controller.list.first.jobNumber.toString() : "",
-                style: TextStyle(
-                    color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Dimensions.font16)),
+            onPressed: () {
+              Get.back();
+            },
           ),
-            body: Obx(() => ListView(
-              controller: scrollController,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: GridView.count(
+          elevation: 0.0,
+          backgroundColor:
+              Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
+          title: Text(isData ? controller.list.first.jobNumber.toString() : "",
+              style: TextStyle(
+                  color: Get.isDarkMode
+                      ? ColourConstants.white
+                      : ColourConstants.primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Dimensions.font16)),
+        ),
+        body: Obx(
+          () => ListView(
+            shrinkWrap: true,
+            controller: scrollController,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: GridView.count(
+                    padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 14.0,
-                      mainAxisSpacing: 18.0,
-                      childAspectRatio: 1.4,
-                      children: [
-                        JobPhotoGridContainer(title: dailyTime, lightIcon: Assets.daily_time, darkIcon: Assets.daily_time,onTap:(){}),
-                        JobPhotoGridContainer(title: rankings, lightIcon: Assets.ranking, darkIcon: Assets.ranking,onTap:(){}),
-                        JobPhotoGridContainer(title: jobPhotos, lightIcon: Assets.job_photo, darkIcon: Assets.job_photo,onTap:(){Get.toNamed(Routes.jobPhotoCategoryScreen);}),
-                        JobPhotoGridContainer(title: evaluation, lightIcon: Assets.evalution, darkIcon: Assets.evalution,onTap:() async {
-                          ProjectEvaluationController projectEvaluationController = Get.put(ProjectEvaluationController());
-                          await projectEvaluationController.getProjectEvaluationDetails(controller.list.first.jobNumber, false);
-
-
-                        }
-                        )
-                      ]),
-                ),
-                    TextRow(title: showName,value: isData ? controller.list.first.showName.toString() : naStr),
-                TextRow(title: showNumber,value: isData ? controller.list.first.showNumber.toString() : naStr),
-                TextRow(title: exhibitorName,value: isData ? controller.list.first.exhibitorName.toString() : naStr),
-                TextRow(title: booth,value: isData ? controller.list.first.boothNumber.toString() : naStr),
-                TextRow(title: city,value: isData ? controller.list.first.cityOffice.toString() : naStr),
-                TextRow(title: showDates,value: isData ? "${controller.formatTime(controller.list.first.showStartDate.toString())} - ${controller.formatTime(controller.list.first.showEndDate.toString())}" : naStr),
-                TextRow(title: location,value: isData ? controller.list.first.showLocation.toString() : naStr),
-                TextRow(title: supervision,value: isData ? controller.list.first.supervision.toString() : naStr),
-                SizedBox(height: Dimensions.height10),
-                const Divider(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 14.0,
+                    mainAxisSpacing: 18.0,
+                    childAspectRatio: 1.4,
+                    children: controller.getWidgetList()),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: showName,
+                    value: isData
+                        ? controller.list.first.showName.toString()
+                        : naStr),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: showNumber,
+                    value: isData
+                        ? controller.list.first.showNumber.toString()
+                        : naStr),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: exhibitorName,
+                    value: isData
+                        ? controller.list.first.exhibitorName.toString()
+                        : naStr),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: booth,
+                    value: isData
+                        ? controller.list.first.boothNumber.toString()
+                        : naStr),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: city,
+                    value: isData
+                        ? controller.list.first.cityOffice.toString()
+                        : naStr),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: showDates,
+                    value: isData
+                        ? "${controller.formatTime(controller.list.first.showStartDate.toString())} - ${controller.formatTime(controller.list.first.showEndDate.toString())}"
+                        : naStr),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: location,
+                    value: isData
+                        ? controller.list.first.showLocation.toString()
+                        : naStr),
+              ),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: TextRow(
+                    title: supervision,
+                    value: isData
+                        ? controller.list.first.supervision.toString()
+                        : naStr),
+              ),
+              Visibility(
+                  visible: controller.isVisibleBasicInfo.value,
+                  child: SizedBox(height: Dimensions.height10)),
+              Visibility(
+                visible: controller.isVisibleBasicInfo.value,
+                child: const Divider(
                   color: ColourConstants.greyText,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height5),
-                  child: Text(additionalInfo,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: Dimensions.font14)),
-                ),
-                TextRow(title: source,value: isData ? controller.list.first.sourceName : naStr),
-                TextRow(title: sourceContact,value: isData ? controller.list.first.sourceContactName : naStr),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.sourceContactMobilePhone !=
-                        null) {
-                      final Uri phoneLaunchUri = Uri(
-                        scheme: 'tel',
-                        path: controller
-                            .list.first.sourceContactMobilePhone,
-                      );
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.height25,
+                    vertical: Dimensions.height5),
+                child: Text(additionalInfo,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Get.isDarkMode
+                            ? ColourConstants.white
+                            : ColourConstants.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: Dimensions.font14)),
+              ),
+              TextRow(
+                  title: source,
+                  value: isData ? controller.list.first.sourceName : naStr),
+              TextRow(
+                  title: sourceContact,
+                  value:
+                      isData ? controller.list.first.sourceContactName : naStr),
+              GestureDetector(
+                onTap: () async {
+                  if (controller.list.first.sourceContactMobilePhone != null) {
+                    final Uri phoneLaunchUri = Uri(
+                      scheme: 'tel',
+                      path: controller.list.first.sourceContactMobilePhone,
+                    );
 
-                      if (!await launchUrl(phoneLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.sourceContactMobilePhone}';
-                      }
+                    if (!await launchUrl(phoneLaunchUri)) {
+                      throw 'Could not launch ${controller.list.first.sourceContactMobilePhone}';
                     }
-                  },
-                  child: TextRow(title: sourceContactHash,value: isData ? controller.list.first.sourceContactMobilePhone : naStr,isEmail: "phone"),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.sourceContactEmail != null) {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: mailto,
-                        path: controller.list.first.sourceContactEmail,
-                        query: encodeQueryParameters(<String, String>{
-                          subject: nthDegreeOnSight,
-                        }),
-                      );
+                  }
+                },
+                child: TextRow(
+                    title: sourceContactHash,
+                    value: isData
+                        ? controller.list.first.sourceContactMobilePhone
+                        : naStr,
+                    isEmail: "phone"),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  if (controller.list.first.sourceContactEmail != null) {
+                    final Uri emailLaunchUri = Uri(
+                      scheme: mailto,
+                      path: controller.list.first.sourceContactEmail,
+                      query: encodeQueryParameters(<String, String>{
+                        subject: nthDegreeOnSight,
+                      }),
+                    );
 
-                      if (!await launchUrl(emailLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
-                      }
+                    if (!await launchUrl(emailLaunchUri)) {
+                      throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
                     }
-                  },
-                  child: TextRow(title: sourceContactEmail,value: isData ? controller.list.first.sourceContactEmail : naStr,isEmail: "email"),
-                  // child: jobDetailsRow(sourceContactEmail, controller.list.first.sourceContactEmail ?? naStr, "email"),
-                ),
-                jobDetailsRow(salesRep, "${controller.list.first.salesRepFirstName??""} ${controller.list.first.salesRepLastName??""}"),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.salesRepCellPhone != null) {
-                      final Uri phoneLaunchUri = Uri(
-                        scheme: 'tel',
-                        path: controller.list.first.salesRepCellPhone,
-                      );
+                  }
+                },
+                child: TextRow(
+                    title: sourceContactEmail,
+                    value: isData
+                        ? controller.list.first.sourceContactEmail
+                        : naStr,
+                    isEmail: "email"),
+                // child: jobDetailsRow(sourceContactEmail, controller.list.first.sourceContactEmail ?? naStr, "email"),
+              ),
+              jobDetailsRow(salesRep,
+                  "${controller.list.first.salesRepFirstName ?? ""} ${controller.list.first.salesRepLastName ?? ""}"),
+              GestureDetector(
+                onTap: () async {
+                  if (controller.list.first.salesRepCellPhone != null) {
+                    final Uri phoneLaunchUri = Uri(
+                      scheme: 'tel',
+                      path: controller.list.first.salesRepCellPhone,
+                    );
 
-                      if (!await launchUrl(phoneLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.salesRepCellPhone}';
-                      }
+                    if (!await launchUrl(phoneLaunchUri)) {
+                      throw 'Could not launch ${controller.list.first.salesRepCellPhone}';
                     }
-                  },
-                  child: TextRow(title: salesRepHash,value: isData ? controller.list.first.salesRepCellPhone : naStr,isEmail: "phone"),
-                  // child: jobDetailsRow(
-                  //     salesRepHash,
-                  //     controller.list.first.salesRepCellPhone ?? naStr,
-                  //     "phone"),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    if (controller.list.first.salesRepEmailAddress !=
-                        null) {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: mailto,
-                        path: controller.list.first.salesRepEmailAddress,
-                        query: encodeQueryParameters(<String, String>{
-                          subject: nthDegreeOnSight,
-                        }),
-                      );
+                  }
+                },
+                child: TextRow(
+                    title: salesRepHash,
+                    value: isData
+                        ? controller.list.first.salesRepCellPhone
+                        : naStr,
+                    isEmail: "phone"),
+                // child: jobDetailsRow(
+                //     salesRepHash,
+                //     controller.list.first.salesRepCellPhone ?? naStr,
+                //     "phone"),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  if (controller.list.first.salesRepEmailAddress != null) {
+                    final Uri emailLaunchUri = Uri(
+                      scheme: mailto,
+                      path: controller.list.first.salesRepEmailAddress,
+                      query: encodeQueryParameters(<String, String>{
+                        subject: nthDegreeOnSight,
+                      }),
+                    );
 
-                      if (!await launchUrl(emailLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
-                      }
+                    if (!await launchUrl(emailLaunchUri)) {
+                      throw 'Could not launch ${controller.list.first.salesRepEmailAddress}';
                     }
-                  },
-                  child: TextRow(title: salesRepEmail,value: isData ? controller.list.first.salesRepEmailAddress : naStr,isEmail: "email"),
-                ),
-                GestureDetector(
-                  onTap: ()async{
-                    if (controller.list.first.oasisAdditionalEmail != null) {
-                      final Uri emailLaunchUri = Uri(
-                        scheme: mailto,
-                        path: controller.list.first.oasisAdditionalEmail,
-                        query: encodeQueryParameters(<String, String>{
-                          subject: nthDegreeOnSight,
-                        }),
-                      );
+                  }
+                },
+                child: TextRow(
+                    title: salesRepEmail,
+                    value: isData
+                        ? controller.list.first.salesRepEmailAddress
+                        : naStr,
+                    isEmail: "email"),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  if (controller.list.first.oasisAdditionalEmail != null) {
+                    final Uri emailLaunchUri = Uri(
+                      scheme: mailto,
+                      path: controller.list.first.oasisAdditionalEmail,
+                      query: encodeQueryParameters(<String, String>{
+                        subject: nthDegreeOnSight,
+                      }),
+                    );
 
-                      if (!await launchUrl(emailLaunchUri)) {
-                        throw 'Could not launch ${controller.list.first.oasisAdditionalEmail}';
-                      }
+                    if (!await launchUrl(emailLaunchUri)) {
+                      throw 'Could not launch ${controller.list.first.oasisAdditionalEmail}';
                     }
-                  },
-                  child: TextRow(title: "Oasis Contacts",value: isData ? controller.list.first.oasisAdditionalEmail : naStr,isEmail: "email"),
-                ),
-                // jobDetailsRow ("Show",controller.list.first.showName??naStr),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Dimensions.width25, vertical: Dimensions.height5),
-                  child: Divider(color: ColourConstants.greyText),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: Dimensions.height25, vertical: Dimensions.height5),
-                  child: Text(additionalEmailAddress,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: Dimensions.font14)),
-                ),
-                SizedBox(height: Dimensions.width10),
+                  }
+                },
+                child: TextRow(
+                    title: "Oasis Contacts",
+                    value: isData
+                        ? controller.list.first.oasisAdditionalEmail
+                        : naStr,
+                    isEmail: "email"),
+              ),
+              // jobDetailsRow ("Show",controller.list.first.showName??naStr),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.width25,
+                    vertical: Dimensions.height5),
+                child: Divider(color: ColourConstants.greyText),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.height25,
+                    vertical: Dimensions.height5),
+                child: Text(additionalEmailAddress,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                        color: Get.isDarkMode
+                            ? ColourConstants.white
+                            : ColourConstants.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: Dimensions.font14)),
+              ),
+              SizedBox(height: Dimensions.width10),
 
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.height26, vertical: Dimensions.height5),
-                  child: textField(),
-                ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    controller: scrollController,
-                    itemCount: controller.emailList.length,
-                    itemBuilder: (builder, index) {
-                      return additionalEmailWidget(
-                          controller.emailList[index].additionalEmail
-                              .toString(),
-                          index);
-                    })
-              ],
-            ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.height26,
+                    vertical: Dimensions.height5),
+                child: textField(),
+              ),
+              ListView.builder(
+                  shrinkWrap: true,
+                  controller: scrollController,
+                  itemCount: controller.emailList.length,
+                  itemBuilder: (builder, index) {
+                    return additionalEmailWidget(
+                        controller.emailList[index].additionalEmail.toString(),
+                        index);
+                  })
+            ],
+          ),
 
-
-
-    /*            TabBarView(
+          /*            TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
               ListView(
@@ -462,9 +557,10 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
               ),
             ],
           )*/
-
-            ),
-        backgroundColor: Get.isPlatformDarkMode ? ColourConstants.black :  ColourConstants.white,
+        ),
+        backgroundColor: Get.isPlatformDarkMode
+            ? ColourConstants.black
+            : ColourConstants.white,
       ),
     );
   }
@@ -472,14 +568,16 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
   String? encodeQueryParameters(Map<String, String> params) {
     return params.entries
         .map((MapEntry<String, String> e) =>
-    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
         .join('&');
   }
 
   Container additionalEmailWidget(email, i) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: Dimensions.height5, horizontal: Dimensions.height25),
-      padding: EdgeInsets.symmetric(vertical: Dimensions.height10, horizontal: Dimensions.width10),
+      margin: EdgeInsets.symmetric(
+          vertical: Dimensions.height5, horizontal: Dimensions.height25),
+      padding: EdgeInsets.symmetric(
+          vertical: Dimensions.height10, horizontal: Dimensions.width10),
       decoration: BoxDecoration(
           border: Border.all(color: ColourConstants.borderColor, width: 1)),
       child: Row(
@@ -499,13 +597,11 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                 throw 'Could not launch $emailLaunchUri';
               }
             },
-
             child: Text(email,
                 style: TextStyle(
                     color: Get.isDarkMode ? ColourConstants.white : Colors.blue,
                     fontWeight: FontWeight.w600,
-                    fontSize: Dimensions.font14)
-            ),
+                    fontSize: Dimensions.font14)),
           ),
           GestureDetector(
             onTap: () {
@@ -518,7 +614,9 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
               Assets.icDelete,
               height: Dimensions.height25,
               width: Dimensions.width25,
-              color: Get.isDarkMode ? ColourConstants.white : ColourConstants.primary,
+              color: Get.isDarkMode
+                  ? ColourConstants.white
+                  : ColourConstants.primary,
             ),
           )
         ],
@@ -528,9 +626,18 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
 
   Container categoryWidget(status, key, index) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: Dimensions.height5, horizontal: Dimensions.height11),
-      padding: EdgeInsets.symmetric(vertical: Dimensions.height10, horizontal: Dimensions.height11),
-      decoration: BoxDecoration(border: Border.all(color: Get.isDarkMode ? Colors.transparent : ColourConstants.borderGreyColor, width: 1),color: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white),
+      margin: EdgeInsets.symmetric(
+          vertical: Dimensions.height5, horizontal: Dimensions.height11),
+      padding: EdgeInsets.symmetric(
+          vertical: Dimensions.height10, horizontal: Dimensions.height11),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: Get.isDarkMode
+                  ? Colors.transparent
+                  : ColourConstants.borderGreyColor,
+              width: 1),
+          color:
+              Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white),
       child: Column(
         children: [
           Row(
@@ -545,11 +652,13 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                     child: Theme(
                       data: ThemeData(
                         unselectedWidgetColor:
-                        ColourConstants.grey.withOpacity(.5), // Your color
+                            ColourConstants.grey.withOpacity(.5), // Your color
                       ),
                       child: Checkbox(
                           value: status ?? false,
-                          checkColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
+                          checkColor: Get.isDarkMode
+                              ? ColourConstants.black
+                              : ColourConstants.white,
                           activeColor: ColourConstants.greenColor,
                           onChanged: (bool? newValue) {
                             if (newValue == true) {
@@ -579,7 +688,9 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                   SizedBox(width: Dimensions.height11),
                   Text(key,
                       style: TextStyle(
-                          color: Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
+                          color: Get.isDarkMode
+                              ? ColourConstants.white
+                              : ColourConstants.black,
                           fontWeight: FontWeight.w400,
                           fontSize: Dimensions.font12)),
                 ],
@@ -589,19 +700,20 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                   Visibility(
                       visible: controller.categoryList[index].listPhotos != null
                           ? controller
-                          .categoryList[index].listPhotos!.isNotEmpty
+                              .categoryList[index].listPhotos!.isNotEmpty
                           : false,
                       child: FutureBuilder(
                         future: manager.getYetToSubmitCount(
-                            controller.categoryList[index].id,controller.list.first.jobNumber),
+                            controller.categoryList[index].id,
+                            controller.list.first.jobNumber),
                         builder: (ctx, snapshot) {
                           var data = [];
                           if (snapshot.hasData) {
                             data = snapshot.data as List;
                             return Visibility(
                                 visible: data[0]['COUNT(*)'].toString() ==
-                                    "null" ||
-                                    data[0]['COUNT(*)'].toString() == "0"
+                                            "null" ||
+                                        data[0]['COUNT(*)'].toString() == "0"
                                     ? false
                                     : true,
                                 child: GestureDetector(
@@ -628,7 +740,8 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                                   child: Container(
                                     color: ColourConstants.orangeColor,
                                     padding: EdgeInsets.symmetric(
-                                        vertical: Dimensions.height5, horizontal: Dimensions.width7),
+                                        vertical: Dimensions.height5,
+                                        horizontal: Dimensions.width7),
                                     child: Row(
                                       children: [
                                         Text(yetToSubmit,
@@ -644,11 +757,11 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                                               snapshot.data.toString() == "null"
                                                   ? ""
                                                   : data[0]['COUNT(*)']
-                                                  .toString() ==
-                                                  "null"
-                                                  ? "0"
-                                                  : data[0]['COUNT(*)']
-                                                  .toString(),
+                                                              .toString() ==
+                                                          "null"
+                                                      ? "0"
+                                                      : data[0]['COUNT(*)']
+                                                          .toString(),
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   color: ColourConstants.white,
@@ -664,126 +777,147 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                         },
                       )),
                   SizedBox(width: Dimensions.width8),
-                  Platform.isIOS?   StreamBuilder<UploadTaskResponse>(
-                      stream: FlutterUploader().result,
-                      builder: (context, snapshot){
-                        if(snapshot.connectionState==ConnectionState.active) {
-                          if (snapshot.hasData) {
-                            if (snapshot.data != null) {
-                              UploadTaskResponse response = snapshot.data!;
+                  Platform.isIOS
+                      ? StreamBuilder<UploadTaskResponse>(
+                          stream: FlutterUploader().result,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.active) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data != null) {
+                                  UploadTaskResponse response = snapshot.data!;
 
-                              if (response.statusCode == 200) {
-                                print("API  Response is ${response.response}");
-                                final JsonDecoder _decoder = new JsonDecoder();
-                                var responseJson = _decoder.convert(response
-                                    .response.toString());
-                                UploadImageResponse uploadImageResponse = UploadImageResponse
-                                    .fromJson(responseJson);
-                                if(uploadImageResponse
-                                    .categoryModelDetails!=null) {
-                                  for (var element in uploadImageResponse
-                                      .categoryModelDetails!) {
-                                    var jobNumberr = uploadImageResponse
-                                        .jobNumber;
-                                    if (jobNumberr ==
-                                        controller.list.first.jobNumber) {
-                                      var catId = element.categoryId.toString();
-                                      var count = element.imageCount;
-                                      if (catId ==
-                                          controller.categoryList[index].id) {
-                                        controller.categoryList[index]
-                                            .submitted =
-                                            count.toString();
-                                        if(element.photoUploadSummaryDetails!=null) {
-                                          for (var k in element
-                                              .photoUploadSummaryDetails!) {
-                                            var imageName =  k.fileName;
-                                            print("Image Name is  ${imageName}");
-                                            ImageManager().deleteImage(imageName);
-
-
+                                  if (response.statusCode == 200) {
+                                    print(
+                                        "API  Response is ${response.response}");
+                                    final JsonDecoder _decoder =
+                                        new JsonDecoder();
+                                    var responseJson = _decoder
+                                        .convert(response.response.toString());
+                                    UploadImageResponse uploadImageResponse =
+                                        UploadImageResponse.fromJson(
+                                            responseJson);
+                                    if (uploadImageResponse
+                                            .categoryModelDetails !=
+                                        null) {
+                                      for (var element in uploadImageResponse
+                                          .categoryModelDetails!) {
+                                        var jobNumberr =
+                                            uploadImageResponse.jobNumber;
+                                        if (jobNumberr ==
+                                            controller.list.first.jobNumber) {
+                                          var catId =
+                                              element.categoryId.toString();
+                                          var count = element.imageCount;
+                                          if (catId ==
+                                              controller
+                                                  .categoryList[index].id) {
+                                            controller.categoryList[index]
+                                                .submitted = count.toString();
+                                            if (element
+                                                    .photoUploadSummaryDetails !=
+                                                null) {
+                                              for (var k in element
+                                                  .photoUploadSummaryDetails!) {
+                                                var imageName = k.fileName;
+                                                print(
+                                                    "Image Name is  ${imageName}");
+                                                ImageManager()
+                                                    .deleteImage(imageName);
+                                              }
+                                            }
                                           }
                                         }
-
-
                                       }
+                                      ;
                                     }
-                                  };
+                                  }
                                 }
                               }
-
                             }
-                          }
-                        }
-                        return GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.myWebView, arguments: controller.categoryList[index].url.toString());
-                          },
-                          child: Container(
-                            color: ColourConstants.greenColor,
-                            height: Dimensions.height25,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(horizontal: Dimensions.height5),
-                            child: Text(
-                                controller.categoryList[index].submitted.toString() ==
-                                    "null"
-                                    ? "0"
-                                    : controller.categoryList[index].submitted
-                                    .toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: ColourConstants.white,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: Dimensions.font12)),
-                          ),
-                        );
-                      }):
-                  StreamBuilder<Map<String, dynamic>?>(
-                    stream: FlutterBackgroundService().on(result),
-                      builder: (context, snapshot){
-
-
-                      if(snapshot.connectionState==ConnectionState.active){
-                        if(snapshot.hasData){
-
-                          dynamic jsonObj = snapshot.data!["response"];
-                          var jobNumber = jsonObj["JobNumber"].toString();
-                          if(jobNumber.toString()==controller.jobNumber2.value.toString()) {
-                            var catId = jsonObj["CategoryModelDetails"][0]["CategoryId"]
-                                .toString();
-                            var count = jsonObj["CategoryModelDetails"][0]["ImageCount"]
-                                .toString();
-                            if (catId.toString() == controller
-                                .categoryList[index].id.toString()) {
-                              controller.categoryList[index].submitted =
-                                  count.toString();
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.myWebView,
+                                    arguments: controller
+                                        .categoryList[index].url
+                                        .toString());
+                              },
+                              child: Container(
+                                color: ColourConstants.greenColor,
+                                height: Dimensions.height25,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Dimensions.height5),
+                                child: Text(
+                                    controller.categoryList[index].submitted
+                                                .toString() ==
+                                            "null"
+                                        ? "0"
+                                        : controller
+                                            .categoryList[index].submitted
+                                            .toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: ColourConstants.white,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: Dimensions.font12)),
+                              ),
+                            );
+                          })
+                      : StreamBuilder<Map<String, dynamic>?>(
+                          stream: FlutterBackgroundService().on(result),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.active) {
+                              if (snapshot.hasData) {
+                                dynamic jsonObj = snapshot.data!["response"];
+                                var jobNumber = jsonObj["JobNumber"].toString();
+                                if (jobNumber.toString() ==
+                                    controller.jobNumber2.value.toString()) {
+                                  var catId = jsonObj["CategoryModelDetails"][0]
+                                          ["CategoryId"]
+                                      .toString();
+                                  var count = jsonObj["CategoryModelDetails"][0]
+                                          ["ImageCount"]
+                                      .toString();
+                                  if (catId.toString() ==
+                                      controller.categoryList[index].id
+                                          .toString()) {
+                                    controller.categoryList[index].submitted =
+                                        count.toString();
+                                  }
+                                }
+                              }
                             }
-                          }
-                        }
-                      }
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed(Routes.myWebView, arguments: controller.categoryList[index].url.toString());
-                      },
-                      child: Container(
-                        color: ColourConstants.greenColor,
-                        height: Dimensions.height25,
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.symmetric(horizontal: Dimensions.height5),
-                        child: Text(
-                            controller.categoryList[index].submitted.toString() ==
-                                "null"
-                                ? "0"
-                                : controller.categoryList[index].submitted
-                                .toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: ColourConstants.white,
-                                fontWeight: FontWeight.w400,
-                                fontSize: Dimensions.font12)),
-                      ),
-                    );
-                  }),
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.myWebView,
+                                    arguments: controller
+                                        .categoryList[index].url
+                                        .toString());
+                              },
+                              child: Container(
+                                color: ColourConstants.greenColor,
+                                height: Dimensions.height25,
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Dimensions.height5),
+                                child: Text(
+                                    controller.categoryList[index].submitted
+                                                .toString() ==
+                                            "null"
+                                        ? "0"
+                                        : controller
+                                            .categoryList[index].submitted
+                                            .toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: ColourConstants.white,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: Dimensions.font12)),
+                              ),
+                            );
+                          }),
                   SizedBox(width: Dimensions.width8),
                   GestureDetector(
                     onTap: () {
@@ -792,25 +926,28 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                           controller.categoryList[index].id.toString(),
                           controller.list.first.jobNumber.toString());
                       showModalBottomSheet(
-                        //  backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
+                          //  backgroundColor: Get.isDarkMode ? ColourConstants.grey900 : ColourConstants.white,
                           //backgroundColor: Color.fromARGB(255, 0, 0, 0),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(Dimensions.radius10),
-                                  topRight: Radius.circular(Dimensions.radius10))),
+                                  topRight:
+                                      Radius.circular(Dimensions.radius10))),
                           isScrollControlled: true,
                           context: context,
-                          builder: (ctx1){
-                           return StatefulBuilder(builder: (ctx2, setState) {
-                             Theme.of(context);
-                            // return bottomSheetWidget(Routes.jobPhotosDetailsScreen, controller.categoryList[index].id, controller.list.first.jobNumber, add);
-                             return bottomSheetImagePicker(Routes.jobPhotosDetailsScreen);
-                           });
+                          builder: (ctx1) {
+                            return StatefulBuilder(builder: (ctx2, setState) {
+                              Theme.of(context);
+                              // return bottomSheetWidget(Routes.jobPhotosDetailsScreen, controller.categoryList[index].id, controller.list.first.jobNumber, add);
+                              return bottomSheetImagePicker(
+                                  Routes.jobPhotosDetailsScreen);
+                            });
                           }).then((value) {
-
-                            ImagePickerJobPhoto(Routes.jobPhotosDetailsScreen,
-                                controller.categoryList[index].id,
-                                controller.list.first.jobNumber, add);
+                        ImagePickerJobPhoto(
+                            Routes.jobPhotosDetailsScreen,
+                            controller.categoryList[index].id,
+                            controller.list.first.jobNumber,
+                            add);
                       });
                     },
                     child: Image.asset(
@@ -839,14 +976,18 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                       scale: 0.8,
                       child: Theme(
                         data: ThemeData(
-                          unselectedWidgetColor:
-                          ColourConstants.grey.withOpacity(.5), // Your color
+                          unselectedWidgetColor: ColourConstants.grey
+                              .withOpacity(.5), // Your color
                         ),
                         child: Checkbox(
                             value: controller.categoryList[index].sendEmail ??
                                 false,
-                            checkColor: Get.isDarkMode ? ColourConstants.black : ColourConstants.white,
-                            activeColor: Get.isDarkMode ? ColourConstants.white : ColourConstants.greenColor,
+                            checkColor: Get.isDarkMode
+                                ? ColourConstants.black
+                                : ColourConstants.white,
+                            activeColor: Get.isDarkMode
+                                ? ColourConstants.white
+                                : ColourConstants.greenColor,
                             onChanged: (bool? newValue) {
                               if (newValue == true) {
                                 if (controller.categoryList[index].listPhotos !=
@@ -883,41 +1024,38 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
   }
 
   /// Update Image Function................................
-  uploadImages({bool showAppSettingSnackBar = false})async{
-
+  uploadImages({bool showAppSettingSnackBar = false}) async {
     SettingsController settingsController = SettingsController();
     if (settingsController.mobileDataSwitch.value) {
       controller.enableButton.value = false;
       controller.update();
       await service.startService();
       showLoader(context);
-      int delay =  Platform.isIOS?2:5;
+      int delay = Platform.isIOS ? 2 : 5;
       await Future.delayed(Duration(seconds: delay), () async {
         Get.back();
         List<dynamic> listdynamic = [];
         for (var element in controller.categoryList) {
-          if(element.isChecked!=null){
-            if(element.isChecked!){
-              await FirebaseAnalytics.instance.logEvent(
-                  name: jobPhotoUploadKey,
-                  parameters: {
-                user:sp?.getString(Preference.FIRST_NAME)??"",
-                category:element.name.toString(),
-                imageCount:element.listPhotos?.length.toString()??"0"
+          if (element.isChecked != null) {
+            if (element.isChecked!) {
+              await FirebaseAnalytics.instance
+                  .logEvent(name: jobPhotoUploadKey, parameters: {
+                user: sp?.getString(Preference.FIRST_NAME) ?? "",
+                category: element.name.toString(),
+                imageCount: element.listPhotos?.length.toString() ?? "0"
               });
               listdynamic.add(element.toJson());
             }
           }
         }
-       /* List<dynamic> listEmail = controller.emailList
+        /* List<dynamic> listEmail = controller.emailList
             .map((e) => e.toMap())
             .toList();*/
-        var token =
-        await sp!.getString(Preference.ACCESS_TOKEN);
+        var token = await sp!.getString(Preference.ACCESS_TOKEN);
 
         print(listdynamic.length);
 
-        if(listdynamic.length>0) {
+        if (listdynamic.length > 0) {
           var catName = "";
           List<String> catNAmeList = [];
           for (var element in controller.categoryList) {
@@ -926,9 +1064,7 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                 if (element.isChecked != null) {
                   if (element.isChecked!) {
                     ImageModel model = ImageModel();
-                    model =
-                    await manager.getImageByImageName(
-                        el.imageName!);
+                    model = await manager.getImageByImageName(el.imageName!);
                     if (model.isSubmitted != null) {
                       if (model.isSubmitted! < 2) {
                         model.isSubmitted = 1;
@@ -942,7 +1078,8 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
 
             if (element.isChecked != null) {
               if (element.isChecked!) {
-                if (element.name.toString().contains(showReady) || element.name.toString().contains(outbound)) {
+                if (element.name.toString().contains(showReady) ||
+                    element.name.toString().contains(outbound)) {
                   catName = element.name.toString();
                   catNAmeList.add(catName);
                 }
@@ -952,127 +1089,115 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
               }
             }
           }
-          if(Platform.isIOS){
-
+          if (Platform.isIOS) {
             service.invoke("stopService");
             await jobPhotosSubmethod(controller.list.first.jobNumber);
-
-          }else {
-            service.invoke(
-                "JobPhotosApi", {
-              "token": token
-            });
+          } else {
+            service.invoke("JobPhotosApi", {"token": token});
           }
           for (var element in controller.emailList) {
-            EmailManager().updateEmailStatus(
-                element.additionalEmail.toString(), 2);
+            EmailManager()
+                .updateEmailStatus(element.additionalEmail.toString(), 2);
           }
-          sp?.putInt(Preference.ACTIVITY_TRACKER, ((sp?.getInt(Preference.ACTIVITY_TRACKER)??0)+1));
-          print((sp?.getInt(Preference.ACTIVITY_TRACKER)??0).toString());
+          sp?.putInt(Preference.ACTIVITY_TRACKER,
+              ((sp?.getInt(Preference.ACTIVITY_TRACKER) ?? 0) + 1));
+          print((sp?.getInt(Preference.ACTIVITY_TRACKER) ?? 0).toString());
           await defaultDialog(Get.context!,
               title: photosSubmittedSuccessfully,
               cancelable: false, onTap: () async {
+            controller.enableButton.value = false;
+            controller.categoryList.refresh();
+            controller.update();
 
-
-                controller.enableButton.value = false;
-                controller.categoryList.refresh();
-                controller.update();
-
-                if (catNAmeList.length > 1) {
-                  Get.back();
-                  await dialogAction(Get.context!,
-                      title: wouldYouLikeInstallDismentalEvaluation,
-                      onTapYes: () async {
-                        Get.back();
-                        installDismantalChooserDialog(context, jobNumber: controller.list.first.jobNumber);
-                      }, onTapNo: () {
-                        Get.back();
-                        checkBatteryStatus();
-                      });
-                }
-                else {
-                  Get.back();
-                  if (catName
-                      .toString()
-                      .trim()
-                      .isNotEmpty) {
-                    if (catName.contains(showReady)) {
-                      await dialogAction(
-                          Get.context!, title: wouldYouLikeInstallEvaluation,
-                          onTapYes: () async {
-                            Get.back();
-                            ProjectEvaluationController projectEvaluationController = Get
-                                .find<ProjectEvaluationController>();
-                            await projectEvaluationController
-                                .getProjectEvaluation(
-                                controller.list.first.jobNumber,
-                                false);
-                            ProjectEvaluationInstallController
-                            evaluationInstallController = Get.find<
-                                ProjectEvaluationInstallController>();
-                            await evaluationInstallController
-                                .getProjectEvaluationQuestionsDetails(
-                                controller.list.first.jobNumber
-                                    .toString(),
-                                install,
-                                route: Routes.jobPhotosDetailsScreen);
-                            checkBatteryStatus();
-                          }, onTapNo: () {
-                        Get.back();
-                        checkBatteryStatus();
-                      });
-                    } else if (catName.contains(outbound)) {
-                      await dialogAction(
-                          Get.context!, title: wouldYouLikeDismentalEvaluation,
-                          onTapYes: () async {
-                            Get.back();
-                            ProjectEvaluationController projectEvaluationController = Get
-                                .find<ProjectEvaluationController>();
-                            await projectEvaluationController
-                                .getProjectEvaluation(
-                                controller.list.first.jobNumber,
-                                false);
-                            ProjectEvaluationInstallController
-                            evaluationInstallController = Get.find<
-                                ProjectEvaluationInstallController>();
-                            await evaluationInstallController
-                                .getProjectEvaluationQuestionsDetails(
-                                controller.list.first.jobNumber.toString(),
-                                dismantle,
-                                route: Routes.jobPhotosDetailsScreen);
-                            checkBatteryStatus();
-                          }, onTapNo: () {
-                        Get.back();
-                        checkBatteryStatus();
-                      });
-                    }
-                  }
-                }
-                if (showAppSettingSnackBar) {
-                  Get.snackbar(alert, settingsInternetMsg,
-                    duration: Duration(seconds: 4));
-                }
+            if (catNAmeList.length > 1) {
+              Get.back();
+              await dialogAction(Get.context!,
+                  title: wouldYouLikeInstallDismentalEvaluation,
+                  onTapYes: () async {
+                Get.back();
+                installDismantalChooserDialog(context,
+                    jobNumber: controller.list.first.jobNumber);
+              }, onTapNo: () {
+                Get.back();
                 checkBatteryStatus();
               });
+            } else {
+              Get.back();
+              if (catName.toString().trim().isNotEmpty) {
+                if (catName.contains(showReady)) {
+                  await dialogAction(Get.context!,
+                      title: wouldYouLikeInstallEvaluation, onTapYes: () async {
+                    Get.back();
+                    ProjectEvaluationController projectEvaluationController =
+                        Get.find<ProjectEvaluationController>();
+                    await projectEvaluationController.getProjectEvaluation(
+                        controller.list.first.jobNumber, false);
+                    ProjectEvaluationInstallController
+                        evaluationInstallController =
+                        Get.find<ProjectEvaluationInstallController>();
+                    await evaluationInstallController
+                        .getProjectEvaluationQuestionsDetails(
+                            controller.list.first.jobNumber.toString(), install,
+                            route: Routes.jobPhotosDetailsScreen);
+                    checkBatteryStatus();
+                  }, onTapNo: () {
+                    Get.back();
+                    checkBatteryStatus();
+                  });
+                } else if (catName.contains(outbound)) {
+                  await dialogAction(Get.context!,
+                      title: wouldYouLikeDismentalEvaluation,
+                      onTapYes: () async {
+                    Get.back();
+                    ProjectEvaluationController projectEvaluationController =
+                        Get.find<ProjectEvaluationController>();
+                    await projectEvaluationController.getProjectEvaluation(
+                        controller.list.first.jobNumber, false);
+                    ProjectEvaluationInstallController
+                        evaluationInstallController =
+                        Get.find<ProjectEvaluationInstallController>();
+                    await evaluationInstallController
+                        .getProjectEvaluationQuestionsDetails(
+                            controller.list.first.jobNumber.toString(),
+                            dismantle,
+                            route: Routes.jobPhotosDetailsScreen);
+                    checkBatteryStatus();
+                  }, onTapNo: () {
+                    Get.back();
+                    checkBatteryStatus();
+                  });
+                }
+              }
+            }
+            if (showAppSettingSnackBar) {
+              Get.snackbar(alert, settingsInternetMsg,
+                  duration: Duration(seconds: 4));
+            }
+            checkBatteryStatus();
+          });
         }
       });
-    }else{
-      Get.snackbar(alert, settingsInternetMsg,duration: Duration(seconds: 4));
+    } else {
+      Get.snackbar(alert, settingsInternetMsg, duration: Duration(seconds: 4));
     }
   }
 
   Container jobDetailsRow(key, value, [isEmailPhone]) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: Dimensions.height11, horizontal: Dimensions.width25),
+      padding: EdgeInsets.symmetric(
+          vertical: Dimensions.height11, horizontal: Dimensions.width25),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             flex: 1,
-            child: Text(key,
-                style: TextStyle(
-                  color: Get.isDarkMode ? ColourConstants.white : ColourConstants.greyText,
+            child: Text(
+              key,
+              style: TextStyle(
+                  color: Get.isDarkMode
+                      ? ColourConstants.white
+                      : ColourConstants.greyText,
                   fontWeight: FontWeight.w400,
                   fontSize: Dimensions.font12),
             ),
@@ -1084,10 +1209,14 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
                 textAlign: TextAlign.end,
                 style: TextStyle(
                     color: isEmailPhone != null
-                      ? value == naStr
-                      ? Get.isDarkMode ? ColourConstants.white : ColourConstants.black
-                      : Colors.blue
-                      : Get.isDarkMode ? ColourConstants.white : ColourConstants.black,
+                        ? value == naStr
+                            ? Get.isDarkMode
+                                ? ColourConstants.white
+                                : ColourConstants.black
+                            : Colors.blue
+                        : Get.isDarkMode
+                            ? ColourConstants.white
+                            : ColourConstants.black,
                     fontWeight: FontWeight.w500,
                     fontSize: Dimensions.font12)),
           )
@@ -1101,17 +1230,15 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
       controller: emailEditingController,
       focusNode: emailFocusNode,
       onChanged: (val) {
-
         if (EmailValidator.validate(val)) {
-
           controller.isValidEmailS.value = true;
           controller.isValidEmail.value = true;
           controller.emailButton.value = true;
           controller.update();
-        }else{
-            controller.isValidEmailS.value = false;
-            controller.emailButton.value = false;
-            controller.update();
+        } else {
+          controller.isValidEmailS.value = false;
+          controller.emailButton.value = false;
+          controller.update();
         }
       },
       keyboardType: TextInputType.emailAddress,
@@ -1122,8 +1249,8 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
       decoration: InputDecoration(
         isDense: true,
         // Added this
-        contentPadding:
-        EdgeInsets.symmetric(horizontal: Dimensions.width10, vertical: Dimensions.height18),
+        contentPadding: EdgeInsets.symmetric(
+            horizontal: Dimensions.width10, vertical: Dimensions.height18),
         labelText: addEmail,
         labelStyle: TextStyle(
             color: controller.isValidEmail.isFalse
@@ -1132,14 +1259,16 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
             fontWeight: FontWeight.w400),
         //floatingLabelStyle: TextStyle(color: !isValidPhone ? ColourConstants.red : ColourConstants.black54),
         errorText: controller.isValidEmail.isFalse ? emailValidation : null,
-        suffixIconConstraints:
-        BoxConstraints(minHeight: Dimensions.height25, minWidth: Dimensions.width25),
+        suffixIconConstraints: BoxConstraints(
+            minHeight: Dimensions.height25, minWidth: Dimensions.width25),
         suffixIcon: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
             if (EmailValidator.validate(emailEditingController.text)) {
-              var existingItem = controller.emailList.firstWhere((itemToCheck) =>
-                  itemToCheck.additionalEmail == emailEditingController.text.toString(),
+              var existingItem = controller.emailList.firstWhere(
+                  (itemToCheck) =>
+                      itemToCheck.additionalEmail ==
+                      emailEditingController.text.toString(),
                   orElse: () => Email());
               if (existingItem.additionalEmail == null) {
                 controller.addEmail(emailEditingController.text,
@@ -1155,23 +1284,30 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
             } else {
               controller.isValidEmail.value = false;
               controller.emailButton.value = false;
-
             }
             controller.update();
           },
           child: Padding(
-            padding: EdgeInsets.only(right: Dimensions.width14,top: Dimensions.height5),
-            child: Text(addCaps,style: TextStyle(color: controller.emailButton.isTrue ? ColourConstants.primaryLight : ColourConstants.grey),),
+            padding: EdgeInsets.only(
+                right: Dimensions.width14, top: Dimensions.height5),
+            child: Text(
+              addCaps,
+              style: TextStyle(
+                  color: controller.emailButton.isTrue
+                      ? ColourConstants.primaryLight
+                      : ColourConstants.grey),
+            ),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(0.0),
-          borderSide: const BorderSide(width: 1, color: ColourConstants.primary),
+          borderSide:
+              const BorderSide(width: 1, color: ColourConstants.primary),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(0.0),
           borderSide:
-          const BorderSide(width: 1, color: ColourConstants.primary),
+              const BorderSide(width: 1, color: ColourConstants.primary),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(0.0),
@@ -1184,19 +1320,18 @@ class _JobUpdatesDetailsScreenState extends State<JobUpdatesDetailsScreen> {
     );
   }
 
-
   @override
   void dispose() {
     super.dispose();
     controller.enableButton.value = false;
   }
 
-  // Future<void> getTotalImageList() async {
-  //   List<ImageModel> imageList  = await manager.getImageList();
-  //   print("Total Length is ${imageList.length}");
-  //
-  //   imageList.forEach((element) {
-  //     print("Find Path is ${element.imagePath}");
-  //   });
-  // }
+// Future<void> getTotalImageList() async {
+//   List<ImageModel> imageList  = await manager.getImageList();
+//   print("Total Length is ${imageList.length}");
+//
+//   imageList.forEach((element) {
+//     print("Find Path is ${element.imagePath}");
+//   });
+// }
 }

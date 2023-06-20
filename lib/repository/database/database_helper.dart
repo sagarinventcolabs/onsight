@@ -48,7 +48,7 @@ class DatabaseHelper {
     }
     return _database!;
   }
-
+  /// Method for initializing database
   Future<Database> intializeDatabase() async {
     var directory = await getApplicationDocumentsDirectory();
     var dbPath = directory.path + '/OnSight.db';
@@ -56,7 +56,7 @@ class DatabaseHelper {
     return createdDB;
   }
 
-
+  /// Method for creating database
   void _createDB(Database db, int newVersion) async {
 
     //it says whether optional email is from Server or not
@@ -117,17 +117,7 @@ class DatabaseHelper {
 
 
   }
-
-
-
-  Future<int> insertUserData(String mobileNumber, String accessToken, String fName, String lName,String emailId) async {
-    Database db = await database;
-    var result = await db.rawInsert(
-        "INSERT INTO $mUserTable (MobileNumber, AccessToken, FirstName, LastName, EmailID)"
-            " VALUES ('$mobileNumber','$accessToken','$fName','$lName','$emailId')");
-    return result;
-  }
-
+  /// Method for getting total count from specific table
   Future<int> getCountFromTable(String tableName) async {
     Database db = await this.database;
     List<Map<String, dynamic>> list =

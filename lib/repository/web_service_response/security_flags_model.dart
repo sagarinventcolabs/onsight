@@ -20,6 +20,13 @@ class SecurityFlagsModel {
     _levelFlag = json['Flag'];
     _UpdateWO = json['UpdateWO']??0;
   }
+
+  SecurityFlagsModel.fromDBJson(dynamic json) {
+    _menuItems = json['MenuItems'];
+    _isAllowed = json['isAllowed']==0?false:true;
+    _levelFlag = json['Flag'];
+    _UpdateWO = json['UpdateWO']??0;
+  }
   String? _menuItems;
   String? _levelFlag;
   bool? _isAllowed;

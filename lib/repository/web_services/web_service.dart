@@ -780,7 +780,7 @@ class WebService {
   }
 
 
-  //Get Security Flags...........................................................................
+  //Check SSN in Onboarding ...........................................................................
   Future<dynamic> checkSSNValidate(ssn) async {
     var url = EndPoint.ssnValidateBy+ssn;
     var response = await ApiBaseHelper().getApiCall(url, isLoading: true);

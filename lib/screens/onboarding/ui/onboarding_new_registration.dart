@@ -346,6 +346,7 @@ class _OnboardingNewRegistrationState extends State<OnboardingNewRegistration> {
                         onTap: () {
                           controller.corporateSupport.value =
                               !controller.corporateSupport.value;
+
                           controller.validsubmit(context);
                           controller.update();
                           print(controller.corporateSupport.value);
